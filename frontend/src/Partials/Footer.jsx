@@ -1,19 +1,24 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import logo from '../Img/logo.svg'
+import logo from '../assets/image/logo.svg'
 import { FaFacebook, FaInstagram, FaYoutube  } from "react-icons/fa";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Input from '../Components/Input';
 import Button from '../Components/Button';
 import style from '../styles/partials/footer.module.scss'
+import base from '../base.module.scss'
+const logoStyle = {
+  maxHeight: '200px',
+  minHeight: '70px',
+}
 
 const Footer = () => {
   return (
-    <footer className="dark-light mt-5">
-      <Container>
+    <footer className="dark-light mt-12">
+      <Container className={base.container} >
         <Row className='d-flex justify-content-start' >
           <Col>
-            <img src={logo} alt='logo'></img>
+            <img className='img-fluid' src={logo} alt='logo' style={logoStyle} ></img>
               <p>
                 TAA là một nền tảng thương mại điện tử chuyên về bán đồ phụ kiện trang
                 sức. Với sự tập trung vào việc cung cấp những sản phẩm chất lượng cao 
@@ -26,13 +31,13 @@ const Footer = () => {
               </p>
 
             <Row>
-              <Col className='col-1'>
+              <Col className='col-2'>
                 <a href="/"><i className="fab fa-facebook-f"><FaFacebook color='blue' size={25} /></i></a>
               </Col>
-              <Col className='col-1'>
+              <Col className='col-2'>
                 <a href="/"><i className="fab fa-instagram"> <FaInstagram color='pink' size={25} /></i></a>
               </Col>
-              <Col className='col-1' >
+              <Col className='col-2' >
                 <a href="/"><i className="fab fa-twitter"> <FaYoutube color='red' size={25} />  </i></a>
               </Col>
             </Row>
