@@ -2,11 +2,11 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import logo from '../assets/image/logo.svg'
 import { FaFacebook, FaInstagram, FaYoutube  } from "react-icons/fa";
-
 import Input from '../components/Input';
 import Button from '../components/Button';
 import style from '../styles/partials/footer.module.scss'
 import base from '../base.module.scss'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const logoStyle = {
   maxHeight: '200px',
@@ -16,7 +16,7 @@ const logoStyle = {
 const Footer = () => {
   return (
     <footer className="dark-light mt-12">
-      <Container className={base.container} >
+      <Container className={style.footer__container}>
         <Row className='d-flex justify-content-start' >
           <Col>
             <img className='img-fluid' src={logo} alt='logo' style={logoStyle} ></img>
