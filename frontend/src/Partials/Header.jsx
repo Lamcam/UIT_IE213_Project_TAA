@@ -1,8 +1,10 @@
 import React from "react"
 import MainNav from "./MainNav";
-import Logo from "../Components/Logo";
-import Button from "../Components/Button";
-import SearchBar from "../Components/SearchBar";
+import Logo from "../components/Logo";
+import Button from "../components/Button";
+import SearchBar from "../components/SearchBar";
+import "../styles/partials/updateHeader.css";
+
 // import Logo
 function Header() {
     return(
@@ -13,19 +15,17 @@ function Header() {
                         <Logo />
                     </a>
                         {/* Form comp */}
-                        <SearchBar></SearchBar>
+                    <SearchBar></SearchBar>
 
                     <div className="header__wrapper">
                         <Button className="btn--filled header__btn" label="Log in" type="button" />
                         <Button className="btn--filled header__btn" label="Register"  type="button" />
                     </div>
-        
-                        {/* Nav comp */}
-                        
-                    </div>
+                </div>
             </div>
             
             <MainNav /> 
+            
         </header>
     )
 }

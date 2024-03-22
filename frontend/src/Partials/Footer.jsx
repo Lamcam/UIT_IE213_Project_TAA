@@ -2,11 +2,12 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import logo from '../assets/image/logo.svg'
 import { FaFacebook, FaInstagram, FaYoutube  } from "react-icons/fa";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Input from '../Components/Input';
-import Button from '../Components/Button';
+
+import Input from '../components/Input';
+import Button from '../components/Button';
 import style from '../styles/partials/footer.module.scss'
 import base from '../base.module.scss'
+
 const logoStyle = {
   maxHeight: '200px',
   minHeight: '70px',
