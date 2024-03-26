@@ -4,14 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AppRouting from './routes/Routing';
-import Test from './partials/Test';
+// import Test from './partials/Test'; // file test component
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     {/* <App></App> */}
-     <Test/>
+     <App></App>
   </React.StrictMode>
      
 );

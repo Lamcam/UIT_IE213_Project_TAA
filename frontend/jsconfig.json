@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl" : "./src",
+    "paths": {
+      "@src/*": ["."],
+      "@assets/image/*": ["./assets/image/*"],
+      "@styles/*": ["./styles/*"],
+      "@components/*": ["./components/*"],
+      "@ui/*": ["./components/common/ui/*"],
+      "@pages/*": ["./pages/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@api/*": ["./api/*"],
+      "@utils/*": ["./utils/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

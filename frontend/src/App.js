@@ -5,9 +5,7 @@ import Policy from "./pages/Policy";
 import AboutUs from "./pages/AboutUs";
 import Products from "./pages/Products";
 import Error404 from "./pages/Error404";
-import { BrowserRouter,
-  Route,
-  Outlet,
+import { Route,
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider } from "react-router-dom";
@@ -24,6 +22,7 @@ const router = createBrowserRouter(
         <Route path="news" element={<News />} />
         <Route path="about_us" element={<AboutUs />} />
         <Route path='guideline' element={<></>} >  </Route>
+        <Route path='policy' element={<Policy/>} >  </Route>
     </Route>
   )
 )
