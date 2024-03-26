@@ -16,7 +16,7 @@ const logoStyle = {
 const Footer = () => {
   return (
     <footer className="dark-light mt-12">
-      <Container className={style.footer__container}>
+      <Container className={style.footer_container}>
         <Row className='d-flex justify-content-start' >
           <Col>
             <img className='img-fluid' src={logo} alt='logo' style={logoStyle} ></img>

@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../Partials/Header';
-import Footer from '../Partials/Footer';
+import Header from '../partials/Header';
+import Footer from '../partials/Footer';
 import { Outlet } from 'react-router-dom';
 
 export default function RootLayout() {
