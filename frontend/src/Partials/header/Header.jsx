@@ -1,9 +1,10 @@
 import React from "react"
-import MainNav from "./MainNav";
+import MainNav from "../mainNav/MainNav";
 import Logo from 'components/Logo.jsx' // error
 import Button from "components/Button";
 import SearchBar from "components/SearchBar";
-import "styles/partials/updateHeader.css";
+import "./header.css";
+
 
 // import Logo
 function Header() {

@@ -1,5 +1,5 @@
 import RootLayout from "./routes/RootLayout";
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 import News from "./pages/News";
 import Policy from "./pages/Policy";
 import AboutUs from "./pages/AboutUs";
