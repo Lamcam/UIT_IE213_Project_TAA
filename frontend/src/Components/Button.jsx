@@ -12,7 +12,7 @@ const buttonStyle = {
 const spanStyle = {
     color: 'inherit',
     display: 'flex',
-    height: '100%',
+    height: '20px',
     justifyContent: 'center',
     borderRadius: 'inherit',
     minHeight: '4rem',

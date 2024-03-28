@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import logo from '../assets/image/logo.svg'
-import { FaFacebook, FaInstagram, FaYoutube  } from "react-icons/fa";
-import Input from '../components/Input';
-import Button from '../components/Button';
-import style from '../styles/partials/footer.module.scss'
-import base from '../base.module.scss'
+import logo from 'assets/image/logo.svg'
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import Input from 'components/Input';
+import Button from 'components/Button';
+import style from './footer.module.scss'
+// import base from 'base.module.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const logoStyle = {
