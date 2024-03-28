@@ -1,0 +1,10 @@
+#on-top-btn {
+  position: fixed;
+  right: clamp(2rem, 2vw, 3rem);
+  bottom: 10vh;
+  z-index: 3;
+  opacity: 0;
+  border-radius: .75rem;
+  height: 4rem;
+  cursor: pointer;
+}

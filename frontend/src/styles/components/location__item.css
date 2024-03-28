@@ -1,9 +1,0 @@
-.location-item {
-  &.in-order {
-    display: none !important;
-
-    &.active {
-      display: grid !important;
-    }
-  }
-}

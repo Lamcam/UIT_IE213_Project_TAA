@@ -3,8 +3,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import logo from 'assets/image/logo.svg'
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import Input from 'components/Input';
-import Button from 'components/Button';
-import style from './footer.module.scss'
+import Button from 'react-bootstrap/Button';
+import './footer.module.scss'
 // import base from 'base.module.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,7 +16,7 @@ const logoStyle = {
 const Footer = () => {
   return (
     <footer className="dark-light mt-12">
-      <Container className={style.footer_container}>
+      <Container className='footer_container'>
         <Row className='d-flex justify-content-start' >
           <Col>
             <img className='img-fluid' src={logo} alt='logo' style={logoStyle} ></img>
@@ -46,7 +46,7 @@ const Footer = () => {
           </Col>
 
           <Col>
-            <h3 className={style.footer__title}>Công ty</h3>
+            <h3 className='footer__title'>Công ty</h3>
             <ul>
                 <li><a href='/'>Tin tức </a></li>
                 <li><a href="/">Về chúng tôi</a></li>
@@ -56,13 +56,19 @@ const Footer = () => {
           </Col>
 
           <Col>
-            <h3 className={style.footer__title} >Cập nhật về chúng tôi</h3>
+            <h3 className='footer__title' >Cập nhật về chúng tôi</h3>
             <p>Xác nhận thư điện tử của bạn để nhận được ngay những cập nhật mới nhất từ chúng tôi hàng tuần</p>
             
-            <Row className='d-flex flex-row'>
-                {/* <input className='col-8' type="email" placeholder="Email Address" /> */}
-                <Input className='col-8' type="email" placeholder="Email Address" />
-                <Button className="btn--filled col-4" label="Xác nhận" type="submit" />
+            <Row className='d-flex flex-row justify-content-center align-items-center'>
+                <Col className='col-7'>
+                  <Input  type="email" placeholder="Email Address" />
+                </Col>
+                <Col className='col-5' >
+                  {/* <Button className="btn--filled" label="Xác nhận" type="submit" /> */}
+                  <Button className='confirm_button' size="lg">
+                      Xác nhận
+                  </Button>
+                </Col>
             </Row>
 
           </Col>
