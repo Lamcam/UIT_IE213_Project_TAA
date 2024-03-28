@@ -1,8 +1,16 @@
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+
 export default function Products() {
     return (
-        <div>
-            <h1>This is Products Page</h1>
-            {/* Add your products content here */}
-        </div>
+        <Container fluid>
+            <Row>filter san pham ne</Row>
+            <Row>
+                <Col>danh muc</Col>
+                <Col>san pham</Col>
+            </Row>
+        </Container>
     );
 }
