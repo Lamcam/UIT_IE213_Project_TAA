@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import App from './App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import Test from './partials/Test'; // file test component
@@ -10,8 +10,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
      {/* <Test/> */}
-     {/* <App></App> */}
-     <Home></Home>
+     <App></App>
+     {/* <Home></Home> */}
   </React.StrictMode>
      
 );
