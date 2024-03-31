@@ -1,9 +1,9 @@
 import RootLayout from "./routes/RootLayout";
 import Home from "./pages/home/Home";
-import News from "./pages/News";
-import Policy from "./pages/Policy";
-import AboutUs from "./pages/AboutUs";
-import Products from "./pages/Products";
+import News from "./pages/News/News";
+import Policy from "./pages/Policy/Policy";
+import AboutUs from "./pages/AboutUs/AboutUs";
+import Products from "./pages/Products/Products";
 import Error404 from "./pages/Error404";
 import { Route,
   createBrowserRouter,

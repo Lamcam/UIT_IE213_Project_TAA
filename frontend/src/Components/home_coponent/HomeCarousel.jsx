@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Carousel, Image } from 'react-bootstrap';
+import { Carousel, Image } from 'react-bootstrap';
 import banner1 from 'assets/image/banners/1.png';
 import banner2 from 'assets/image/banners/2.png';
 import banner3 from 'assets/image/banners/3.png';

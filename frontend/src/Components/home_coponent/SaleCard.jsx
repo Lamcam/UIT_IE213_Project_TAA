@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card';
-import Button from 'components/Button';
+import Button from 'components/common/Button';
 
 function SaleCard(props) {
   return (

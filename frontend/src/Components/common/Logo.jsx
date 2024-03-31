@@ -1,5 +1,5 @@
 import React from "react";
-import MainLogo from '../assets/image/logo.svg'
+import MainLogo from 'assets/image/logo.svg'
 
 const logoStyle = {
     height: '100%',
