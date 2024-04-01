@@ -1,27 +1,76 @@
-import { Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-
+import { BsCheck2 } from "react-icons/bs";
+import './style.scss';
+import ProductItem from '../components/products/ProductItem';
 
 export default function Products() {
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedButtons, setSelectedButtons] = useState([]); // Sử dụng một mảng để lưu trữ tất cả các nút được chọn
+
+    const handleDropdownToggle = () => {
+        setShowDropdown(!showDropdown);
+    };
+
+    const handleDropdownSelect = (eventKey, event) => {
+        setSelectedOption(eventKey);
+        setShowDropdown(false);
+    };
+
+    const handleButtonClick = (buttonName) => {
+        const selectedIndex = selectedButtons.indexOf(buttonName);
+        if (selectedIndex !== -1) {
+            // Nếu nút đã được chọn trước đó được nhấn lại, hủy trạng thái đã chọn
+            setSelectedButtons(selectedButtons.filter(name => name !== buttonName));
+        } else {
+            // Nếu nút mới được chọn, thêm vào mảng các nút được chọn
+            setSelectedButtons([...selectedButtons, buttonName]);
+        }
+    };
+
+    let dropdownTitle = "Giá";
+    if (selectedOption === "1") {
+        dropdownTitle = "Từ thấp đến cao";
+    } else if (selectedOption === "2") {
+        dropdownTitle = "Từ cao đến thấp";
+    }
+
     return (
-        <Container>
+        <Container className="product">
             <Row>
-                <Col><p>Sắp xếp theo: </p></Col>
-                <p className="product__title label-large on-surface-text">Sắp xếp theo</p>
-                <Button className={`btn-icon-label product__button js-button btn--outlined discount `}>
-                    <span className="label">Giảm giá</span>
-                </Button>
+                <Col className="product__filter">
+                    <span>Sắp xếp theo: </span>
+                    <Button className={`product__button js-button discount ${selectedButtons.includes('discount') ? 'active' : ''}`} onClick={() => handleButtonClick('discount')}>
+                        {selectedButtons.includes('discount') && <BsCheck2 className='icon-check' />}
+                        Giảm giá
+                    </Button>
 
-                <Button className={`product__button js-button btn--outlined best-seller `}>
-                    Bán chạy nhất
-                </Button>
+                    <Button className={`product__button js-button best-seller ${selectedButtons.includes('best-seller') ? 'active' : ''}`} onClick={() => handleButtonClick('best-seller')}>
+                        {selectedButtons.includes('best-seller') && <BsCheck2 className='icon-check' />}
+                        Bán chạy nhất
+                    </Button>
 
+                    <DropdownButton
+                        title={dropdownTitle}
+                        id="dropdown-menu-align-right"
+                        show={showDropdown}
+                        onSelect={handleDropdownSelect}
+                        onToggle={handleDropdownToggle}
+                    >
+                        <Dropdown.Item eventKey="1">Từ thấp đến cao</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Từ cao đến thấp</Dropdown.Item>
+                    </DropdownButton>
+                </Col>
             </Row>
             <Row>
                 <Col lg={3}>danh muc</Col>
-                <Col lg={9}>san pham</Col>
+                <Col lg={9}>
+                    <ProductItem />
+                </Col>
             </Row>
         </Container>
     );

@@ -1,0 +1,14 @@
+.product .product__filter{
+    display: flex;
+    gap:0.9rem;
+}
+
+.product .product__button{
+    background-color: white;
+    color: #785b5b;
+    border-color:#785b5b;
+}
+
+.product__button .icon-check{
+    font-size: 20px;
+}
