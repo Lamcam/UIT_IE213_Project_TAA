@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { BsCheck2 } from "react-icons/bs";
-// import './style.scss';
+// import Button from 'components/Common/Button';
+import ProductMenu from 'components/Products/ProductMenu';
 import ProductItem from 'components/Products/ProductItem';
+import '../../style/pages/Products/ProductStyle.scss';
 
 export default function Products() {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -44,12 +46,12 @@ export default function Products() {
             <Row>
                 <Col className="product__filter">
                     <span>Sắp xếp theo: </span>
-                    <Button className={`product__button js-button discount ${selectedButtons.includes('discount') ? 'active' : ''}`} onClick={() => handleButtonClick('discount')}>
+                    <Button className={`product__button discount  ${selectedButtons.includes('discount') ? 'active' : ''}`} onClick={() => handleButtonClick('discount')}>
                         {selectedButtons.includes('discount') && <BsCheck2 className='icon-check' />}
                         Giảm giá
                     </Button>
 
-                    <Button className={`product__button js-button best-seller ${selectedButtons.includes('best-seller') ? 'active' : ''}`} onClick={() => handleButtonClick('best-seller')}>
+                    <Button className={`product__button best-seller    ${selectedButtons.includes('best-seller') ? 'active' : ''}`} onClick={() => handleButtonClick('best-seller')}>
                         {selectedButtons.includes('best-seller') && <BsCheck2 className='icon-check' />}
                         Bán chạy nhất
                     </Button>
@@ -67,7 +69,9 @@ export default function Products() {
                 </Col>
             </Row>
             <Row>
-                <Col lg={3}>danh muc</Col>
+                <Col lg={3}>
+                    <ProductMenu />
+                </Col>
                 <Col lg={9}>
                     <ProductItem />
                 </Col>
