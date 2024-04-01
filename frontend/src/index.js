@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import ForgotPass from 'pages/LoginRegister/ForgotPass';
-// import App from './App';
+import App from './App';
 // import GetOtp from 'pages/LoginRegister/Get_otp';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,13 +15,13 @@ import UpdatePass from 'pages/LoginRegister/UpdatePass';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     {/* <App></App> */}
+     <App></App>
      {/* <Home></Home> */}
      {/* <Register></Register> */}
      {/* <ForgotPass></ForgotPass> */}
      {/* <GetOtp></GetOtp> */}
      {/* <Login></Login> */}
-     <UpdatePass></UpdatePass>
+     {/* <UpdatePass></UpdatePass> */}
   </React.StrictMode>
      
 );
