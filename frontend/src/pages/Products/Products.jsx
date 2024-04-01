@@ -4,8 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { BsCheck2 } from "react-icons/bs";
-import './style.scss';
-import ProductItem from '../components/products/ProductItem';
+// import './style.scss';
+import ProductItem from 'components/Products/ProductItem';
 
 export default function Products() {
     const [showDropdown, setShowDropdown] = useState(false);
