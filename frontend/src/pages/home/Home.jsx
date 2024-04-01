@@ -1,16 +1,18 @@
 import React from 'react';
-import SaleSection from 'components/home_coponent/saleSection';
+import SaleSection from 'components/home_coponent/SaleSection';
 import './home.css';
 import InfoSection from 'components/home_coponent/InfoSection';
 import QuestionSection from 'components/home_coponent/QuestionSection';
-
+import HomeCarousel from 'components/home_coponent/HomeCarousel';
+import ImgSection from 'components/home_coponent/ImgSection';
 const Home = () => {
     return (
         <div>
-            <h1>Welcome to the Home page!</h1>
+            <HomeCarousel></HomeCarousel>
             <SaleSection></SaleSection>
-            <InfoSection></InfoSection>
             <QuestionSection></QuestionSection>
+            <InfoSection></InfoSection>
+            <ImgSection></ImgSection>
         </div>
     );
 };

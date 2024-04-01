@@ -1,8 +1,8 @@
 import React from "react"
 import MainNav from "../mainNav/MainNav";
-import Logo from 'components/Logo.jsx' // error
-import Button from "components/Button";
-import SearchBar from "components/SearchBar";
+import Logo from 'components/common/Logo.jsx' // error
+import Button from "components/common/Button";
+import SearchBar from "components/headerComponents/SearchBar";
 import "./header.css";
 
 

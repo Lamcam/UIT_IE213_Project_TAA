@@ -1,0 +1,38 @@
+.btn_round_32px {
+    display: flex;
+    padding: 6px 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 32px;
+    border: 1px solid var(--md-ref-palette-neutral-variant50);
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    color: var(--md-ref-palette-neutral-variant30);
+}
+
+.btn_round_8px {
+    display: flex;
+    padding: 6px 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--md-ref-palette-neutral-variant50);
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface-variant-light);
+}
+
+.btn_clickable_lightcolor {
+    border: 1px solid #9c4048;
+    color: #9c4048 !important;
+    background: var(--md-ref-palette-primary95);
+}
+
+.btn_clickable_boldcolor {
+    background: var(--md-sys-color-primary-light);
+    color: var(--md-sys-color-on-primary-light);
+}

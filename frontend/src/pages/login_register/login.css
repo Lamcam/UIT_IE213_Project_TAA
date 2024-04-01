@@ -1,0 +1,149 @@
+section.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    form{
+        display: flex;
+        flex-direction: column;
+        min-width: 406px;
+
+    }
+
+    h1{
+        text-transform: uppercase;
+        text-align: center;
+        color: black;
+        font-size: 36px;
+        font-family: Playfair Display, serif;
+        font-weight: 700;
+        line-height: 44px;
+        word-wrap: break-word
+    }
+
+    .login_form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+    }
+
+    & .side_bar{
+    background-color: var(--md-sys-color-primary-light);
+    /* background-color: black; */
+    max-width: 400px;
+    min-height: 555px;
+    }
+
+    .create_acc_rec::before, .create_acc_rec::after{
+        content: "---------------------";
+        margin: 0px 10px;
+        color: rgba(25, 25, 25,0);
+        display: block;
+        background-color: var(--md-ref-palette-neutral80);
+        height: 2px;
+    }
+
+    .create_acc_rec{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px 0px;
+        width: 100%;
+    }
+
+    .create_acc_rec_containter{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+
+
+    .login_btn, .register_btn{
+        background-color: var(--md-sys-color-primary-light);
+        outline: var(--md-sys-color-primary-light);
+        border-radius: 8px;
+        border-color: var(--md-sys-color-primary-light);
+    }
+}
+
+section.register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    form{
+        display: flex;
+        flex-direction: column;
+        min-width: 406px;
+
+    }
+
+    h1{
+        text-transform: uppercase;
+        text-align: center;
+        color: black;
+        font-size: 36px;
+        font-family: Playfair Display, serif;
+        font-weight: 700;
+        line-height: 44px;
+        word-wrap: break-word
+    }
+
+    .register_form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+    }
+
+    & .side_bar{
+    background-color: var(--md-sys-color-primary-light);
+    /* background-color: black; */
+    max-width: 400px;
+    min-height: 555px;
+    }
+
+    .login_rec::before, .login_rec::after{
+        content: "---------------------";
+        margin: 0px 10px;
+        color: rgba(25, 25, 25,0);
+        display: block;
+        background-color: var(--md-ref-palette-neutral80);
+        height: 2px;
+    }
+
+    .login_rec{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px 0px;
+        width: 100%;
+    }
+
+    .login_rec_containter{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+
+
+    .login_btn, .register_btn{
+        background-color: var(--md-sys-color-primary-light);
+        outline: var(--md-sys-color-primary-light);
+        border-radius: 8px;
+        border-color: var(--md-sys-color-primary-light);
+    }
+    .form-check-input{
+        border-radius: 50%;
+    }
+    .form-check{
+        max-width: 406px;
+    }
+}

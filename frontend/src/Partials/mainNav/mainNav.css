@@ -23,3 +23,9 @@
     background-color: #CCCCCC;
 
 }
+
+
+.dropdown-toggle.nav-link{
+    width: 100%;
+    height: 100%;
+}
