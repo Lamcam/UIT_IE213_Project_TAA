@@ -1,10 +1,10 @@
 import React from 'react';
-import SaleSection from 'components/home_coponent/SaleSection';
+import SaleSection from '@components/Home_coponent/SaleSection';
 import './home.css';
-import InfoSection from 'components/home_coponent/InfoSection';
-import QuestionSection from 'components/home_coponent/QuestionSection';
-import HomeCarousel from 'components/home_coponent/HomeCarousel';
-import ImgSection from 'components/home_coponent/ImgSection';
+import InfoSection from '@components/Home_coponent/InfoSection';
+import QuestionSection from '@components/Home_coponent/QuestionSection';
+import HomeCarousel from '@components/Home_coponent/HomeCarousel';
+import ImgSection from '@components/Home_coponent/ImgSection';
 const Home = () => {
     return (
         <div>
