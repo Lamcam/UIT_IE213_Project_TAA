@@ -27,7 +27,7 @@ const UpdatePass = () => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Update Password</Modal.Title>
+                    <Modal.Title>Tạo mật khẩu mới</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>

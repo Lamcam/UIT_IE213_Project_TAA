@@ -1,6 +1,6 @@
 import { Container, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SaleCard from 'components/home_coponent/SaleCard';
+import SaleCard from '@components/Home_coponent/SaleCard';
 
 function SaleSection(){
     return (
