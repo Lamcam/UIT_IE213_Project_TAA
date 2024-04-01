@@ -26,3 +26,10 @@ VD: h1.titleInPopUp, form#LoginForm
 
 không được chỉ chọn đến những tag vd: div {color: red} , h1 { height: 30px } 
 
+
+components chung :
+
+Dấu X :  AiOutlineClose
+Dấu mũi tên trái : AiOutlineLeft 
+từ "react-icons/ai";
+
