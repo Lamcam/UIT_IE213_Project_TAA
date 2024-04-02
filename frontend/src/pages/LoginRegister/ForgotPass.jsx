@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import './popUp.css';
+import './PopUp.scss';
 import { AiOutlineClose, AiOutlineLeft } from "react-icons/ai";
 
 function ForgotPass() {

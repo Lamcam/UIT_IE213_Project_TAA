@@ -1,6 +1,6 @@
 import React from 'react';
 import SaleSection from 'components/HomeComponents/SaleSection';
-import './home.css';
+import './Home.scss';
 import InfoSection from 'components/HomeComponents/InfoSection';
 import QuestionSection from 'components/HomeComponents/QuestionSection';
 import HomeCarousel from 'components/HomeComponents/HomeCarousel';

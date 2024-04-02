@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './index.scss';
 // import App from './App';
 // import GetOtp from 'pages/LoginRegister/Get_otp';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.scss';
 import reportWebVitals from './reportWebVitals';
 // import Register from 'pages/login_register/Register';
 // import Test from './partials/Test'; // file test component
@@ -14,9 +14,13 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <Test/> */}
     <App></App>
     {/* <Home></Home> */}
+    {/* <Register></Register> */}
+    {/* <ForgotPass></ForgotPass> */}
+    {/* <GetOtp></GetOtp> */}
+    {/* <Login></Login> */}
+    {/* <UpdatePass></UpdatePass> */}
   </React.StrictMode>,
 );
 

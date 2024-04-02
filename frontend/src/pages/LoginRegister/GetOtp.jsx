@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './otp_popUp.css'
+import './OtpPopUp.scss'
 import { AiOutlineClose, AiOutlineLeft } from "react-icons/ai";
 
 const GetOtp = () => {
