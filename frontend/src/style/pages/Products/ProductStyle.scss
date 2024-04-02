@@ -13,6 +13,11 @@
   border-radius: 12px;
 }
 
+.product .product__content{
+  display: flex;
+  gap:10px;
+  flex-wrap: nowrap;
+}
 // .product .product__button{
 //     background-color: white;
 //     color: #785b5b;

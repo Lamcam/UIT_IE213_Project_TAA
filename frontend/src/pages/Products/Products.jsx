@@ -68,7 +68,7 @@ export default function Products() {
                     </DropdownButton>
                 </Col>
             </Row>
-            <Row>
+            <Row className='product__content'>
                 <Col lg={3}>
                     <ProductMenu />
                 </Col>

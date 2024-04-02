@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import { IoMenuSharp } from "react-icons/io5";
-import '../../style/components/Products/productMenu.css';
+import '../../style/components/Products/productMenu.scss';
 
 function ProductMenu(props) {
     const [activeCategory, setActiveCategory] = useState(null);

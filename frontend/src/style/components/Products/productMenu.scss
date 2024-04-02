@@ -1,4 +1,5 @@
 @import url(index.css);
+
 .product__menu {
   display: flex;
   background-color: white;
@@ -19,7 +20,7 @@
 
 .product__menu .item__title {
   display: flex;
-  gap:10px;
+  gap: 10px;
 }
 
 .product__menu .aside__item span {
