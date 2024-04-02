@@ -1,0 +1,28 @@
+.product {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product .product__filter {
+  display: flex;
+  gap: 0.9rem;
+  background-color: white;
+  align-items: center;
+  padding: 0.7rem;
+  border-radius: 12px;
+}
+
+.product .product__content{
+  display: flex;
+  flex-wrap: nowrap;
+}
+// .product .product__button{
+//     background-color: white;
+//     color: #785b5b;
+//     border-color:#785b5b;
+// }
+
+// .product__button .icon-check{
+//     font-size: 20px;
+// }

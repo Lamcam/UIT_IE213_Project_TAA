@@ -1,7 +1,7 @@
 import {Form, Image, Button } from 'react-bootstrap';
 import {Col, Container} from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
-import './login.css';
+import './Login.scss';
 
 function Login() {
   return (
