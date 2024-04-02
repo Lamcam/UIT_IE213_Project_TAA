@@ -3,7 +3,7 @@ import MainNav from "../MainNav/MainNav";
 import Logo from 'components/Common/Logo.jsx' // error
 import Button from "components/Common/Button";
 import SearchBar from "components/HeaderComponents/SearchBar";
-import "./header.css";
+import "./Header.scss";
 
 
 // import Logo
