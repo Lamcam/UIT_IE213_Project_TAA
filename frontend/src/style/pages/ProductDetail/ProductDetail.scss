@@ -1,16 +1,15 @@
 .product__detail {
-  width: 100%;
+  //   width: 100%;
   display: flex;
   justify-content: center;
   gap: 12px;
   flex-direction: column;
 }
-.product__detail_col1 {
-  margin: 0 -3px;
+
+.product__detail__row1_responsive {
+  display: flex;
 }
-.product__detail_col5 {
-  margin: 0 -12px;
-}
+
 .product__image_small {
   display: flex;
   flex-direction: column;
@@ -18,16 +17,21 @@
   &__size {
     border-radius: 4px;
     cursor: pointer;
-    height: 90px;
-    width: 90px;
+    height: 104px;
+    width: 104px;
   }
+}
+.product__detail_col1,
+.product__detail_col5 {
+  padding: 0;
 }
 
 .product__image_big {
-  width: 100%;
-  height: 100%;
+  width: 611px;
+  height: 684px;
   border-radius: 8px;
   cursor: pointer;
+  margin-left: 13px;
 }
 
 .product__image_small__size.selected {
@@ -71,7 +75,7 @@
   }
 
   &__review {
-    width: 100%;
+    // width: 100%;
     gap: 12px;
     display: flex;
     align-items: center;
@@ -95,16 +99,16 @@
     border-radius: 8px;
     background: var(--M3-sys-light-on-primary, #f1efe7);
     gap: 12px;
-    height: 50px;
+    height: 60px;
     &_first {
       font-size: 16px;
       text-decoration: line-through;
       font-weight: 500;
     }
     &_second {
-      font-size: 25px;
+      font-size: 36px;
       color: #ba1a1a;
-      font-weight: 400;
+      font-weight: 500;
     }
     &_third {
       font-size: 14px;
@@ -230,6 +234,7 @@ button:hover {
 }
 
 .add__cart__buy__now {
+  padding-top: 30px;
   justify-content: flex-end;
 }
 
@@ -243,7 +248,7 @@ button:hover {
 .product__description {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  //   width: 100%;
   border-radius: 8px;
   background: white;
 }
@@ -271,7 +276,7 @@ button:hover {
 .product__rating {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  //   width: 100%;
   border-radius: 8px;
   background: white;
   &__title {
@@ -414,7 +419,7 @@ button:hover {
 .product__suggestion {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  //   width: 100%;
   border-radius: 8px;
   background: white;
   &__title {
@@ -628,4 +633,30 @@ input[type='number'] {
 }
 
 @media only screen and (min-width: 745px) and (max-width: 1023px) {
+  .product__detail_col1 {
+    width: 10%;
+    height: 100%;
+    float: left;
+  }
+  .product__detail_col6 {
+    width: 90%;
+    height: 100%;
+    float: left;
+  }
+  .product__detail_col5 {
+    padding-top: 12px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .product__image_small__size {
+    border-radius: 4px;
+    cursor: pointer;
+    height: 72px;
+    width: 72px;
+  }
+  .product__image_big {
+    width: 98%;
+    height: 492px;
+  }
 }

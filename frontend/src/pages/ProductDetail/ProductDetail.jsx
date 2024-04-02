@@ -122,6 +122,7 @@ export default function ProductDetail() {
       }
     }
   };
+
   return (
     <div>
       <Container className="product__detail">
@@ -147,7 +148,7 @@ export default function ProductDetail() {
           </Col>
 
           {/* Frame 2 */}
-          <Col xs={6} style={{}}>
+          <Col xs={6} className="product__detail_col6" style={{ padding: '0px' }}>
             <Image
               className="product__image_big"
               src={currentImg}
