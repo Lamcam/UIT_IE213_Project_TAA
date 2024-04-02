@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import ForgotPass from 'pages/LoginRegister/ForgotPass';
+import './index.scss';
+// import ForgotPass from 'pages/LoginRegister/ForgotPass';
 // import App from './App';
 // import GetOtp from 'pages/LoginRegister/Get_otp';
 import reportWebVitals from './reportWebVitals';
