@@ -1,0 +1,31 @@
+/* @import url(token.scss); */
+
+.my-nav .nav-link:hover {
+    background-color: #CCCCCC;
+    cursor: pointer;
+  }
+
+.my-nav .nav-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.my-nav.navbar-nav > .nav-link.active{
+    color: white;
+    /* background-color: var(--md-sys-color-primary); */
+    background-color: var(--md-sys-color-primary-light);
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #CCCCCC;
+
+}
+
+
+.dropdown-toggle.nav-link{
+    width: 100%;
+    height: 100%;
+}

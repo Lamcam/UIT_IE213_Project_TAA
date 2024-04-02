@@ -1,27 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import ForgotPass from 'pages/LoginRegister/ForgotPass';
+import './index.scss';
 // import App from './App';
-// import GetOtp from 'pages/LoginRegister/Get_otp';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import Register from 'pages/login_register/Register';
-// import Test from './partials/Test'; // file test component
-// import Home from 'pages/home/Home';
-// import Login from 'pages/login_register/Login';
-import UpdatePass from 'pages/LoginRegister/UpdatePass';
+import PreviewCard from 'components/HomeComponents/PreviewCard'; 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <App></App>
-     {/* <Home></Home> */}
-     {/* <Register></Register> */}
-     {/* <ForgotPass></ForgotPass> */}
-     {/* <GetOtp></GetOtp> */}
-     {/* <Login></Login> */}
-     {/* <UpdatePass></UpdatePass> */}
+     {/* <App></App> */}
+     <PreviewCard />
+     
   </React.StrictMode>
      
 );

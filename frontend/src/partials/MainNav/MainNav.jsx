@@ -1,8 +1,6 @@
 import React from "react";
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-// import '/partials/footer.module.scss'
-// import 'styles/components/mainNav.css'
-import './mainNav.css'
+import './MainNav.scss'
 
 import { NavLink } from "react-router-dom";
 
