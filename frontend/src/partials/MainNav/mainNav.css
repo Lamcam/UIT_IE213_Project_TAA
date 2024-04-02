@@ -1,4 +1,4 @@
-@import url('token.css');
+@import url('index.scss');
 
 .my-nav .nav-link:hover {
     background-color: #CCCCCC;

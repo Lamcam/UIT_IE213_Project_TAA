@@ -1,12 +1,12 @@
+import ProductItem from 'components/Products/ProductItem';
+import ProductMenu from 'components/Products/ProductMenu';
 import { useState } from 'react';
-import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { BsCheck2 } from "react-icons/bs";
-// import Button from 'components/Common/Button';
-import ProductMenu from 'components/Products/ProductMenu';
-import ProductItem from 'components/Products/ProductItem';
+import 'style/components/button.css';
 import '../../style/pages/Products/ProductStyle.scss';
 
 export default function Products() {
@@ -40,21 +40,22 @@ export default function Products() {
     } else if (selectedOption === "2") {
         dropdownTitle = "Từ cao đến thấp";
     }
-
+    
     return (
         <Container className="product">
             <Row>
-                <Col className="product__filter">
+                <Col className="product__filter body-large on-surface-text">
                     <span>Sắp xếp theo: </span>
-                    <Button className={`product__button discount  ${selectedButtons.includes('discount') ? 'active' : ''}`} onClick={() => handleButtonClick('discount')}>
+                    <button className={`product__button discount btn_round_8px ${selectedButtons.includes('discount') ? 'active' : ''}`} onClick={() => handleButtonClick('discount')}>
                         {selectedButtons.includes('discount') && <BsCheck2 className='icon-check' />}
                         Giảm giá
-                    </Button>
+                    </button>
 
-                    <Button className={`product__button best-seller    ${selectedButtons.includes('best-seller') ? 'active' : ''}`} onClick={() => handleButtonClick('best-seller')}>
+
+                    <button className={`product__button best-seller btn_round_8px ${selectedButtons.includes('best-seller') ? 'active' : ''}`} onClick={() => handleButtonClick('best-seller')}>
                         {selectedButtons.includes('best-seller') && <BsCheck2 className='icon-check' />}
                         Bán chạy nhất
-                    </Button>
+                    </button>
 
                     <DropdownButton
                         title={dropdownTitle}
@@ -69,11 +70,12 @@ export default function Products() {
                 </Col>
             </Row>
             <Row className='product__content'>
-                <Col lg={3}>
+                <Col lg={3} md={3}>
                     <ProductMenu />
                 </Col>
-                <Col lg={9}>
+                <Col lg={9} md={9}>
                     <ProductItem />
+                   
                 </Col>
             </Row>
         </Container>
