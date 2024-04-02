@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import logo from 'assets/image/logo.svg'
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
-import Input from '@components/Common/Input';
+import Input from 'components/Common/Input';
 import Button from 'react-bootstrap/Button';
 import './footer.module.scss'
 // import base from 'base.module.scss'
