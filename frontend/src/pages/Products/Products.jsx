@@ -40,7 +40,7 @@ export default function Products() {
     } else if (selectedOption === "2") {
         dropdownTitle = "Từ cao đến thấp";
     }
-    
+
     return (
         <Container className="product">
             <Row>
@@ -75,7 +75,7 @@ export default function Products() {
                 </Col>
                 <Col lg={9} md={9}>
                     <ProductItem />
-                   
+
                 </Col>
             </Row>
         </Container>

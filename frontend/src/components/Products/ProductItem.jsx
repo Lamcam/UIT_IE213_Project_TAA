@@ -4,7 +4,7 @@ import { Row } from 'react-bootstrap';
 import { IoHeartSharp } from "react-icons/io5";
 import { TbHeartPlus } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
-import "../../style/components/Products/productItem.scss";
+import "../../style/components/Products/ProductItem.scss";
 function ProductItem(props) {
     const [isLiked, setIsLiked] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
