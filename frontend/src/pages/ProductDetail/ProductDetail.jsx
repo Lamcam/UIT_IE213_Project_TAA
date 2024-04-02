@@ -275,7 +275,7 @@ export default function ProductDetail() {
         </Row>
 
         <Row className="product__rating">
-          <span className="product__rating__title">Đánh giá sản phẩm</span>
+          <span className="product__rating__title">ĐÁNH GIÁ SẢN PHẨM</span>
           <div className="product__rating__star">
             <div className="product__rating__star_45">
               <span>4.5</span>
