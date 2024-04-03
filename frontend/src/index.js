@@ -1,27 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './index.scss';
 import App from './App';
 // import App from './App';
 // import GetOtp from 'pages/LoginRegister/Get_otp';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
-// import Register from 'pages/login_register/Register';
-// import Test from './partials/Test'; // file test component
-// import Home from 'pages/home/Home';
-// import Login from 'pages/login_register/Login';
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import PreviewCard from 'components/HomeComponents/PreviewCard'; 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App></App>
-    {/* <Home></Home> */}
-    {/* <Register></Register> */}
-    {/* <ForgotPass></ForgotPass> */}
-    {/* <GetOtp></GetOtp> */}
-    {/* <Login></Login> */}
-    {/* <UpdatePass></UpdatePass> */}
-  </React.StrictMode>,
+     <App></App>
+     {/* <PreviewCard /> */}
+     
+  </React.StrictMode>
+     
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
-import img from 'assets/image/banners/TAA.png';
+import img from 'assets/Image/Banners/TAA.png';
 
 function ImgSection() {
     return(

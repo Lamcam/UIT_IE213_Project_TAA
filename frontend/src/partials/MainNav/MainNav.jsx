@@ -36,5 +36,3 @@ function MainNav(props){
     )
 }
 export default MainNav;
-
-
