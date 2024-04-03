@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Image, Row, Col } from 'react-bootstrap';
+import { Container, Image, Row, Col, Button } from 'react-bootstrap';
 import productDetailImg from '../../assets/image/pencil.png';
 import productDetailImg1 from '../../assets/image/t1.jpg';
 import productDetailImg2 from '../../assets/image/t2.jpg';
@@ -14,6 +14,7 @@ import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
 import { BiDislike, BiLike } from 'react-icons/bi';
 import { TbHeartPlus, TbHeartFilled } from 'react-icons/tb';
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
+import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 
 export default function ProductDetail() {
   const [currentImg, setCurrentImg] = useState(productDetailImg);
@@ -155,6 +156,12 @@ export default function ProductDetail() {
               alt="image product"
               preview={false}
             />
+            {window.innerWidth <= 576 && (
+              <Col className="product__detail__buttons">
+                <GrFormPrevious className="btn__previous" />
+                <GrFormNext className="btn__next" />
+              </Col>
+            )}
           </Col>
 
           {/* Frame 3 */}
