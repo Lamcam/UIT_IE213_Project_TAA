@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { BsCheck2 } from "react-icons/bs";
 import 'style/components/Button.css';
-import '../../style/pages/Products/ProductStyle.scss';
+import 'style/pages/Products/ProductStyle.scss';
 
 export default function Products() {
     const [showDropdown, setShowDropdown] = useState(false);
