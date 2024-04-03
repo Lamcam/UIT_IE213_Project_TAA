@@ -9,6 +9,7 @@ import { BsCheck2 } from "react-icons/bs";
 import 'style/components/button.css';
 import '../../style/pages/Products/ProductStyle.scss';
 
+
 export default function Products() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
