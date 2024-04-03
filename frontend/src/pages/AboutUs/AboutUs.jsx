@@ -4,7 +4,8 @@ import { Col, Row, Container } from 'react-bootstrap';
 
 function AboutUs() {
     return (
-      <Container className="about">
+      <div className="about">
+      <Container>
           <h1 className="about__title display-large">VỀ CHÚNG TÔI</h1>
           <div className="about__intro">
             <Row>
@@ -22,12 +23,13 @@ function AboutUs() {
               </Col>
             </Row>  
           </div>
-    
+          </Container>
 
       <div className="about__banner">
         <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/433001636_764025502495269_5962452863049639980_n.png?stp=dst-png_p180x540&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHCRjzxlwLOCHnD8DnRLqYUvfQQujb4Hga99BC6NvgeBhq9TXM7BvOJcNx-Ey-5ek9gCkaVAYKTQEYuNhaNVSTT&_nc_ohc=JyjMcp1FYDwAX8egRki&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfARj_h7WpcdyJotj23gWx0FCYr2ZAeUPyxRVCMbD6J0mA&oe=661161A9" alt="Về chúng tôi"/>
       </div>
 
+      <Container>
       <Row className='about__subtitle'>
         <Col className="about__content-left">
           <p className="display-small">WHAT WE DO</p>
@@ -48,12 +50,14 @@ function AboutUs() {
               trẻ phát triển.</p>
         </Col>  
       </Row>
+      </Container>
       
 
       <div className="about__banner">
         <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/433001636_764025502495269_5962452863049639980_n.png?stp=dst-png_p180x540&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHCRjzxlwLOCHnD8DnRLqYUvfQQujb4Hga99BC6NvgeBhq9TXM7BvOJcNx-Ey-5ek9gCkaVAYKTQEYuNhaNVSTT&_nc_ohc=JyjMcp1FYDwAX8egRki&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfARj_h7WpcdyJotj23gWx0FCYr2ZAeUPyxRVCMbD6J0mA&oe=661161A9" alt="Về chúng tôi"/>
       </div>
 
+      <Container>
       <Row className="about__contact">
         <Col>
         <p className="about__contact-title display-large">LIÊN HỆ</p>
@@ -66,12 +70,14 @@ function AboutUs() {
         </ul>
         </Col>
       </Row>
+      </Container>
 
       <div className="about__banner-small">
         <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/433001636_764025502495269_5962452863049639980_n.png?stp=dst-png_p180x540&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHCRjzxlwLOCHnD8DnRLqYUvfQQujb4Hga99BC6NvgeBhq9TXM7BvOJcNx-Ey-5ek9gCkaVAYKTQEYuNhaNVSTT&_nc_ohc=JyjMcp1FYDwAX8egRki&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfARj_h7WpcdyJotj23gWx0FCYr2ZAeUPyxRVCMbD6J0mA&oe=661161A9" alt="Về chúng tôi"/>
       </div>
 
-      </Container>
+     
+      </div>
     );
 };
 
