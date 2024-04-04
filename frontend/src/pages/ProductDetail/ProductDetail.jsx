@@ -16,6 +16,8 @@ import { TbHeartPlus, TbHeartFilled } from 'react-icons/tb';
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 import ReviewPopup from 'components/ReviewPopup';
+import { NavLink } from 'react-router-dom';
+import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 
 export default function ProductDetail() {
   const [currentImg, setCurrentImg] = useState(productDetailImg);
@@ -125,8 +127,10 @@ export default function ProductDetail() {
     }
   };
 
-   //modal review popup
+  //modal review popup
   const [showPopup, setShowPopup] = useState(false);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   return (
     <div>
@@ -255,11 +259,16 @@ export default function ProductDetail() {
                 <span className="quantity__product__detail_available">182 sản phẩm sẵn có</span>
               </div>
               <div className="add__cart__buy__now">
-                <button className="btn_round_8px btn_clickable_lightcolor">
+                <button
+                  className="btn_round_8px btn_clickable_lightcolor"
+                  show={showPopup}
+                  onClick={() => setModalShow(true)}
+                >
                   <MdOutlineAddShoppingCart />
                   Thêm vào giỏ hàng
                 </button>
-                <button className="btn_round_8px btn_clickable_boldcolor">Mua ngay</button>
+                <NotiAddCartSuccessPopup show={modalShow} onHide={() => setModalShow(false)} />
+                <NavLink className="btn_round_8px btn_clickable_boldcolor">Mua ngay</NavLink>
               </div>
             </div>
           </Col>
