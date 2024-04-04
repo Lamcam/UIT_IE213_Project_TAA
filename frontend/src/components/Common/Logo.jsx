@@ -1,5 +1,5 @@
 import React from "react";
-import MainLogo from 'assets/Image/logo.svg'
+import MainLogo from 'assets/image/logo.svg'
 
 const logoStyle = {
     height: '100%',
@@ -7,7 +7,7 @@ const logoStyle = {
 }
 
 function Logo() {
-    return(
+    return (
         <img className="header__logo" src={MainLogo} alt="TAA logo" style={logoStyle}></img>
     )
 }
