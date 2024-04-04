@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Carousel, Image } from 'react-bootstrap';
-import banner1 from 'assets/Image/Banners/1.png';
-import banner2 from 'assets/Image/Banners/2.png';
-import banner3 from 'assets/Image/Banners/3.png';
+import banner1 from 'assets/image/banners/1.png';
+import banner2 from 'assets/image/banners/2.png';
+import banner3 from 'assets/image/banners/3.png';
 
 function HomeCarousel() {
   const [index, setIndex] = useState(0);
