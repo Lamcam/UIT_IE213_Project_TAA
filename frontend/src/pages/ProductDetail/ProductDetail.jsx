@@ -15,6 +15,7 @@ import { BiDislike, BiLike } from 'react-icons/bi';
 import { TbHeartPlus, TbHeartFilled } from 'react-icons/tb';
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
+import ReviewPopup from 'components/ReviewPopup';
 
 export default function ProductDetail() {
   const [currentImg, setCurrentImg] = useState(productDetailImg);
@@ -124,8 +125,16 @@ export default function ProductDetail() {
     }
   };
 
+   //modal review popup
+  const [showPopup, setShowPopup] = useState(false);
+
   return (
     <div>
+      <button className="product__item__view" onClick={() => setShowPopup(true)}>
+        Xem nhanh
+      </button>
+      <ReviewPopup show={showPopup} onHide={() => setShowPopup(false)} />
+
       <Container className="product__detail">
         <Row>
           {/* Thumbnails */}
