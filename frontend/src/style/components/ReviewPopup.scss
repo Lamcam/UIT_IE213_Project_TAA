@@ -43,7 +43,7 @@
 .modal__service {
   display: flex;
   gap: 12px;
-  align-items: flex-start;
+  align-items: center;
   font-weight: 500;
   font-size: 16px;
   justify-content: center;
@@ -95,7 +95,8 @@
   width: 100%;
 }
 
-.star-icon {
+.star-icon,
+.star-icon-service {
   color: gray;
   cursor: pointer;
   font-size: 28px;
@@ -106,12 +107,6 @@
 .star-icon.active {
   color: #ffdd55;
   font-variation-settings: 'FILL' 1;
-}
-
-.star-icon-service {
-  color: gray;
-  cursor: pointer;
-  font-size: 24px;
 }
 
 .star-icon-service:hover,
@@ -149,6 +144,8 @@ input#checkbox1 {
 .modal__view-name-account {
   font-size: 16px;
   font-weight: 500;
+  cursor:pointer;
+
 }
 
 .modal__check-name-account {

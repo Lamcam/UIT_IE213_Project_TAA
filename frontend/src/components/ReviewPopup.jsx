@@ -6,36 +6,31 @@ import { FaRegStar, FaStar } from 'react-icons/fa';
 import '../style/components/ReviewPopup.scss';
 
 export default function ReviewPopup({ show, onHide }) {
-  const [selectedRating, setSelectedRating] = useState(0);
+  function StarRating({ ratingContainerId }) {
+    const [selectedRating, setSelectedRating] = useState(0);
 
-  // Thiết lập rating khi người dùng click vào sao
-  const handleStarClick = (index) => {
-    setSelectedRating(index + 1);
-  };
+    const handleStarClick = (index) => {
+      setSelectedRating(index + 1);
+      const stars = document.getElementById(ratingContainerId).querySelectorAll('.star-icon');
+      stars.forEach((star, i) => {
+        i <= index ? star.classList.add('active') : star.classList.remove('active');
+      });
+    };
 
-  // Hiển thị sao FaStar hoặc FaRegStar dựa trên trạng thái hover và selectedRating
-  const renderStars = () => {
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      stars.push(
-        <span
-          key={i}
-          className="star-icon"
-          onClick={() => handleStarClick(i)}
-          onMouseEnter={() => setSelectedRating(i + 1)}
-          onMouseLeave={() => setSelectedRating(0)}
-        >
-          {i < selectedRating ? <FaStar /> : <FaRegStar />}
-        </span>,
-      );
-    }
-    return stars;
-  };
-
-  // Hàm kiểm tra xem đã chọn đủ số sao hay chưa
-  const hasSelectedStars = () => {
-    return selectedRating > 0;
-  };
+    return (
+      <div id={ratingContainerId} data-rating={selectedRating}>
+        {[...Array(5)].map((_, index) => (
+          <span key={index} className="star-icon" onClick={() => handleStarClick(index)}>
+            {index < selectedRating ? <FaStar /> : <FaRegStar />}
+          </span>
+        ))}
+        <div className="review-start">
+          <span>Tệ</span>
+          <span>Tốt</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -58,33 +53,13 @@ export default function ReviewPopup({ show, onHide }) {
           </div>
           <div className="modal__quality">
             <span className="mt-8">Chất lượng sản phẩm</span>
-            <div id="rating" data-rating="">
-              <FaRegStar className="star-icon" />
-              <FaRegStar className="star-icon" />
-              <FaRegStar className="star-icon" />
-              <FaRegStar className="star-icon" />
-              <FaRegStar className="star-icon" />
-              <div className="review-start">
-                <span>Tệ</span>
-                <span>Tốt</span>
-              </div>
-            </div>
+            <StarRating ratingContainerId="rating1" />
             <span className="mt-8">Tuyệt vời</span>
           </div>
 
           <div className="modal__service">
             <span className="mt-8">Dịch vụ vận chuyển</span>
-            <div id="rating2" data-rating="">
-              <FaRegStar className="star-icon" />
-              <FaRegStar className="star-icon" />
-              <FaRegStar className="star-icon" />
-              <FaRegStar className="star-icon" />
-              <FaRegStar className="star-icon" />
-              <div className="review-start">
-                <span>Tệ</span>
-                <span>Tốt</span>
-              </div>
-            </div>
+            <StarRating ratingContainerId="rating2" />
             <span className="mt-8">Tuyệt vời</span>
           </div>
 
