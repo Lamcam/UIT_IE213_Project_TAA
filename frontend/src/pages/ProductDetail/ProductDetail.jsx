@@ -139,13 +139,13 @@ function ProductDetail() {
 
   return (
     <div>
-      <Button
+      {/* <Button
         className="product__item__view btn_round_8px"
         label="Click Review Popup"
         type="button"
         onClick={handleClick23}
       />
-      <ReviewPopup show={showPopup} onHide={() => setShowPopup(false)} />
+      <ReviewPopup show={showPopup} onHide={() => setShowPopup(false)} /> */}
 
       <Container className="product__detail">
         <Row>
