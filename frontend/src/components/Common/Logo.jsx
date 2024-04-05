@@ -7,7 +7,7 @@ const logoStyle = {
 }
 
 function Logo() {
-    return(
+    return (
         <img className="header__logo" src={MainLogo} alt="TAA logo" style={logoStyle}></img>
     )
 }
