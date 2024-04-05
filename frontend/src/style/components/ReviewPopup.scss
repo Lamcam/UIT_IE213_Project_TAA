@@ -133,6 +133,7 @@ input#checkbox1 {
   display: flex;
   align-items: center;
   gap: 12px;
+  width:100%;
 }
 
 .modal__checkbox-form div {
@@ -144,8 +145,7 @@ input#checkbox1 {
 .modal__view-name-account {
   font-size: 16px;
   font-weight: 500;
-  cursor:pointer;
-
+  cursor: pointer;
 }
 
 .modal__check-name-account {
@@ -171,6 +171,7 @@ input#checkbox1 {
   font-family: Roboto;
   font-size: 14px;
   font-style: normal;
+  text-decoration: none;
   font-weight: 500;
   color: var(--M3-sys-light-on-surface-variant, #524343);
 }
@@ -183,6 +184,7 @@ input#checkbox1 {
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  text-decoration: none;
   border: 1px solid var(--M3-sys-light-outline, #857373);
   font-family: Roboto;
   font-size: 14px;
