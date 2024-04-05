@@ -5,6 +5,8 @@ import Policy from './pages/Policy/Policy';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Products from './pages/Products/Products';
 import Error404 from './pages/Error404';
+import OrderManual from './pages/OrderManual/OrderManual';
+
 import {
   BrowserRouter,
   Route,
@@ -21,7 +23,7 @@ const router = createBrowserRouter(
       <Route path="products" element={<Products />} />
       <Route path="news" element={<News />} />
       <Route path="about_us" element={<AboutUs />} />
-      <Route path="guideline" element={<></>}>
+      <Route path="guideline" element={<OrderManual />}>
         {' '}
       </Route>
       <Route path="policy" element={<Policy />}>
