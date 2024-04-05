@@ -6,10 +6,15 @@
     border-radius: 32px;
     border: 1px solid var(--md-ref-palette-neutral-variant50);
     font-family: Roboto;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 500;
     color: var(--md-ref-palette-neutral-variant30);
+    &:hover {
+        box-shadow:
+            0px 1px 2px 0px rgba(0, 0, 0, 0.2),
+            0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    }
 }
 
 .btn_round_8px {
@@ -24,15 +29,30 @@
     font-style: normal;
     font-weight: 500;
     color: var(--md-sys-color-on-surface-variant-light);
+    &:hover {
+        box-shadow:
+            0px 1px 2px 0px rgba(0, 0, 0, 0.2),
+            0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    }
 }
 
 .btn_clickable_lightcolor {
     border: 1px solid #9c4048;
     color: #9c4048 !important;
     background: var(--md-ref-palette-primary95);
+    &:hover {
+        box-shadow:
+            0px 1px 2px 0px rgba(0, 0, 0, 0.2),
+            0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    }
 }
 
 .btn_clickable_boldcolor {
     background: var(--md-sys-color-primary-light);
     color: var(--md-sys-color-on-primary-light);
+    &:hover {
+        box-shadow:
+            0px 1px 2px 0px rgba(0, 0, 0, 0.2),
+            0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    }
 }

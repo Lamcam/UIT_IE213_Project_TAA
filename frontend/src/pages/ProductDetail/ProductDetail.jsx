@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Image, Row, Col, Button } from 'react-bootstrap';
+import { Container, Image, Row, Col } from 'react-bootstrap';
 import productDetailImg from '../../assets/image/pencil.png';
 import productDetailImg1 from '../../assets/image/t1.jpg';
 import productDetailImg2 from '../../assets/image/t2.jpg';
@@ -18,6 +18,7 @@ import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 import ReviewPopup from 'components/ReviewPopup';
 import { NavLink } from 'react-router-dom';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
+import Button from 'components/Common/Button';
 
 export default function ProductDetail() {
   const [currentImg, setCurrentImg] = useState(productDetailImg);
@@ -134,9 +135,12 @@ export default function ProductDetail() {
 
   return (
     <div>
-      <button className="product__item__view" onClick={() => setShowPopup(true)}>
-        Xem nhanh
-      </button>
+      <Button
+        className="product__item__view btn_round_8px"
+        onClick={() => setShowPopup(true)}
+        label="Xem nhanh"
+        type="button"
+      ></Button>
       <ReviewPopup show={showPopup} onHide={() => setShowPopup(false)} />
 
       <Container className="product__detail">

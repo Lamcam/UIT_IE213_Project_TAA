@@ -1,4 +1,5 @@
 import React from 'react';
+import 'style/components/Common/Button.scss';
 
 
 const buttonStyle = {

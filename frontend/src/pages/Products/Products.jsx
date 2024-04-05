@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { BsCheck2 } from "react-icons/bs";
-import 'style/components/button.css';
+// import 'style/components/button.css';
 import 'style/pages/Products/ProductStyle.scss';
 
 export default function Products() {
