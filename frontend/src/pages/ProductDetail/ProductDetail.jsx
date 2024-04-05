@@ -20,7 +20,7 @@ import { NavLink } from 'react-router-dom';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import Button from 'components/Common/Button';
 
-export default function ProductDetail() {
+function ProductDetail() {
   const [currentImg, setCurrentImg] = useState(productDetailImg);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
@@ -130,6 +130,10 @@ export default function ProductDetail() {
 
   //modal review popup
   const [showPopup, setShowPopup] = useState(false);
+  const handleClick23 = () => {
+    console.log(showPopup);
+    setShowPopup(true);
+  };
 
   const [modalShow, setModalShow] = React.useState(false);
 
@@ -137,10 +141,10 @@ export default function ProductDetail() {
     <div>
       <Button
         className="product__item__view btn_round_8px"
-        onClick={() => setShowPopup(true)}
-        label="Xem nhanh"
+        label="Click Review Popup"
         type="button"
-      ></Button>
+        onClick={handleClick23}
+      />
       <ReviewPopup show={showPopup} onHide={() => setShowPopup(false)} />
 
       <Container className="product__detail">
@@ -523,3 +527,4 @@ export default function ProductDetail() {
     </div>
   );
 }
+export default ProductDetail;
