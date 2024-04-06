@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 let Schema = mongoose.Schema;
 
 let UsersSchema = new Schema({
     user_name: { type: "string", required: true },
-    user_phone: { type: "int", required: true },
+    user_phone: { type: "string", required: true },
     user_email: { type: "string", required: true },
     user_pass: { type: "string", require: true },
     user_avatar: { type: "null" }, //chỉnh lại sau
