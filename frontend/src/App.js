@@ -1,18 +1,17 @@
-import RootLayout from './routes/RootLayout';
+import Cart from 'pages/Cart/Cart';
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements
+} from 'react-router-dom';
+import AboutUs from './pages/AboutUs/AboutUs';
+import Error404 from './pages/Error404';
 import Home from './pages/Home/Home';
 import News from './pages/News/News';
 import Policy from './pages/Policy/Policy';
-import AboutUs from './pages/AboutUs/AboutUs';
 import Products from './pages/Products/Products';
-import Error404 from './pages/Error404';
-import {
-  BrowserRouter,
-  Route,
-  Outlet,
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider,
-} from 'react-router-dom';
+import RootLayout from './routes/RootLayout';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="products" element={<Products />} />
       <Route path="news" element={<News />} />
       <Route path="about_us" element={<AboutUs />} />
+      <Route path="cart" element={<Cart />} />
       <Route path="guideline" element={<></>}>
         {' '}
       </Route>

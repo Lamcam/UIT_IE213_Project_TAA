@@ -13,7 +13,7 @@ function ProductItem(props) {
     const toggleLike = () => {
         setIsLiked(!isLiked);
     };
-const images = [
+    const images = [
         "https://www.junie.vn/cdn/shop/files/vong-tay-chiara-1.jpg?v=1702044087&width=1500",
         "https://cdn.pnj.io/images/detailed/73/svxmxmk000030-vong-tay-bac-dinh-da-pnjsilver-0004.jpg",
         "https://www.junie.vn/cdn/shop/files/vong-tay-lena-8.jpg?v=1686372259",
