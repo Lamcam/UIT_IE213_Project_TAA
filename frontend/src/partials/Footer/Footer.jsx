@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import logo from 'assets/Image/logo.svg'
+import logo from 'assets/image/logo.svg'
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import Input from 'components/Common/Input';
 import Button from 'react-bootstrap/Button';
@@ -64,7 +64,6 @@ const Footer = () => {
                 <Input type="email" placeholder="Email Address" />
               </Col>
               <Col className='col-5' >
-                {/* <Button className="btn--filled" label="Xác nhận" type="submit" /> */}
                 <Button className='confirm_button' size="lg">
                   Xác nhận
                 </Button>

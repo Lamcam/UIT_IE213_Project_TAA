@@ -15,8 +15,8 @@ function ProductCard(props) {
     };
 
     return (
-        // <Col lg={3} md={2} >
-        <Col >
+        <Col lg={3} md={2} >
+        {/* <Col > */}
             <div className="product__item">
                 <div className="product__item__img">
                     <img className="img_front" src={imgURL[0]} alt='img'></img>
