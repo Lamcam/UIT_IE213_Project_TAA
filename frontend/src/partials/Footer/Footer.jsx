@@ -64,7 +64,6 @@ const Footer = () => {
                 <Input type="email" placeholder="Email Address" />
               </Col>
               <Col className='col-5' >
-                {/* <Button className="btn--filled" label="Xác nhận" type="submit" /> */}
                 <Button className='confirm_button' size="lg">
                   Xác nhận
                 </Button>
