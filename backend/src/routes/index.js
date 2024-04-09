@@ -7,7 +7,7 @@
 // const auth = require("./auth.router");
 // const account = require("./account.router");
 // const news = require("./news.router");
-const { hello } = require("../controllers/demo.controller");
+// const { hello } = require("../controllers/demo.controller");
 const { getProducts } = require("../controllers/products.controller");
 
 const route = (app) => {
