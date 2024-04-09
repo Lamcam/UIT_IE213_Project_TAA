@@ -15,12 +15,11 @@ function Header() {
                     <a className="header__link" href="/">
                         <Logo />
                     </a>
-                    {/* Form comp */}
                     <SearchBar></SearchBar>
 
                     <div className="header__wrapper">
-                        <Button className="btn--filled header__btn" label="Log in" type="button" />
-                        <Button className="btn--filled header__btn" label="Register" type="button" />
+                        <Button className="btn_reg_log_round_32px btn_clickable_boldcolor" label="Đăng nhập" type="button" />
+                        <Button className="btn_reg_log_round_32px" label="Đăng ký" type="button" />
                     </div>
                 </div>
             </div>

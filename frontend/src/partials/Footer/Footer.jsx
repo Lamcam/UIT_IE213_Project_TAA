@@ -3,7 +3,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import logo from 'assets/image/logo.svg'
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import Input from 'components/Common/Input';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
+import Button from 'components/Common/Button';
 import './footer.module.scss'
 // import base from 'base.module.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -61,11 +62,10 @@ const Footer = () => {
 
             <Row className='d-flex flex-row justify-content-center align-items-center'>
               <Col className='col-7'>
-                <Input type="email" placeholder="Email Address" />
+                <Input className="email_input" type="email" placeholder="Email Address" />
               </Col>
-              <Col className='col-5' >
-                <Button className='confirm_button' size="lg">
-                  Xác nhận
+              <Col className='col-5'>
+                <Button className='btn_reg_log_round_32px btn_clickable_boldcolor' label='Xác nhận' type='submit'>
                 </Button>
               </Col>
             </Row>

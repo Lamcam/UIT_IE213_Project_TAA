@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
-// import App from './App';
+import App from './App.js';
 // import App from './App';
 // import GetOtp from 'pages/LoginRegister/Get_otp';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,12 +9,14 @@ import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PreviewCard from 'components/HomeComponents/HotProducts'; 
+import Footer from 'partials/Footer/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
      {/* <App></App> */}
-     <PreviewCard />
+     <Footer></Footer>
+     {/* <PreviewCard /> */}
      
   </React.StrictMode>
      
