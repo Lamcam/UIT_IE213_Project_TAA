@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Image } from 'react-bootstrap';
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import "./OrderManual.scss";
+import bannersmall from "assets/image/banners/banner-small.png";
 
 function OrderManual() {
     return (
@@ -86,7 +87,10 @@ function OrderManual() {
             tin chi tiết về đơn hàng mà khách hàng đã đặt trước đó.</p>
         </div>
     </Container>
-    <img className="orderManual__banner" loading="lazy" src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/433001636_764025502495269_5962452863049639980_n.png?stp=dst-png_p180x540&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHCRjzxlwLOCHnD8DnRLqYUvfQQujb4Hga99BC6NvgeBhq9TXM7BvOJcNx-Ey-5ek9gCkaVAYKTQEYuNhaNVSTT&_nc_ohc=JyjMcp1FYDwAX8egRki&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfARj_h7WpcdyJotj23gWx0FCYr2ZAeUPyxRVCMbD6J0mA&oe=661161A9" alt="Định hướng"/>
+    <div className="orderManual__banner">
+    <Image src={bannersmall} fluid />
+    </div>
+    
     </div>
 );
 };

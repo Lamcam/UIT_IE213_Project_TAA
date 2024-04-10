@@ -6,6 +6,7 @@ import AboutUs from './pages/AboutUs/AboutUs';
 import Products from './pages/Products/Products';
 import Error404 from './pages/Error404';
 import OrderManual from './pages/OrderManual/OrderManual';
+import NewsPost from './pages/NewsPost/NewsPost';
 
 import {
   BrowserRouter,
@@ -27,6 +28,9 @@ const router = createBrowserRouter(
         {' '}
       </Route>
       <Route path="policy" element={<Policy />}>
+        {' '}
+      </Route>
+      <Route path="/post" element={<NewsPost />}>
         {' '}
       </Route>
     </Route>,

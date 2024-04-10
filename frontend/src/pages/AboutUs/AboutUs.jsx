@@ -1,6 +1,11 @@
 import React from 'react';
 import "./AboutUs.scss";
-import { Col, Row, Container } from 'react-bootstrap';
+import { Col, Row, Container, Image } from 'react-bootstrap';
+import about__banner from "assets/image/banners/about__banner.png";
+import ads from "assets/image/banners/ads.png";
+import bannersmall from "assets/image/banners/banner-small.png";
+import logo from "assets/image/logo.svg";
+import { Link } from 'react-router-dom';
 
 function AboutUs() {
     return (
@@ -10,7 +15,7 @@ function AboutUs() {
           <div className="about__intro">
             <Row>
               <Col className="about__logo">
-              <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/433001636_764025502495269_5962452863049639980_n.png?stp=dst-png_p180x540&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHCRjzxlwLOCHnD8DnRLqYUvfQQujb4Hga99BC6NvgeBhq9TXM7BvOJcNx-Ey-5ek9gCkaVAYKTQEYuNhaNVSTT&_nc_ohc=JyjMcp1FYDwAX8egRki&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfARj_h7WpcdyJotj23gWx0FCYr2ZAeUPyxRVCMbD6J0mA&oe=661161A9" alt="Logo TAA"/>
+              <Image src={logo} fluid />
               </Col>
               <Col className="about__information body-large">
               <p >TAA là thương
@@ -26,7 +31,7 @@ function AboutUs() {
           </Container>
 
       <div className="about__banner">
-        <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/433001636_764025502495269_5962452863049639980_n.png?stp=dst-png_p180x540&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHCRjzxlwLOCHnD8DnRLqYUvfQQujb4Hga99BC6NvgeBhq9TXM7BvOJcNx-Ey-5ek9gCkaVAYKTQEYuNhaNVSTT&_nc_ohc=JyjMcp1FYDwAX8egRki&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfARj_h7WpcdyJotj23gWx0FCYr2ZAeUPyxRVCMbD6J0mA&oe=661161A9" alt="Về chúng tôi"/>
+        <Image src={about__banner} fluid />
       </div>
 
       <Container>
@@ -54,7 +59,7 @@ function AboutUs() {
       
 
       <div className="about__banner">
-        <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/433001636_764025502495269_5962452863049639980_n.png?stp=dst-png_p180x540&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHCRjzxlwLOCHnD8DnRLqYUvfQQujb4Hga99BC6NvgeBhq9TXM7BvOJcNx-Ey-5ek9gCkaVAYKTQEYuNhaNVSTT&_nc_ohc=JyjMcp1FYDwAX8egRki&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfARj_h7WpcdyJotj23gWx0FCYr2ZAeUPyxRVCMbD6J0mA&oe=661161A9" alt="Về chúng tôi"/>
+        <Image src={ads} fluid />
       </div>
 
       <Container>
@@ -64,16 +69,16 @@ function AboutUs() {
         </Col>
         <Col className='about__contact-list'>
           <ul>
-        <li className="body-large">Instagram: <a href="https://daa.uit.edu.vn/"> TAA_Shop</a></li>
-        <li className="body-large">Shopee: <a href="https://daa.uit.edu.vn/"> TAA_Shop - Three Accessories Appreciate</a></li>
-        <li className="body-large">Facebook: <a href="https://daa.uit.edu.vn/"> TAA</a></li>
+        <li className="body-large">Instagram: <Link to="https://daa.uit.edu.vn/"> TAA_Shop</Link></li>
+        <li className="body-large">Shopee: <Link to="https://daa.uit.edu.vn/"> TAA_Shop - Three Accessories Appreciate</Link></li>
+        <li className="body-large">Facebook: <Link to="https://daa.uit.edu.vn/"> TAA</Link></li>
         </ul>
         </Col>
       </Row>
       </Container>
 
       <div className="about__banner-small">
-        <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/433001636_764025502495269_5962452863049639980_n.png?stp=dst-png_p180x540&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHCRjzxlwLOCHnD8DnRLqYUvfQQujb4Hga99BC6NvgeBhq9TXM7BvOJcNx-Ey-5ek9gCkaVAYKTQEYuNhaNVSTT&_nc_ohc=JyjMcp1FYDwAX8egRki&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfARj_h7WpcdyJotj23gWx0FCYr2ZAeUPyxRVCMbD6J0mA&oe=661161A9" alt="Về chúng tôi"/>
+        <Image src={bannersmall} fluid />
       </div>
 
      
