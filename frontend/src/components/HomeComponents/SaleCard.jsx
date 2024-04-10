@@ -10,7 +10,7 @@ function SaleCard(props) {
         <Card.Text>
           {props.treatDescription}
         </Card.Text>
-        <Button label={props.btnContent}></Button>
+        <Button className='btn_reg_log_round_32px btn_clickable_boldcolor' label={props.btnContent}></Button>
       </Card.Body>
     </Card>
   );

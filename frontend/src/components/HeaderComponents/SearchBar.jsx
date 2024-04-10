@@ -3,7 +3,6 @@ import React from 'react';
 // import { IoSearchCircleSharp } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi";
 
-
 const SearchBar = () => {
     return (
         <div className="search-bar">

@@ -1,11 +1,13 @@
-import RootLayout from './routes/RootLayout';
-import Home from './pages/Home/Home';
-import News from './pages/News/News';
-import Policy from './pages/Policy/Policy';
-import AboutUs from './pages/AboutUs/AboutUs';
-import Products from './pages/Products/Products';
-import ProductDetail from './pages/ProductDetail/ProductDetail';
-import Error404 from './pages/Error404';
+import RootLayout from 'routes/RootLayout';
+import Home from 'pages/Home/Home';
+import News from 'pages/News/News';
+import Policy from 'pages/Policy/Policy';
+import AboutUs from 'pages/AboutUs/AboutUs';
+import Products from 'pages/Products/Products';
+import ProductDetail from 'pages/ProductDetail/ProductDetail';
+import Error404 from 'pages/Error404';
+import Register from 'pages/LoginRegister/Register';
+import Login from 'pages/LoginRegister/Login';
 import {
   BrowserRouter,
   Route,
@@ -29,6 +31,8 @@ const router = createBrowserRouter(
       <Route path="policy" element={<Policy />}>
         {' '}
       </Route>
+      <Route path="register" element={<Register />} />
+      <Route path="log_in" element={<Login />} />
     </Route>,
   ),
 );

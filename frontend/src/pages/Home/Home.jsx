@@ -6,17 +6,13 @@ import QuestionSection from 'components/HomeComponents/QuestionSection';
 import HomeCarousel from 'components/HomeComponents/HomeCarousel';
 import ImgSection from 'components/HomeComponents/ImgSection';
 import HotProducts from 'components/HomeComponents/HotProducts';
-import { BrowserRouter } from 'react-router-dom/dist';
 
 const Home = () => {
     return (
         <div>
             <HomeCarousel></HomeCarousel>
             <SaleSection></SaleSection>
-            
-            
             <HotProducts></HotProducts> 
-            {/* error */}
             <QuestionSection></QuestionSection>
             <InfoSection></InfoSection>
             <ImgSection></ImgSection>

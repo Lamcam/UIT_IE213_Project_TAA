@@ -1,7 +1,7 @@
 import {Form, Image, Button } from 'react-bootstrap';
 import {Col, Container} from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
-import './login.scss';
+import './Login.scss';
 
 function Register() {
   return (
@@ -12,7 +12,7 @@ function Register() {
       </Col>
 
       <Col className='register_form col-8'>
-        <h1> Đăng nhập </h1>
+        <h1> Đăng ký </h1>
         <Form>
           <Form.Group className="mb-3 input" controlId="formBasicEmail">
               <Form.Control type="email" placeholder="Tên đăng nhập" />
