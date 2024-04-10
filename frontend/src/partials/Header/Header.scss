@@ -14,12 +14,14 @@ header .header__wrapper{
     align-items: center;
     justify-content: flex-end;
     gap: .75rem;
+    height: fit-content;
 }
 
 header .search-bar{
     display: flex;
     align-items: center;
     width: clamp(30rem, 100%, 40rem);
+    min-height: 40px;
     justify-content: space-between;
     gap: .5rem;
     padding: 0 1rem;
@@ -35,12 +37,16 @@ header .search-bar{
     }
 
     .search-icon{
-        min-width: 4rem;
-        
-        padding: 0px;
-        border-radius: .75rem;
+        min-width: 30px;
+        min-height: 30px;
+        padding: 7px;
+        border-radius: 50%;
         background-color: var(--md-sys-color-primary);
+        cursor: pointer;
         
+        svg{
+            background-color: white;
+        }
     }
 }
 

@@ -7,6 +7,11 @@ footer {
   height: auto;
   min-height: 400px;
 
+  h3{
+    min-height: 70px;
+    margin: 0px 0px;
+  }
+
   ul{
     list-style: none;
     padding: 0;
@@ -17,13 +22,14 @@ footer {
     }
 
   }
-
-
-  button.confirm_button{
-    background-color: var(--md-sys-color-primary-light);
-    outline-color: var(--md-sys-color-primary-light);
+  .input_warrper{
+    max-height: 10px;
   }
+
 }
+
+
+
 .footer__container{
   display: flex;
   height: 900px;
@@ -50,6 +56,8 @@ footer {
   height: 100px;
   margin-right: 10px;
 }
+
+
 
 
 

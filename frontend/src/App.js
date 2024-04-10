@@ -22,15 +22,13 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>
       <Route index element={<Home />} />
       <Route path="products" element={<Products />} />
+      <Route path="productdetail" element={<ProductDetail/>} />
       <Route path="news" element={<News />} />
       <Route path="about_us" element={<AboutUs />} />
       <Route path="guideline" element={<OrderManual />}>
         {' '}
       </Route>
       <Route path="policy" element={<Policy />}>
-        {' '}
-      </Route>
-      <Route path="/post" element={<NewsPost />}>
         {' '}
       </Route>
     </Route>,
