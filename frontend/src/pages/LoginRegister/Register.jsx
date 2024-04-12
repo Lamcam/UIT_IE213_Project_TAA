@@ -18,9 +18,9 @@ function Register() {
   const inform = {
     username: 'Tên đăng nhập phải có ít nhất 1 ký tự',
     phone: 'Số điện thoại phải có từ 10 đến 11 số',
-    email: 'Email sai định dạng',
+    email: 'Email phải định dạng @ và .com',
     password: 'Mật khẩu phải có ít nhất 8 ký tự',
-    confirm: 'Mật khẩu xác nhận không khớp',
+    confirm: 'Mật khẩu xác nhận phải khớp với mật khẩu trước đó',
     check: 'Bạn phải đồng ý với điều khoản của TAA'
   }
 
@@ -83,12 +83,12 @@ function Register() {
 
   const handleSubmition = (e) => {
     e.preventDefault();
-    setSubmit(true)
     const all = Object.values(valid);
     if (all.every((item) => item === true)) {
-      
+
     }
     else{
+
       
     }
   }
@@ -106,28 +106,28 @@ function Register() {
         <Form.Group className="mb-3 input" controlId="formBasicEmail">
               <Form.Control type="text" placeholder="Tên đăng nhập" onChange={handleNameChange} />
               <Form.Text className="text-muted">
-              {(submit && !valid.username) ? inform.username : null}
+              {valid.username ? '' : inform.username}
               </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3 input" controlId="formBasicEmail">
               <Form.Control type="text" placeholder="Số điện thoại" onChange={handlePhoneChange}/>
               <Form.Text className="text-muted">
-              {(submit && !valid.phone) ? inform.phone : null }
+              {valid.phone ? '' : inform.phone}
               </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3 input" controlId="formBasicEmail">
               <Form.Control type="email" name='email' placeholder="Điền email" onChange={handleEmailChange} />
               <Form.Text className="text-muted">
-              {(submit && !valid.email) ? inform.email : null}
+              {valid.email ? '' : inform.email}
               </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3 input" controlId="formBasicPassword">
               <Form.Control type="password" name='password' placeholder="Mật khẩu" onChange={handleInputPasswordChange} />
               <Form.Text className="text-muted">
-              {(submit && !valid.password) ? inform.password : null }
+              {valid.password ? '' : inform.password}
               </Form.Text>
         </Form.Group>
 
@@ -137,7 +137,7 @@ function Register() {
               onChange={handleConfirmPasswordChange}
               placeholder="Xác nhận mật khẩu" />
               <Form.Text className="text-muted">
-              {(submit && !valid.confirm) ? inform.confirm : null }
+              {valid.confirm ? '' : inform.confirm}
               </Form.Text>
         </Form.Group>
          
@@ -146,8 +146,8 @@ function Register() {
                 type="checkbox" 
                 onChange={handleCheck}
                 label="Tôi đã đọc và đồng ý với Điều kiện giao dịch chung và Chính sách bảo mật thông tin của TAA" />
-              <Form.Text>
-              {(submit && !valid.check) ? inform.check : null}
+              <Form.Text className="text-muted">
+              {valid.check ? '' : inform.check}
               </Form.Text>
         </Form.Group>
 

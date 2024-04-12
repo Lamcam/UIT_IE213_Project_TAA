@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import './OtpPopUp.scss'
 import { AiOutlineClose, AiOutlineLeft } from "react-icons/ai";
 
-const GetOtp = (props) => {
+
+const OtpGet = (props) => {
     
     const [otp, setOtp] = useState(new Array(6).fill(''));
 
@@ -23,10 +24,10 @@ const GetOtp = (props) => {
     };
 
     return (
-    <section className='otp_popUp'>
-        <AiOutlineClose className="close_button"/>
+    <>
+        {/* <AiOutlineClose className="close_button"/>
         <AiOutlineLeft className="return_button"/>
-        
+         */}
         <h2>Nhập mã OTP</h2>
         <p>Vui lòng nhập mã OTP từ 123456</p>
         <form onSubmit={handleSubmit}>
@@ -47,8 +48,8 @@ const GetOtp = (props) => {
             
             <button type="submit">Xác nhận</button>
         </form>
-        </section>
+        </>
     );
 };
 
-export default GetOtp;
+export default OtpGet;

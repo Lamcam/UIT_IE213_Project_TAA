@@ -1,3 +1,46 @@
+.modal_title{
+    text-align: center;
+}
+
+.email_phone_button_wrapper{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.email_phone_button_wrapper button{
+    min-height: 10px;
+    min-width: 100px;
+    font-size: 14px;
+    font-family: Roboto;
+    font-weight: 500;
+    line-height: 40px;
+    letter-spacing: 0.10px;
+    word-wrap: break-word;
+    display: flex;
+    padding: 10px 24px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--md-ref-palette-neutral-variant50);
+    font-style: normal;
+    background-color: #F1EFE7;
+    color: var(--md-ref-palette-neutral-variant30);
+    text-decoration: none;
+    border: var(--md-ref-palette-neutral-variant30);
+    &:hover {
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2), 0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    background-color: #F1EFE7;
+    border: var(--md-ref-palette-neutral-variant30);
+    color: var(--md-ref-palette-neutral-variant30) ;
+    }
+
+    span{
+    white-space: nowrap;
+    }
+}
+
+
 section.get_email_popUp{
     display: flex;
     flex-direction: column;
