@@ -3,7 +3,7 @@ import {
   Route,
   RouterProvider,
   createBrowserRouter,
-  createRoutesFromElements
+  createRoutesFromElements,
 } from 'react-router-dom';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Error404 from './pages/Error404';
@@ -12,6 +12,7 @@ import News from './pages/News/News';
 import Policy from './pages/Policy/Policy';
 import Products from './pages/Products/Products';
 import RootLayout from './routes/RootLayout';
+import Order from 'pages/Order/Order';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
       <Route path="news" element={<News />} />
       <Route path="about_us" element={<AboutUs />} />
       <Route path="cart" element={<Cart />} />
+      <Route path="order" element={<Order />} />
       <Route path="guideline" element={<></>}>
         {' '}
       </Route>
