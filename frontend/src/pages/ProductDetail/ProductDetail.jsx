@@ -19,8 +19,24 @@ import ReviewPopup from 'components/ReviewPopup';
 import { NavLink } from 'react-router-dom';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import Button from 'components/Common/Button';
+import axios from 'axios';
 
-function ProductDetail() {
+function ProductDetail({ productId }) {
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`/products/${productId}`);
+        setProduct(response.data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      }
+    };
+
+    fetchProduct();
+  }, [productId]);
+
   const [currentImg, setCurrentImg] = useState(productDetailImg);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
@@ -138,7 +154,7 @@ function ProductDetail() {
   const [modalShow, setModalShow] = React.useState(false);
 
   return (
-    <div className='productDetail'>
+    <div className="productDetail">
       {/* <Button
         className="product__item__view btn_round_8px"
         label="Click Review Popup"
@@ -190,7 +206,7 @@ function ProductDetail() {
             <div className="product__detail__col3">
               <div className="product__name__detail">
                 <div className="product__name__detail__first">
-                  <h1 className="product__name__detail__title">Tên sản phẩm</h1>
+                  <h1 className="product__name__detail__title">product.prod_name</h1>
                   <div>
                     {isFilled ? (
                       <TbHeartFilled className="heart_plus" onClick={handleClick} />
@@ -209,12 +225,12 @@ function ProductDetail() {
                     <FaRegStar />
                   </div>
                   <span>2 đánh giá</span>
-                  <span>3 đã bán</span>
+                  <span>product.prod_num_sold đã bán</span>
                 </div>
                 <div className="product__name__detail__price">
-                  <span className="product__name__detail__price_first">180.000đ</span>
+                  <span className="product__name__detail__price_first">product.prod_cost</span>
                   <span className="product__name__detail__price_second">79.000đ</span>
-                  <span className="product__name__detail__price_third">25% giảm</span>
+                  <span className="product__name__detail__price_third">product.prod_discount</span>
                 </div>
               </div>
               <div className="description__product__detail">
@@ -264,7 +280,7 @@ function ProductDetail() {
                     +
                   </div>
                 </div>
-                <span className="quantity__product__detail_available">182 sản phẩm sẵn có</span>
+                <span className="quantity__product__detail_available">product.pro_num_avai sản phẩm sẵn có</span>
               </div>
               <div className="add__cart__buy__now">
                 <button
