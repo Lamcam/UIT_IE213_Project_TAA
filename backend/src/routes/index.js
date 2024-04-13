@@ -8,7 +8,10 @@
 // const account = require("./account.router");
 // const news = require("./news.router");
 // const { hello } = require("../controllers/demo.controller");
-const { getProducts } = require("../controllers/products.controller");
+const {
+    getProducts,
+    getProductById,
+} = require("../controllers/products.controller");
 
 const route = (app) => {
     // app.use(middlewares.authenticate);
@@ -24,6 +27,7 @@ const route = (app) => {
     // app.use('/news', news)
 
     app.get("/products", getProducts);
+    app.get("/products/:id", getProductById);
 };
 
 // app.get("/products", controllers.product.queryProduct);
