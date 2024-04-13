@@ -12,15 +12,17 @@ export default function PhoneEmailVal(props) {
 
   return(
     <Form style={{display: props.show? 'block': 'none' }} >
-      <Form.Control
+      {/* <Form.Control
         type="text"
         placeholder={props.email? inform.email: inform.phone}
-        id="email"
+        id="exampleInput"
         aria-describedby="emailHelp"
-      />
+      /> */}
+
+      <input placeholder="Nhập bla bla"></input>
       <Button 
         variant="primary"
-          
+        
         type="submit">
       Lấy mã
       </Button>
