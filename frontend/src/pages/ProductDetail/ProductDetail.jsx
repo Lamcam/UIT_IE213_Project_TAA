@@ -138,7 +138,7 @@ function ProductDetail() {
   const [modalShow, setModalShow] = React.useState(false);
 
   return (
-    <div>
+    <div className='productDetail'>
       {/* <Button
         className="product__item__view btn_round_8px"
         label="Click Review Popup"
