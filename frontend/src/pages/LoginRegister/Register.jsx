@@ -125,7 +125,7 @@ function Register() {
         </Form.Group>
 
         <Form.Group className="mb-3 input" controlId="formBasicPassword">
-              <Form.Control type="password" name='password' placeholder="Mật khẩu" onChange={handleInputPasswordChange} />
+              <Form.Control new-password type="password" name='password' placeholder="Mật khẩu" onChange={handleInputPasswordChange} />
               <Form.Text className="text-muted">
               {valid.password ? '' : inform.password}
               </Form.Text>
@@ -134,6 +134,7 @@ function Register() {
         <Form.Group className="mb-3 input" controlId="formConfirmPassword">
               <Form.Control 
               type="password" 
+              new-password
               onChange={handleConfirmPasswordChange}
               placeholder="Xác nhận mật khẩu" />
               <Form.Text className="text-muted">
