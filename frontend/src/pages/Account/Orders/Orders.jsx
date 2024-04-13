@@ -11,6 +11,7 @@ function Orders() {
       quantity: 1,
       orderStatus: 0,
       orderTotalcost: 1000,
+      img: "",
     },
     {
       id: 2,
@@ -19,6 +20,7 @@ function Orders() {
       quantity: 1,
       orderStatus: 1,
       orderTotalcost: 1000,
+      img: "",
     },
     {
       id: 3,
@@ -27,6 +29,7 @@ function Orders() {
       quantity: 2,
       orderStatus: 1,
       orderTotalcost: 2000,
+      img: "",
     },
   ]);
   // const handleSetStatus = (order) => {
@@ -53,7 +56,7 @@ function Orders() {
             <React.Fragment key={order.id}>
               <li>
                 <div className="orders-item__wrapper">
-                  <img src="" alt="" width="157px" height="157px" />
+                  <img className='orders-item__img' src={order.img} alt="" />
                   <div className="orders-item__info">
                     <div className="name-status">
                       <p className="body-large">Tên sản phẩm</p>
@@ -61,12 +64,12 @@ function Orders() {
                         {order.orderStatus === 1 ? 'Đã giao' : 'Chưa giao'}
                       </span>
                     </div>
-                    <div className="quantity-price">
-                      <p className="quatity">Số lượng: {order.quantity}</p>
-                      <p className="price">Giá tiền: {order.price} đ</p>
+                    <div className="quantity-price body-large">
+                      <p className="quatity"><label className='body-medium'>Số lượng:</label>   {order.quantity}</p>
+                      <p className="price"><label className='body-medium'>Giá tiền:</label>   {order.price} đ</p>
                     </div>
-                    <div className="total-cost">
-                      <p>Thành tiền: {order.orderTotalcost} đ</p>
+                    <div className="total-cost body-large">
+                      <p><label className='body-medium'>Thành tiền:</label>   {order.orderTotalcost} đ</p>
                     </div>
                     <div className="appreciate-repurchase">
                       <Button1 label="Đánh giá" />
