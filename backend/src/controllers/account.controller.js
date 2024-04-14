@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
             user_email: email,
             user_pass: password,
             user_avatar: '',
-            local_default_id: 'clonw',
+            local_default_id: '',
             bank_default_id: '',
         });
         await newUser.save();

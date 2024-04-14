@@ -13,9 +13,13 @@
     "express": "^4.19.1"
   },
   "dependencies": {
+<<<<<<< HEAD
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+=======
+    "cloudinary": "^2.1.0",
+>>>>>>> fd40798ee19b3d5b5137819af130efbce30bc36b
     "dotenv": "^16.4.5",
     "mongoose": "^8.2.2",
     "nodemon": "^3.1.0"
