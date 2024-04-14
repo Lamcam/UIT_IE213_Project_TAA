@@ -5,11 +5,11 @@
 // const site = require("./site.router");
 // const product = require("./products.router");
 // const auth = require("./auth.router");
-// const account = require("./account.router");
+const account = require("./account.router");
 // const news = require("./news.router");
 // const { hello } = require("../controllers/demo.controller");
 const { getProducts } = require("../controllers/products.controller");
-
+const { getUser } = require('../controllers/account.controller')
 const route = (app) => {
     // app.use(middlewares.authenticate);
 
@@ -24,6 +24,9 @@ const route = (app) => {
     // app.use('/news', news)
 
     app.get("/products", getProducts);
+
+    app.use('/user', account)
+    // app.get('/user', getUser)
 };
 
 // app.get("/products", controllers.product.queryProduct);
