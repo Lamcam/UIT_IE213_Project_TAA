@@ -2,8 +2,13 @@ import {Form, Image, Button } from 'react-bootstrap';
 import {Col, Container} from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
 import './Login.scss';
+import { NavLink } from 'react-router-dom';
+import React, {useState} from 'react';
+import ModalForgotPass from './ModalForgotPass';
 
 function Login() {
+  
+
   return (
     <section className="login">
     <Container className='d-flex'>
@@ -25,7 +30,7 @@ function Login() {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <h6 className='forgot_pass'>Bạn quên mật khẩu ?</h6>
+            <ModalForgotPass></ModalForgotPass>
           </Form.Group>
 
           
@@ -38,9 +43,9 @@ function Login() {
                 <h6 className='create_acc_rec'>Bạn chưa có tài khoản ?</h6>
             </div>
 
-            <Button className='register_btn' size="lg">
-                Đăng ký
-            </Button> 
+            <NavLink to='/register' className='login_btn btn_clickable_boldcolor'>
+              Đăng ký
+            </NavLink>
           </div>
 
         </Form>

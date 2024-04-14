@@ -5,6 +5,11 @@ let Schema = mongoose.Schema;
 let ProductsSchema = new Schema({
     prod_name: { type: "string", required: true },
     prod_cost: { type: "decimal", required: true },
+    prod_img: { type: "string", required: true },
+    prod_img: {
+        type: [String], // Đây là một mảng các chuỗi
+        required: true,
+    },
     prod_discount: { type: "decimal", required: true },
     prod_end_date_discount: { type: "date", required: true },
     prod_num_sold: { type: "number", default: 1 },
