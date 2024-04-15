@@ -10,8 +10,6 @@ const Button = ({ className, label, type, backgroundColor, labelColor, fontSize,
         display: "flex",
         justifyContent: 'center',
         alignItems: "center",
-        flexGrow: 1,
-
     }
 
     const spanStyle = {
@@ -24,6 +22,9 @@ const Button = ({ className, label, type, backgroundColor, labelColor, fontSize,
     if (Icon) {
         // Khi có icon, thiết lập paddingLeft của spanStyle là 16px
         spanStyle.paddingLeft = '16px';
+    } else {
+        spanStyle.paddingLeft = '24px';
+
     }
     const iconStyle = {
         width: iconWidth || 'auto',

@@ -116,27 +116,27 @@ function PopupQuickView(props) {
             <Button className="button__detail__view">Xem chi tiết</Button>
           </div>
           <div class="info__context body-large">
-          <div class="info__context__product">
-            <div class="info__context__product__title">
-              THÔNG TIN SẢN PHẨM
+            <div class="info__context__product">
+              <div class="info__context__product__title">
+                THÔNG TIN SẢN PHẨM
+              </div>
+              <ul class="info__context__product__body">
+                <li>Đảm bảo hàng có chất lượng thương hiệu.</li>
+                <li>Hàng luôn có sẵn ở TAA.</li>
+                <li>Phong cách Unisex, phù hợp Nam/Nữ.</li>
+              </ul>
             </div>
-            <ul class="info__context__product__body">
-              <li>Đảm bảo hàng có chất lượng thương hiệu.</li>
-              <li>Hàng luôn có sẵn ở TAA.</li>
-              <li>Phong cách Unisex, phù hợp Nam/Nữ.</li>
-            </ul>
-          </div>
-          <div class="info__context__detail">
-            <div class="info__context__detail__title">
-              THÔNG TIN THƯƠNG HIỆU:
+            <div class="info__context__detail">
+              <div class="info__context__detail__title">
+                THÔNG TIN THƯƠNG HIỆU:
+              </div>
+              <ul class="info__context__detail__body">
+                <li>- Thương hiệu TAA - Three Accessories Appreciate đã được đăng kí bảo hộ năm 2023.</li>
+                <li>- TAA đã có cửa hàng tại HCM và 100.000 KH mua sắm mỗi năm.</li>
+                <li>- Phương châm của TAA là luôn khách hàng lên hàng đầu, chứng tôi sẽ cố gắng thực hiện hóa mọi nhu cầu của bạn.</li>
+              </ul>
             </div>
-            <ul class="info__context__detail__body">
-              <li>- Thương hiệu TAA - Three Accessories Appreciate đã được đăng kí bảo hộ năm 2023.</li>
-              <li>- TAA đã có cửa hàng tại HCM và 100.000 KH mua sắm mỗi năm.</li>
-              <li>- Phương châm của TAA là luôn khách hàng lên hàng đầu, chứng tôi sẽ cố gắng thực hiện hóa mọi nhu cầu của bạn.</li>
-            </ul>
           </div>
-        </div>
         </div>
       </Modal.Body>
     </Modal>
