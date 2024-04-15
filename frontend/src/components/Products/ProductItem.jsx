@@ -7,8 +7,8 @@ import { NavLink } from "react-router-dom";
 import "style/components/Products/ProductItem.scss";
 
 function ProductItem(props) {
-    const [isLiked, setIsLiked] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
     const toggleLike = () => {
         setIsLiked(!isLiked);

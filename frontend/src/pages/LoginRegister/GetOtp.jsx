@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import './OtpPopUp.scss'
 import { AiOutlineClose, AiOutlineLeft } from "react-icons/ai";
 
-const GetOtp = () => {
+const GetOtp = (props) => {
+    
     const [otp, setOtp] = useState(new Array(6).fill(''));
 
     const handleOtpChange = (e, index) => {
