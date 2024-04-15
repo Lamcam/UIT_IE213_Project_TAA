@@ -280,7 +280,9 @@ function ProductDetail({ productId }) {
                     +
                   </div>
                 </div>
-                <span className="quantity__product__detail_available">product.pro_num_avai sản phẩm sẵn có</span>
+                <span className="quantity__product__detail_available">
+                  product.pro_num_avai sản phẩm sẵn có
+                </span>
               </div>
               <div className="add__cart__buy__now">
                 <button
