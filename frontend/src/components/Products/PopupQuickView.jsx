@@ -19,7 +19,7 @@ function PopupQuickView(props) {
   const handleIncrement = () => {
     setQuantity((prevQuantity) => {
       const newQuantity = prevQuantity + 1;
-      return newQuantity <= parseInt(props.stock) ? newQuantity : prevQuantity;
+      return newQuantity <= parseInt(props.productItem.prod_num_avai) ? newQuantity : prevQuantity;
     });
   };
 
@@ -34,13 +34,21 @@ function PopupQuickView(props) {
     let value = parseInt(event.target.value);
     if (isNaN(value)) {
       value = 0;
-    } else if (value > parseInt(props.stock)) {
-      value = parseInt(props.stock);
+    } else if (value > parseInt(props.productItem.prod_num_avai)) {
+      value = parseInt(props.productItem.prod_num_avai);
     } else if (value < 0) {
       value = 0;
     }
     setQuantity(value);
   };
+  const formatPrice = (price) => {
+    const priceNumber = parseFloat(price);
+    let formattedPrice = priceNumber.toLocaleString('vi-VN', { maximumFractionDigits: 0 });
+    return formattedPrice.trim();
+  };
+  const currentPrice = formatPrice(props.productItem.prod_cost.$numberDecimal - props.productItem.prod_discount.$numberDecimal * props.productItem.prod_cost.$numberDecimal)
+  const discount = props.productItem.prod_discount.$numberDecimal * 100
+  const BeforDiscountPrice = formatPrice(props.productItem.prod_cost.$numberDecimal)
 
   return (
     <Modal
@@ -73,23 +81,24 @@ function PopupQuickView(props) {
           </div>
         </div>
         <div className="quick__view__info">
-          <div className="info__name headline-medium">Tên sản phẩm</div>
+          <div className="info__name headline-medium">{props.productItem.prod_name}</div>
           <div className="info__rate">
-            <div className="info__rate__star title-medium ">
-              4.5
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStarHalfAlt />
+            <div className="info__rate__star title-medium">
+              {props.productItem.prod_star_rating}
+              {Array.from({ length: props.productItem.prod_star_rating }, (_, index) => (
+                <FaStar key={index} />
+              ))}
+              {props.productItem.prod_star_rating % 1 !== 0 && (
+                <FaStarHalfAlt />
+              )}
             </div>
-            <div className="info__rate__number">2 đánh giá</div>
-            <div className="info__number__sell">6 đã bán</div>
+            <div className="info__rate__number">{props.productItem.prod_num_rating} đánh giá</div>
+            <div className="info__number__sell">{props.productItem.prod_num_sold} đã bán</div>
           </div>
           <div className="info__price">
-            <p className="info__price__cost body-large">180.000 đ</p>
-            <p className="info__price__cost__discount headline-small">79.000 đ</p>
-            <div className="info__percent__discount body-large">Giảm 42%</div>
+            <p className="info__price__cost body-large">{BeforDiscountPrice} đ</p>
+            <p className="info__price__cost__discount headline-small">{currentPrice} đ</p>
+            <div className="info__percent__discount body-large">Giảm {discount}%</div>
           </div>
           <div className="info__color body-large">
             <p className="info__color__title">Màu sắc:</p>
@@ -103,10 +112,10 @@ function PopupQuickView(props) {
             <div className="info__quantity__title body-large bold">Số lượng: </div>
             <div className="info__quantity__product outline-text body-large">
               <div className="info__quantity__product-decrement outline-text" onClick={handleDecrement}>-</div>
-              <input id="number__product__select" type="number" min="1" max={props.stock} step="1" value={quantity} className="my-input" onChange={handleChange} />
+              <input id="number__product__select" type="number" min="1" max={props.productItem.prod_num_avai} step="1" value={quantity} className="my-input" onChange={handleChange} />
               <div className="info__quantity__product-increment outline-text" onClick={handleIncrement}>+</div>
             </div>
-            <p className="info__quantity__stock body-medium">{props.stock} sản phẩm sẵn có</p>
+            <p className="info__quantity__stock body-medium">{props.productItem.prod_num_avai} sản phẩm sẵn có</p>
           </div>
           <div className="info__button">
             <Button className="button__add__cart body-large">
@@ -146,7 +155,24 @@ function PopupQuickView(props) {
 PopupQuickView.propTypes = {
   onClose: PropTypes.func.isRequired,
   images: PropTypes.arrayOf(PropTypes.string).isRequired,
-  stock: PropTypes.number.isRequired,
+  productItem: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    prod_name: PropTypes.string.isRequired,
+    prod_cost: PropTypes.shape({
+      $numberDecimal: PropTypes.string.isRequired
+    }).isRequired,
+    prod_discount: PropTypes.shape({
+      $numberDecimal: PropTypes.string.isRequired
+    }).isRequired,
+    prod_end_date_discount: PropTypes.string.isRequired,
+    prod_num_sold: PropTypes.number.isRequired,
+    prod_num_rating: PropTypes.number.isRequired,
+    prod_star_rating: PropTypes.number.isRequired,
+    prod_description: PropTypes.string.isRequired,
+    cate_id: PropTypes.string.isRequired,
+    prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
+    prod_num_avai: PropTypes.number.isRequired
+  }).isRequired
 };
 
 export default PopupQuickView;

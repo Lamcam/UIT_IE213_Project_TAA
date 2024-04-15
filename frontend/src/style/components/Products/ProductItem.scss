@@ -7,6 +7,7 @@
   background-color: #fff;
   position: relative;
   padding: 1rem;
+  width: 100%;
 }
 
 .product__item__img {
@@ -66,6 +67,8 @@
 
 .product__item__name {
   color: var(--md-sys-color-on-error-container-light);
+  text-align: center;
+  height: 48px;
 }
 .product__item__body .item__price__current {
   font-weight: bold;
@@ -112,4 +115,13 @@
   width: 1px;
   height: 24px;
   background-color: #fff;
+}
+
+.product__outstock {
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  background: var(--m-3-state-layers-dark-surface-dim-opacity-016, rgba(20, 18, 24, 0.16));
 }
