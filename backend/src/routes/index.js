@@ -1,11 +1,10 @@
 // import middlewares
 // const middlewares = require("../middlewares");
-
 // import router
 // const site = require("./site.router");
 // const product = require("./products.router");
 // const auth = require("./auth.router");
-const account = require("./account.router");
+const auth = require("./auth.router");
 // const news = require("./news.router");
 // const { hello } = require("../controllers/demo.controller");
 const {
@@ -29,7 +28,7 @@ const route = (app) => {
     app.get("/products", getProducts);
     app.get("/products/:id", getProductById);
 
-    app.use('/user', account)
+    app.use('/', auth)
     // app.get('/user', getUser)
 };
 

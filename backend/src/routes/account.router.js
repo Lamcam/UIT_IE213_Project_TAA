@@ -5,10 +5,6 @@ const account = require('../controllers/account.controller')
 
 // router.use('/', middlewares.authorize)
 
-
-router.post('/api/auth/login', account.loginUser)
-router.post('/api/auth/register', account.registerUser)
-router.get('/api/auth/', account.getUser)
 // router.get('/information', account.information)
 // router.post('/information/addLocal', account.addLocal)
 
