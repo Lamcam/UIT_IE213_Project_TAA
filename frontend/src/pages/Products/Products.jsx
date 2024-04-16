@@ -1,91 +1,55 @@
+import Button from 'components/Common/Button1';
 import ProductItem from 'components/Products/ProductItem';
 import ProductMenu from 'components/Products/ProductMenu';
-import { useState } from 'react';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
+import { useEffect, useState } from 'react';
+import { Col, Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import { BsCheck2 } from 'react-icons/bs';
 // import 'style/components/button.css';
+import axios from 'axios';
 import 'style/pages/Products/ProductStyle.scss';
+import ProductFilter from 'components/Products/ProductFilter';
 
-export default function Products() {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedButtons, setSelectedButtons] = useState([]); // Sử dụng một mảng để lưu trữ tất cả các nút được chọn
+function Products() {
 
-  const handleDropdownToggle = () => {
-    setShowDropdown(!showDropdown);
-  };
+  const [data, setData] = useState([]);
 
-  const handleDropdownSelect = (eventKey, event) => {
-    setSelectedOption(eventKey);
-    setShowDropdown(false);
-  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  const handleButtonClick = (buttonName) => {
-    const selectedIndex = selectedButtons.indexOf(buttonName);
-    if (selectedIndex !== -1) {
-      // Nếu nút đã được chọn trước đó được nhấn lại, hủy trạng thái đã chọn
-      setSelectedButtons(selectedButtons.filter((name) => name !== buttonName));
-    } else {
-      // Nếu nút mới được chọn, thêm vào mảng các nút được chọn
-      setSelectedButtons([...selectedButtons, buttonName]);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/products');
+      setData(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
 
-  let dropdownTitle = 'Giá';
-  if (selectedOption === '1') {
-    dropdownTitle = 'Từ thấp đến cao';
-  } else if (selectedOption === '2') {
-    dropdownTitle = 'Từ cao đến thấp';
-  }
-
+  const applyFilter = (filterOption) => {
+    // Áp dụng bộ lọc vào dữ liệu và cập nhật state data
+    // Ví dụ: lọc sản phẩm theo filterOption và cập nhật state data
+    // setData(filteredData);
+  };
   return (
-    <Container className="product">
-      <Row>
-        <Col className="product__filter body-large on-surface-text">
-          <span>Sắp xếp theo: </span>
-          <button
-            className={`product__button discount btn_round_8px ${
-              selectedButtons.includes('discount') ? 'active' : ''
-            }`}
-            onClick={() => handleButtonClick('discount')}
-          >
-            {selectedButtons.includes('discount') && <BsCheck2 className="icon-check" />}
-            Giảm giá
-          </button>
-
-          <button
-            className={`product__button best-seller btn_round_8px ${
-              selectedButtons.includes('best-seller') ? 'active' : ''
-            }`}
-            onClick={() => handleButtonClick('best-seller')}
-          >
-            {selectedButtons.includes('best-seller') && <BsCheck2 className="icon-check" />}
-            Bán chạy nhất
-          </button>
-
-          <DropdownButton
-            title={dropdownTitle}
-            id="dropdown-menu-align-right"
-            show={showDropdown}
-            onSelect={handleDropdownSelect}
-            onToggle={handleDropdownToggle}
-          >
-            <Dropdown.Item eventKey="1">Từ thấp đến cao</Dropdown.Item>
-            <Dropdown.Item eventKey="2">Từ cao đến thấp</Dropdown.Item>
-          </DropdownButton>
-        </Col>
-      </Row>
+    <Container className="product" fluid>
+      <ProductFilter applyFilter={applyFilter}/>
       <Row className="product__content">
         <Col lg={3} md={3}>
           <ProductMenu />
         </Col>
-        <Col lg={9} md={9}>
-          <ProductItem />
+        <Col lg={9} md={9} className="product__list">
+          <Row className="row-cols-1 row-cols-md-3 g-3">
+            {data.map((product) => (
+              <Col key={product._id} lg={4} md={6} xs={6}>
+                <ProductItem product={product} />
+              </Col>
+            ))}
+          </Row>
         </Col>
       </Row>
     </Container>
   );
 }
+export default Products;
