@@ -26,6 +26,7 @@ const getUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
+
         if (!email || !password) {
             return res.status(400).json({ message: "Please fill in all fields" });
         }
@@ -35,15 +36,16 @@ const loginUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
         
-        const match = await bcrypt.compare(password, user._id);
-
-        if (!match) {
-            return res.status(400).json({ message: "Invalid password" });
-        }
+        const match = await bcrypt.compare(password, user.user_pass);
+        
+        console.log(match);
+        // if (!match) {
+        //     return res.status(400).json({ message: "Invalid password" });
+        // }
 
         const token = createToken(user._id);
         res.status(200)
-        .json([user,token])
+        .json([user, token])
         console.log('Login success');
     }
     catch (error) {
