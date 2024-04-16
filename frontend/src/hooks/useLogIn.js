@@ -15,10 +15,12 @@ export function useLogIn() {
                 email : email,
                 password: password
             })
+            
             if (res.status === 200) {
                 localStorage.setItem('user', JSON.stringify(res.data));
                 dispatch({ type: "LOGIN", payload: res.data });
                 setLoading(false);
+                window.location.href = "/";
             }
 
             } catch (error) {

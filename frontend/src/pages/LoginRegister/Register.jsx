@@ -1,13 +1,15 @@
-import {Form, Image, Button } from 'react-bootstrap';
-import {Col, Container} from 'react-bootstrap';
+import {Form, Image, Button, Col, Container } from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
 import './Login.scss';
 import { NavLink } from 'react-router-dom';
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useRegister } from 'hooks/useRegister';
 
 function Register() {
+  
+  const { register } = useRegister();
   const [submit,setSubmit]= useState(false)
+  
   const [valid, setValid] = useState({
     username: false,
     phone: false,
@@ -57,7 +59,7 @@ function Register() {
   }
 
   const handleNameChange = (e) => {
-    setInput({...input, username: e.target.value});
+    setInput({...input, username : e.target.value});
     if (e.target.value.length > 0) {
       setValid({...valid, username: true});
     } else {
@@ -90,24 +92,10 @@ function Register() {
 
     if (all.every((item) => item === true)) {
       setSubmit(true);
-      const res = await axios.post('http://localhost:8000/api/auth/register', {
-        username: input.username,
-        phone: input.phone,
-        email: input.email,
-        password: input.password,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
+      
     }
-    else{
-
-      return;
-    }
+    register(input);
+    
   }
 
   return (

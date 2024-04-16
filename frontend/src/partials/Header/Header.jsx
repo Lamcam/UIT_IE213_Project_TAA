@@ -9,10 +9,6 @@ import UnAuthPart from "components/HeaderComponents/UnAuthPart";
 function Header() {
    const Auth = localStorage.getItem('user');
    
-   useEffect(() => {
-        checkAuth();
-   }, [Auth]);
-
    function checkAuth() {
         if (Auth) {
             
@@ -20,6 +16,11 @@ function Header() {
         }
         return <UnAuthPart />
     }
+
+    useEffect(() => {
+        checkAuth();
+   }, [Auth]);
+   
 
     return (
         <header className="visible un-radius">

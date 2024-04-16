@@ -7,9 +7,15 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import './AuthPart.scss';
 import { useNavigate } from 'react-router-dom';
+import { useLogout } from 'hooks/useLogout';
 
 function AuthPart() {
     const history = useNavigate();
+    const {logout} = useLogout();
+
+    const handleClickLogOut = () => {
+        logout();        
+    }
 
     function redirectToHome() {
         history('/');
@@ -41,7 +47,7 @@ function AuthPart() {
                                 <Dropdown.Item href="#/action-2">Đơn hàng</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">Sản phẩm yêu thích</Dropdown.Item>
                                 <Dropdown.Divider />
-                                <Dropdown.Item><Button variant="danger" onClick={handleLogOut(redirectToHome)}>Đăng xuất</Button></Dropdown.Item>
+                                <Dropdown.Item><Button variant="danger" onClick={handleClickLogOut}>Đăng xuất</Button></Dropdown.Item>
                             </DropdownButton>
                         </Col>
                     
