@@ -15,3 +15,22 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .product__content {
+    // flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  // .order__content {
+  //   gap: 1rem;
+  // }
+}
+
+@media (max-width: 576px) {
+  // .order__content {
+  //   gap: 1rem;
+  // }
+}

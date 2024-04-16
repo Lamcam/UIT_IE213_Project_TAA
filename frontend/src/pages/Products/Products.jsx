@@ -27,25 +27,22 @@ function Products() {
     }
   };
 
+  const applyFilter = (filterOption) => {
+    // Áp dụng bộ lọc vào dữ liệu và cập nhật state data
+    // Ví dụ: lọc sản phẩm theo filterOption và cập nhật state data
+    // setData(filteredData);
+  };
   return (
-    <Container className="product">
-      <ProductFilter />
+    <Container className="product" fluid>
+      <ProductFilter applyFilter={applyFilter}/>
       <Row className="product__content">
-        <Col lg={3} md={12}>
+        <Col lg={3} md={3}>
           <ProductMenu />
         </Col>
-        <Col lg={9} md={12} className="product__list">
-          {/* {data.map((product) => (
-            <ProductItem key={product._id} product={product} />
-          ))} */}
-          {/* {data.map((product) => (
-          <Col key={product._id} lg={4} md={6} sm={6} xs={12}>
-            <ProductItem product={product} />
-          </Col>
-        ))} */}
-          <Row className="row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+        <Col lg={9} md={9} className="product__list">
+          <Row className="row-cols-1 row-cols-md-3 g-3">
             {data.map((product) => (
-              <Col key={product._id}>
+              <Col key={product._id} lg={4} md={6} xs={6}>
                 <ProductItem product={product} />
               </Col>
             ))}

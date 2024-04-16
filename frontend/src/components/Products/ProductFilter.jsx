@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { Col, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import { BsCheck2 } from 'react-icons/bs';
 import 'style/components/Products/ProductFilter.scss';
+import PropTypes from 'prop-types';
 ProductFilter.propTypes = {
-
+    applyFilter: PropTypes.func.isRequired,
 };
 
 function ProductFilter(props) {

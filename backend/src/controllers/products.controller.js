@@ -1,5 +1,7 @@
 const Product = require("../models/products.model");
 const cloudinary = require("../utils/cloudinary");
+// const CategoryType = require("../models/categorytypes.model");
+// const Category = require("../models/categories.model");
 const getProductById = async (req, res) => {
   try {
     const productId = req.params.id; // Lấy ID sản phẩm từ tham số đường dẫn
@@ -23,9 +25,20 @@ const getProducts = async (req, res) => {
   }
 };
 
+const getCate = async (req, res) => {
+  try {
+    const products = await Product.find({});
+    console.log(products);
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getProductById,
   getProducts,
+  getCate,
 };
 
 // app.get("/products/:id", async (req, res) => {});
