@@ -8,6 +8,7 @@ import ProductDetail from 'pages/ProductDetail/ProductDetail';
 import Error404 from 'pages/Error404';
 import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
+
 import {
   BrowserRouter,
   Route,
@@ -15,6 +16,8 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
+  useLocation,
+  useParams,
 } from 'react-router-dom';
 
 const router = createBrowserRouter(

@@ -4,6 +4,8 @@ import logo from 'assets/image/logo2.svg';
 import './Login.scss';
 import { NavLink } from 'react-router-dom';
 import React, { useState } from 'react';
+import axios from 'axios';
+
 function Register() {
   const [submit,setSubmit]= useState(false)
   const [valid, setValid] = useState({
@@ -79,17 +81,32 @@ function Register() {
     } else {
       setValid({...valid, phone: false});
     }
+
   }
 
-  const handleSubmition = (e) => {
+  const handleSubmition = async (e) => {
     e.preventDefault();
     const all = Object.values(valid);
+
     if (all.every((item) => item === true)) {
+      setSubmit(true);
+      const res = await axios.post('http://localhost:8000/api/auth/register', {
+        username: input.username,
+        phone: input.phone,
+        email: input.email,
+        password: input.password,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     }
     else{
 
-      
+      return;
     }
   }
 

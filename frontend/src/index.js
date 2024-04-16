@@ -8,18 +8,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PreviewCard from 'components/HomeComponents/HotProducts'; 
-import Footer from 'partials/Footer/Footer';
+// import Footer from 'partials/Footer/Footer';
+import { AuthContextProvider } from 'context/AuthContext';
 // import ModalForgotPass from 'pages/LoginRegister/ModalForgotPass';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <App></App>
-     {/* <ModalForgotPass></ModalForgotPass> */}
-     {/* <Footer></Footer> */}
-     {/* <PreviewCard /> */}
-     
+    <AuthContextProvider>
+        <App></App>
+      </AuthContextProvider>
   </React.StrictMode>
      
 );
