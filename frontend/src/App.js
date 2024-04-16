@@ -1,9 +1,13 @@
 import Cart from 'pages/Cart/Cart';
+
 import {
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  RouterProvider,
+  useLocation,
+  useParams,
 } from 'react-router-dom';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Error404 from './pages/Error404';

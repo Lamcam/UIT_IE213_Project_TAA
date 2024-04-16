@@ -1,12 +1,34 @@
-import {Form, Image, Button } from 'react-bootstrap';
-import {Col, Container} from 'react-bootstrap';
+import {Form, Image, Button,Col, Container } from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
 import './Login.scss';
 import { NavLink } from 'react-router-dom';
 import React, {useState} from 'react';
 import ModalForgotPass from './ModalForgotPass';
+import { useNavigate } from 'react-router-dom';
+import { useLogIn } from 'hooks/useLogIn';
 
 function Login() {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');  
+  const { logIn, loading, error } = useLogIn();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = {
+      email,
+      password
+    }
+    logIn(user);
+  }
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  }
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  }
+
   
 
   return (
@@ -18,15 +40,15 @@ function Login() {
 
       <Col className='login_form col-8'>
         <h1> Đăng nhập </h1>
-        <Form>
+        <Form action='POST' onSubmit={handleSubmit}  >
           <Form.Group className="mb-3 input" controlId="formBasicEmail">
-              <Form.Control type="email" placeholder="Điền email" />
+              <Form.Control onChange={handleEmailChange} type="email" placeholder="Điền email" />
               <Form.Text className="text-muted">
               </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3 input" controlId="formBasicPassword">
-              <Form.Control type="password" placeholder="Mật khẩu" />
+              <Form.Control onChange={handlePasswordChange} type="password" placeholder="Mật khẩu" />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicCheckbox">

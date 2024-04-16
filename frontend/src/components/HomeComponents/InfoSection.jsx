@@ -7,7 +7,7 @@ function InfoSection(props) {
     return (
         <section className="infoSec">
         <h1 className="">Tại sao nên mua sắm trên TAA ?</h1>
-        <Container className="d-flex justify-content-center gap-4" >
+        <Container className="d-flex justify-content-center gap-2" >
             <Col className="col-3">
                 <InforCard title="20.000" text="Người dùng"></InforCard>
             </Col>
