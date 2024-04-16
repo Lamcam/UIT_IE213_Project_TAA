@@ -54,20 +54,22 @@ const loginUser = async (req, res) => {
 }
 
 const registerUser = async (req, res) => {
+
     try {
-        const { name, phone, email, password } = req.body;
+        const { username, phone, email, password } = req.body;
         const user = await User.findOne({ user_email: email });
         
         if (user) {
             return res.status(400).json({ message: "User already exists" });
         }
         else{
+            
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
             
             const newUser = new User({
                 _id: new mongoose.Types.ObjectId(),
-                user_name: name,
+                user_name: username,
                 user_phone: phone,
                 user_email: email,
                 user_pass: hashedPassword,
@@ -75,11 +77,13 @@ const registerUser = async (req, res) => {
                 local_default_id: '',
                 bank_default_id: '',
             });
+            
             await newUser.save();
             console.log(newUser);
             const token = await createToken(newUser._id);
-            res.status(201).json([newUser,token]);
+            res.status(201).json([newUser, token]);
         }
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
