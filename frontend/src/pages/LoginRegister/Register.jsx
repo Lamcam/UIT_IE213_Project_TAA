@@ -37,7 +37,7 @@ function Register() {
   });
 
   const handleCheck = (e) => {
-    setValid(!valid.check);
+    setValid(...valid, !valid.check);
   }
 
   const handleInputPasswordChange = (e) => {
