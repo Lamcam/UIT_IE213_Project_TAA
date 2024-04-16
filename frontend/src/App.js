@@ -5,7 +5,6 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
-  RouterProvider,
   useLocation,
   useParams,
 } from 'react-router-dom';
@@ -20,6 +19,7 @@ import Order from 'pages/Order/Order';
 import ProductDetail from 'pages/ProductDetail/ProductDetail';
 import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
+import Account from "./pages/Account/index"
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>

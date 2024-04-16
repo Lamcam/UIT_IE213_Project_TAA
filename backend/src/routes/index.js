@@ -3,6 +3,7 @@
 // import router
 // const site = require("./site.router");
 const product = require("./products.router");
+const account = require("./account.router")
 // const auth = require("./auth.router");
 const auth = require("./auth.router");
 // const news = require("./news.router");
@@ -13,7 +14,7 @@ const {
 } = require("../controllers/products.controller");
 
 const route = (app) => {
-  // app.use(middlewares.authenticate);
+    // app.use(middlewares.authenticate);
 
   // app.use("/", site)
 
@@ -28,7 +29,8 @@ const route = (app) => {
   app.use("/products", product);
 
   app.use("/", auth);
-  // app.get('/user', getUser)
+    // app.get('/user', getUser)
+    app.use("/api/account", account)
 };
 
 // app.get("/products", controllers.product.queryProduct);

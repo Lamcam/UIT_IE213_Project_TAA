@@ -7,7 +7,8 @@ const account = require('../controllers/account.controller')
 
 // router.get('/information', account.information)
 // router.post('/information/addLocal', account.addLocal)
-router.get('/update-user', account.updateUser)
+router.put('/update-user/:id', account.updateUser)
+router.put('/change-pass/:id', account.changePassword)
 
 // router.get('/profile-bank-card', account.profileBankCard)
 // router.post('/profile-bank-card/add', account.addLocal)

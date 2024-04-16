@@ -72,19 +72,22 @@ function ProfileUser() {
   if (!emailRegex.test(userData.user_email)) {
     setErrorEmail("Email không hợp lệ!");
     return; // Không gửi form nếu email không hợp lệ
-  }
+    }
+    if (disabled) {
+      return;
+    }
 
     // Gửi yêu cầu đến server nếu không có lỗi
     const id = defaultUserData._id
     console.log(id)
-    axios.put(`https://localhost:3001/api/account/update-user/${id}`, userData)
+    axios.put(`http://localhost:8000/api/account/update-user/${id}`, userData)
       .then(response => {
         // Xử lý phản hồi từ server
         console.log(response.data);
       })
-      .catch(err => {
+      .catch(error => {
         // Xử lý lỗi từ server
-        console.error('Error:', err);
+        console.error('Error:', error);
       });
   };
   return (

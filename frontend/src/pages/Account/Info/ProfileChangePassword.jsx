@@ -10,8 +10,24 @@ function ProfileChangePassword() {
     newPassword: '',
     confirmPassword: '',
   });
+  const defaultUserData1 = {
+    _id: "65f3e8eb7ef3c2b6f3b74ac6",
+    user_name: 'Nguyễn Văn A',
+    user_phone: '0123456789',
+    user_email: "abc@gmail.com",
+    user_pass: "Abcd@123",
+    user_avatar: "",
+    local_default_id: "1",
+    bank_default_id:"1"
+  };
+  // Lưu thông tin người dùng vào Local Storage
+  localStorage.setItem('user', JSON.stringify(defaultUserData1));
+  const defaultUserData = JSON.parse(localStorage.getItem('user'))
+  console.log(defaultUserData)
+
+  const [errorOldPassword, setErrorOldPassword] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
-  const [errorConfirmPassword, setErrorConfirmPassword] = useState("")
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,
@@ -28,23 +44,22 @@ function ProfileChangePassword() {
       [name]: value,
     }));
     if (name === 'newPassword') {
-      setErrorPassword("")
+      setErrorPassword('');
     }
     if (name === 'confirmPassword') {
-      setErrorConfirmPassword("")
+      setErrorConfirmPassword('');
     }
   };
 
   useEffect(() => {
     // Kiểm tra xem tất cả các trường input có giá trị không
-    const allFieldsNotEmpty = Object.values(userData).every(val => val !== "");
+    const allFieldsNotEmpty = Object.values(userData).every((val) => val !== '');
     setDisabled(!allFieldsNotEmpty);
   }, [userData]);
-  
 
   // Hàm xử lý khi người dùng nhấn nút để hiển thị hoặc ẩn mật khẩu
   const togglePasswordVisibility = (field) => {
-    setShowPassword(prevState => ({
+    setShowPassword((prevState) => ({
       ...prevState,
       [field]: !prevState[field],
     }));
@@ -56,39 +71,55 @@ function ProfileChangePassword() {
     // Xử lý dữ liệu form ở đây, ví dụ: gửi dữ liệu đến máy chủ
     console.log(userData);
     function validatePassword(password) {
-      return password.length >= 8 && !/\s/.test(password) && /[a-zA-Z]/.test(password) && /\d/.test(password) && /[\W_]/.test(password);
+      return (
+        password.length >= 8 &&
+        !/\s/.test(password) &&
+        /[a-zA-Z]/.test(password) &&
+        /\d/.test(password) &&
+        /[\W_]/.test(password)
+      );
     }
-    if (!validatePassword(userData.newPassword) && userData.newPassword !== userData.confirmPassword) {
-      setErrorPassword("Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ, số, và ký tự đặc biệt!");
-      setErrorConfirmPassword("Mật khẩu xác nhận không trùng khớp!")
+    if (
+      !validatePassword(userData.newPassword) &&
+      userData.newPassword !== userData.confirmPassword
+    ) {
+      setErrorPassword('Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ, số, và ký tự đặc biệt!');
+      setErrorConfirmPassword('Mật khẩu xác nhận không trùng khớp!');
       return;
     }
     if (!validatePassword(userData.newPassword)) {
-      setErrorPassword("Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ, số, và ký tự đặc biệt!");
+      setErrorPassword('Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ, số, và ký tự đặc biệt!');
       return; // Không gửi form nếu số điện thoại không hợp lệ
     }
     if (userData.newPassword !== userData.confirmPassword) {
-      setErrorConfirmPassword("Mật khẩu xác nhận không trùng khớp!")
+      setErrorConfirmPassword('Mật khẩu xác nhận không trùng khớp!');
       return;
     }
     // Gửi yêu cầu đến server nếu không có lỗi
-    axios.post('https://localhost:3001/api/account/change-passwword', userData)
-      .then(response => {
+    const id =defaultUserData._id;
+    console.log(id);
+    axios
+      .put(`http://localhost:8000/api/account/change-pass/${id}`, userData)
+      .then((response) => {
         // Xử lý phản hồi từ server
         console.log(response.data);
       })
-      .catch(error => {
-        // Xử lý lỗi từ server
+      .catch((error) => {
+        if (error.response.data.message === 'Mật khẩu không khớp!') {
+          setErrorOldPassword('Mật khẩu không khớp!');
+        }
         console.error('Error:', error);
       });
   };
 
   return (
     <article id="profile-change-password" className="section__content visible">
-      <h2 className="headline-small" style={{marginTop:"12px"}}>Đổi mật khẩu</h2>
-      <hr className='hr-title'/>
+      <h2 className="headline-small" style={{ marginTop: '12px' }}>
+        Đổi mật khẩu
+      </h2>
+      <hr className="hr-title" />
 
-      <form onSubmit={handleSubmit} className='form__content'>
+      <form onSubmit={handleSubmit} className="form__content">
         <div className="form__row">
           <Row>
             <label className="col-3 label-large" htmlFor="old_password">
@@ -118,6 +149,7 @@ function ProfileChangePassword() {
                 }
                 type="button"
               />
+              {errorOldPassword && <div className="err">{errorOldPassword}</div>}
             </div>
           </Row>
         </div>
@@ -129,7 +161,7 @@ function ProfileChangePassword() {
             <div className="col-9 input__wrapper input-password__wrapper">
               <input
                 required
-                className={`input__wrapper-child ${errorPassword ? "err-border" : ""}`}
+                className={`input__wrapper-child ${errorPassword ? 'err-border' : ''}`}
                 type={showPassword.newPassword ? 'text' : 'password'}
                 id="new_password"
                 name="newPassword"
@@ -150,8 +182,7 @@ function ProfileChangePassword() {
                 }
                 type="button"
               />
-                      {errorPassword && <div className="err">{errorPassword}</div>}
-
+              {errorPassword && <div className="err">{errorPassword}</div>}
             </div>
           </Row>
         </div>
@@ -163,7 +194,7 @@ function ProfileChangePassword() {
             <div className="col-9 input__wrapper input-password__wrapper">
               <input
                 required
-                className={`input__wrapper-child ${errorConfirmPassword ? "err-border" : ""}`}
+                className={`input__wrapper-child ${errorConfirmPassword ? 'err-border' : ''}`}
                 type={showPassword.confirmPassword ? 'text' : 'password'}
                 id="confirm_password"
                 name="confirmPassword"
@@ -184,8 +215,7 @@ function ProfileChangePassword() {
                 }
                 type="button"
               />
-                        {errorConfirmPassword && <div className="err">{errorConfirmPassword}</div>}
-
+              {errorConfirmPassword && <div className="err">{errorConfirmPassword}</div>}
             </div>
           </Row>
         </div>

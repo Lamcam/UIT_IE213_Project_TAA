@@ -74,7 +74,7 @@ function AddAddress(props) {
                     </div>
                   </Row>
                 </div>
-                <div className="btn__wrappe row">
+                <div className="btn__wrapper">
                   <Button1 label="Hủy bỏ" type="button" onClick={props.onHide} className="col-6" />
                   <Button1
                     label="Đồng ý"
