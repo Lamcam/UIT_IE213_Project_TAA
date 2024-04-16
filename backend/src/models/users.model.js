@@ -7,7 +7,7 @@ let UsersSchema = new Schema({
     user_phone: { type: "string", required: true },
     user_email: { type: "string", required: true },
     user_pass: { type: "string", require: true },
-    user_avatar: { type: "null" }, //chỉnh lại sau
+    user_avatar: { type: "string" }, //chỉnh lại sau
     local_default_id: { type: "string", required: true },
     bank_default_id: { type: "string" },
 });

@@ -56,24 +56,30 @@ function Orders() {
             <React.Fragment key={order.id}>
               <li>
                 <div className="orders-item__wrapper">
+                  <div className='img-status'>
                   <img className='orders-item__img' src={order.img} alt="" />
+                  <span className='status headline-small'>
+                      {order.orderStatus === 1 ? 'Đã giao' : 'Chưa giao'}
+                    </span>
+                    </div>
                   <div className="orders-item__info">
                     <div className="name-status">
-                      <p className="body-large">Tên sản phẩm</p>
-                      <span className="status">
+                      <p className="name body-large">Tên sản phẩm</p>
+                      <span className="status label-large">
                         {order.orderStatus === 1 ? 'Đã giao' : 'Chưa giao'}
                       </span>
                     </div>
                     <div className="quantity-price body-large">
-                      <p className="quatity"><label className='body-medium'>Số lượng:</label>   {order.quantity}</p>
-                      <p className="price"><label className='body-medium'>Giá tiền:</label>   {order.price} đ</p>
+                      <p className="quatity"><label>Số lượng:</label>   {order.quantity}</p>
+                      <p className="price"><label>Giá tiền:</label>   {order.price} đ</p>
                     </div>
                     <div className="total-cost body-large">
-                      <p><label className='body-medium'>Thành tiền:</label>   {order.orderTotalcost} đ</p>
+                      <p><label>Thành tiền:</label>   {order.orderTotalcost} đ</p>
                     </div>
                     <div className="appreciate-repurchase">
-                      <Button1 label="Đánh giá" />
+                      <Button1 label="Đánh giá" className="appreciate"/>
                       <Button1
+                        className="repurchase"
                         label="Mua lại sản phẩm"
                         labelColor="#F1EFE7"
                         backgroundColor="#785B5B"

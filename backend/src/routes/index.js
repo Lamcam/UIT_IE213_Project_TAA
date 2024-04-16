@@ -9,8 +9,11 @@
 // const news = require("./news.router");
 // const { hello } = require("../controllers/demo.controller");
 const { getProducts } = require("../controllers/products.controller");
+// const Account = require("./account.router")
+
 
 const route = (app) => {
+    // app.use("/api/account", Account)
     // app.use(middlewares.authenticate);
 
     // app.use("/", site)

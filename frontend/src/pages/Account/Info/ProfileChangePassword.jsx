@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Button1 from 'components/Common/Button1';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import { BiHide, BiShow } from 'react-icons/bi';
-import { CgClose } from "react-icons/cg";
 function ProfileChangePassword() {
   const [userData, setUserData] = useState({
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
-
+  const [errorPassword, setErrorPassword] = useState('');
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState("")
   const [disabled, setDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,
@@ -26,6 +27,12 @@ function ProfileChangePassword() {
       ...prevState,
       [name]: value,
     }));
+    if (name === 'newPassword') {
+      setErrorPassword("")
+    }
+    if (name === 'confirmPassword') {
+      setErrorConfirmPassword("")
+    }
   };
 
   useEffect(() => {
@@ -48,6 +55,32 @@ function ProfileChangePassword() {
     e.preventDefault();
     // Xử lý dữ liệu form ở đây, ví dụ: gửi dữ liệu đến máy chủ
     console.log(userData);
+    function validatePassword(password) {
+      return password.length >= 8 && !/\s/.test(password) && /[a-zA-Z]/.test(password) && /\d/.test(password) && /[\W_]/.test(password);
+    }
+    if (!validatePassword(userData.newPassword) && userData.newPassword !== userData.confirmPassword) {
+      setErrorPassword("Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ, số, và ký tự đặc biệt!");
+      setErrorConfirmPassword("Mật khẩu xác nhận không trùng khớp!")
+      return;
+    }
+    if (!validatePassword(userData.newPassword)) {
+      setErrorPassword("Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ, số, và ký tự đặc biệt!");
+      return; // Không gửi form nếu số điện thoại không hợp lệ
+    }
+    if (userData.newPassword !== userData.confirmPassword) {
+      setErrorConfirmPassword("Mật khẩu xác nhận không trùng khớp!")
+      return;
+    }
+    // Gửi yêu cầu đến server nếu không có lỗi
+    axios.post('https://localhost:3001/api/account/change-passwword', userData)
+      .then(response => {
+        // Xử lý phản hồi từ server
+        console.log(response.data);
+      })
+      .catch(error => {
+        // Xử lý lỗi từ server
+        console.error('Error:', error);
+      });
   };
 
   return (
@@ -55,7 +88,7 @@ function ProfileChangePassword() {
       <h2 className="headline-small" style={{marginTop:"12px"}}>Đổi mật khẩu</h2>
       <hr className='hr-title'/>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='form__content'>
         <div className="form__row">
           <Row>
             <label className="col-3 label-large" htmlFor="old_password">
@@ -96,7 +129,7 @@ function ProfileChangePassword() {
             <div className="col-9 input__wrapper input-password__wrapper">
               <input
                 required
-                className="input__wrapper-child"
+                className={`input__wrapper-child ${errorPassword ? "err-border" : ""}`}
                 type={showPassword.newPassword ? 'text' : 'password'}
                 id="new_password"
                 name="newPassword"
@@ -117,6 +150,8 @@ function ProfileChangePassword() {
                 }
                 type="button"
               />
+                      {errorPassword && <div className="err">{errorPassword}</div>}
+
             </div>
           </Row>
         </div>
@@ -128,7 +163,7 @@ function ProfileChangePassword() {
             <div className="col-9 input__wrapper input-password__wrapper">
               <input
                 required
-                className="input__wrapper-child"
+                className={`input__wrapper-child ${errorConfirmPassword ? "err-border" : ""}`}
                 type={showPassword.confirmPassword ? 'text' : 'password'}
                 id="confirm_password"
                 name="confirmPassword"
@@ -149,6 +184,8 @@ function ProfileChangePassword() {
                 }
                 type="button"
               />
+                        {errorConfirmPassword && <div className="err">{errorConfirmPassword}</div>}
+
             </div>
           </Row>
         </div>

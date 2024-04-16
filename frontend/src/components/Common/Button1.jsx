@@ -12,7 +12,8 @@ const Button = ({ className, label, type, backgroundColor, labelColor, fontSize,
         border: border || '1px solid #857373',
         display: "flex",
         justifyContent: 'center',
-        alignItems:"center",
+        alignItems: "center",
+        whiteSpace: "nowrap",
     }
     
     const spanStyle = {

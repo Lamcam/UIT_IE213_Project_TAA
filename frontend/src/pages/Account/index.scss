@@ -5,13 +5,24 @@ svg {
   height: 24px;
   width: 24px;
 }
-
+button{
+  cursor: pointer;
+}
 .visible {
   background: white;
   border-radius: 1rem;
 }
 
 // Menu
+.container .row .col-lg-3 {
+  padding-left: 0;
+  padding-right: 6px;
+
+}
+.container .row .col-lg-9 {
+  padding-right: 0;
+  padding-left: 6px;
+}
 .nav-tab {
   transition: 0ms;
   padding: 12px 0px;
@@ -62,6 +73,7 @@ svg {
       & .subnav-link {
         color: black;
         text-decoration: none;
+        font-weight: normal;
         &.active {
           color: #9c4048;
         }
@@ -123,16 +135,17 @@ article.section__content {
       & .row {
         width: 100%;
         & .col-3{
-          padding: 0 8px 0 0;
+          padding: 0 6px 0 0;
         }
         & .col-9{
-          padding: 0 0 0 8px;
+          padding: 0 0 0 6px;
         }
       }
       & label {
         display: flex;
         justify-content: end;
         align-items: center;
+        white-space: nowrap;
       }
       
     }
@@ -146,16 +159,26 @@ article.section__content {
   border: none;
 }
 
+.err__wrapper{
+  display: flex;
+  flex-direction: column;
+}
+.err-border{
+  border-color: red !important;
+}
+.err{
+  color: red;
+  text-align: left;
+}
 // Hồ sơ cá nhân
 .input__wrapper {
   position: relative;
   display: inline-block;
   & button {
-    cursor: pointer;
     position: absolute;
     right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
+    // top: 50%;
+    transform: translateY(-100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -166,6 +189,7 @@ article.section__content {
     border: 1px solid #857373;
     border-radius: 4px;
     height: 40px;
+    background-color: transparent;
   }
   & input[value] {
     color: #524343;
@@ -179,31 +203,40 @@ article.section__content {
 }
 
 // Tài khoản ngân hàng
-.accounts-list {
+.accounts-list, .shipping-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-.account-item__wrapper{
+.account-item__wrapper, 
+.shipping-item__wrapper{
   display: flex;
   justify-content: space-between;
 }
-.account-info {
+.account-info,
+.shipping-info {
   display: flex;
   gap: 10px;
   align-items: flex-start;
   padding: 0 10px;
   flex-direction: column;
-  & .account-number-default{
+  & .account-number-default, .shipping-number-default{
     display: flex;
     gap: 12px;
+    flex-wrap: wrap-reverse;
+    align-items: center;
     & .default-label {
       color: #9C4048;
       padding: 0 5px;
       border-radius: 5px;
       border: 1px solid #857373;
+      line-height: inherit;
+      white-space: nowrap;
     }
   }
+}
+.shipping-number-default{
+  gap: 8px !important;
 }
 
 .bank-btn{
@@ -222,6 +255,10 @@ article.section__content {
   flex-direction: column;
   gap: 26px;
 & .edit-delete-btn{
+  & .shipping-btn--edit{
+    display: flex;
+    gap:8px;
+  }
   display: flex;
   justify-content: space-between;
 }
@@ -246,8 +283,8 @@ article.section__content {
   padding: 12px;
 }}
 .orders-item__img{
-  width:157px;
-  height:157px; 
+  width: 157px;
+  height: 157px;
   border-radius:8px;
 }
 .orders-item__info{
@@ -265,11 +302,15 @@ article.section__content {
       padding: 0 5px;
       border-radius: 5px;
       border: 1px solid #857373;
-    }}
+      line-height: inherit;
+    }
+  & .name{
+    font-size: 20px;
+  }}
   & .quantity-price{
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    // align-items: flex-start;
   }
   & .total-cost{
     display: flex;
@@ -283,444 +324,15 @@ article.section__content {
     padding: 10px 0;
   }
 }
-
-
-// .product__filter {
-//   display: flex;
-//   gap: 10px;
-//   padding: 10px;
-//   align-items: center;
-//   flex: 1 0 0;
-//   margin-bottom: 12px;
-// }
-
-// .product__button {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 6px 16px;
-//   border-radius: 8px;
-//   border: solid 1px #524343;
-//   height: 32px;
-//   background-color: #fff;
-// }
-
-// .product__button:last-child {
-//   padding: 6px 16px 6px 8px;
-//   position: relative;
-// }
-
-// .icon-check {
-//   display: none;
-// }
-
-// .product__button.effect {
-//   border: none;
-//   background-color: var(--md-sys-color-secondary-container);
-//   padding: 6px 16px 6px 8px;
-
-//   & .icon-check {
-//     display: block;
-//   }
-// }
-
-// .btn--filled {
-//   color: #fff;
-//   background-color: var(--md-sys-color-primary);
-
-//   & .icon-down {
-//     color: #fff;
-//   }
-// }
-
-// .dropdown {
-//   min-width: 16.1rem;
-//   position: relative;
-// }
-
-// .dropdown * {
-//   box-sizing: border-box;
-// }
-
-// .select {
-//   background: #fff;
-//   color: var(--md-sys-color-primary);
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   cursor: pointer;
-//   width: 72px;
-// }
-
-// .select-clicked {
-//   border: solid 1px var(--md-sys-color-primary);
-//   min-width: 16.1rem;
-// }
-
-// .select:hover {
-//   cursor: pointer;
-//   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2), 0px 1px 3px 1px rgba(0, 0, 0, 0.2);
-// }
-
-// .icon-cancel {
-//   display: none;
-//   z-index: 1;
-// }
-
-// .caret {
-//   width: 0;
-//   height: 0;
-//   border-left: 5px solid transparent;
-//   border-right: 5px solid transparent;
-//   border-top: 6px solid var(--md-sys-color-primary);
-//   transition: 0.3s;
-// }
-
-
-// .select.cancel__select {
-//   color: var(--md-sys-color-primary);
-//   border: 1px solid var(--md-sys-color-primary);
-//   background: #fff;
-//   width: 72px;
-//   padding: 6px 16px;
-
-//   & .icon-cancel {
-//     display: none;
-//   }
-
-//   & .icon-check {
-//     display: none;
-//   }
-
-//   & .caret {
-//     display: block;
-//   }
-// }
-
-// /* Order */
-// .order-content-list {
-//   display: flex;
-//   padding: 1rem;
-// }
-
-// .order__item {
-//   width: 100%;
-//   display: flex;
-//   gap: 12px;
-//   justify-content: space-between;
-// }
-
-// .order__item .order__img {
-//   width: 157px;
-//   height: 157px;
-// }
-
-// .order__item-content {
-//   display: flex;
-//   flex-direction: column;
-//   width: 375px;
-//   gap: 12px;
-// }
-
-// .order__item-att {
-//   display: flex;
-//   justify-content: space-between;
-// }
-
-// .item_att_price_content,
-// .att_totalRate {
-//   text-align: end;
-// }
-
-// .base-price-p {
-//   text-decoration: line-through;
-// }
-
-// .order__item-content button.btn--outlined {
-//   width: 104px;
-//   height: 40px;
-//   font-weight: 500;
-//   align-self: flex-end;
-//   border: 1px solid #785b5b;
-// }
-
-// .item__status button.item_repurchase {
-//   width: 80%;
-//   height: 40px;
-//   font-weight: 500;
-// }
-
-// .item__status {
-//   width: 25%;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   align-items: center;
-// }
-
-// .item__status p {
-//   color: black;
-// }
-
-// .item__status .status-green {
-//   color: green;
-// }
-
-// #section2 hr {
-//   width: 97%;
-//   margin: 0 auto;
-// }
-// .modal__context {
-//   text-align: center;
-// }
-
-// .modal-review {
-//   margin: 50px auto;
-//   width: 770px;
-//   height: 850px;
-//   padding: 60px;
-//   display: flex;
-//   flex-direction: column;
-//   gap: 12px;
-//   background-color: #f1efe7;
-//   border-radius: 12px;
-//   font-family: Roboto;
-//   font-size: 16px;
-//   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-//   position: relative;
-// }
-
-// .modal__product {
-//   width: 100%;
-//   display: flex;
-//   flex-direction: row;
-//   font-size: 22px;
-//   gap: 12px;
-// }
-
-// .modal__product img {
-//   border-radius: 4px;
-// }
-
-// .modal__quality,
-// .modal__service {
-//   display: flex;
-//   gap: 12px;
-//   align-items: flex-start;
-//   font-weight: 500;
-//   font-size: 16px;
-//   justify-content: center;
-// }
-
-// .modal__quality > span,
-// .modal__service > span {
-//   width: 160px;
-// }
-
-// .modal__product--cover {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-evenly;
-// }
-
-// .modal__product img {
-//   width: 74px;
-//   height: 74px;
-// }
-
-// .modal__form-review {
-//   background-color: white;
-//   padding: 12px;
-//   border-radius: 8px;
-//   border: none;
-//   width: 100%;
-//   height: 362px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: space-between;
-// }
-
-// .modal__form-review-textarea {
-//   resize: none;
-//   width: 100%;
-//   height: 273px;
-//   padding: 10px 16px;
-//   border-radius: 8px;
-// }
-
-// .modal__form-review-border input {
-//   border: none;
-//   background-color: transparent;
-// }
-
-// .modal__form-review-border {
-//   width: 100%;
-// }
-
-// .star-icon {
-//   color: gray;
-//   cursor: pointer;
-//   font-size: 24px;
-// }
-
-// .star-icon:hover,
-// .star-icon.active {
-//   color: #ffdd55;
-//   font-variation-settings: 'FILL' 1;
-// }
-
-// .star-icon-service {
-//   color: gray;
-//   cursor: pointer;
-//   font-size: 24px;
-// }
-
-// .star-icon-service:hover,
-// .star-icon-service.active {
-//   color: #ffdd55;
-//   font-variation-settings: 'FILL' 1;
-// }
-
-// .energy-review {
-//   width: 100%;
-//   text-align: end;
-//   font-size: 14px;
-//   font-style: normal;
-//   font-weight: 500;
-// }
-
-// input#checkbox1 {
-//   width: 24px;
-//   height: 24px;
-//   accent-color: var(--md-sys-color-primary);
-// }
-
-// .modal__checkbox-form {
-//   display: flex;
-//   align-items: center;
-//   gap: 12px;
-// }
-
-// .modal__checkbox-form div {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 4px;
-// }
-
-// .modal__view-name-account {
-//   font-size: 16px;
-//   font-weight: 500;
-// }
-
-// .modal__check-name-account {
-//   font-size: 12px;
-//   font-weight: 400;
-// }
-
-// .review-start {
-//   display: flex;
-//   justify-content: space-between;
-// }
-
-
-// /* Change-password */
-// #modal--change-password {
-//   display: block;
-//   width: 100%;
-//   height: 100%;
-//   position: fixed;
-//   z-index: 100;
-//   inset: 0;
-//   overflow: auto;
-//   background-color: rgba(0, 0, 0, 0.4);
-//   font-size: 12px;
-// }
-// #modal--change-password .modal__content {
-//   animation: modalFadeIn ease 0.5s;
-//   position: relative;
-//   margin: 15rem auto;
-//   padding: 4rem 5rem 4rem 5rem;
-//   border: 1px solid #888;
-//   max-width: 60rem;
-//   width: 90%;
-//   min-height: 30rem;
-//   height: auto;
-//   border-radius: 1rem;
-//   background-color: #f1efe7;
-// }
-// #modal--change-password .modal__title {
-//   text-align: center;
-// }
-// .password__btn {
-//   right: 0.5rem;
-//   transform: translateY(-50%);
-//   color: #785b5b;
-// }
-// .re-type-password {
-//   white-space: nowrap;
-// }
-
-// .change-password-accept {
-//   display: flex;
-//   justify-content: flex-end;
-//   align-items: flex-start;
-//   margin-top: 12px;
-// }
-
-// span.status-layer {
-//   align-items: center;
-//   white-space: nowrap;
-// }
-
-// .form-wrapper__change-password {
-//   padding: 24px 24px 24px 52px;
-//   margin-top: 12px;
-// }
-
-// #shipping-address .row {
-//   white-space: nowrap;
-// }
-
-// .btn--outlined .filled-default {
-//   border: none;
-// }
-
-// .filled-default {
-//   display: flex;
-//   /* margin: 0 auto; */
-//   align-items: center;
-//   border: none;
-//   font-size: 24px;
-//   font-weight: 500;
-//   color: var(--md-sys-color-primary) !important;
-// }
-
-// .unfilled-default {
-//   display: flex;
-//   /* margin: 0 auto; */
-//   align-items: center;
-// }
-
-// .full-edit {
-//   padding-inline: 1rem 0.75rem !important;
-// }
-
-// .item__status button.item_repurchase span {
-//   min-height: unset;
-// }
-
-// .picture3 {
-//   /* width: 100%;
-//     height: 180px; */
-//   max-width: 100%;
-//   margin-top: 20px;
-//   object-fit: cover;
-// }
-
-
-
-
+.img-status{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  & .status{
+    color: #785B5B;
+    display: none;
+  }
+}
 
 
 // MODAL
@@ -748,9 +360,9 @@ article.section__content {
   margin: 15rem auto;
   padding: 64px 24px 32px 24px;
   border: 1px solid #888;
-  // max-width: 60rem;
-  width: 714px;
-  // min-height: 30rem;
+  max-width: 714px;
+  width: 90%;
+  min-height: 357px;
   height: auto;
   border-radius: 12px;
   & .input__wrapper{
@@ -774,8 +386,8 @@ article.section__content {
   margin: 15rem auto;
   padding: 60px;
   border: 1px solid #888;
-  // max-width: 60rem;
-  width: 714px;
+max-width: 714px;
+  width: 90%;
   // min-height: 30rem;
   height: auto;
   border-radius: 12px;
@@ -816,220 +428,302 @@ flex-direction: column;
   }
 }
 
-
-
-@media only screen and (min-width: calc(576px + 1px)) and (max-width: 768px) {
-  main {
-    /* & > section {
-        padding: 0 1rem;
-      } */
+@media only screen and (max-width: 992px) {
+  .container .row .col-12 {
+    padding-right: 0;
+    padding-bottom: 6px;
+  
   }
-
-  /* .container {
-      display: flex;
-      flex-direction: column;
-    } */
-  .nav-tab {
-    /* width: 100%; */
-  }
-  .form__row {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 4rem;
-    margin-top: 12px;
-  }
-  .form__row label {
-    font-size: 14px;
-    font-weight: 400;
-    white-space: nowrap;
-  }
-
-  .headline-large,
-  .headline-medium {
-    font-size: 24px;
-    font-weight: 400;
-    white-space: nowrap;
-  }
-
-  .status-layer {
-    /* height: 3rem; */
-    padding: 0 1rem;
-    align-items: center;
-  }
-
-  button.location-item__btn--default {
-    font-size: 14px;
-  }
-
-  .change-password-btn {
-    width: 50%;
-  }
-
-  input {
-    border-radius: 0.75rem;
-    border: 1px solid #857373;
-    background-color: transparent;
-  }
-
-  .section__btn {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-  }
-
-  .location-item__btn--default {
-    width: 130px;
-  }
-
-  .location-item__btn--edit {
-    width: 70px;
-  }
-
-  span.status-layer.full-edit.label {
-    display: none;
+  .container .row .col-12 {
+    padding-left: 0;
+    padding-top: 6px;
   }
 }
 
-@media only screen and (max-width: 576px) {
-  /* main {
-      &>section {
-        padding: 0 1rem;
-      }
-    } */
-
-  /* .container {
-      display: flex;
-      flex-direction: column;
-    } */
-
-  /* .nav-tab {
-      width: 100%;
-    } */
-
-  /* .form__row .row label {
-      font-size: 14px;
-      font-weight: 400;
-      white-space: nowrap;
-    } */
-
-  .headline-large,
-  .headline-medium {
-    font-size: 24px;
-    font-weight: 400;
-    white-space: nowrap;
-  }
-
-  .body-medium {
-    font-size: 14px;
-  }
-
-  .status-layer {
-    /* height: 3rem;
-      padding: 0 1rem; */
-    align-items: center;
-  }
-
-  button.location-item__btn--default {
-    font-size: 14px;
-  }
-
-  .change-password-btn {
+@media only screen and (min-width: calc(576px + 1px)) and (max-width: 768px) {
+  .section__content .form__content .form__row .row label{
+    justify-content: start;
     width: 100%;
   }
-
-  input {
-    /* height: 3rem !important; */
-    border-radius: 0.75rem;
-    border: 1px solid var(--md-sys-color-outline);
-    /* padding: 0 0.25rem; */
-    background-color: transparent;
+  .section__content .form__content .form__row .row input{
+    width: 100%;
   }
-
-  .section__btn {
-    position: absolute;
-    top: 4px;
-    right: 4px;
+  .section__content .form__content .form__row .row .col-9{
+    padding-left: 0;
+    width: 100%;
   }
+  // .form__row {
+  //   display: flex;
+  //   text-align: center;
+  //   align-items: center;
+  //   justify-content: center;
+  //   width: 100%;
+  //   min-height: 4rem;
+  // }
+  // .form__row label {
+  //   font-size: 14px;
+  //   font-weight: 400;
+  //   white-space: nowrap;
+  // }
 
-  .location-item__btn--default {
-    width: 130px;
-  }
+// Tài khoản ngân hàng
+.account-item__wrapper{
+  align-items: center;
+}
+.bank-btn{
+  flex-direction: column-reverse;
+    align-items: flex-end;
+}
+//Địa chỉ nhận hàng
+.shipping-item__wrapper{
+  flex-direction: column;
+  gap: 12px;
+}
+.shipping-info{
+  padding: 0;
+}
+.shipping-btn{
+  flex-direction: row-reverse;
+  gap: 10px;
+  & .edit-delete-btn {
+  gap: 10px;
+  flex-direction: row-reverse;
+    & .shipping-btn--edit{
+    background-color: rgb(120, 91, 91) !important;
+    & svg{
+      color: #F1EFE7 !important;
+    }
+    & span{
+      color: #F1EFE7 !important;
+    }
+    }
+}
+}
 
-  .location-item__btn--edit {
-    width: 70px;
-  }
 
-  /* button.btn-icon {
-      width: 40px;
-    } */
+  // .headline-large,
+  // .headline-medium {
+  //   font-size: 24px;
+  //   font-weight: 400;
+  //   white-space: nowrap;
+  // }
 
-  span.status-layer.full-edit.label {
-    display: none;
-  }
+  // .status-layer {
+  //   /* height: 3rem; */
+  //   padding: 0 1rem;
+  //   align-items: center;
+  // }
 
-  .modal__content {
-    padding: 2rem;
-  }
+  // button.location-item__btn--default {
+  //   font-size: 14px;
+  // }
 
-  .form-wrapper__change-password {
-    padding: 24px 18px 24px 70px;
-  }
+  // .change-password-btn {
+  //   width: 50%;
+  // }
 
-  .order-content-list {
-    display: flex;
-    padding: 1rem;
-    flex-direction: column;
-  }
+  // input {
+  //   border-radius: 0.75rem;
+  //   border: 1px solid #857373;
+  //   background-color: transparent;
+  // }
 
-  .order__img {
-    width: 157px;
-    height: 157px;
-  }
+  // .section__btn {
+  //   position: absolute;
+  //   top: 4px;
+  //   right: 4px;
+  // }
 
-  .order__item {
-    display: flex;
+  // .location-item__btn--default {
+  //   width: 130px;
+  // }
+
+  // .location-item__btn--edit {
+  //   width: 70px;
+  // }
+
+  // span.status-layer.full-edit.label {
+  //   display: none;
+  // }
+}
+
+@media only screen and (max-width: 655px){
+// Tài khoản ngân hàng
+.account-item__wrapper{
+  flex-direction: column;
+  gap: 12px;
+  align-items: normal;
+}
+.bank-btn{
+    justify-content: flex-end;
     flex-direction: row;
+}
+
+}
+
+@media only screen and (max-width: 576px) {
+
+.section__content form .form__row .row label{
+    justify-content: start;
     width: 100%;
   }
-
-  .order__item-content {
-    width: 60%;
-    white-space: nowrap;
+  .section__content form .form__row .row input{
+    width: 100%;
+  }
+  .section__content form .form__row .row .col-9{
+    padding-left: 0;
+    width: 100%;
+  }
+.modal__content--form .btn__wrapper{
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  .order__item-content-name {
-    white-space: wrap;
-  }
-
-  .item__status {
-    display: flex;
+  //Địa chỉ giao hàng
+  .shipping-item__wrapper{
     flex-direction: column;
-    padding-top: 1rem;
-    width: 18%;
-    gap: 5rem;
+    gap: 12px;
   }
-
-  .item__status p {
-    width: 100%;
+  .shipping-info{
     padding: 0;
-    margin: 0;
-    font-size: 16px;
-    text-align: center;
+  }
+  .shipping-btn{
+    gap: 12px;
+    margin-left: auto;
   }
 
-  .order__item-att {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-  }
 
-  .truncate {
-    width: 60%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+//Đơn hàng
+.orders-item__info .name-status .status{
+  display: none;
+}
+.img-status .status{
+  display: block;
+}
+.quantity-price{
+  flex-direction: column;
+  text-align: right;
+  gap:8px;
+}
+.appreciate-repurchase{
+  flex-direction: column;
+  margin-left: auto;
+  & .appreciate{
+    width: fit-content;
+    margin-left: auto;
   }
+}
+
+//   .headline-large,
+//   .headline-medium {
+//     font-size: 24px;
+//     font-weight: 400;
+//     white-space: nowrap;
+//   }
+
+//   .body-medium {
+//     font-size: 14px;
+//   }
+
+//   .status-layer {
+//     /* height: 3rem;
+//       padding: 0 1rem; */
+//     align-items: center;
+//   }
+
+//   button.location-item__btn--default {
+//     font-size: 14px;
+//   }
+
+//   .change-password-btn {
+//     width: 100%;
+//   }
+
+//   input {
+//     /* height: 3rem !important; */
+//     border-radius: 0.75rem;
+//     border: 1px solid var(--md-sys-color-outline);
+//     /* padding: 0 0.25rem; */
+//     background-color: transparent;
+//   }
+
+//   .section__btn {
+//     position: absolute;
+//     top: 4px;
+//     right: 4px;
+//   }
+
+//   .location-item__btn--default {
+//     width: 130px;
+//   }
+
+//   .location-item__btn--edit {
+//     width: 70px;
+//   }
+
+//   /* button.btn-icon {
+//       width: 40px;
+//     } */
+
+//   span.status-layer.full-edit.label {
+//     display: none;
+//   }
+
+//   .modal__content {
+//     padding: 2rem;
+//   }
+
+//   .form-wrapper__change-password {
+//     padding: 24px 18px 24px 70px;
+//   }
+
+//   .order-content-list {
+//     display: flex;
+//     padding: 1rem;
+//     flex-direction: column;
+//   }
+
+//   .order__item {
+//     display: flex;
+//     flex-direction: row;
+//     width: 100%;
+//   }
+
+//   .order__item-content {
+//     width: 60%;
+//     white-space: nowrap;
+//   }
+
+//   .order__item-content-name {
+//     white-space: wrap;
+//   }
+
+//   .item__status {
+//     display: flex;
+//     flex-direction: column;
+//     padding-top: 1rem;
+//     width: 18%;
+//     gap: 5rem;
+//   }
+
+//   .item__status p {
+//     width: 100%;
+//     padding: 0;
+//     margin: 0;
+//     font-size: 16px;
+//     text-align: center;
+//   }
+
+//   .order__item-att {
+//     display: flex;
+//     justify-content: space-between;
+//     flex-direction: column;
+//   }
+
+//   .truncate {
+//     width: 60%;
+//     overflow: hidden;
+//     white-space: nowrap;
+//     text-overflow: ellipsis;
+//   }
 }

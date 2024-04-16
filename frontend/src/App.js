@@ -32,6 +32,9 @@ const router = createBrowserRouter(
       <Route path="policy" element={<Policy />}>
         {' '}
       </Route>
+      <Route path="register" element={<Register />} />
+      <Route path="log_in" element={<Login />} />
+      <Route path="/account/:id" element={<Account />} />
     </Route>,
   ),
 );
