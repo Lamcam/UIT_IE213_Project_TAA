@@ -1,17 +1,21 @@
 import Button from 'components/Common/Button1';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Col, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import { BsCheck2 } from 'react-icons/bs';
 import 'style/components/Products/ProductFilter.scss';
 import PropTypes from 'prop-types';
+
 ProductFilter.propTypes = {
     applyFilter: PropTypes.func.isRequired,
+    // Xóa prop initialData vì không sử dụng trong ProductFilter
+    // initialData: PropTypes.array.isRequired,
 };
 
 function ProductFilter(props) {
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [selectedButtons, setSelectedButtons] = useState([]); // Sử dụng một mảng để lưu trữ tất cả các nút được chọn
+    const [selectedButtons, setSelectedButtons] = useState([]);
+
     const handleDropdownToggle = () => {
         setShowDropdown(!showDropdown);
     };
@@ -19,17 +23,27 @@ function ProductFilter(props) {
     const handleDropdownSelect = (eventKey, event) => {
         setSelectedOption(eventKey);
         setShowDropdown(false);
+        props.applyFilter({ sortBy: eventKey, filterBy: selectedButtons });
     };
 
     const handleButtonClick = (buttonName) => {
-        const selectedIndex = selectedButtons.indexOf(buttonName);
-        if (selectedIndex !== -1) {
-            // Nếu nút đã được chọn trước đó được nhấn lại, hủy trạng thái đã chọn
-            setSelectedButtons(selectedButtons.filter((name) => name !== buttonName));
+        let updatedButtons = [...selectedButtons];
+        const isButtonSelected = selectedButtons.includes(buttonName);
+
+        if (isButtonSelected) {
+            updatedButtons = updatedButtons.filter(btn => btn !== buttonName);
         } else {
-            // Nếu nút mới được chọn, thêm vào mảng các nút được chọn
-            setSelectedButtons([...selectedButtons, buttonName]);
+            updatedButtons.push(buttonName);
         }
+
+        if (updatedButtons.includes("Giảm giá")) {
+            props.applyFilter({ sortBy: selectedOption || '0', filterBy: [] });
+        }
+        console.log(updatedButtons)
+        props.applyFilter({ sortBy: selectedOption || '0', filterBy: updatedButtons });
+        console.log(updatedButtons)
+
+        setSelectedButtons(updatedButtons);
     };
 
     let dropdownTitle = 'Giá';
@@ -38,25 +52,30 @@ function ProductFilter(props) {
     } else if (selectedOption === '2') {
         dropdownTitle = 'Từ cao đến thấp';
     }
+
     return (
         <Row>
             <Col className="product__filter body-large on-surface-text">
                 <span>Sắp xếp theo: </span>
                 <Button
-                    className="product__button"
+                    className={"product__button"}
                     label="Giảm giá"
                     onClick={() => handleButtonClick("Giảm giá")}
                     icon={selectedButtons.includes("Giảm giá") ? BsCheck2 : null}
                     iconHeight="24px"
                     iconWidth="24px"
+                    backgroundColor={`${selectedButtons.includes("Giảm giá") ? '#ffdad9' : 'white'}`}
+                    border={`${selectedButtons.includes("Giảm giá") ? 'none' : ''}`}
                 />
                 <Button
-                    className="product__button"
+                    className={"product__button"}
                     label="Bán chạy nhất"
                     onClick={() => handleButtonClick("Bán chạy nhất")}
                     icon={selectedButtons.includes("Bán chạy nhất") ? BsCheck2 : null}
                     iconHeight="24px"
                     iconWidth="24px"
+                    backgroundColor={`${selectedButtons.includes("Bán chạy nhất") ? '#ffdad9' : 'white'}`}
+                    border={`${selectedButtons.includes("Bán chạy nhất") ? 'none' : ''}`}
                 />
                 <DropdownButton
                     title={dropdownTitle}

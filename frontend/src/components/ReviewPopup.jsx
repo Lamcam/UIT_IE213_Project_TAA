@@ -34,10 +34,10 @@ export default function ReviewPopup({ show, onHide }) {
 
   return (
     <Modal show={show} onHide={onHide}>
-      <Modal.Header closeButton style={{ fontSize: '20px' }}>
+      <Modal.Header className="modal__content__review" closeButton style={{ fontSize: '20px' }}>
         <Modal.Title className="modal__title">Đánh giá sản phẩm</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="modal-review modal__content">
+      <Modal.Body className="modal-review modal__content__review">
         <div className="modal-body">
           <div className="modal__product">
             <Image
@@ -91,7 +91,7 @@ export default function ReviewPopup({ show, onHide }) {
           </div>
         </div>
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className="modal__content__review">
         <Button className="btn_round_8px btn_light btn_review_backto" onClick={onHide}>
           Trở lại
         </Button>

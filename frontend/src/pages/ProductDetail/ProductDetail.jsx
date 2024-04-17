@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Container, Image, Row, Col } from 'react-bootstrap';
 import productDetailImg from '../../assets/image/pencil.png';
 import productDetailImg1 from '../../assets/image/t1.jpg';
@@ -20,8 +21,31 @@ import { NavLink } from 'react-router-dom';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import Button from 'components/Common/Button';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
-function ProductDetail({ productId }) {
+ProductDetail.propTypes = {
+  product: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    prod_name: PropTypes.string.isRequired,
+    prod_cost: PropTypes.shape({
+      $numberDecimal: PropTypes.string.isRequired,
+    }).isRequired,
+    prod_discount: PropTypes.shape({
+      $numberDecimal: PropTypes.string.isRequired,
+    }).isRequired,
+    prod_end_date_discount: PropTypes.string.isRequired,
+    prod_num_sold: PropTypes.number.isRequired,
+    prod_num_rating: PropTypes.number.isRequired,
+    prod_star_rating: PropTypes.number.isRequired,
+    prod_description: PropTypes.string.isRequired,
+    cate_id: PropTypes.string.isRequired,
+    prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
+    prod_num_avai: PropTypes.number.isRequired,
+  }).isRequired,
+};
+
+function ProductDetail() {
+  const { productId } = useParams();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
@@ -206,7 +230,7 @@ function ProductDetail({ productId }) {
             <div className="product__detail__col3">
               <div className="product__name__detail">
                 <div className="product__name__detail__first">
-                  <h1 className="product__name__detail__title">product.prod_name</h1>
+                  <h1 className="product__name__detail__title">{product.prod_name}</h1>
                   <div>
                     {isFilled ? (
                       <TbHeartFilled className="heart_plus" onClick={handleClick} />
@@ -280,7 +304,9 @@ function ProductDetail({ productId }) {
                     +
                   </div>
                 </div>
-                <span className="quantity__product__detail_available">product.pro_num_avai sản phẩm sẵn có</span>
+                <span className="quantity__product__detail_available">
+                  product.pro_num_avai sản phẩm sẵn có
+                </span>
               </div>
               <div className="add__cart__buy__now">
                 <button

@@ -2,6 +2,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import './breadcrumbs.scss';
 import { useLocation } from 'react-router-dom';
 
+
 function BreadcrumbSection() {
     const location = useLocation()
 
@@ -22,7 +23,7 @@ function BreadcrumbSection() {
     //   {crumbs}
       
     // </div>
-    <section className='breadcrumbs_section' style={{display: currentPath=='/'? 'none' : null }} >
+    <section className='breadcrumbs_section' style={{display: currentPath === '/'? 'none' : null }} >
         <Breadcrumb>
             <Breadcrumb.Item href='/'>Trang chủ</Breadcrumb.Item>
             {crumbs}

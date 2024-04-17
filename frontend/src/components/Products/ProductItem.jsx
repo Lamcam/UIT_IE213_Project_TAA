@@ -43,13 +43,15 @@ function ProductItem({ product }) {
         return formattedPrice.trim();
     };
 
+    if (!product) {
+        return null;
+      }
+
     const currentPrice = formatPrice(product.prod_cost.$numberDecimal - product.prod_discount.$numberDecimal * product.prod_cost.$numberDecimal)
     const discount = product.prod_discount.$numberDecimal * 100
     const BeforDiscountPrice = formatPrice(product.prod_cost.$numberDecimal)
 
     return (
-
-
         product.prod_num_avai > 0 ? (<div className="product__item body-large">
             <div className="product__item__img">
                 <img className="img_front" src={product.prod_img[0]}></img>
@@ -61,7 +63,8 @@ function ProductItem({ product }) {
                 ) : (
                     <TbHeartPlus className='icon-heart' onClick={toggleLike} />
                 )}
-                <div className="product__item__name on-error-container-text">{product.prod_name}</div>
+                {/* <div className="product__item__name on-error-container-text">{product.prod_name}</div> */}
+                <NavLink to={`/products/${product._id}`} className="product__item__name on-error-container-text">{product.prod_name}</NavLink>
                 <div className="product__item__price">
                     <div className="item__price__current">{currentPrice} đ</div>
                     <div className="item__price__discount">{BeforDiscountPrice} đ</div>
@@ -76,7 +79,7 @@ function ProductItem({ product }) {
                     Xem nhanh
                 </div>
                 <PopupQuickView show={showPopup}
-                    onHide={() => setShowPopup(false)} images={product.prod_img} productItem={product} />
+                    onHide={() => setShowPopup(false)} productItem={product} />
                 <div className="line--vertical"></div>
                 <NavLink >Mua ngay</NavLink>
             </div>
