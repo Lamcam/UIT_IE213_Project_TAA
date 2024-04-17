@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import 'style/components/Products/PopupQuickView.scss';
+
+
 function PopupQuickView(props) {
-  const [selectedImage, setSelectedImage] = useState(props.images[0]);
+  const defaultImage = props.productItem?.prod_img?.length > 0 ? props.productItem.prod_img[0] : '';
+  const [selectedImage, setSelectedImage] = useState(defaultImage);
   const [quantity, setQuantity] = useState(1);
 
   const selectImage = (image) => {
@@ -15,7 +18,9 @@ function PopupQuickView(props) {
   const handleImageHover = (image) => {
     setSelectedImage(image);
   };
-
+  if (!props.productItem) {
+    return null;
+  }
   const handleIncrement = () => {
     setQuantity((prevQuantity) => {
       const newQuantity = prevQuantity + 1;
@@ -64,11 +69,11 @@ function PopupQuickView(props) {
             <img
               src={selectedImage}
               alt="Product"
-              className={selectedImage === props.images[0] ? "selected" : ""}
+              className={selectedImage === props.productItem.prod_img[0] ? "selected" : ""}
             />
           </div>
           <div className="img__list">
-            {props.images.map((image, index) => (
+            {props.productItem.prod_img.map((image, index) => (
               <img
                 key={index}
                 src={image}
@@ -153,8 +158,7 @@ function PopupQuickView(props) {
 }
 
 PopupQuickView.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onHide: PropTypes.func.isRequired,
   productItem: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     prod_name: PropTypes.string.isRequired,

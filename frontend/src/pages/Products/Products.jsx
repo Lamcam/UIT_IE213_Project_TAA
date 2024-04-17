@@ -19,7 +19,7 @@ function Products() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/products');
+      const response = await axios.get('http://localhost:8000/products');
       setData(response.data);
       console.log(response.data)
     } catch (error) {
@@ -34,7 +34,7 @@ function Products() {
   };
   return (
     <Container className="product" fluid>
-      <ProductFilter applyFilter={applyFilter}/>
+      <ProductFilter applyFilter={applyFilter} />
       <Row className="product__content">
         <Col lg={3} md={3}>
           <ProductMenu />

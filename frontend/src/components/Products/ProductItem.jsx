@@ -48,8 +48,6 @@ function ProductItem({ product }) {
     const BeforDiscountPrice = formatPrice(product.prod_cost.$numberDecimal)
 
     return (
-
-
         product.prod_num_avai > 0 ? (<div className="product__item body-large">
             <div className="product__item__img">
                 <img className="img_front" src={product.prod_img[0]}></img>
@@ -76,7 +74,7 @@ function ProductItem({ product }) {
                     Xem nhanh
                 </div>
                 <PopupQuickView show={showPopup}
-                    onHide={() => setShowPopup(false)} images={product.prod_img} productItem={product} />
+                    onHide={() => setShowPopup(false)} productItem={product} />
                 <div className="line--vertical"></div>
                 <NavLink >Mua ngay</NavLink>
             </div>
