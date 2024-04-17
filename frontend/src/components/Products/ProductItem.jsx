@@ -1,57 +1,103 @@
 import PopupQuickView from 'components/Products/PopupQuickView';
 import { useState } from 'react';
-import { Row } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { IoHeartSharp } from "react-icons/io5";
 import { TbHeartPlus } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import "style/components/Products/ProductItem.scss";
+import PropTypes from 'prop-types';
 
-function ProductItem(props) {
-  const [isLiked, setIsLiked] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+ProductItem.propTypes = {
+    product: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        prod_name: PropTypes.string.isRequired,
+        prod_cost: PropTypes.shape({
+            $numberDecimal: PropTypes.string.isRequired
+        }).isRequired,
+        prod_discount: PropTypes.shape({
+            $numberDecimal: PropTypes.string.isRequired
+        }).isRequired,
+        prod_end_date_discount: PropTypes.string.isRequired,
+        prod_num_sold: PropTypes.number.isRequired,
+        prod_num_rating: PropTypes.number.isRequired,
+        prod_star_rating: PropTypes.number.isRequired,
+        prod_description: PropTypes.string.isRequired,
+        cate_id: PropTypes.string.isRequired,
+        prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
+        prod_num_avai: PropTypes.number.isRequired
+    }).isRequired
+};
 
-  const toggleLike = () => {
-    setIsLiked(!isLiked);
-  };
+function ProductItem({ product }) {
 
-  return (
-    <Row lg={3} md={2}>
-      <div className="product__item">
-        <div className="product__item__img">
-          <img
-            className="img_front"
-            src="https://bizweb.dktcdn.net/thumb/1024x1024/100/461/213/products/vsb500-1693984716343.png?v=1700111068067"
-          ></img>
-          <img
-            className="img_after"
-            src="https://bizweb.dktcdn.net/100/463/551/products/vong-tay-nu-ca-tinh-a-d-e-l-e-02-jpeg.jpg?v=1665059164433"
-          ></img>
-        </div>
-        <div className="product__item__body">
-          {isLiked ? (
-            <IoHeartSharp className="icon-heart" onClick={toggleLike} />
-          ) : (
-            <TbHeartPlus className="icon-heart" onClick={toggleLike} />
-          )}
-          <div className="product__item__name label-large">Vòng tay xinh xắn</div>
-          <div className="product__item__price">
-            <div className="item__price__current">100,000 đ</div>
-            <div className="item__price__discount">200,000 đ</div>
-          </div>
-          <div className="product__item__discount">Giảm 50%</div>
-          <div className="product__item__stock">Còn hàng</div>
-        </div>
-        <div className="product__item__section">
-          <div className="product__item__view" onClick={() => setShowPopup(true)}>
-            Xem nhanh
-          </div>
-          <PopupQuickView show={showPopup} onHide={() => setShowPopup(false)} />
-          <div className="line--vertical"></div>
-          <NavLink>Mua ngay</NavLink>
-        </div>
-      </div>
-    </Row>
-  );
+    const [isLiked, setIsLiked] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const toggleLike = () => {
+        setIsLiked(!isLiked);
+    };
+
+    const formatPrice = (price) => {
+        const priceNumber = parseFloat(price);
+        let formattedPrice = priceNumber.toLocaleString('vi-VN', { maximumFractionDigits: 0 });
+        return formattedPrice.trim();
+    };
+
+    const currentPrice = formatPrice(product.prod_cost.$numberDecimal - product.prod_discount.$numberDecimal * product.prod_cost.$numberDecimal)
+    const discount = product.prod_discount.$numberDecimal * 100
+    const BeforDiscountPrice = formatPrice(product.prod_cost.$numberDecimal)
+
+    return (
+        product.prod_num_avai > 0 ? (<div className="product__item body-large">
+            <div className="product__item__img">
+                <img className="img_front" src={product.prod_img[0]}></img>
+                <img className="img_after" src={product.prod_img[1]}></img>
+            </div>
+            <div className="product__item__body">
+                {isLiked ? (
+                    <IoHeartSharp className='icon-heart' onClick={toggleLike} />
+                ) : (
+                    <TbHeartPlus className='icon-heart' onClick={toggleLike} />
+                )}
+                <div className="product__item__name on-error-container-text">{product.prod_name}</div>
+                <div className="product__item__price">
+                    <div className="item__price__current">{currentPrice} đ</div>
+                    <div className="item__price__discount">{BeforDiscountPrice} đ</div>
+                </div>
+                <div className="product__item__discount">Giảm {discount} %</div>
+                <div className="product__item__stock primary-text">Còn hàng</div>
+            </div>
+            <div className="product__item__section">
+                <div className="product__item__view" onClick={() => setShowPopup(
+                    true
+                )}>
+                    Xem nhanh
+                </div>
+                <PopupQuickView show={showPopup}
+                    onHide={() => setShowPopup(false)} productItem={product} />
+                <div className="line--vertical"></div>
+                <NavLink >Mua ngay</NavLink>
+            </div>
+        </div>) : (
+            <div className="product__outstock product__item body-large">
+                <div className="product__item__img">
+                    <img className="img_front" src={product.prod_img[0]}></img>
+                    <img className="img_after" src={product.prod_img[1]}></img>
+                </div>
+                <div className="product__item__body">
+                    <TbHeartPlus className='icon-heart' />
+                    <div className="product__item__name on-error-container-text">{product.prod_name}</div>
+                    <div className="product__item__price">
+                        <div className="item__price__current">{currentPrice} đ</div>
+                        <div className="item__price__discount">{BeforDiscountPrice} đ</div>
+                    </div>
+                    <div className="product__item__discount">Giảm {discount} %</div>
+                    <div className="product__item__stock title-large error-text">Hết hàng</div>
+                </div>
+            </div>
+        )
+
+    );
 }
-
 export default ProductItem;
+

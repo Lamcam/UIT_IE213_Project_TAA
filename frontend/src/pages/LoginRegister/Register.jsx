@@ -1,11 +1,15 @@
-import {Form, Image, Button } from 'react-bootstrap';
-import {Col, Container} from 'react-bootstrap';
+import {Form, Image, Button, Col, Container } from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
 import './Login.scss';
 import { NavLink } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useRegister } from 'hooks/useRegister';
+
 function Register() {
+  
+  const { register } = useRegister();
   const [submit,setSubmit]= useState(false)
+  
   const [valid, setValid] = useState({
     username: false,
     phone: false,
@@ -33,7 +37,7 @@ function Register() {
   });
 
   const handleCheck = (e) => {
-    setValid(!valid.check);
+    setValid(...valid, !valid.check);
   }
 
   const handleInputPasswordChange = (e) => {
@@ -55,7 +59,7 @@ function Register() {
   }
 
   const handleNameChange = (e) => {
-    setInput({...input, username: e.target.value});
+    setInput({...input, username : e.target.value});
     if (e.target.value.length > 0) {
       setValid({...valid, username: true});
     } else {
@@ -79,18 +83,19 @@ function Register() {
     } else {
       setValid({...valid, phone: false});
     }
+
   }
 
-  const handleSubmition = (e) => {
+  const handleSubmition = async (e) => {
     e.preventDefault();
     const all = Object.values(valid);
+
     if (all.every((item) => item === true)) {
-
-    }
-    else{
-
+      setSubmit(true);
       
     }
+    register(input);
+    
   }
 
   return (
