@@ -25,3 +25,11 @@ code {
 main {
   margin: 0px 100px;
 }
+
+
+@media screen and (max-width: 900px) {
+  main {
+    margin: 0px 0px;
+  }
+  
+}
