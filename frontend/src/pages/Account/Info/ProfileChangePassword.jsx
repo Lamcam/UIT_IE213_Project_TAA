@@ -12,13 +12,14 @@ function ProfileChangePassword() {
   });
   const defaultUserData1 = {
     _id: "65f3e8eb7ef3c2b6f3b74ac6",
-    user_name: 'Nguyễn Văn A',
+    user_name: 'Nguyễn Văn Bê',
     user_phone: '0123456789',
     user_email: "abc@gmail.com",
     user_pass: "Abcd@123",
     user_avatar: "",
     local_default_id: "1",
-    bank_default_id:"1"
+    bank_default_id: "1",
+    user_username: "abc"
   };
   // Lưu thông tin người dùng vào Local Storage
   localStorage.setItem('user', JSON.stringify(defaultUserData1));

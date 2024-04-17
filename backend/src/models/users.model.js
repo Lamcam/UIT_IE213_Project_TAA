@@ -9,8 +9,9 @@ let UsersSchema = new Schema({
     user_email: { type: "string" , required: true, uniquer: true},
     user_pass: { type: "string", require: true },
     user_avatar: { type: "string" }, //chỉnh lại sau (HAN chỉnh từ null thành string)
-    local_default_id: { type: "string" }, // HAN delete required: true
-    bank_default_id: { type: "string" },
+    local_default_id: { type: Schema.Types.ObjectId, ref: "locations"}, // HAN delete required: true
+    bank_default_id: { type: Schema.Types.ObjectId, ref:"bankcards" },
+    user_username: { type: "string" },
 });
 
 module.exports = mongoose.model("users", UsersSchema);

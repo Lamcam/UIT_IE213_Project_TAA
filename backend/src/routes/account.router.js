@@ -9,9 +9,9 @@ const account = require('../controllers/account.controller')
 // router.post('/information/addLocal', account.addLocal)
 router.put('/update-user/:id', account.updateUser)
 router.put('/change-pass/:id', account.changePassword)
-
-// router.get('/profile-bank-card', account.profileBankCard)
-// router.post('/profile-bank-card/add', account.addLocal)
+router.delete('/delete-bank/:id', account.deleteBank)
+router.get('/bank-cards/:id', account.getBankCards)
+router.post('/add-bank/:id',account.addBank)
 
 // router.get('/account/orders', account.orders)
 

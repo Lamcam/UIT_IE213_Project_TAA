@@ -9,24 +9,23 @@ import { MdEdit } from 'react-icons/md';
 function ProfileUser() {
   const defaultUserData1 = {
     _id: "65f3e8eb7ef3c2b6f3b74ac6",
-    user_name: 'Nguyễn Văn A',
+    user_name: 'Nguyễn Văn Bê',
     user_phone: '0123456789',
     user_email: "abc@gmail.com",
     user_pass: "Abcd@123",
     user_avatar: "",
     local_default_id: "1",
-    bank_default_id:"1"
+    bank_default_id: "1",
+    user_username: "abc"
   };
-  const [errorPhone, setErrorPhone] = useState('');
-  const [errorEmail, setErrorEmail] = useState('');
 // Lưu thông tin người dùng vào Local Storage
   localStorage.setItem('user', JSON.stringify(defaultUserData1));
   const defaultUserData = JSON.parse(localStorage.getItem('user'))
-  console.log(defaultUserData)
 
   const [userData, setUserData] = useState(defaultUserData);
-  console.log(userData)
   const [disabled, setDisabled] = useState(true);
+  const [errorPhone, setErrorPhone] = useState('');
+  const [errorEmail, setErrorEmail] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,7 +98,7 @@ function ProfileUser() {
       <form action="/" method="PUT" onSubmit={handleSubmit} className='form__content'>
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="login_name">
+            <label className="col-3 label-large" htmlFor="user_name">
               Tên đăng nhập:
             </label>
             <div className="col-9 input__wrapper">
@@ -107,16 +106,16 @@ function ProfileUser() {
                 readOnly
                 className="input__wrapper-child"
                 type="text"
-                id="login_name"
-                name="loginName"
-                value={"abc"}
+                id="user_name"
+                name="user_name"
+                value={userData.user_name}
               />
             </div>
           </Row>
         </div>
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="user_name">
+            <label className="col-3 label-large" htmlFor="user_username">
               Tên người dùng:
             </label>
             <div className="col-9 input__wrapper">
@@ -124,9 +123,9 @@ function ProfileUser() {
                 required
                 className="input__wrapper-child"
                 type="text"
-                id="user_name"
-                name="user_name"
-                value={userData.user_name}
+                id="user_username"
+                name="user_username"
+                value={userData.user_username}
                 onChange={handleChange}
               />
               <ButtonIcon
