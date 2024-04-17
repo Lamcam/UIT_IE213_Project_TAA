@@ -15,7 +15,7 @@ function NewsPost() {
               hướng thẩm mỹ từ cuối thập niên 90 đầu 2000 - đã gây chú ý trở
               lại trong những năm gần đây và được các tín đồ thời trang chào đón
               nồng nhiệt.</p>
-            <Image className="post__poster" loading="lazy" src={banner} fluid/>
+            {/* <Image className="post__poster" loading="lazy" src={banner} fluid/> */}
             <p className="post__heading headline-small">KẸP TÓC</p>
             <p className="post__text body-large">Chiếc kẹp tóc có thể dễ dàng tìm
               mua và được kết hợp trong nhiều phong cách do có đa dạng thiết kế,
@@ -59,7 +59,7 @@ function NewsPost() {
             </div>
         
       </Container>
-      <Image src={bannersmall} fluid />
+      <Image src={bannersmall} fluid/>
         </div>
     );
 

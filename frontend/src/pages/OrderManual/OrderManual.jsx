@@ -1,7 +1,9 @@
 import React from 'react';
 import { Container, Image } from 'react-bootstrap';
-import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
+import { FiSearch } from "react-icons/fi";
 import "./OrderManual.scss";
+import Button1 from "components/Common/Button1"
 import bannersmall from "assets/image/banners/banner-small.png";
 
 function OrderManual() {
@@ -18,40 +20,43 @@ function OrderManual() {
           <p>Quý khách có thể chọn tìm kiếm sản phẩm theo 2 cách sau:</p>
           <ol>
             <li>Gõ tên sản phẩm vào thanh tìm kiếm
-              <span className="oderManual__search-bar">
-                <input className="label-large" type="text" placeholder="Tìm kiếm"/>
-                <button className="btn-icon btn--filled">
-                  <FaSearch size={25}/>
-                </button>   
+              <span className="orderManual__search-bar">
+              <FiSearch stroke='#524343' className="search-icon" /> 
+                <input type="text" placeholder="Tìm kiếm" disabled/>
               </span> phía trên cùng webiste.
             </li>
             <li>Tìm sản phẩm trong mục "SẢN PHẨM" trên thanh menu.</li>
           </ol>
+         
           <p>Sau khi tìm kiếm và lựa chọn cho mình sản phẩm ưng ý, quý
             khách nhấn chọn vào sản phẩm để xem hàng. Tại đây, khách hàng
             chọn Màu sắc, Kích cỡ và Số lượng sản phẩm muốn mua và chọn
-            mua sản phẩm bằng cách bấm chuột vào nút
-            <button className="btn--filled">
-              <span className="status-layer label-large">Mua ngay</span>
-            </button>.
-          </p>
+            mua sản phẩm bằng cách bấm chuột vào nút  
+            <div className="button-wrapper">
+            <Button1 label="Mua ngay"labelColor="#F1EFE7"
+                    backgroundColor="#785B5B"/></div>.</p> 
+        
           <p>Nếu quý khách lựa chọn thêm vào yêu thích tại biểu tượng "Yêu
             thích" phía góc trên bên phải của trang, từ trang Sản phẩm yêu
             thích, khách hàng lựa chọn sản phẩm muốn mua,
             giao diện sẽ được điều hướng đến trang chi tiết sản phẩm, sau đó
             khách hàng thực hiện mua hàng theo cách trên.</p>
           <p>Ngoài ra, nếu quý khách lựa chọn
-            <button className="btn--filled-con btn-icon-label">
-              <span className="status-layer">
-              <FaShoppingCart size={25}/>
-                <span className='label'>Thêm vào giỏ hàng</span>
-              </span>
-            </button> , từ trang Giỏ hàng, khách hàng lựa chọn sản phẩm muốn
+          <div className="button-wrapper">
+          <Button1
+                borderColor="#785B5B"
+                backgroundColor="#FFEDEC"
+                label={<div style={{ display: 'flex', alignItems: 'center' }}>
+                <FaShoppingCart style={{ color: '#785B5B'}}/> 
+                <span style={{ marginLeft: '5px' }} >Thêm vào giỏ hàng</span> </div>}
+              /> </div>
+                
+             , từ trang Giỏ hàng, khách hàng lựa chọn sản phẩm muốn
             mua nếu các thông số như Màu sắc, Kích cỡ và Số lượng sản phẩm đã
             phù hợp với nhu cầu của khách hàng, khách hàng thực hiện bấm chọn
-            <button className="btn--filled">
-              <span className="status-layer">Tiến hành đặt hàng</span>
-            </button>.
+            <div className="button-wrapper">
+            <Button1 label="Tiến hành đặt hàng"labelColor="#F1EFE7"
+                    backgroundColor="#785B5B"/></div>.
           </p>
           <h2 className="orderManual__step headline-small">TIẾN HÀNH ĐẶT HÀNG VÀ
             THANH TOÁN ĐƠN HÀNG</h2>

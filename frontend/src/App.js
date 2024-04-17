@@ -6,6 +6,7 @@ import AboutUs from './pages/AboutUs/AboutUs';
 import Products from './pages/Products/Products';
 import Error404 from './pages/Error404';
 import OrderManual from './pages/OrderManual/OrderManual';
+import ProductDetail from './pages/ProductDetail/ProductDetail';
 import NewsPost from './pages/NewsPost/NewsPost';
 
 import {
@@ -29,6 +30,9 @@ const router = createBrowserRouter(
         {' '}
       </Route>
       <Route path="policy" element={<Policy />}>
+        {' '}
+      </Route>
+      <Route path="news_post" element={<NewsPost />}>
         {' '}
       </Route>
     </Route>,

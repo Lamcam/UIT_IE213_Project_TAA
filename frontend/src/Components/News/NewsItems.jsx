@@ -14,7 +14,7 @@ function NewsItems() {
                 </Col>
                 <Col sm={8}>
                 <div className="card__body">
-                    <Link className="article__title title-medium" to ="/post">hehe</Link>
+                    <Link className="article__title title-medium" to ="/news_post">hehe</Link>
                     <p className="article__context body-medium">hjhjhj</p>
                 </div>
                 </Col>

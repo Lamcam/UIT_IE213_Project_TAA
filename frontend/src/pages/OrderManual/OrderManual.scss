@@ -46,7 +46,30 @@ body {
     border: 1px solid #9C4048;
     background: var(--m-3-ref-primary-primary-95, #FFEDEC);
   }
-  
+
+.orderManual__search-bar{
+  display: inline-flex;
+    align-items: center;
+    width: 30%;
+    min-height: 40px;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    background-color: #f5f5f5;
+}
+
+.orderManual__search-bar input{
+  border: none;
+  outline: none;
+    background-color: #f5f5f5;
+ }
+
+.button-wrapper{
+  display: inline-block;
+  padding-left: 5px;
+}
   .orderManual__banner {
     /* width: 100%;
     height: 180px; */
@@ -56,24 +79,24 @@ body {
   }
   
   @media only screen and (min-width: calc(577px)) and (max-width: 768px) {
-    .container h1 {
+    h1.orderManual__title {
       font-size: 28px;
       line-height: 50px;
     }
   
-    .section__content h2 {
+    h2.orderManual__step {
       font-size: 18px;
       line-height: 30px;
     }
   }
   
   @media only screen and (max-width: 576px) {
-    .container h1 {
+    h1.orderManual__title {
       font-size: 28px;
       line-height: 40px;
     }
   
-    .section__content h2 {
+    h2.orderManual__step {
       font-size: 18px;
       line-height: 30px;
     }

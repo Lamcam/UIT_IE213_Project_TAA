@@ -31,7 +31,7 @@ function AboutUs() {
           </Container>
 
       <div className="about__banner">
-        <Image src={about__banner} fluid />
+        <Image src={about__banner} />
       </div>
 
       <Container>

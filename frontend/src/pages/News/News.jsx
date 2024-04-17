@@ -8,6 +8,13 @@ import banner3 from "assets/image/banners/news__banner--large-2.jpg";
 import bannersmall from "assets/image/banners/banner-small.png";
 
 function News() {
+  const posts = document.querySelectorAll('.NewsItems')
+    posts.forEach((item) => {
+        item.addEventListener("click", () => {
+            window.location.href = "/news_post?id=1"
+        })
+
+    })
     return (
         <div>
           
@@ -23,7 +30,7 @@ function News() {
       <Container className="news">
        
           <h1 className="news__title display-large">BÀI VIẾT</h1>
-          <div className="news__content row">
+          <div className="news__item row">
           <NewsItems></NewsItems>
           </div>
         
