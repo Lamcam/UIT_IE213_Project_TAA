@@ -1,32 +1,44 @@
 const Product = require("../models/products.model");
 const cloudinary = require("../utils/cloudinary");
-
+// const CategoryType = require("../models/categorytypes.model");
+// const Category = require("../models/categories.model");
 const getProductById = async (req, res) => {
-    try {
-        const productId = req.params.id; // Lấy ID sản phẩm từ tham số đường dẫn
-        const product = await Product.findById(productId); // Tìm sản phẩm theo ID
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-        res.status(200).json(product); // Trả về sản phẩm được tìm thấy
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const productId = req.params.id; // Lấy ID sản phẩm từ tham số đường dẫn
+    const product = await Product.findById(productId); // Tìm sản phẩm theo ID
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
     }
+    res.status(200).json(product); // Trả về sản phẩm được tìm thấy
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const getProducts = async (req, res) => {
-    try {
-        const products = await Product.find({});
-        console.log(products);
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+  try {
+    const products = await Product.find({});
+    console.log(products);
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getCate = async (req, res) => {
+  try {
+    const products = await Product.find({});
+    console.log(products);
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 module.exports = {
-    getProductById,
-    getProducts,
+  getProductById,
+  getProducts,
+  getCate,
 };
 
 // app.get("/products/:id", async (req, res) => {});

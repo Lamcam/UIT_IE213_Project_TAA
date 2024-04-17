@@ -1,9 +1,9 @@
-
 .product__menu {
   display: flex;
   background-color: white;
   border-radius: 12px;
-  width:99%;
+  // width:99%;
+  min-width: 217px;
 }
 
 .product__menu .aside__list {
