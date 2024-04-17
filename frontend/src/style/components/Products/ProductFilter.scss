@@ -25,9 +25,12 @@
   background-color: white;
 }
 .dropdown__product #dropdown-menu-align-right:active {
+  // color: #857373;
+  // border-color: #857373;
+  // background-color: white;
   color: #857373;
-  border-color: #857373;
-  background-color: white;
+  border: none;
+  background-color: #ffdad9;
 }
 
 .dropdown__product .btn-primary {
@@ -42,4 +45,3 @@
   font-size: 14px;
   padding: 8px 24px;
 }
-
