@@ -1,5 +1,3 @@
-/* @import url(token.scss); */
-
 .my-nav .nav-link:hover {
     background-color: #CCCCCC;
     cursor: pointer;
@@ -28,4 +26,11 @@
 .dropdown-toggle.nav-link{
     width: 100%;
     height: 100%;
+}
+
+@media screen and (max-width: 744px) {
+    .main_nav{
+        display: none;
+    }
+  
 }
