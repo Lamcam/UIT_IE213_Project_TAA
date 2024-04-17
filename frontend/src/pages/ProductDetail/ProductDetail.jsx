@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Container, Image, Row, Col } from 'react-bootstrap';
 import productDetailImg from '../../assets/image/pencil.png';
 import productDetailImg1 from '../../assets/image/t1.jpg';
@@ -21,7 +22,8 @@ import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddC
 import Button from 'components/Common/Button';
 import axios from 'axios';
 
-function ProductDetail({ productId }) {
+function ProductDetail() {
+  const { productId } = useParams();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
