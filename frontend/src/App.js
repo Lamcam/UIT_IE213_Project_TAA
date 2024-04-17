@@ -12,6 +12,7 @@ import AboutUs from './pages/AboutUs/AboutUs';
 import Error404 from './pages/Error404';
 import Home from './pages/Home/Home';
 import News from './pages/News/News';
+import NewsPost from './pages/NewsPost/NewsPost';
 import Policy from './pages/Policy/Policy';
 import Products from './pages/Products/Products';
 import RootLayout from './routes/RootLayout';
@@ -19,6 +20,7 @@ import Order from 'pages/Order/Order';
 import ProductDetail from 'pages/ProductDetail/ProductDetail';
 import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>
