@@ -19,6 +19,7 @@ import Order from 'pages/Order/Order';
 import ProductDetail from 'pages/ProductDetail/ProductDetail';
 import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>
@@ -35,9 +36,9 @@ const router = createBrowserRouter(
       <Route path="policy" element={<Policy />}>
         {' '}
       </Route>
-      <Route path="news_post" element={<NewsPost />}>
+      {/* <Route path="news_post" element={<NewsPost />}>
         {' '}
-      </Route>
+      </Route> */}
     </Route>,
   ),
 );
