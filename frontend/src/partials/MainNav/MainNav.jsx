@@ -1,25 +1,25 @@
 import React from "react";
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-// import '/partials/footer.module.scss'
-// import 'styles/components/mainNav.css'
-import './mainNav.scss'
-
 import { NavLink } from "react-router-dom";
+import './mainNav.scss';
+
 
 const navLiStyle = {
-    display: 'flex-block',
+    display: 'flex-inline',
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: '10rem',
-    minHeight: '4rem',
+    minWidth: '8rem',
+    maxWidth: '10rem',
+    width: '100%',  
+    minHeight: '48px'
 }
 
 function MainNav(props){
 
     return (
 
-        <Navbar>
-        <Container>
+        <Navbar className="main_nav" >
+        <Container fluid='lg'>
             <Nav className="my-nav">
                 <NavLink className='nav-link' style={navLiStyle} to="/">Trang chủ</NavLink>
                 <NavLink className='nav-link' style={navLiStyle} to="products">Sản phẩm</NavLink>

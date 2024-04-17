@@ -5,6 +5,8 @@ import SearchBar from "components/HeaderComponents/SearchBar";
 import "./Header.scss";
 import AuthPart from "components/HeaderComponents/AuthPart";
 import UnAuthPart from "components/HeaderComponents/UnAuthPart";
+import { Container } from "react-bootstrap";
+import HeaderOffcanvas from "components/HeaderComponents/Offcanvas";
 
 function Header() {
    const Auth = localStorage.getItem('user');
@@ -24,8 +26,10 @@ function Header() {
 
     return (
         <header className="visible un-radius">
+            
             <div className="header__top">
-                <div className="container">
+                <Container fluid='lg'>
+                    <HeaderOffcanvas />
                     <a className="header__link" href="/">
                         <Logo />
                     </a>
@@ -36,7 +40,7 @@ function Header() {
                         {checkAuth()}
 
                     </div>
-                </div>
+                </Container>
             </div>
 
             <MainNav />

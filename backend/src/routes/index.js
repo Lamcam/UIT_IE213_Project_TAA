@@ -5,7 +5,7 @@
 const product = require("./products.router");
 // const auth = require("./auth.router");
 const auth = require("./auth.router");
-// const news = require("./news.router");
+const news = require("./news.router");
 // const { hello } = require("../controllers/demo.controller");
 const {
   getProducts,
@@ -23,7 +23,7 @@ const route = (app) => {
 
   // app.use('/account', middlewares.authenticate, account)
 
-  // app.use('/news', news)
+  app.use('/news', news)
 
   app.use("/products", product);
 
