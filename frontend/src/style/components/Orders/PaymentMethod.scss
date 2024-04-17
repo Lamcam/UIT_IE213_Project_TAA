@@ -1,0 +1,27 @@
+.payment__method {
+  display: flex;
+  background-color: white;
+  border-radius: 12px;
+  flex-direction: column;
+  // width: 99%;
+  padding: 1rem;
+}
+
+.payment__method .payment__method__title {
+  display: flex;
+  height: 64px;
+  align-items: center;
+}
+
+.payment__method .payment__method__one,
+.payment__method .payment__method__two {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 12px;
+  height: 48px;
+}
+
+.payment__method .icon__radio {
+  font-size: 24px;
+}
