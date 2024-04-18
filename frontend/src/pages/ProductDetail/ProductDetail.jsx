@@ -44,15 +44,22 @@ ProductDetail.propTypes = {
   }).isRequired,
 };
 
-function ProductDetail() {
+function ProductDetail(props) {
   const { productId } = useParams();
+  console.log('log', productId);
   const [product, setProduct] = useState(null);
+  const [productFetched, setProductFetched] = useState(false);
+  const thumbnailImages = product?.prod_img || [];
+  const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
+  const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`/products/${productId}`);
+        const response = await axios.get(`http://localhost:8000/products/${productId}`);
+        console.log('data', response.data);
         setProduct(response.data);
+        setProductFetched(true); // Đánh dấu rằng dữ liệu sản phẩm đã được lấy thành công
       } catch (error) {
         console.error('Error fetching product:', error);
       }
@@ -61,17 +68,11 @@ function ProductDetail() {
     fetchProduct();
   }, [productId]);
 
-  const [currentImg, setCurrentImg] = useState(productDetailImg);
-  const [selectedThumbnail, setSelectedThumbnail] = useState(null);
-
-  const thumbnailImages = [
-    productDetailImg,
-    productDetailImg1,
-    productDetailImg2,
-    productDetailImg3,
-    productDetailImg4,
-    productDetailImg5,
-  ];
+  useEffect(() => {
+    if (productFetched && thumbnailImages.length > 0) {
+      setCurrentImg(thumbnailImages[0]);
+    }
+  }, [productFetched, thumbnailImages]);
 
   const handleThumbnailClick = (imgSrc) => {
     setCurrentImg(imgSrc);
@@ -212,7 +213,7 @@ function ProductDetail() {
           {/* Frame 2 */}
           <Col xs={6} className="product__detail_col6" style={{ padding: '0px' }}>
             <Image
-              className="product__image_big"
+              className={`product__image_big ${selectedThumbnail ? 'selected' : ''}`}
               src={currentImg}
               alt="image product"
               preview={false}
@@ -230,7 +231,7 @@ function ProductDetail() {
             <div className="product__detail__col3">
               <div className="product__name__detail">
                 <div className="product__name__detail__first">
-                  <h1 className="product__name__detail__title">{product.prod_name}</h1>
+                  <h1 className="product__name__detail__title">{product?.prod_name}</h1>
                   <div>
                     {isFilled ? (
                       <TbHeartFilled className="heart_plus" onClick={handleClick} />
@@ -249,12 +250,20 @@ function ProductDetail() {
                     <FaRegStar />
                   </div>
                   <span>2 đánh giá</span>
-                  <span>product.prod_num_sold đã bán</span>
+                  <span>{product?.prod_num_sold} đã bán</span>
                 </div>
                 <div className="product__name__detail__price">
-                  <span className="product__name__detail__price_first">product.prod_cost</span>
-                  <span className="product__name__detail__price_second">79.000đ</span>
-                  <span className="product__name__detail__price_third">product.prod_discount</span>
+                  <span className="product__name__detail__price_first">
+                    {product?.prod_cost.$numberDecimal} đ
+                  </span>
+                  <span className="product__name__detail__price_second">
+                    {product?.prod_cost.$numberDecimal -
+                      product?.prod_cost.$numberDecimal * product?.prod_discount.$numberDecimal}
+                    đ
+                  </span>
+                  <span className="product__name__detail__price_third">
+                    {product?.prod_discount.$numberDecimal * 100} %
+                  </span>
                 </div>
               </div>
               <div className="description__product__detail">
@@ -305,7 +314,7 @@ function ProductDetail() {
                   </div>
                 </div>
                 <span className="quantity__product__detail_available">
-                  product.pro_num_avai sản phẩm sẵn có
+                  {product?.prod_num_avai} sản phẩm sẵn có
                 </span>
               </div>
               <div className="add__cart__buy__now">
@@ -422,20 +431,20 @@ function ProductDetail() {
               <div className="body__content">Sản phẩm xinh cực, cảm ơn shop ạ!!</div>
               <div className="body__imgs">
                 <Image
-                  src={productDetailImg}
+                  src={product?.prod_img[1]}
                   className="body__img"
                   alt="image small"
                   preview={false}
                 />
                 <Image
-                  src={productDetailImg}
+                  src={product?.prod_img[2]}
                   alt="image small"
                   className="body__img"
                   preview={false}
                 />
                 <div className="img_small_blur">
                   <Image
-                    src={productDetailImg}
+                    src={product?.prod_img[3]}
                     alt="image small"
                     className="body__img"
                     preview={false}
@@ -506,20 +515,20 @@ function ProductDetail() {
               <div className="body__content">Chủ sốp dễ thương, tư vấn nhiệt tình, sp siu đẹp</div>
               <div className="body__imgs">
                 <Image
-                  src={productDetailImg}
+                  src={product?.prod_img[0]}
                   className="body__img"
                   alt="image small"
                   preview={false}
                 />
                 <Image
-                  src={productDetailImg}
+                  src={product?.prod_img[2]}
                   alt="image small"
                   className="body__img"
                   preview={false}
                 />
                 <div className="img_small_blur">
                   <Image
-                    src={productDetailImg}
+                    src={product?.prod_img[5]}
                     alt="image small"
                     className="body__img"
                     preview={false}
@@ -560,9 +569,13 @@ function ProductDetail() {
         <Row className="product__suggestion">
           <span className="product__suggestion__title">Các sản phẩm đề xuất</span>
           <div className="product_suggestion__items">
-            <ProductItem className="product_suggestion__item" />
-            <ProductItem className="product_suggestion__item" />
-            <ProductItem className="product_suggestion__item" />
+            <Row className="row-cols-1 row-cols-md-3 g-3">
+              <Col lg={3} md={4} xs={12}>
+                <ProductItem product={product} />
+                <ProductItem product={product} />
+                <ProductItem product={product} />
+              </Col>
+            </Row>
           </div>
         </Row>
       </Container>
