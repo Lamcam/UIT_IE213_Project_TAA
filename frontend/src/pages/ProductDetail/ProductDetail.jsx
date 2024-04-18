@@ -371,7 +371,7 @@ function ProductDetail(props) {
                 </div>
                 <div className="product__name__detail__review">
                   <div className="product__name__detail__review_first">
-                    <span>4.8</span>
+                    <span>{product?.prod_star_rating}</span>
                     <FaRegStar />
                     <FaRegStar />
                     <FaRegStar />
@@ -491,7 +491,7 @@ function ProductDetail(props) {
           <span className="product__rating__title">ĐÁNH GIÁ SẢN PHẨM</span>
           <div className="product__rating__star">
             <div className="product__rating__star_45">
-              <span>5</span>
+              <span>{product?.prod_star_rating}</span>
               <FaStar />
               <FaStar />
               <FaStar />
