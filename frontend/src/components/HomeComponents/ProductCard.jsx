@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Col } from 'react-bootstrap';
 import { IoHeartSharp } from "react-icons/io5";
 import { TbHeartPlus } from "react-icons/tb";
-import { NavLink, BrowserRouter } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "style/components/Products/ProductItem.scss";
 import PopupQuickView from 'components/Products/PopupQuickView';
+
 function ProductCard(props) {
     const {name, imgURL, price, discount, status } = props;
     const [isLiked, setIsLiked] = useState(false);
@@ -15,8 +16,7 @@ function ProductCard(props) {
     };
 
     return (
-        <Col lg={3} md={2} >
-        {/* <Col > */}
+        <Col lg={3} md={3} sm={3} >
             <div className="product__item">
                 <div className="product__item__img">
                     <img className="img_front" src={imgURL[0]} alt='img'></img>
@@ -45,9 +45,7 @@ function ProductCard(props) {
 
                     <div className="line--vertical">
                     </div>
-                   {/* <BrowserRouter> */}
                     <NavLink to='/'> Mua ngay</NavLink>
-                    {/* </BrowserRouter> */}
                 </div>
             </div>
         </Col >
