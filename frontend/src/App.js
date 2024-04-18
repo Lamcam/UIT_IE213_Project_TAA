@@ -14,6 +14,7 @@ import Home from './pages/Home/Home';
 import News from './pages/News/News';
 import NewsPost from './pages/NewsPost/NewsPost';
 import Policy from './pages/Policy/Policy';
+import OrderManual from './pages/OrderManual/OrderManual';
 import Products from './pages/Products/Products';
 import RootLayout from './routes/RootLayout';
 import Order from 'pages/Order/Order';
@@ -31,15 +32,17 @@ const router = createBrowserRouter(
       <Route path="about_us" element={<AboutUs />} />
       <Route path="cart" element={<Cart />} />
       <Route path="order" element={<Order />} />
-      <Route path="guideline" element={<></>}>
+      <Route path="guideline" element={<OrderManual />}>
         {' '}
       </Route>
       <Route path="policy" element={<Policy />}>
         {' '}
       </Route>
-      {/* <Route path="news_post" element={<NewsPost />}>
+      <Route path="news_post" element={<NewsPost />}>
         {' '}
-      </Route> */}
+      </Route>
+      <Route path="register" element={<Register />} />
+      <Route path="log_in" element={<Login />} />
     </Route>,
   ),
 );
