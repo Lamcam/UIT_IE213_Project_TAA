@@ -1,61 +1,82 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { Container, Image } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import "./NewsPost.scss"
 import bannersmall from "assets/image/banners/banner-small.png";
-import banner from "assets/image/banners/banner.png"
+// import banner from "assets/image/banners/banner.png";
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
-function NewsPost() {
+NewsPost.propTypes = {
+  newspost: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    b_title: PropTypes.string.isRequired,
+    b_date: PropTypes.string.isRequired,
+    b_content: PropTypes.string.isRequired,
+    b_heading: PropTypes.arrayOf(PropTypes.string).isRequired,
+    b_text: PropTypes.arrayOf(PropTypes.string).isRequired,
+    b_image: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
+};
+
+function NewsPost(props) {
+  
+  const { newspostId } = useParams();
+  const [newspost, setNewsPost] = useState(null);
+  console.log(newspostId)
+
+  useEffect(() => {
+    const fetchNewsPost = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/news/${newspostId}`);
+        // const response = await axios.get(`http://localhost:8000/news/661e937fc480bc54ddbff055`);
+        console.log('data', response.data);
+        setNewsPost(response.data);
+      } catch (error) {
+        console.error('Error fetching newspost:', error);
+      }
+    };
+
+    fetchNewsPost();
+  }, [newspostId]);
+  console.log(newspost)
+  if (!newspost) {
+    console.log("a")
+    return null;
+}
+
     return (
         <div>
-            <Container className="post">
-            <div className="post__title display-large">GIẢI MÃ PHONG CÁCH Y2K</div>
-            <p className="post__date body-large mt-12">-25/10/2023-</p>
-            <p className="post__content body-large mt-12">Y2K - phong cách thời trang nổi
-              loạn có lẽ không còn xa lạ gì với chúng ta bởi thời trang và xu
-              hướng thẩm mỹ từ cuối thập niên 90 đầu 2000 - đã gây chú ý trở
-              lại trong những năm gần đây và được các tín đồ thời trang chào đón
-              nồng nhiệt.</p>
+            <Container className="post fluid">
+            <div className="post__title display-large"><span>{newspost.b_title}</span></div>
+            <p className="post__date body-large mt-12">{newspost.b_date}</p>
+            <p className="post__content body-large mt-12">{newspost.b_content}</p>
             {/* <Image className="post__poster" loading="lazy" src={banner} fluid/> */}
-            <p className="post__heading headline-small">KẸP TÓC</p>
-            <p className="post__text body-large">Chiếc kẹp tóc có thể dễ dàng tìm
-              mua và được kết hợp trong nhiều phong cách do có đa dạng thiết kế,
-              màu sắc. Phụ kiện này còn được yêu thích nhờ khả năng mang lại vẻ
-              ngoài trẻ trung, đáng yêu cho người sử dụng. Không chỉ được Gen Z
-              ưa chuộng, các kiểu kẹp bằng đá, kẹp ngọc trai còn chiếm trọn tình
-              cảm của những cô gái theo đuổi phong cách vintage aesthetic.</p>
+            <p className="post__heading headline-small">{newspost.b_heading[0]}</p>
+            <p className="post__text body-large">{newspost.b_text[0]}</p>
             <div className="post__img-list">
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product1.jpg" alt="product1"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product2.jpg" alt="product3"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product4.jpg" alt="product1"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product3.jpg" alt="product3"/>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[0]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[1]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[2]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[3]}> </img>
             </div>
 
-            <p className="post__heading headline-small">DÂY ĐEO HẠT CƯỜM</p>
-            <p className="post__text body-large">Mùa lễ hội, những kì nghỉ cực
-              cháy sao có thể bỏ qua món phụ kiện đầy sắc màu, sự kết hợp đầy
-              sáng tạo của phong cách thập niên 2000 mà vẫn bắt kịp trend hiện
-              tại? Những chiếc vòng cổ, dây đeo hạt cườm cho ra những phong
-              cách riêng biệt, mang đậm dấu ấn cá nhân giúp thoả đam mê những
-              tín đồ thời trang dù là khó tính nhất!</p>
+            <p className="post__heading headline-small">{newspost.b_heading[1]}</p>
+            <p className="post__text body-large">{newspost.b_text[1]}</p>
             <div className="post__img-list">
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product5.jpg" alt="product1"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product6.jpg" alt="product3"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product8.jpg" alt="product1"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product7.jpg" alt="product3"/>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[4]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[5]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[6]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[7]}> </img>
             </div>
 
-            <p className="post__heading headline-small">MŨ</p>
-            <p className="post__text body-large">Là phụ kiện phổ biến của cộng
-              đồng hip hop những năm 80, mũ xô từng bước trở thành món đồ thời
-              trang không thể thiếu của trào lưu Y2K. Hiện nay, những chiếc mũ
-              xô xuất hiện với tần số dày đặt với nhiều phiên bản bắt mắt như
-              tie dye, kiểu đan móc crochet, denim, họa tiết ngựa vằn,… cùng
-              các tông màu rực rỡ thu hút rất lớn giới trẻ</p>
+            <p className="post__heading headline-small">{newspost.b_heading[2]}</p>
+            <p className="post__text body-large">{newspost.b_text[2]}</p>
             <div className="post__img-list">
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product9.jpg" alt="product1"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product11.jpg" alt="product3"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product10.jpg" alt="product1"/>
-              <img className="post__picture-product" loading="lazy" src="/imgs/products/product12.jpg" alt="product3"/>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[8]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[9]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[10]}> </img>
+              <img className="post__picture-product" loading="lazy" src={newspost.b_image[11]}> </img>
             </div>
         
       </Container>
