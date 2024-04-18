@@ -36,7 +36,7 @@ ProductDetail.propTypes = {
     prod_end_date_discount: PropTypes.string.isRequired,
     prod_num_sold: PropTypes.number.isRequired,
     prod_num_rating: PropTypes.number.isRequired,
-    prod_star_rating: PropTypes.number.isRequired,
+    prod_star_rating: PropTypes.string.isRequired,
     prod_description: PropTypes.string.isRequired,
     cate_id: PropTypes.string.isRequired,
     prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -44,15 +44,151 @@ ProductDetail.propTypes = {
   }).isRequired,
 };
 
-function ProductDetail() {
+function ProductDetail(props) {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/products');
+      setData(response.data);
+      setFilteredData(response.data); // Khởi tạo filteredData ban đầu là data từ API
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const applyFilter = ({ sortBy, filterBy }) => {
+    let updatedData = [...data];
+
+    // Xử lý sắp xếp theo giá
+    if (sortBy === '1') {
+      if (filterBy && filterBy.includes('Bán chạy nhất')) {
+        updatedData.sort((a, b) => b.prod_num_sold - a.prod_num_sold);
+      }
+      if (filterBy && filterBy.includes('Giảm giá')) {
+        updatedData = updatedData.filter(
+          (item) => parseFloat(item.prod_discount.$numberDecimal) > 0,
+        );
+        console.log('trong if truoc sort1');
+        console.log(updatedData);
+      }
+      console.log('ngoai if truoc sort1');
+      console.log(updatedData);
+      updatedData.sort((a, b) => {
+        const priceA =
+          parseFloat(a.prod_cost.$numberDecimal) -
+          parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+        const priceB =
+          parseFloat(b.prod_cost.$numberDecimal) -
+          parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+        return priceA - priceB;
+      });
+      console.log('sau sort1');
+      console.log(updatedData);
+    } else if (sortBy === '2') {
+      if (filterBy && filterBy.includes('Bán chạy nhất')) {
+        updatedData.sort((a, b) => b.prod_num_sold - a.prod_num_sold);
+      }
+      if (filterBy && filterBy.includes('Giảm giá')) {
+        updatedData = updatedData.filter(
+          (item) => parseFloat(item.prod_discount.$numberDecimal) > 0,
+        );
+        console.log('trong if truoc sort2');
+        console.log(updatedData);
+      }
+
+      console.log('ngoai if truoc sort2');
+      console.log(updatedData);
+      updatedData.sort((a, b) => {
+        const priceA =
+          parseFloat(a.prod_cost.$numberDecimal) -
+          parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+        const priceB =
+          parseFloat(b.prod_cost.$numberDecimal) -
+          parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+        return priceB - priceA;
+      });
+      console.log('sau sort12');
+      console.log(updatedData);
+    }
+
+    // Xử lý bộ lọc theo sản phẩm bán chạy nhất
+    if (filterBy && filterBy.includes('Bán chạy nhất')) {
+      updatedData.sort((a, b) => b.prod_num_sold - a.prod_num_sold);
+      if (sortBy === '1') {
+        updatedData.sort((a, b) => {
+          const priceA =
+            parseFloat(a.prod_cost.$numberDecimal) -
+            parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+          const priceB =
+            parseFloat(b.prod_cost.$numberDecimal) -
+            parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+          return priceA - priceB;
+        });
+      } else if (sortBy === '2') {
+        updatedData.sort((a, b) => {
+          const priceA =
+            parseFloat(a.prod_cost.$numberDecimal) -
+            parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+          const priceB =
+            parseFloat(b.prod_cost.$numberDecimal) -
+            parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+          return priceB - priceA;
+        });
+      }
+
+      console.log(updatedData);
+    }
+
+    // Xử lý bộ lọc theo giảm giá
+    if (filterBy && filterBy.includes('Giảm giá')) {
+      updatedData = updatedData.filter((item) => parseFloat(item.prod_discount.$numberDecimal) > 0);
+      console.log('hellsso');
+      if (sortBy === '1') {
+        updatedData.sort((a, b) => {
+          const priceA =
+            parseFloat(a.prod_cost.$numberDecimal) -
+            parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+          const priceB =
+            parseFloat(b.prod_cost.$numberDecimal) -
+            parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+          return priceA - priceB;
+        });
+      } else if (sortBy === '2') {
+        updatedData.sort((a, b) => {
+          const priceA =
+            parseFloat(a.prod_cost.$numberDecimal) -
+            parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+          const priceB =
+            parseFloat(b.prod_cost.$numberDecimal) -
+            parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+          return priceB - priceA;
+        });
+      }
+    }
+
+    setFilteredData(updatedData);
+  };
+
   const { productId } = useParams();
+  console.log('log', productId);
   const [product, setProduct] = useState(null);
+  const [productFetched, setProductFetched] = useState(false);
+  const thumbnailImages = product?.prod_img || [];
+  const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
+  const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`/products/${productId}`);
+        const response = await axios.get(`http://localhost:8000/products/${productId}`);
+        console.log('data', response.data);
         setProduct(response.data);
+        setProductFetched(true); // Đánh dấu rằng dữ liệu sản phẩm đã được lấy thành công
       } catch (error) {
         console.error('Error fetching product:', error);
       }
@@ -61,17 +197,11 @@ function ProductDetail() {
     fetchProduct();
   }, [productId]);
 
-  const [currentImg, setCurrentImg] = useState(productDetailImg);
-  const [selectedThumbnail, setSelectedThumbnail] = useState(null);
-
-  const thumbnailImages = [
-    productDetailImg,
-    productDetailImg1,
-    productDetailImg2,
-    productDetailImg3,
-    productDetailImg4,
-    productDetailImg5,
-  ];
+  useEffect(() => {
+    if (productFetched && thumbnailImages.length > 0) {
+      setCurrentImg(thumbnailImages[0]);
+    }
+  }, [productFetched, thumbnailImages]);
 
   const handleThumbnailClick = (imgSrc) => {
     setCurrentImg(imgSrc);
@@ -212,7 +342,7 @@ function ProductDetail() {
           {/* Frame 2 */}
           <Col xs={6} className="product__detail_col6" style={{ padding: '0px' }}>
             <Image
-              className="product__image_big"
+              className={`product__image_big ${selectedThumbnail ? 'selected' : ''}`}
               src={currentImg}
               alt="image product"
               preview={false}
@@ -230,7 +360,7 @@ function ProductDetail() {
             <div className="product__detail__col3">
               <div className="product__name__detail">
                 <div className="product__name__detail__first">
-                  <h1 className="product__name__detail__title">{product.prod_name}</h1>
+                  <h1 className="product__name__detail__title">{product?.prod_name}</h1>
                   <div>
                     {isFilled ? (
                       <TbHeartFilled className="heart_plus" onClick={handleClick} />
@@ -241,7 +371,7 @@ function ProductDetail() {
                 </div>
                 <div className="product__name__detail__review">
                   <div className="product__name__detail__review_first">
-                    <span>4.8</span>
+                    <span>{product?.prod_star_rating}</span>
                     <FaRegStar />
                     <FaRegStar />
                     <FaRegStar />
@@ -249,12 +379,20 @@ function ProductDetail() {
                     <FaRegStar />
                   </div>
                   <span>2 đánh giá</span>
-                  <span>product.prod_num_sold đã bán</span>
+                  <span>{product?.prod_num_sold} đã bán</span>
                 </div>
                 <div className="product__name__detail__price">
-                  <span className="product__name__detail__price_first">product.prod_cost</span>
-                  <span className="product__name__detail__price_second">79.000đ</span>
-                  <span className="product__name__detail__price_third">product.prod_discount</span>
+                  <span className="product__name__detail__price_first">
+                    {product?.prod_cost.$numberDecimal} đ
+                  </span>
+                  <span className="product__name__detail__price_second">
+                    {product?.prod_cost.$numberDecimal -
+                      product?.prod_cost.$numberDecimal * product?.prod_discount.$numberDecimal}
+                    đ
+                  </span>
+                  <span className="product__name__detail__price_third">
+                    {product?.prod_discount.$numberDecimal * 100} %
+                  </span>
                 </div>
               </div>
               <div className="description__product__detail">
@@ -305,7 +443,7 @@ function ProductDetail() {
                   </div>
                 </div>
                 <span className="quantity__product__detail_available">
-                  product.pro_num_avai sản phẩm sẵn có
+                  {product?.prod_num_avai} sản phẩm sẵn có
                 </span>
               </div>
               <div className="add__cart__buy__now">
@@ -353,7 +491,7 @@ function ProductDetail() {
           <span className="product__rating__title">ĐÁNH GIÁ SẢN PHẨM</span>
           <div className="product__rating__star">
             <div className="product__rating__star_45">
-              <span>4.5</span>
+              <span>{product?.prod_star_rating}</span>
               <FaStar />
               <FaStar />
               <FaStar />
@@ -398,7 +536,7 @@ function ProductDetail() {
             <div className="rating__item__avatar">
               <Image
                 className="rating__item__img"
-                src={productDetailImg}
+                src="https://res.cloudinary.com/dg40uppx3/image/upload/v1713435732/IMG_5365_bw6k0p.jpg"
                 alt="image small"
                 preview={false}
               />
@@ -422,20 +560,20 @@ function ProductDetail() {
               <div className="body__content">Sản phẩm xinh cực, cảm ơn shop ạ!!</div>
               <div className="body__imgs">
                 <Image
-                  src={productDetailImg}
+                  src={product?.prod_img[1]}
                   className="body__img"
                   alt="image small"
                   preview={false}
                 />
                 <Image
-                  src={productDetailImg}
+                  src={product?.prod_img[2]}
                   alt="image small"
                   className="body__img"
                   preview={false}
                 />
                 <div className="img_small_blur">
                   <Image
-                    src={productDetailImg}
+                    src={product?.prod_img[3]}
                     alt="image small"
                     className="body__img"
                     preview={false}
@@ -482,7 +620,7 @@ function ProductDetail() {
             <div className="rating__item__avatar">
               <Image
                 className="rating__item__img"
-                src={productDetailImg}
+                src="https://res.cloudinary.com/dg40uppx3/image/upload/v1713435719/z5356071420846_84f0e40470ade0098d9f2f21d4dc577c_b6r72e.jpg"
                 alt="image small"
                 preview={false}
               />
@@ -506,20 +644,20 @@ function ProductDetail() {
               <div className="body__content">Chủ sốp dễ thương, tư vấn nhiệt tình, sp siu đẹp</div>
               <div className="body__imgs">
                 <Image
-                  src={productDetailImg}
+                  src={product?.prod_img[0]}
                   className="body__img"
                   alt="image small"
                   preview={false}
                 />
                 <Image
-                  src={productDetailImg}
+                  src={product?.prod_img[2]}
                   alt="image small"
                   className="body__img"
                   preview={false}
                 />
                 <div className="img_small_blur">
                   <Image
-                    src={productDetailImg}
+                    src={product?.prod_img[5]}
                     alt="image small"
                     className="body__img"
                     preview={false}
@@ -557,14 +695,16 @@ function ProductDetail() {
           </div>
         </Row>
 
-        <Row className="product__suggestion">
+        <div className="product__suggestion">
           <span className="product__suggestion__title">Các sản phẩm đề xuất</span>
-          <div className="product_suggestion__items">
-            <ProductItem className="product_suggestion__item" />
-            <ProductItem className="product_suggestion__item" />
-            <ProductItem className="product_suggestion__item" />
+          <div className="product__suggestion__items">
+            {filteredData.slice(5, 9).map((product) => (
+              <Col key={product._id} lg={3} md={6} xs={6}>
+                <ProductItem product={product} />
+              </Col>
+            ))}
           </div>
-        </Row>
+        </div>
       </Container>
     </div>
   );

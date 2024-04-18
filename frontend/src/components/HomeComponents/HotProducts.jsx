@@ -3,7 +3,6 @@ import { Container, Row } from 'react-bootstrap';
 import data from './data.js';
 import ProductCard from './ProductCard';
 import Carousel from 'react-bootstrap/Carousel';
-import { BrowserRouter } from "react-router-dom/dist/index.js";
 import 'style/components/Home/HotProduct.scss'
 
 function createCard(product) {
@@ -21,25 +20,12 @@ function createCard(product) {
     );
 }
 
-// function PreviewCard(){
-//     console.log(data);
-//     return (
-//         <section className="preview_product_section">
-//         <Container>
-//             <Row>
-//                 {data.slice(0,4).map(createCard)} 
-//             </Row>
-//         </Container>
-//         </section>
-//     )
-// }
-
 function HotProducts() {
     return (
     <section className="preview_product_section">
+      <Container fluid>
       <h1> Sản phẩm nổi bật trong tuần</h1>
-      <Carousel>
-      
+      <Carousel fluid >     
         <Carousel.Item interval={1000}>
             <Row>
                 {data.slice(0,4).map(createCard)} 
@@ -59,6 +45,7 @@ function HotProducts() {
           
         </Carousel.Item>
       </Carousel>
+      </Container>
     </section>
     );
 }

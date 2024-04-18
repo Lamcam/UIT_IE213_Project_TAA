@@ -14,7 +14,7 @@ let ProductsSchema = new Schema({
     prod_end_date_discount: { type: "date", required: true },
     prod_num_sold: { type: "number", default: 1 },
     prod_num_avai: { type: "number", default: 50 },
-    prod_star_rating: { type: "number", default: 0 },
+    prod_star_rating: { type: "string", default: 0 },
     prod_description: { type: "string", default: "" },
     cate_id: { type: Schema.Types.ObjectId, ref: "categories" },
 });

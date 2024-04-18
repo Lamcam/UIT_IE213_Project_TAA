@@ -11,7 +11,7 @@ function SaleSection() {
                     <SaleCard
                         title='Giảm giá cực sốc lên đến 25%'
                         treatTitle='Dành riêng cho gói hội viên của TAA'
-                        treatDescription='TAA - nơi những ưu đãi tuyệt vời đang chờ đón!'
+                        treatDescription='Ưu đãi tuyệt vời đang chờ đón!'
                         btnContent='Tìm hiểu ngay' ></SaleCard>
                 </Col>
 

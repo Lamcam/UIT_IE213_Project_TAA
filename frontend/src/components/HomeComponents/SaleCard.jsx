@@ -3,7 +3,7 @@ import Button from 'components/Common/Button';
 
 function SaleCard(props) {
   return (
-    <Card>
+    <Card className='info_card_item'>
       <Card.Header as="h5">{props.title}</Card.Header>
       <Card.Body>
         <Card.Title>{props.treatTitle}</Card.Title>
