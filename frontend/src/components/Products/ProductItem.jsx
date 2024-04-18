@@ -22,7 +22,7 @@ ProductItem.propTypes = {
     prod_end_date_discount: PropTypes.string.isRequired,
     prod_num_sold: PropTypes.number.isRequired,
     prod_num_rating: PropTypes.number.isRequired,
-    prod_star_rating: PropTypes.number.isRequired,
+    prod_star_rating: PropTypes.string.isRequired,
     prod_description: PropTypes.string.isRequired,
     cate_id: PropTypes.string.isRequired,
     prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,

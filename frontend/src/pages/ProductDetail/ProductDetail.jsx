@@ -36,7 +36,7 @@ ProductDetail.propTypes = {
     prod_end_date_discount: PropTypes.string.isRequired,
     prod_num_sold: PropTypes.number.isRequired,
     prod_num_rating: PropTypes.number.isRequired,
-    prod_star_rating: PropTypes.number.isRequired,
+    prod_star_rating: PropTypes.string.isRequired,
     prod_description: PropTypes.string.isRequired,
     cate_id: PropTypes.string.isRequired,
     prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -491,7 +491,7 @@ function ProductDetail(props) {
           <span className="product__rating__title">ĐÁNH GIÁ SẢN PHẨM</span>
           <div className="product__rating__star">
             <div className="product__rating__star_45">
-              <span>4.5</span>
+              <span>5</span>
               <FaStar />
               <FaStar />
               <FaStar />
@@ -536,7 +536,7 @@ function ProductDetail(props) {
             <div className="rating__item__avatar">
               <Image
                 className="rating__item__img"
-                src={productDetailImg}
+                src="https://res.cloudinary.com/dg40uppx3/image/upload/v1713435732/IMG_5365_bw6k0p.jpg"
                 alt="image small"
                 preview={false}
               />
@@ -620,7 +620,7 @@ function ProductDetail(props) {
             <div className="rating__item__avatar">
               <Image
                 className="rating__item__img"
-                src={productDetailImg}
+                src="https://res.cloudinary.com/dg40uppx3/image/upload/v1713435719/z5356071420846_84f0e40470ade0098d9f2f21d4dc577c_b6r72e.jpg"
                 alt="image small"
                 preview={false}
               />
