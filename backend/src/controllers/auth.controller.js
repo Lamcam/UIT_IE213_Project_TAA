@@ -39,9 +39,9 @@ const loginUser = async (req, res) => {
         const match = await bcrypt.compare(password, user.user_pass);
         
         console.log(match);
-        // if (!match) {
-        //     return res.status(400).json({ message: "Invalid password" });
-        // }
+        if (!match) {
+            return res.status(400).json({ message: "Invalid password" });
+        }
 
         const token = createToken(user._id);
         res.status(200)
@@ -89,31 +89,25 @@ const registerUser = async (req, res) => {
     }
 };
 
-const updatePassword = async(req, res) => {
+const updatePassword = async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({user_email : email});
+        const { email, phone , password, newPassword } = req.body;
+        const user = await User.findOne({ user_email: email });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        user.user_pass = password;
-        await user.save();
-        res.status(200).json(user);
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-
-}
-
-const logOut = async (req, res) => {
-    try {
-        res.clearCookie('user');
-        res.clearCookie('auth');
-        res.status(200).json({ message: "Logout success" });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+        const match = await bcrypt.compare(password, user.user_pass);
+        if (!match) {
+            return res.status(400).json({ message: "Invalid password" });
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        await User.findOneAndUpdate({ user_email: email }, { user_pass: hashedPassword });
+        res.status(200).json({ message: "Password updated" });
+        
+        }catch (error) {
+            res.status(500).json({ message: error.message });
+        }
 }
 
 const auth = {
@@ -121,6 +115,6 @@ const auth = {
     registerUser,
     loginUser,
     updatePassword,
-    logOut,
 }
+
 module.exports = auth;
