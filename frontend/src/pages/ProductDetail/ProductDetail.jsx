@@ -45,6 +45,135 @@ ProductDetail.propTypes = {
 };
 
 function ProductDetail(props) {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/products');
+      setData(response.data);
+      setFilteredData(response.data); // Khởi tạo filteredData ban đầu là data từ API
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const applyFilter = ({ sortBy, filterBy }) => {
+    let updatedData = [...data];
+
+    // Xử lý sắp xếp theo giá
+    if (sortBy === '1') {
+      if (filterBy && filterBy.includes('Bán chạy nhất')) {
+        updatedData.sort((a, b) => b.prod_num_sold - a.prod_num_sold);
+      }
+      if (filterBy && filterBy.includes('Giảm giá')) {
+        updatedData = updatedData.filter(
+          (item) => parseFloat(item.prod_discount.$numberDecimal) > 0,
+        );
+        console.log('trong if truoc sort1');
+        console.log(updatedData);
+      }
+      console.log('ngoai if truoc sort1');
+      console.log(updatedData);
+      updatedData.sort((a, b) => {
+        const priceA =
+          parseFloat(a.prod_cost.$numberDecimal) -
+          parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+        const priceB =
+          parseFloat(b.prod_cost.$numberDecimal) -
+          parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+        return priceA - priceB;
+      });
+      console.log('sau sort1');
+      console.log(updatedData);
+    } else if (sortBy === '2') {
+      if (filterBy && filterBy.includes('Bán chạy nhất')) {
+        updatedData.sort((a, b) => b.prod_num_sold - a.prod_num_sold);
+      }
+      if (filterBy && filterBy.includes('Giảm giá')) {
+        updatedData = updatedData.filter(
+          (item) => parseFloat(item.prod_discount.$numberDecimal) > 0,
+        );
+        console.log('trong if truoc sort2');
+        console.log(updatedData);
+      }
+
+      console.log('ngoai if truoc sort2');
+      console.log(updatedData);
+      updatedData.sort((a, b) => {
+        const priceA =
+          parseFloat(a.prod_cost.$numberDecimal) -
+          parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+        const priceB =
+          parseFloat(b.prod_cost.$numberDecimal) -
+          parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+        return priceB - priceA;
+      });
+      console.log('sau sort12');
+      console.log(updatedData);
+    }
+
+    // Xử lý bộ lọc theo sản phẩm bán chạy nhất
+    if (filterBy && filterBy.includes('Bán chạy nhất')) {
+      updatedData.sort((a, b) => b.prod_num_sold - a.prod_num_sold);
+      if (sortBy === '1') {
+        updatedData.sort((a, b) => {
+          const priceA =
+            parseFloat(a.prod_cost.$numberDecimal) -
+            parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+          const priceB =
+            parseFloat(b.prod_cost.$numberDecimal) -
+            parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+          return priceA - priceB;
+        });
+      } else if (sortBy === '2') {
+        updatedData.sort((a, b) => {
+          const priceA =
+            parseFloat(a.prod_cost.$numberDecimal) -
+            parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+          const priceB =
+            parseFloat(b.prod_cost.$numberDecimal) -
+            parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+          return priceB - priceA;
+        });
+      }
+
+      console.log(updatedData);
+    }
+
+    // Xử lý bộ lọc theo giảm giá
+    if (filterBy && filterBy.includes('Giảm giá')) {
+      updatedData = updatedData.filter((item) => parseFloat(item.prod_discount.$numberDecimal) > 0);
+      console.log('hellsso');
+      if (sortBy === '1') {
+        updatedData.sort((a, b) => {
+          const priceA =
+            parseFloat(a.prod_cost.$numberDecimal) -
+            parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+          const priceB =
+            parseFloat(b.prod_cost.$numberDecimal) -
+            parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+          return priceA - priceB;
+        });
+      } else if (sortBy === '2') {
+        updatedData.sort((a, b) => {
+          const priceA =
+            parseFloat(a.prod_cost.$numberDecimal) -
+            parseFloat(a.prod_discount.$numberDecimal) * parseFloat(a.prod_cost.$numberDecimal);
+          const priceB =
+            parseFloat(b.prod_cost.$numberDecimal) -
+            parseFloat(b.prod_discount.$numberDecimal) * parseFloat(b.prod_cost.$numberDecimal);
+          return priceB - priceA;
+        });
+      }
+    }
+
+    setFilteredData(updatedData);
+  };
+
   const { productId } = useParams();
   console.log('log', productId);
   const [product, setProduct] = useState(null);
@@ -566,18 +695,16 @@ function ProductDetail(props) {
           </div>
         </Row>
 
-        <Row className="product__suggestion">
+        <div className="product__suggestion">
           <span className="product__suggestion__title">Các sản phẩm đề xuất</span>
-          <div className="product_suggestion__items">
-            <Row className="row-cols-1 row-cols-md-3 g-3">
-              <Col lg={3} md={4} xs={12}>
-                <ProductItem product={product} />
-                <ProductItem product={product} />
+          <div className="product__suggestion__items">
+            {filteredData.slice(5, 9).map((product) => (
+              <Col key={product._id} lg={3} md={6} xs={6}>
                 <ProductItem product={product} />
               </Col>
-            </Row>
+            ))}
           </div>
-        </Row>
+        </div>
       </Container>
     </div>
   );
