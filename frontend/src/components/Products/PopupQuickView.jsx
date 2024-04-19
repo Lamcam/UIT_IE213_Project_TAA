@@ -31,8 +31,8 @@ PopupQuickView.propTypes = {
 
 function PopupQuickView(props) {
   const navigate = useNavigate()
-  const productImages = props.productItem.prod_img.slice(0, 4);
-  const defaultImage = props.productItem?.prod_img?.length > 0 ? productImages[0] : '';
+  const productImages = props.productItem?.prod_img?.slice(0, 4);
+  const defaultImage = productImages?.length > 0 ? productImages[0] : '';
   const [selectedImage, setSelectedImage] = useState(defaultImage);
   const [quantity, setQuantity] = useState(1);
 
