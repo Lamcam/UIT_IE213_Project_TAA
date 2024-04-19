@@ -1,13 +1,21 @@
 import React from 'react';
-import { useState } from 'react';
-import Row from 'react-bootstrap/Row';
+import axios from 'axios';
 import ButtonIcon from 'components/Common/ButtonIcon';
-import { GrAdd } from 'react-icons/gr';
-import { MdDeleteOutline } from 'react-icons/md';
-import { MdEdit } from 'react-icons/md';
 import Button1 from 'components/Common/Button1';
 import { CgClose } from 'react-icons/cg';
 function DelAddress(props) {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    axios.delete(`http://localhost:8000/api/account/delete-address/${props.id}`, { params: { id: props.userId } })
+  .then(response => {
+    console.log('del address success', response.data.message);
+    props.onHide()
+    props.onSuccess();
+  })
+  .catch(error => {
+      console.error(error);
+  });
+  }
     return (
         <div id="modal--del-address" className={`profile-modal ${props.show ? 'active' : ''}`}>
                         <div className="modal__content--confirm">
@@ -24,7 +32,7 @@ function DelAddress(props) {
                             </h2>
                             <p class="body-medium">Thao tác này không thể hoàn lại</p>
                           </div>
-                          <form action="/account/profile-bank-card/del" method="POST">
+                          <form method="DELETE" onSubmit={handleSubmit}>
                             <div class="btn__wrapper">
                               <Button1
                                 type="button"

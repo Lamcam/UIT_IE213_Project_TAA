@@ -1,66 +1,121 @@
 import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import Row from 'react-bootstrap/Row';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import Button1 from 'components/Common/Button1';
 import { GrAdd } from 'react-icons/gr';
 import { MdDeleteOutline } from 'react-icons/md';
-import { CgClose } from 'react-icons/cg';
 import AddBank from '../Modal/modal--add-bank';
+import ConfirmBank from '../Modal/modal--confirm-bank';
+import ConfirmPhone from '../Modal/modal--confirm-phone';
+import AddSuccess from '../Modal/modal--add-success';
 import DelBank from '../Modal/modal--del-bank';
+import notFound from '../../../assets/image/account/pencil copy.png';
 function ProfileBankCard() {
   const defaultUserData1 = {
-    _id: "65f3eab4a8f986b1aca6929c",
-    user_name: 'Phạm Thị D',
-    user_phone: '0987465321',
-    user_email: "jkl@gmail.com",
-    user_pass: "$2b$10$iKVUrE.L6jhb6ywKS6C1fuNNHdGoIa6sim6oJxWjvWp/IJBBaRFJa",
-    user_avatar: "user_avatar_3",
-    local_default_id: "4",
-    bank_default_id: "4",
-    user_username: "jkl"
+    // _id: '65f3e8eb7ef3c2b6f3b74ac6',
+    // user_name: 'Nguyễn Văn A',
+    // user_phone: '0123456789',
+    // user_email: 'abc@gmail.com',
+    // user_pass: 'Abcd@123',
+    // user_avatar: 'user_avatar_3',
+    // local_default_id: '65f4645b6a8ec30cb1038008',
+    // bank_default_id: '65f4708f6a8ec30cb1038012',
+    // user_username: 'abcfff',
+    // user_cccd: '072303001111',
+
+    _id: '65f3eb13a8f986b1aca6929e',
+    user_name: 'Hoàng Văn E',
+    user_phone: '0987465221',
+    user_email: 'mno@gmail.com',
+    user_pass: 'Abcd@421',
+    user_avatar: '',
+    local_default_id: '',
+    bank_default_id: '',
+    user_username: 'mno',
+    user_cccd: '072303001115',
   };
-// Lưu thông tin người dùng vào Local Storage
+  // Lưu thông tin người dùng vào Local Storage
   localStorage.setItem('user', JSON.stringify(defaultUserData1));
-  const defaultUserData = JSON.parse(localStorage.getItem('user'))
-  const id = defaultUserData._id
-  const [bankCards, setBankCards]=useState([])
+  const defaultUserData = JSON.parse(localStorage.getItem('user'));
+  const id = defaultUserData._id;
+  const [bankCards, setBankCards] = useState([]);
+  const [notBankCard, setNotBankCard] = useState(false);
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/account/bank-cards/${id}`)
-      .then(response => {
-        // Xử lý phản hồi từ server
+    axios
+      .get(`http://localhost:8000/api/account/bank-cards/${id}`)
+      .then((response) => {
+        if (Array.isArray(response.data) && response.data.length === 0) setNotBankCard(true);
         setBankCards(response.data);
-        console.log('bankCards', bankCards)
       })
-      .catch(error => {
-        // Xử lý lỗi từ server
+      .catch((error) => {
         console.error('Error:', error);
       });
-    }, []); // Sử dụng mảng rỗng để đảm bảo useEffect chỉ chạy một lần sau khi render đầu tiên
-  const handleSetDefault = (bankCard) => {
-    setBankCards(
-      bankCards.map((card) => {
-        if (card === bankCard) {
-          card.isDefault = true;
-        } else {
-          card.isDefault = false;
-        }
-        return card;
-      }),
-    );
+  }, []); // Sử dụng mảng rỗng để đảm bảo useEffect chỉ chạy một lần sau khi render đầu tiên
+  const onSuccess = () => {
+    axios
+      .get(`http://localhost:8000/api/account/bank-cards/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        if (Array.isArray(response.data) && response.data.length === 0) setNotBankCard(true);
+        else setNotBankCard(false);
+        setBankCards(response.data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
-    // Hàm để che dấu số điện thoại, chỉ hiển thị 3 số cuối
+  const handleSetDefault = (bankCard, bankCardId, userId) => {
+    axios
+      .put(`http://localhost:8000/api/account/bank-default/${bankCardId}`, { id: userId })
+      .then((response) => {
+        setBankCards(
+          bankCards.map((bank) => {
+            if (bank === bankCard) {
+              bank.is_default = true;
+            } else {
+              bank.is_default = false;
+            }
+            return bank;
+          }),
+        );
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+  // Hàm để che dấu số tài khoản, chỉ hiển thị 4 số cuối
   const maskBankNumber = (bankNumber) => {
     const masked = bankNumber.substring(0, bankNumber.length - 4).replace(/\d/g, '*');
     const lastFourDigits = bankNumber.substring(bankNumber.length - 4);
     return masked + lastFourDigits;
   };
-  const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+  const [showModal3, setShowModal3] = useState(false);
+  const [showModal4, setShowModal4] = useState(false);
+  const [dataFromModal1, setDataFromModal1] = useState(null);
+  const [dataFromModal2, setDataFromModal2] = useState(null);
 
-  const addNewCard = () => {
-    
+  const handleOpenModal1 = () => {
+    setShowModal1(true);
+  };
+
+  const handleOpenModal2 = (data) => {
+    setDataFromModal1(data);
+    setShowModal2(true);
+  };
+
+  const handleOpenModal3 = (data) => {
+    setDataFromModal2(data);
+    setShowModal3(true);
+  };
+  const [selectedBankCardId, setSelectedBankCardId] = useState('');
+  const handleDeletedBankCard = (id) => {
+    setSelectedBankCardId(id);
+    setIsOpenDelete(true);
   };
 
   return (
@@ -72,34 +127,64 @@ function ProfileBankCard() {
           border="none"
           label={<GrAdd />}
           type="button"
-          onClick={()=>setIsOpenAdd(true)}
+          onClick={handleOpenModal1}
         />
-        <AddBank show={isOpenAdd} onHide={() => setIsOpenAdd(false)} id={id}/>
+        {showModal1 && (
+          <AddBank
+            onClose={() => setShowModal1(false)}
+            onDataToModal2={handleOpenModal2}
+            id={id}
+            onSuccess={onSuccess}
+          />
+        )}
+        {showModal2 && (
+          <ConfirmBank
+            onClose={() => setShowModal2(false)}
+            onDataToModal3={handleOpenModal3} // Truyền hàm xử lý mở Modal 3
+            dataFromModal1={dataFromModal1} // Truyền dữ liệu từ Modal 1 cho Modal 2
+          />
+        )}
+        {showModal3 && (
+          <ConfirmPhone
+            onClose={() => setShowModal3(false)}
+            dataFromModal2={dataFromModal2}
+            id={id} // Truyền dữ liệu từ Modal 2 cho Modal 3
+          />
+        )}
+        {showModal4 && <AddSuccess onClose={() => setShowModal4(false)} />}
       </div>
       <hr className="hr-title" />
       <ul className="accounts-list">
+        {notBankCard && (
+          <div className="no-data">
+            <p className="body-large">Bạn chưa có thẻ ngân hàng!</p>
+            <img src={notFound} alt="Not found" />
+          </div>
+        )}
         {bankCards.map((bankCard, index) => (
           <React.Fragment key={bankCard._id}>
             <li>
               <div className="account-item__wrapper">
                 <div className="account-info">
                   <div className="account-number-default">
-                    <p className='body-large'>STK:</p>
-                    <p className='body-large'>{maskBankNumber(bankCard.bank_number)} </p>
-                    {bankCard.isDefault && <span className="default-label label-large">Mặc định</span>}
+                    <p className="body-large">STK:</p>
+                    <p className="body-large">{maskBankNumber(bankCard.bank_number)} </p>
+                    {bankCard.is_default && (
+                      <span className="default-label label-large">Mặc định</span>
+                    )}
                   </div>
                   <p className="bank-name body-large">Ngân hàng {bankCard.bank_name}</p>
                 </div>
 
                 <div className="bank-btn">
                   <Button1
-                    backgroundColor={bankCard.isDefault ? '#1D1B201F' : '#785B5B'}
-                    labelColor={bankCard.isDefault ? 'rgba(32, 26, 26, 0.38)' : '#F1EFE7'}
+                    backgroundColor={bankCard.is_default ? '#1D1B201F' : '#785B5B'}
+                    labelColor={bankCard.is_default ? 'rgba(32, 26, 26, 0.38)' : '#F1EFE7'}
                     border="none"
                     className="set-default-btn label-large"
                     label="Thiết lập mặc định"
-                    type="submit"
-                    onClick={() => handleSetDefault(bankCard)}
+                    type="button"
+                    onClick={() => handleSetDefault(bankCard, bankCard._id, id)}
                   />
                   <ButtonIcon
                     className="bank-item__btn--del"
@@ -107,9 +192,16 @@ function ProfileBankCard() {
                     type="button"
                     border="none"
                     backgroundColor="#F2E5E4"
-                    onClick={()=>setIsOpenDelete(true)}
+                    onClick={() => handleDeletedBankCard(bankCard._id)}
                   />
-                          <DelBank show={isOpenDelete} onHide={() => setIsOpenDelete(false)} accounts={bankCard} />
+                  <DelBank
+                    show={isOpenDelete}
+                    onHide={() => setIsOpenDelete(false)}
+                    id={selectedBankCardId}
+                    onSuccess={onSuccess}
+                    notBankCard={notBankCard}
+                    userId={id}
+                  />
                 </div>
               </div>
             </li>

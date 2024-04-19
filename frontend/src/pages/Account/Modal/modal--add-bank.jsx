@@ -1,18 +1,17 @@
 import React from 'react';
+import axios from 'axios';
 import { useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import Button1 from 'components/Common/Button1';
 import { CgClose } from 'react-icons/cg';
-import ConfirmBank from './modal--cofirm-bank';
-function AddBank(props) {
-  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+function AddBank({ onClose, onDataToModal2, id, onSuccess}) {
   const [newCardData, setNewCardData] = useState(
     {
       bank_pers_name: '',
       user_cccd:'',
       bank_name: '',
-      bank_number:''
+      bank_number:'',
     }
   )
   const handleChange = (e) => {
@@ -22,18 +21,38 @@ function AddBank(props) {
       [name]: value,
     }));
   };
+  
+    // // Hàm xử lý khi mở Modal 2
+    // const handleOpenModal2 = () => {
+    //   onClose(); // Đóng Modal 1
+    //   onDataToModal2(newCardData); // Truyền dữ liệu cho Modal 2
+  // };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`http://localhost:8000/api/account/add-bank/${id}`, newCardData)
+      .then((response) => {
+        console.log('add bank card success', response.data.message);
+        onClose()
+        onSuccess()
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
     return (
-        <div id="modal--add-bank" className={`profile-modal ${props.show ? 'active' : ''}`}>
+        <div id="modal--add-bank" className="profile-modal active">
             <div className="modal__content--form">
               <ButtonIcon
                 className="modal__btn--close"
                 label={<CgClose />}
             border="none"
             type="button"
-                onClick={props.onHide}
+                onClick={onClose}
               />
               <h1 className="profile-modal__title headline-small">Thêm thông tin ngân hàng</h1>
-              <form action="/account/profile-bank-card/add" onSubmit={()=>setIsOpenConfirm(true)}>
+              <form method="POST" onSubmit={handleSubmit}>
                 <div className="form__row">
                   <Row>
                     <label className="col-3 label-large" htmlFor="bank_pers_name">
@@ -108,16 +127,15 @@ function AddBank(props) {
                   </Row>
                 </div>
                 <div className="btn__wrapper">
-                  <Button1 label="Hủy bỏ" type="button" className="col-6" onClick={props.onHide}/>
+                  <Button1 label="Hủy bỏ" type="button" className="col-6" onClick={onClose}/>
                   <Button1
                     label="Đồng ý"
-                    type="button"
+                    type="submit"
                     className="col-6"
                     labelColor="#F1EFE7"
                 backgroundColor="#785B5B"
-                onClick={()=>setIsOpenConfirm(true)}
+                // onClick={handleOpenModal2}
               />
-              <ConfirmBank show={isOpenConfirm} onHide={() => setIsOpenConfirm(false)} handleChange={handleChange} data={newCardData} id={ props.id} />
                 </div>
               </form>
             </div>

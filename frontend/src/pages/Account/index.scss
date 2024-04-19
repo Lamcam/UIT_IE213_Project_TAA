@@ -86,6 +86,7 @@ button{
 article.section__content {
   padding: 12px 24px;
   margin-top: 0;
+  min-height: 304px;
   & .section__info {
     display: flex;
     gap: 12px;
@@ -207,6 +208,13 @@ article.section__content {
   list-style: none;
   padding: 0;
   margin: 0;
+  & .no-data{
+    font-size: 22px;
+    text-align: center;
+    & img{
+      width: 300px;
+    }
+  }
 }
 .account-item__wrapper, 
 .shipping-item__wrapper{
