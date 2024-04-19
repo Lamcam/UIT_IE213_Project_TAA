@@ -16,7 +16,6 @@ let UsersSchema = new Schema({
     local_default_id: { type: Schema.Types.ObjectId, ref: "locations" }, // HAN delete required: true
     bank_default_id: { type: Schema.Types.ObjectId, ref: "bankcards" },
     user_cccd: { type: "string", require: true },
-    user_cccd: {type:"string"},
 });
 
 module.exports = mongoose.model("users", UsersSchema);
