@@ -1,14 +1,12 @@
 import Button from 'components/Common/Button1';
-import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { Col, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import { BsCheck2 } from 'react-icons/bs';
 import 'style/components/Products/ProductFilter.scss';
-import PropTypes from 'prop-types';
 
 ProductFilter.propTypes = {
     applyFilter: PropTypes.func.isRequired,
-    // Xóa prop initialData vì không sử dụng trong ProductFilter
-    // initialData: PropTypes.array.isRequired,
 };
 
 function ProductFilter(props) {

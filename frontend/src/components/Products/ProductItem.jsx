@@ -1,13 +1,10 @@
 import PopupQuickView from 'components/Products/PopupQuickView';
-import ProductDetail from 'pages/ProductDetail/ProductDetail';
-
+import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { IoHeartSharp } from 'react-icons/io5';
 import { TbHeartPlus } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
 import 'style/components/Products/ProductItem.scss';
-import PropTypes from 'prop-types';
 
 ProductItem.propTypes = {
   product: PropTypes.shape({

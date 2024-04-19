@@ -1,34 +1,13 @@
-import Button from 'components/Common/Button1';
+import axios from 'axios';
+import ProductFilter from 'components/Products/ProductFilter';
 import ProductItem from 'components/Products/ProductItem';
 import ProductMenu from 'components/Products/ProductMenu';
+import ProductPagination from 'components/Products/ProductPagination';
 import { useEffect, useState } from 'react';
-import { Col, Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
-import { BsCheck2 } from 'react-icons/bs';
-// import 'style/components/button.css';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Col, Container, Row } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
 import 'style/pages/Products/ProductStyle.scss';
-import ProductFilter from 'components/Products/ProductFilter';
 function Products() {
-  // const handleCategoryClick = (category, subCategory) => {
-  //   // Thực hiện xử lý với thông tin sản phẩm đã click
-  //   console.log(`Sản phẩm đã click: ${category} - ${subCategory}`);
-  // };
-  // const [data, setData] = useState([]);
-  // const [filteredData, setFilteredData] = useState([]);
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:8000/products');
-  //     setData(response.data);
-  //     setFilteredData(response.data); // Khởi tạo filteredData ban đầu là data từ API
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
 
   const navigate = useNavigate()
   const handleCategoryClick = (category, subCategory) => {
@@ -36,9 +15,9 @@ function Products() {
     console.log(`Sản phẩm đã click: ${category} - ${subCategory}`);
     // Chuyển hướng đến route tương ứng với category và subcategory (nếu có)
     if (subCategory) {
-      navigate(`/products/${category}/${subCategory}`);
+      navigate(`/products/category/${category}/${subCategory}`);
     } else {
-      navigate(`/products/${category}`);
+      navigate(`/products/category/${category}`);
     }
   };
 
@@ -46,29 +25,42 @@ function Products() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
+  const [activePage, setActivePage] = useState(1);
+  const productsPerPage = 12;
+
   useEffect(() => {
     fetchData();
-  }, [cate_type_name, cate_name]);
+  }, [cate_type_name, cate_name, activePage]);
 
   const fetchData = async () => {
     try {
       let url = 'http://localhost:8000/products';
       if (cate_type_name) {
-        console.log(cate_type_name)
-        url += `/${cate_type_name}`;
+        url += `/category/${cate_type_name}`;
+        console.log(url)
         if (cate_name) {
-          console.log(cate_name)
           url += `/${cate_name}`;
         }
+        console.log(url)
+
       }
       const response = await axios.get(url);
       setData(response.data);
-      setFilteredData(response.data); // Khởi tạo filteredData ban đầu là data từ API
+      console.log(response.data)
+      const startIdx = (activePage - 1) * productsPerPage;
+      const endIdx = startIdx + productsPerPage;
+      setFilteredData(response.data.slice(startIdx, endIdx));
+      console.log(filteredData)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
+  const handlePageChange = (page) => {
+    setActivePage(page);
+  };
+
+  const totalPages = Math.ceil(data.length / productsPerPage);
 
   const applyFilter = ({ sortBy, filterBy }) => {
     let updatedData = [...data];
@@ -153,7 +145,6 @@ function Products() {
 
   };
 
-
   return (
     <Container className="product" fluid>
       <ProductFilter applyFilter={applyFilter} />
@@ -168,6 +159,11 @@ function Products() {
                 <ProductItem product={product} />
               </Col>
             ))}
+          </Row>
+          <Row className="product__pagination">
+            {totalPages > 1 && (
+              <ProductPagination totalPages={totalPages} activePage={activePage} onPageChange={handlePageChange} />
+            )}
           </Row>
         </Col>
       </Row>
