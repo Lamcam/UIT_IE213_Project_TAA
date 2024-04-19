@@ -7,7 +7,9 @@ section.login{
     form{
         display: flex;
         flex-direction: column;
-        min-width: 406px;
+        max-width: 406px;
+        width: 100%;
+        margin: 0px 10px;
 
     }
 
