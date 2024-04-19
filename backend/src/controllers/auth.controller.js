@@ -26,6 +26,7 @@ const getUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
+        // console.log(email, password );
 
         if (!email || !password) {
             return res.status(400).json({ message: "Please fill in all fields" });
@@ -35,7 +36,7 @@ const loginUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        
+        console.log('found user',user);
         const match = await bcrypt.compare(password, user.user_pass);
         
         console.log(match);
@@ -49,6 +50,7 @@ const loginUser = async (req, res) => {
         console.log('Login success');
     }
     catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 }
@@ -58,12 +60,11 @@ const registerUser = async (req, res) => {
     try {
         const { username, phone, email, password } = req.body;
         const user = await User.findOne({ user_email: email });
-        
+        console.log(req.body);
         if (user) {
             return res.status(400).json({ message: "User already exists" });
         }
         else{
-            
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
             
@@ -79,7 +80,6 @@ const registerUser = async (req, res) => {
             });
             
             await newUser.save();
-            console.log(newUser);
             const token = await createToken(newUser._id);
             res.status(201).json([newUser, token]);
         }
