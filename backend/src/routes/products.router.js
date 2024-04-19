@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const product = require("../controllers/products.controller");
 
-router.get("/category", product.getCate);
 router.get("/", product.getProducts);
+router.get("/category/:cate_type_name", product.getProductsByCategoryType);
+router.get("/category/:cate_type_name/:cate_name", product.getProductsByCategory);
 router.get("/:id", product.getProductById);
 
 module.exports = router;

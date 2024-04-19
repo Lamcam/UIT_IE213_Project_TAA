@@ -1,4 +1,7 @@
-const Button = ({ className, label, type, backgroundColor, labelColor, fontSize, border, onClick, icon: Icon, iconWidth, iconHeight }) => {
+import React from 'react';
+
+
+const Button = ({ className, label, type, backgroundColor, labelColor, fontSize, border, onClick }) => {
     const buttonStyle = {
         minWidth: '8rem',
         borderRadius: '8px',
@@ -10,8 +13,9 @@ const Button = ({ className, label, type, backgroundColor, labelColor, fontSize,
         display: "flex",
         justifyContent: 'center',
         alignItems: "center",
+        whiteSpace: "nowrap",
     }
-
+    
     const spanStyle = {
         color: labelColor || '#785B5B',
         borderRadius: 'inherit',
@@ -19,23 +23,10 @@ const Button = ({ className, label, type, backgroundColor, labelColor, fontSize,
         padding: '0 2rem',
         lineHeight: '40px',
     };
-    if (Icon) {
-        // Khi có icon, thiết lập paddingLeft của spanStyle là 16px
-        spanStyle.paddingLeft = '16px';
-    } else {
-        spanStyle.paddingLeft = '24px';
-
-    }
-    const iconStyle = {
-        width: iconWidth || 'auto',
-        height: iconHeight || 'auto',
-        marginRight: '5px',
-    };
-
     return (
         <button className={className} type={type} style={buttonStyle} onClick={onClick}>
             <span style={spanStyle}>
-                {Icon && <Icon style={iconStyle} />} {label}
+                {label}
             </span>
         </button>
     );
