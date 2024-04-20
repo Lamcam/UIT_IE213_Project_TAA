@@ -25,63 +25,69 @@ const getUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+    try {
+        const { email, password } = req.body;
+        // console.log(email, password );
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Please fill in all fields" });
+        if (!email || !password) {
+            return res.status(400).json({ message: "Please fill in all fields" });
+        }
+        
+        const user = await User.findOne({user_email : email});
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        console.log('found user',user);
+        const match = await bcrypt.compare(password, user.user_pass);
+        
+        console.log(match);
+        if (!match) {
+            return res.status(400).json({ message: "Invalid password" });
+        }
+
+        const token = createToken(user._id);
+        res.status(200)
+        .json([user, token])
+        console.log('Login success');
     }
-
-    const user = await User.findOne({ user_email: email });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
     }
-
-    const match = await bcrypt.compare(password, user.user_pass);
-
-    console.log(match);
-    if (!match) {
-      return res.status(400).json({ message: "Invalid password" });
-    }
-
-    const token = createToken(user._id);
-    res.status(200).json([user, token]);
-    console.log("Login success");
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+}
 
 const registerUser = async (req, res) => {
-  try {
-    const { username, phone, email, password } = req.body;
-    const user = await User.findOne({ user_email: email });
 
-    if (user) {
-      return res.status(400).json({ message: "User already exists" });
-    } else {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
+    try {
+        const { username, phone, email, password } = req.body;
+        const user = await User.findOne({ user_email: email });
+        console.log(req.body);
+        if (user) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+        else{
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+            
+            const newUser = new User({
+                _id: new mongoose.Types.ObjectId(),
+                user_name: username,
+                user_phone: phone,
+                user_email: email,
+                user_pass: hashedPassword,
+                user_avatar: '',
+                local_default_id: '',
+                bank_default_id: '',
+            });
+            
+            await newUser.save();
+            const token = await createToken(newUser._id);
+            res.status(201).json([newUser, token]);
+        }
 
-      const newUser = new User({
-        _id: new mongoose.Types.ObjectId(),
-        user_name: username,
-        user_phone: phone,
-        user_email: email,
-        user_pass: hashedPassword,
-        user_avatar: "",
-        local_default_id: "",
-        bank_default_id: "",
-      });
-
-      await newUser.save();
-      console.log(newUser);
-      const token = await createToken(newUser._id);
-      res.status(201).json([newUser, token]);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
 };
 
 const updatePassword = async (req, res) => {

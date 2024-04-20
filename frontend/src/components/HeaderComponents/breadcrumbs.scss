@@ -1,4 +1,5 @@
 section.breadcrumbs_section{
+
     display: flex;
     flex-direction: row;
     margin: 10px 100px;
@@ -12,6 +13,12 @@ section.breadcrumbs_section{
     align-items: center;
     gap: 8px; 
 
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    word-wrap: break-word;
     nav{
         display: flex;
         flex-direction: row;
@@ -23,12 +30,18 @@ section.breadcrumbs_section{
             margin-top: 50%;
             margin-bottom: 50%;
             margin-left: 20px;
+
             .breadcrumb-item{
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
-               
+                
+                a{
+                    text-decoration: none;
+                    color: rgba(0, 0, 0, 0.60);
+
+                }
             }
         }
     } 
