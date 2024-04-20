@@ -21,7 +21,7 @@ import Order from 'pages/Order/Order';
 import ProductDetail from 'pages/ProductDetail/ProductDetail';
 import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
-
+import Account from "./pages/Account/index"
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>
@@ -33,7 +33,7 @@ const router = createBrowserRouter(
       <Route path="products/:productId" element={<ProductDetail />} />
       <Route path="search" element={<Products />} />
       <Route path="news" element={<News />} />
-      <Route path="news/:id" element={<NewsPost />} />
+      <Route path="news/:newsId" element={<NewsPost />} />
       <Route path="about_us" element={<AboutUs />} />
       <Route path="cart" element={<Cart />} />
       <Route path="order" element={<Order />} />
@@ -45,6 +45,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="register" element={<Register />} />
       <Route path="log_in" element={<Login />} />
+      <Route path="/account/:id" element={<Account />} />
     </Route>,
   ),
 );
