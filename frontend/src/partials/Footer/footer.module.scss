@@ -22,8 +22,11 @@ footer {
     }
 
   }
+  .email_input{
+    margin-right: 5px;
+  }
   .input_warrper{
-    max-height: 10px;
+    max-height: 12px;
   }
 
 }
@@ -69,5 +72,17 @@ footer {
 @media (max-width: 576px) {
   footer {
     padding-bottom: 3rem;
+
+    
   }
+}
+
+@media (max-width: 744px) {
+  // footer{
+
+    
+  // }
+
+ 
+  
 }

@@ -9,7 +9,7 @@ import HotProducts from 'components/HomeComponents/HotProducts';
 
 const Home = () => {
     return (
-        <div>
+        <div className='HomePage' >
             <HomeCarousel></HomeCarousel>
             <SaleSection></SaleSection>
             <HotProducts></HotProducts> 
