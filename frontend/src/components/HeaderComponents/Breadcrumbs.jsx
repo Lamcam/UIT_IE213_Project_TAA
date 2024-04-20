@@ -8,6 +8,44 @@ function BreadcrumbSection() {
 
     const currentPath = location.pathname;
     let currentLink = ''
+
+    const changePath = (path) =>{
+      // console.log(path);
+      let coverted = '';
+      switch (path) {
+        case 'log_in':
+          coverted= 'Đăng nhập'
+          break;
+        case 'register':
+          coverted= 'Đăng ký'
+          break;
+        case 'products':
+          coverted= 'Sản phẩm'
+          break;
+        case 'news':
+          coverted= 'Tin tức'
+          break;
+        case 'cart':
+          coverted= 'Giỏ hàng'
+          break;
+        case 'about_us':
+          coverted= 'Về chúng tôoi'
+          break;
+        case 'guideline':
+          coverted= 'Hướng dẫn'
+          break;
+        case 'policy':
+          coverted= 'Chính sách'
+          break;
+      
+        default:
+          coverted = path
+          break;
+      }
+
+      return coverted;
+
+    }
     
     const crumbs = location.pathname.split('/')
         .filter(crumb => crumb !== '')
@@ -15,12 +53,12 @@ function BreadcrumbSection() {
 
       return (
        
-          <Breadcrumb.Item href={currentLink}>{crumb}</Breadcrumb.Item>
+          <Breadcrumb.Item href={currentLink}>{changePath(crumb)}</Breadcrumb.Item>
       )
     })
+
+    
   return (
-    // <div className="breadcrumbs">
-    //   {crumbs}
       
     // </div>
     <section className='breadcrumbs_section' style={{display: currentPath === '/'? 'none' : null }} >
