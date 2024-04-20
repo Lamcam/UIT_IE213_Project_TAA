@@ -74,17 +74,21 @@ const registerUser = async (req, res) => {
                 user_phone: phone,
                 user_email: email,
                 user_pass: hashedPassword,
-                user_avatar: '',
+                user_avatar: 'https://res.cloudinary.com/dg40uppx3/image/upload/v1713435745/IMG_5790_tgvzuj.jpg',
+                user_cccd: '',
                 local_default_id: '',
                 bank_default_id: '',
+
             });
             
             await newUser.save();
+            console.log('new user', newUser);
             const token = await createToken(newUser._id);
             res.status(201).json([newUser, token]);
         }
 
     } catch (error) {
+        console.log("err",error);
         res.status(500).json({ message: error.message });
     }
 };
