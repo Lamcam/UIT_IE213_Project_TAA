@@ -19,9 +19,9 @@ function ProductPagination({ totalPages, activePage, onPageChange }) {
     );
 
     // Dấu '...' nếu cần
-    if (activePage > 2) {
-      items.push(<Pagination.Ellipsis key="start-ellipsis" />);
-    }
+    // if (activePage > 2) {
+    //   items.push(<Pagination.Ellipsis key="start-ellipsis" />);
+    // }
 
     // Các trang trước trang hiện tại
     for (let i = Math.max(activePage - 1, 2); i < activePage; i++) {
@@ -51,9 +51,9 @@ function ProductPagination({ totalPages, activePage, onPageChange }) {
     }
 
     // Dấu '...' nếu cần
-    if (activePage < totalPages - 3) {
-      items.push(<Pagination.Ellipsis key="end-ellipsis" />);
-    }
+    // if (activePage < totalPages - 3) {
+    //   items.push(<Pagination.Ellipsis key="end-ellipsis" />);
+    // }
 
     // Trang cuối cùng
     items.push(

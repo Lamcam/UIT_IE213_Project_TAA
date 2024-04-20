@@ -15,13 +15,14 @@ function ProductMenu(props) {
         if (subCategory !== '') {
             // Xử lý khi người dùng chọn subcategory
             setActiveSubCategory(activeSubCategory === subCategory ? null : subCategory);
-            props.onCategoryClick(category, subCategory);
+            props.onCategoryClick(category, activeSubCategory === subCategory ? '' : subCategory);
         } else {
             // Xử lý khi người dùng chỉ chọn category
             setActiveCategory(activeCategory === category ? null : category);
             props.onCategoryClick(category, ''); // Truyền chuỗi rỗng cho subcategory
         }
     };
+
     return (
         <Row lg={12} className="product__menu">
             <ul className="aside__list body-large visible">
