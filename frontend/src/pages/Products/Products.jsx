@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'style/pages/Products/ProductStyle.scss';
+
 function Products() {
 
   const navigate = useNavigate()

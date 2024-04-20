@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import Button1 from 'components/Common/Button1';
+import ReviewPopup from 'components/ReviewPopup';
 
 function Orders() {
   const [orders, setOrders] = useState([
@@ -11,7 +12,7 @@ function Orders() {
       quantity: 1,
       orderStatus: 0,
       orderTotalcost: 1000,
-      img: "",
+      img: '',
     },
     {
       id: 2,
@@ -20,7 +21,7 @@ function Orders() {
       quantity: 1,
       orderStatus: 1,
       orderTotalcost: 1000,
-      img: "",
+      img: '',
     },
     {
       id: 3,
@@ -29,7 +30,7 @@ function Orders() {
       quantity: 2,
       orderStatus: 1,
       orderTotalcost: 2000,
-      img: "",
+      img: '',
     },
   ]);
   // const handleSetStatus = (order) => {
@@ -42,13 +43,21 @@ function Orders() {
   //     return ord;
   //   }))
   // }
+
+  //modal review popup
+  const [showPopup, setShowPopup] = useState(false);
+  const handleReviewPopup = () => {
+    console.log(showPopup);
+    setShowPopup(true);
+  };
+
   return (
-    <div id='orders'>
-    <article className="section__content visible">
-      <div className="section__info visible">
-        <h2 className="headline-large">Đơn hàng</h2>
-        <p className="body-medium">Trang cung cấp thông tin về các đơn hàng theo danh mục</p>
-      </div>
+    <div id="orders">
+      <article className="section__content visible">
+        <div className="section__info visible">
+          <h2 className="headline-large">Đơn hàng</h2>
+          <p className="body-medium">Trang cung cấp thông tin về các đơn hàng theo danh mục</p>
+        </div>
       </article>
       <article className=" section__content visible order-content">
         <ul className="orders-list">
@@ -56,12 +65,12 @@ function Orders() {
             <React.Fragment key={order.id}>
               <li>
                 <div className="orders-item__wrapper">
-                  <div className='img-status'>
-                  <img className='orders-item__img' src={order.img} alt="" />
-                  <span className='status headline-small'>
+                  <div className="img-status">
+                    <img className="orders-item__img" src={order.img} alt="" />
+                    <span className="status headline-small">
                       {order.orderStatus === 1 ? 'Đã giao' : 'Chưa giao'}
                     </span>
-                    </div>
+                  </div>
                   <div className="orders-item__info">
                     <div className="name-status">
                       <p className="name body-large">Tên sản phẩm</p>
@@ -70,14 +79,21 @@ function Orders() {
                       </span>
                     </div>
                     <div className="quantity-price body-large">
-                      <p className="quatity"><label>Số lượng:</label>   {order.quantity}</p>
-                      <p className="price"><label>Giá tiền:</label>   {order.price} đ</p>
+                      <p className="quatity">
+                        <label>Số lượng:</label> {order.quantity}
+                      </p>
+                      <p className="price">
+                        <label>Giá tiền:</label> {order.price} đ
+                      </p>
                     </div>
                     <div className="total-cost body-large">
-                      <p><label>Thành tiền:</label>   {order.orderTotalcost} đ</p>
+                      <p>
+                        <label>Thành tiền:</label> {order.orderTotalcost} đ
+                      </p>
                     </div>
                     <div className="appreciate-repurchase">
-                      <Button1 label="Đánh giá" className="appreciate"/>
+                      <Button1 label="Đánh giá" className="appreciate" onClick={handleReviewPopup} />
+                      <ReviewPopup show={showPopup} onHide={() => setShowPopup(false)} />
                       <Button1
                         className="repurchase"
                         label="Mua lại sản phẩm"
@@ -93,7 +109,7 @@ function Orders() {
           ))}
         </ul>
       </article>
-      </div>
+    </div>
   );
 }
 

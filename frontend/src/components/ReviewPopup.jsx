@@ -4,8 +4,20 @@ import { IoMdClose } from 'react-icons/io';
 import productDetailImg from '../assets/image/pencil.png';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import '../style/components/ReviewPopup.scss';
+import NotiAddReviewSuccessPopup from './Orders/NotiAddReviewSuccessPopup';
 
 export default function ReviewPopup({ show, onHide }) {
+  const [showNotiAddPopup, setShowNotiAddPopup] = useState(true);
+
+  const handleComplete = () => {
+    onHide();
+  };
+  const handleCloseNotiAddPopup = () => {
+    setTimeout(() => {
+      setShowNotiAddPopup(true);
+    }, 5000);
+  };
+
   function StarRating({ ratingContainerId }) {
     const [selectedRating, setSelectedRating] = useState(0);
 
@@ -97,10 +109,11 @@ export default function ReviewPopup({ show, onHide }) {
         </Button>
         <Button
           className="btn_round_8px btn_bold btn_review_done review-list__btn--del done-btn"
-          onClick={onHide}
+          onClick={handleComplete}
         >
           Hoàn thành
         </Button>
+        <NotiAddReviewSuccessPopup onHide={handleCloseNotiAddPopup} />
       </Modal.Footer>
     </Modal>
   );

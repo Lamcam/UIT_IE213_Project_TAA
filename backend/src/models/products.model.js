@@ -17,6 +17,8 @@ let ProductsSchema = new Schema({
     prod_star_rating: { type: "string", default: 0 },
     prod_description: { type: "string", default: "" },
     cate_id: { type: Schema.Types.ObjectId, ref: "categories" },
+    prod_color: { type: "string", required: true },
+    prod_size: { type: "string", required: true },
 });
 
 module.exports = mongoose.model("products", ProductsSchema);
