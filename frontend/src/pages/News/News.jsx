@@ -37,8 +37,8 @@ function News() {
     };
 
     fetchNews();
-  });
-  // console.log(news)
+  }, []);
+  console.log(news)
 
   return (
     <Container className="news fluid">

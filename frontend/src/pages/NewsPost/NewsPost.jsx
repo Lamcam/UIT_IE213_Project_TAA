@@ -39,6 +39,7 @@ function NewsPost(props) {
     fetchNews();
   }, [newsId]);
   console.log(news);
+
   if (!news) {
     console.log('a');
     return null;
