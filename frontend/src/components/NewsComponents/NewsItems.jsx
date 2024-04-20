@@ -24,7 +24,7 @@ function NewsItems({ news }) {
   console.log(news);
   return (
     <Row lg={2} md={1} sm={1}>
-      <div className="card">
+      <div className="news__card card">
         <Row>
           <Col sm={4}>
             {news && news.b_image && news.b_image[0] && (
