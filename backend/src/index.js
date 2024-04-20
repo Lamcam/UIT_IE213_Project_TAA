@@ -11,13 +11,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 mongoose
-  .connect(`${process.env.MONGODB}`)
-  .then(() => {
-    console.log("Connect database success");
-  })
-  .catch(() => {
-    console.log("Serve is running in port", +port);
-  });
+    .connect(`${process.env.MONGODB}`)
+    .then(() => {
+        console.log("Connect database success");
+    })
+    .catch(() => {
+        console.log("Serve is running in port", +port);
+    });
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -28,5 +28,5 @@ app.use(cookieParser());
 routes(app);
 
 app.listen(port, () => {
-  console.log("Serve is running in port", +port);
+    console.log("Serve is running in port", +port);
 });

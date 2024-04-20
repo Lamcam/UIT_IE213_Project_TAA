@@ -21,12 +21,14 @@ import Order from 'pages/Order/Order';
 import ProductDetail from 'pages/ProductDetail/ProductDetail';
 import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
-
+import Account from "./pages/Account/index"
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>
       <Route index element={<Home />} />
       <Route path="products" element={<Products />} />
+      <Route path="products/category/:cate_type_name" element={<Products />} />
+      <Route path="products/category/:cate_type_name/:cate_name" element={<Products />} />
       {/* <Route path="blog" element={<News />} /> */}
 
       <Route path="products/:productId" element={<ProductDetail />} />
@@ -43,6 +45,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="register" element={<Register />} />
       <Route path="log_in" element={<Login />} />
+      <Route path="/account/:id" element={<Account />} />
     </Route>,
   ),
 );

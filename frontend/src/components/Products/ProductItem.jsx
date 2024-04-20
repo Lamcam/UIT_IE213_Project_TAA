@@ -1,13 +1,10 @@
 import PopupQuickView from 'components/Products/PopupQuickView';
-import ProductDetail from 'pages/ProductDetail/ProductDetail';
-
+import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { IoHeartSharp } from 'react-icons/io5';
 import { TbHeartPlus } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
 import 'style/components/Products/ProductItem.scss';
-import PropTypes from 'prop-types';
 
 ProductItem.propTypes = {
   product: PropTypes.shape({
@@ -76,9 +73,9 @@ function ProductItem({ product }) {
         </NavLink>
         <div className="product__item__price">
           <div className="item__price__current">{currentPrice} đ</div>
-          <div className="item__price__discount">{BeforDiscountPrice} đ</div>
+          {discount>0?(<div className="item__price__discount">{BeforDiscountPrice} đ</div>):('')}
         </div>
-        <div className="product__item__discount">Giảm {discount} %</div>
+        {discount>0?(<div className="product__item__discount">Giảm {discount} %</div>):(<div className="product__item__discount"></div>)}
         <div className="product__item__stock primary-text">Còn hàng</div>
       </div>
       <div className="product__item__section">

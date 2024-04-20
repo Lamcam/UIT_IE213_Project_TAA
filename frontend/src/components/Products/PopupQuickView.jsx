@@ -1,13 +1,38 @@
 import React, { useState } from 'react';
-import { Button, Input, Modal } from 'react-bootstrap';
+import { Input, Modal } from 'react-bootstrap';
+import Button from 'components/Common/Button1'
 import PropTypes from 'prop-types';
 import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import 'style/components/Products/PopupQuickView.scss';
+import { useNavigate } from 'react-router-dom';
 
+PopupQuickView.propTypes = {
+  onHide: PropTypes.func.isRequired,
+  productItem: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    prod_name: PropTypes.string.isRequired,
+    prod_cost: PropTypes.shape({
+      $numberDecimal: PropTypes.string.isRequired
+    }).isRequired,
+    prod_discount: PropTypes.shape({
+      $numberDecimal: PropTypes.string.isRequired
+    }).isRequired,
+    prod_end_date_discount: PropTypes.string.isRequired,
+    prod_num_sold: PropTypes.number.isRequired,
+    prod_num_rating: PropTypes.number.isRequired,
+    prod_star_rating: PropTypes.string.isRequired,
+    prod_description: PropTypes.string.isRequired,
+    cate_id: PropTypes.string.isRequired,
+    prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
+    prod_num_avai: PropTypes.number.isRequired
+  }).isRequired
+};
 
 function PopupQuickView(props) {
-  const defaultImage = props.productItem?.prod_img?.length > 0 ? props.productItem.prod_img[0] : '';
+  const navigate = useNavigate()
+  const productImages = props.productItem?.prod_img?.slice(0, 4);
+  const defaultImage = productImages?.length > 0 ? productImages[0] : '';
   const [selectedImage, setSelectedImage] = useState(defaultImage);
   const [quantity, setQuantity] = useState(1);
 
@@ -54,7 +79,9 @@ function PopupQuickView(props) {
   const currentPrice = formatPrice(props.productItem.prod_cost.$numberDecimal - props.productItem.prod_discount.$numberDecimal * props.productItem.prod_cost.$numberDecimal)
   const discount = props.productItem.prod_discount.$numberDecimal * 100
   const BeforDiscountPrice = formatPrice(props.productItem.prod_cost.$numberDecimal)
-
+  const handleViewDetail = () => {
+    navigate(`/products/${props.productItem._id}`);
+  };
   return (
     <Modal
       {...props}
@@ -69,11 +96,11 @@ function PopupQuickView(props) {
             <img
               src={selectedImage}
               alt="Product"
-              className={selectedImage === props.productItem.prod_img[0] ? "selected" : ""}
+              className={selectedImage === productImages[0] ? "selected" : ""}
             />
           </div>
           <div className="img__list">
-            {props.productItem.prod_img.map((image, index) => (
+            {productImages.map((image, index) => (
               <img
                 key={index}
                 src={image}
@@ -123,11 +150,24 @@ function PopupQuickView(props) {
             <p className="info__quantity__stock body-medium">{props.productItem.prod_num_avai} sản phẩm sẵn có</p>
           </div>
           <div className="info__button">
-            <Button className="button__add__cart body-large">
-              <MdOutlineAddShoppingCart className="icon__add__cart" />
-              Thêm vào giỏ hàng
-            </Button>
-            <Button className="button__detail__view">Xem chi tiết</Button>
+            <Button
+              className="button__add__cart body-large"
+              backgroundColor="#ffedec"
+              labelColor="#9C4048"
+              icon={MdOutlineAddShoppingCart}
+              iconWidth="24px"
+              iconHeight="24px"
+              label="Thêm vào giỏ hàng"
+              border="1px solid #9c4048"
+            />
+            <Button
+              className="button__detail__view"
+              backgroundColor="#785B5B"
+              labelColor="#F1EFE7"
+              border="1px solid #857373"
+              label="Xem chi tiết"
+              onClick={handleViewDetail}
+            />
           </div>
           <div class="info__context body-large">
             <div class="info__context__product">
@@ -156,27 +196,5 @@ function PopupQuickView(props) {
     </Modal>
   );
 }
-
-PopupQuickView.propTypes = {
-  onHide: PropTypes.func.isRequired,
-  productItem: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    prod_name: PropTypes.string.isRequired,
-    prod_cost: PropTypes.shape({
-      $numberDecimal: PropTypes.string.isRequired
-    }).isRequired,
-    prod_discount: PropTypes.shape({
-      $numberDecimal: PropTypes.string.isRequired
-    }).isRequired,
-    prod_end_date_discount: PropTypes.string.isRequired,
-    prod_num_sold: PropTypes.number.isRequired,
-    prod_num_rating: PropTypes.number.isRequired,
-    prod_star_rating: PropTypes.string.isRequired,
-    prod_description: PropTypes.string.isRequired,
-    cate_id: PropTypes.string.isRequired,
-    prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
-    prod_num_avai: PropTypes.number.isRequired
-  }).isRequired
-};
 
 export default PopupQuickView;
