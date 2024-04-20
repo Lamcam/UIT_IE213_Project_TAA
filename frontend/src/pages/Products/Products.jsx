@@ -5,11 +5,9 @@ import ProductMenu from 'components/Products/ProductMenu';
 import ProductPagination from 'components/Products/ProductPagination';
 import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import 'style/pages/Products/ProductStyle.scss';
 function Products() {
-
-  const navigate = useNavigate()
   const handleCategoryClick = (category, subCategory) => {
     // Thực hiện xử lý với thông tin sản phẩm đã click
     console.log(`Sản phẩm đã click: ${category} - ${subCategory}`);
@@ -21,40 +19,47 @@ function Products() {
     }
   };
 
+  const location = useLocation();
+  const navigate = useNavigate();
   const { cate_type_name, cate_name } = useParams();
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-
   const [activePage, setActivePage] = useState(1);
   const productsPerPage = 12;
 
+  // Xử lý tìm kiếm nếu đường dẫn là "/search"
   useEffect(() => {
-    fetchData();
-  }, [cate_type_name, cate_name, activePage]);
+    const fetchData = async () => {
+      try {
+        // Kiểm tra nếu đường dẫn là "/search"
+        if (location.pathname === '/search') {
 
-  const fetchData = async () => {
-    try {
-      let url = 'http://localhost:8000/products';
-      if (cate_type_name) {
-        url += `/category/${cate_type_name}`;
-        console.log(url)
-        if (cate_name) {
-          url += `/${cate_name}`;
+          const params = new URLSearchParams(location.search);
+          const keyword = params.get('keyword');
+          const response = await axios.get(`http://localhost:8000/search?keyword=${keyword}`);
+          setData(response.data.products);
+          setFilteredData(response.data.products);
+        } else {
+          // Đường dẫn không phải là "/search", lấy dữ liệu sản phẩm theo danh mục
+          let url = 'http://localhost:8000/products';
+          if (cate_type_name) {
+            url += `/category/${cate_type_name}`;
+            if (cate_name) {
+              url += `/${cate_name}`;
+            }
+          }
+          const response = await axios.get(url);
+          setData(response.data);
+          const startIdx = (activePage - 1) * productsPerPage;
+          const endIdx = startIdx + productsPerPage;
+          setFilteredData(response.data.slice(startIdx, endIdx));
         }
-        console.log(url)
-
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-      const response = await axios.get(url);
-      setData(response.data);
-      console.log(response.data)
-      const startIdx = (activePage - 1) * productsPerPage;
-      const endIdx = startIdx + productsPerPage;
-      setFilteredData(response.data.slice(startIdx, endIdx));
-      console.log(filteredData)
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+    }; fetchData();
+
+  }, [location.pathname, location.search, cate_type_name, cate_name, activePage]);
 
   const handlePageChange = (page) => {
     setActivePage(page);

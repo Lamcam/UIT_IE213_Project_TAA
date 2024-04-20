@@ -8,6 +8,7 @@ router.post('/api/auth/login', auth.loginUser)
 router.post('/api/auth/register', auth.registerUser)
 router.post('/api/auth/updatePass', auth.updatePassword)
 router.get('/user', auth.getUser)
+router.get('/search',auth.searchProduct)
 
 
 
