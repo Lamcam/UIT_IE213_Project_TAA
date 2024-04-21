@@ -56,7 +56,7 @@ const Footer = () => {
             </ul>
           </Col>
 
-          <Col>
+          <Col sm={0} >
             <h3 className='footer__title' >Cập nhật về chúng tôi</h3>
             <p>Xác nhận thư điện tử của bạn để nhận được ngay những cập nhật mới nhất từ chúng tôi hàng tuần</p>
 
@@ -64,7 +64,7 @@ const Footer = () => {
               <Col className='col-7'>
                 <Input className="email_input" type="email" placeholder="Email Address" />
               </Col>
-              <Col className='col-5'>
+              <Col className='col-4'>
                 <Button className='btn_reg_log_round_32px btn_clickable_boldcolor' label='Xác nhận' type='submit'>
                 </Button>
               </Col>

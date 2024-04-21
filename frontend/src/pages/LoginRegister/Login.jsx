@@ -4,7 +4,6 @@ import './Login.scss';
 import { NavLink } from 'react-router-dom';
 import React, {useState} from 'react';
 import ModalForgotPass from './ModalForgotPass';
-import { useNavigate } from 'react-router-dom';
 import { useLogIn } from 'hooks/useLogIn';
 
 function Login() {
