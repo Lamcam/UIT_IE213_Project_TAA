@@ -8,14 +8,25 @@ import NotiAddReviewSuccessPopup from './Orders/NotiAddReviewSuccessPopup';
 
 export default function ReviewPopup({ show, onHide }) {
   const [showNotiAddPopup, setShowNotiAddPopup] = useState(true);
+  const [reviewContent, setReviewContent] = useState('');
+
+  // Xác định hàm xử lý thay đổi nội dung đánh giá
+  const handleReviewChange = (event) => {
+    setReviewContent(event.target.value);
+  };
+
+  // Kiểm tra xem textarea có nội dung hay không
+  const isReviewEmpty = reviewContent.trim() === '';
 
   const handleComplete = () => {
-    onHide();
-  };
-  const handleCloseNotiAddPopup = () => {
-    setTimeout(() => {
+    if (!isReviewEmpty) {
+      onHide();
       setShowNotiAddPopup(true);
-    }, 5000);
+    }
+  };
+
+  const handleCloseNotiAddPopup = () => {
+    setShowNotiAddPopup(false);
   };
 
   function StarRating({ ratingContainerId }) {
@@ -82,6 +93,8 @@ export default function ReviewPopup({ show, onHide }) {
                 id="form__review"
                 placeholder="Để lại đánh giá"
                 className="modal__form-review-textarea mt-12"
+                value={reviewContent}
+                onChange={handleReviewChange}
                 required
               ></textarea>
             </div>
@@ -110,10 +123,11 @@ export default function ReviewPopup({ show, onHide }) {
         <Button
           className="btn_round_8px btn_bold btn_review_done review-list__btn--del done-btn"
           onClick={handleComplete}
+          disabled={isReviewEmpty} // Khóa nút "Hoàn thành" nếu textarea trống
         >
           Hoàn thành
         </Button>
-        <NotiAddReviewSuccessPopup onHide={handleCloseNotiAddPopup} />
+        <NotiAddReviewSuccessPopup />
       </Modal.Footer>
     </Modal>
   );
