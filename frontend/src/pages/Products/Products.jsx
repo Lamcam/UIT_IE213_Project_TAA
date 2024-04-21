@@ -8,6 +8,18 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import 'style/pages/Products/ProductStyle.scss';
 function Products() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { cate_type_name, cate_name } = useParams();
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [activePage, setActivePage] = useState(1);
+  const productsPerPage = 12;
+  const [showMenu, setShowMenu] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [shouldReload, setShouldReload] = useState(false);
+  const [prevLocation, setPrevLocation] = useState(location);
+
   const handleCategoryClick = (category, subCategory) => {
     // Thực hiện xử lý với thông tin sản phẩm đã click
     console.log(`Sản phẩm đã click: ${category} - ${subCategory}`);
@@ -19,27 +31,21 @@ function Products() {
     }
   };
 
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { cate_type_name, cate_name } = useParams();
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [activePage, setActivePage] = useState(1);
-  const productsPerPage = 12;
-
   // Xử lý tìm kiếm nếu đường dẫn là "/search"
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Kiểm tra nếu đường dẫn là "/search"
         if (location.pathname === '/search') {
-
+          setShowMenu(false);
           const params = new URLSearchParams(location.search);
           const keyword = params.get('keyword');
           const response = await axios.get(`http://localhost:8000/search?keyword=${keyword}`);
           setData(response.data.products);
           setFilteredData(response.data.products);
+
         } else {
+          setShowMenu(true);
           // Đường dẫn không phải là "/search", lấy dữ liệu sản phẩm theo danh mục
           let url = 'http://localhost:8000/products';
           if (cate_type_name) {
@@ -60,6 +66,29 @@ function Products() {
     }; fetchData();
 
   }, [location.pathname, location.search, cate_type_name, cate_name, activePage]);
+
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const keyword = searchParams.get('keyword');
+    if (keyword !== null && keyword !== searchQuery) {
+      setSearchQuery(keyword);
+      const prevSearchParams = new URLSearchParams(prevLocation.search);
+      const prevKeyword = prevSearchParams.get('keyword');
+      if (keyword !== prevKeyword) {
+        setShouldReload(true);
+      }
+    }
+    // Cập nhật prevLocation sau khi sử dụng location
+    setPrevLocation(location);
+  }, [location.search, searchQuery, prevLocation]);
+
+  useEffect(() => {
+    if (shouldReload) {
+      window.location.reload();
+    }
+  }, [shouldReload]);
+
 
   const handlePageChange = (page) => {
     setActivePage(page);
@@ -146,33 +175,62 @@ function Products() {
       }
     }
 
-    setFilteredData(updatedData);
-
+    // setFilteredData(updatedData);
+    setFilteredData(updatedData.slice(0, productsPerPage));
   };
 
   return (
-    <Container className="product" fluid>
-      <ProductFilter applyFilter={applyFilter} />
-      <Row className="product__content">
-        <Col xxl={3} xl={3} lg={3} md={4} sm={4}>
-          <ProductMenu onCategoryClick={handleCategoryClick} />
-        </Col>
-        <Col xxl={9} xl={9} lg={9} md={8} sm={8} className="product__list">
-          <Row className="row-cols-1 row-cols-md-3 g-3">
-            {filteredData.map((product) => (
-              <Col key={product._id} xxl={filteredData.length <= 2 ? 6 : 3} xl={filteredData.length <= 2 ? 6 : 4} lg={filteredData.length <= 2 ? 6 : 4} md={6} sm={6}>
-                <ProductItem product={product} />
-              </Col>
-            ))}
+
+    showMenu ? (
+      <Container className="product" fluid>
+        <ProductFilter applyFilter={applyFilter} />
+        <Row className="product__content">
+          <Col xxl={3} xl={3} lg={3} md={4} sm={4}>
+            <ProductMenu onCategoryClick={handleCategoryClick} />
+          </Col>
+          <Col xxl={9} xl={9} lg={9} md={8} sm={8} className="product__list">
+            <Row className="row-cols-1 row-cols-md-3 g-3">
+              {filteredData.map((product) => (
+                <Col key={product._id} xxl={filteredData.length <= 2 ? 6 : 3} xl={filteredData.length <= 2 ? 6 : 4} lg={filteredData.length <= 2 ? 6 : 4} md={6} sm={6}>
+                  <ProductItem product={product} />
+                </Col>
+              ))}
+            </Row>
+            <Row className="product__pagination">
+              {totalPages > 1 && (
+                <ProductPagination totalPages={totalPages} activePage={activePage} onPageChange={handlePageChange} />
+              )}
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    ) : (
+      <Container className="product result__search" fluid>
+        {filteredData.length === 0 ? (
+          <h4>Không có sản phẩm nào được tìm thấy.</h4>
+        ) : (<>
+          <ProductFilter applyFilter={applyFilter} />
+          <h4>Có {filteredData.length} sản phẩm được tìm thấy.</h4>
+          <Row className="product__content">
+            <Row className="product__search row-cols-1 row-cols-md-6 g-3">
+              {filteredData.map((product) => (
+                <Col key={product._id} xxl={2} xl={3} lg={3} md={4} sm={6}>
+                  <ProductItem product={product} />
+                </Col>
+              ))}
+            </Row>
+            {/* <Row className="product__pagination">
+              {totalPages > 1 && (
+                <ProductPagination totalPages={totalPages} activePage={activePage} onPageChange={handlePageChange} />
+              )}
+            </Row> */}
           </Row>
-          <Row className="product__pagination">
-            {totalPages > 1 && (
-              <ProductPagination totalPages={totalPages} activePage={activePage} onPageChange={handlePageChange} />
-            )}
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+        </>
+
+        )}
+      </Container>
+    )
+
   );
 }
 export default Products;
