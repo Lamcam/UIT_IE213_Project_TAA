@@ -45,7 +45,9 @@ const router = createBrowserRouter(
       </Route>
       <Route path="register" element={<Register />} />
       <Route path="log_in" element={<Login />} />
-      <Route path="/account/:id" element={<Account />} />
+      <Route path="/account/:nav" element={<Account />} />
+      <Route path="/account/:nav/:subnav" element={<Account />} />
+
     </Route>,
   ),
 );

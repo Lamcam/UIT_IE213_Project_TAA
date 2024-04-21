@@ -43,9 +43,9 @@ function AuthPart() {
 
                         <Col>
                             <DropdownButton id='drop_down_btn' style={{backgroundImage: `url(${avt})`, borderRadius: '50%' }} >
-                                <Dropdown.Item href="#/action-1">Thông tin cá nhân</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Đơn hàng</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Sản phẩm yêu thích</Dropdown.Item>
+                                <Dropdown.Item href="/account/infomation/profile-user">Thông tin cá nhân</Dropdown.Item>
+                                <Dropdown.Item href="/account/orders">Đơn hàng</Dropdown.Item>
+                                <Dropdown.Item href="/account/favor">Sản phẩm yêu thích</Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item><Button variant="danger" onClick={handleClickLogOut}>Đăng xuất</Button></Dropdown.Item>
                             </DropdownButton>
