@@ -10,7 +10,6 @@ function BreadcrumbSection() {
     let currentLink = ''
 
     const changePath = (path) =>{
-      // console.log(path);
       let coverted = '';
       switch (path) {
         case 'log_in':
@@ -29,7 +28,7 @@ function BreadcrumbSection() {
           coverted= 'Giỏ hàng'
           break;
         case 'about_us':
-          coverted= 'Về chúng tôoi'
+          coverted= 'Về chúng tôi'
           break;
         case 'guideline':
           coverted= 'Hướng dẫn'
