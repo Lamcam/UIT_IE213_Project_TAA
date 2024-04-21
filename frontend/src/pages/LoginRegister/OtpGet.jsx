@@ -20,14 +20,11 @@ const OtpGet = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle OTP submission logic here
+        
     };
 
     return (
     <>
-        {/* <AiOutlineClose className="close_button"/>
-        <AiOutlineLeft className="return_button"/>
-         */}
         <h2>Nhập mã OTP</h2>
         <p>Vui lòng nhập mã OTP từ 123456</p>
         <form onSubmit={handleSubmit}>

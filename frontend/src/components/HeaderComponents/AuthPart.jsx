@@ -17,14 +17,15 @@ function AuthPart() {
         logout();        
     }
 
-    function redirectToHome() {
-        history('/');
-    }
-
-    function handleLogOut(callback) {
-        // localStorage.removeItem('user');
-        // window.location.reload();
-        console.log('log out');
+    function getUserName() {
+        let a = localStorage.getItem('user');
+        a = JSON.parse(a);
+        if (a) {
+            return a[0].user_name;
+        }
+        else{
+            return 'No Name found'
+        }
     }
 
     return (
@@ -38,7 +39,7 @@ function AuthPart() {
 
             <Col className='col-8 user_wrapper' >
                         <Col className='user_name'>
-                            <h6>HAN</h6>
+                            <h6>{getUserName()}</h6>
                         </Col>
 
                         <Col>
