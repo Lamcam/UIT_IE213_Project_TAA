@@ -9,7 +9,7 @@ import Button1 from 'components/Common/Button1';
 import AddAddress from '../Modal/modal--add-address';
 import DelAddress from '../Modal/modal--del-address';
 import EditAddress from '../Modal/modal--edit-address';
-import notFound from '../../../assets/image/account/pencil copy.png';
+import notFound from '../../../assets/image/account/no-data.jpg';
 function ProfileShippingAddress() {
   const defaultUserData1 = {
     _id: '65f3e8eb7ef3c2b6f3b74ac6',
@@ -29,7 +29,6 @@ function ProfileShippingAddress() {
   const id = defaultUserData._id;
   const [addresses, setAddresses] = useState([]);
   const [notAddresses, setNotAddress] = useState(false);
-  const [defaultAddress, setDefaultAddress] = useState(null);
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
@@ -99,19 +98,19 @@ function ProfileShippingAddress() {
           type="button"
           onClick={() => setIsOpenAdd(true)}
         />
-        <AddAddress
-          show={isOpenAdd}
-          onHide={() => setIsOpenAdd(false)}
-          id={id}
-          onSuccess={onSuccess}
-        />
+        {isOpenAdd && (
+          <AddAddress
+            onHide={() => setIsOpenAdd(false)}
+            id={id}
+            onSuccess={onSuccess}
+          />)}
       </div>
       <hr className="hr-title" />
 
       <ul className="shipping-list">
         {notAddresses && (
           <div className="no-data">
-            <p className="body-large">Bạn chưa có địa chỉ giao hàng!</p>
+            <p className="body-large">Không có địa chỉ giao hàng được tìm thấy</p>
             <img src={notFound} alt="Not found" />
           </div>
         )}

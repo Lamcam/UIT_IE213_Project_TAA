@@ -11,7 +11,7 @@ const navLiStyle = {
     minWidth: '8rem',
     maxWidth: '10rem',
     width: '100%',  
-    minHeight: '48px'
+    minHeight: '48px',
 }
 
 function MainNav(props){

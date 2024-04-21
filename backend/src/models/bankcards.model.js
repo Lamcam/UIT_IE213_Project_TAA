@@ -9,6 +9,7 @@ let BankcardsSchema = new Schema({
     // bank_pers_id: { type: "string", default: "9876543210" },
     is_default: {type: "boolean", default:"false" },
     user_id: { type: Schema.Types.ObjectId, ref: "users" },
+    bank_pers_cccd: {type:"string", default:""}
 });
 
 module.exports = mongoose.model("bankcards", BankcardsSchema);

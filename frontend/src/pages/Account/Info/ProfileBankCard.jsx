@@ -10,7 +10,7 @@ import ConfirmBank from '../Modal/modal--confirm-bank';
 import ConfirmPhone from '../Modal/modal--confirm-phone';
 import AddSuccess from '../Modal/modal--add-success';
 import DelBank from '../Modal/modal--del-bank';
-import notFound from '../../../assets/image/account/pencil copy.png';
+import notFound from '../../../assets/image/account/no-data.jpg';
 function ProfileBankCard() {
   const defaultUserData1 = {
     // _id: '65f3e8eb7ef3c2b6f3b74ac6',
@@ -131,6 +131,7 @@ function ProfileBankCard() {
         />
         {showModal1 && (
           <AddBank
+            show={showModal1}
             onClose={() => setShowModal1(false)}
             onDataToModal2={handleOpenModal2}
             id={id}
@@ -157,7 +158,7 @@ function ProfileBankCard() {
       <ul className="accounts-list">
         {notBankCard && (
           <div className="no-data">
-            <p className="body-large">Bạn chưa có thẻ ngân hàng!</p>
+            <p className="body-large">Không có tài khoản thanh toán được tìm thấy</p>
             <img src={notFound} alt="Not found" />
           </div>
         )}
