@@ -10,7 +10,7 @@ const createToken =(_id) => {
    return jwt.sign({ _id }, SerectKey, { expiresIn: '1h' });
 }
 
-const getUser = async (req, res) => {
+const getAllUser = async (req, res) => {
     try {
         const user = await User.find({});
         console.log(user);
@@ -93,6 +93,85 @@ const registerUser = async (req, res) => {
     }
 };
 
+const findUserByEmail = async (req, res) => {
+    try {
+        const { email } = req.body;
+        
+        if (!email) {
+            return res.status(400).json({ message: "Please fill in all fields" });
+        }
+        const user = await User.findOne({ user_email : email});
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        else {
+            return res.status(200).json(user.user_email);
+        }
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+}
+const findUserByPhone = async (req, res) => {
+    try {
+        const { phone } = req.body;
+        
+        if (!phone) {
+            return res.status(400).json({ message: "Please fill in all fields" });
+        }
+
+        const user = await User.findOne({user_phone : phone});
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        else {
+            return res.status(200).json(user.user_phone);
+        }
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+}
+
+const changePasswordByEmail = async(req, res) => {
+    try{
+        const { email, password } = req.body;
+        if(!email || !password){
+            return res.status(400).json({message : "do not receive any email or password"  })
+        }
+        const user = await User.findOne({ user_email: email });
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        await User.findOneAndUpdate({ user_email: email }, { user_pass: hashedPassword });
+        res.status(200).json({ message: "Password updated" });
+    }
+    catch(err){
+        console.log(err);
+    }
+   
+}
+const changePasswordByPhone = async(req, res) => {
+    try{
+        const { phone, password } = req.body;
+        console.log(req.body);
+        if(!phone || !password){
+            return res.status(400).json({message : "do not receive any email or password"  })
+        }
+        const user = await User.findOne({ user_phone: phone });
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        await User.findOneAndUpdate({ user_phone: email }, { user_pass: hashedPassword });
+        res.status(200).json({ message: "Password updated" });
+        
+    }
+    catch(err){
+        console.log(err);
+    }
+   
+}
+
 const updatePassword = async (req, res) => {
     try {
         const { email, phone , password, newPassword } = req.body;
@@ -115,10 +194,14 @@ const updatePassword = async (req, res) => {
 }
 
 const auth = {
-    getUser,
+    getAllUser,
     registerUser,
     loginUser,
     updatePassword,
+    findUserByEmail,
+    findUserByPhone,
+    changePasswordByEmail,
+    changePasswordByPhone,
 }
 
 module.exports = auth;
