@@ -7,7 +7,7 @@ function Cart(props) {
     const temporaryAmount = 350000;
     const discountAmount = 50000;
     const totalAmount = temporaryAmount - discountAmount;
-
+    
     // Danh sách các mục trong giỏ hàng
     const cartItems = [
         {
