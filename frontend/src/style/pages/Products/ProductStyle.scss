@@ -25,6 +25,17 @@
 .product.result__search {
   gap: 0;
 }
+
+.product.result__search .result__noti {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0 1rem;
+  & h4 {
+    margin: 0;
+  }
+}
+
 .product.result__search .product__content {
   flex-wrap: wrap;
 }
