@@ -76,8 +76,8 @@ const registerUser = async (req, res) => {
                 user_pass: hashedPassword,
                 user_avatar: 'https://res.cloudinary.com/dg40uppx3/image/upload/v1713435745/IMG_5790_tgvzuj.jpg',
                 user_cccd: '',
-                local_default_id: '',
-                bank_default_id: '',
+                local_default_id: null,
+                bank_default_id: null,
 
             });
             
