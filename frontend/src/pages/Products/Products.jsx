@@ -37,7 +37,7 @@ function Products() {
       let url = 'http://localhost:8000/products';
       if (cate_type_name) {
         url += `/category/${cate_type_name}`;
-        console.log(url)
+        // console.log(url)
         if (cate_name) {
           url += `/${cate_name}`;
         }
@@ -50,7 +50,7 @@ function Products() {
       const startIdx = (activePage - 1) * productsPerPage;
       const endIdx = startIdx + productsPerPage;
       setFilteredData(response.data.slice(startIdx, endIdx));
-      console.log(filteredData)
+      // console.log(filteredData)
     } catch (error) {
       console.error('Error fetching data:', error);
     }

@@ -159,6 +159,7 @@ function PopupQuickView(props) {
               iconHeight="24px"
               label="Thêm vào giỏ hàng"
               border="1px solid #9c4048"
+              onClick={() => { console.log(props.productItem) }}
             />
             <Button
               className="button__detail__view"
