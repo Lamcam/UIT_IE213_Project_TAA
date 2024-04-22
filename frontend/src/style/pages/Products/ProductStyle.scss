@@ -7,7 +7,7 @@
 .product .product__content {
   display: flex;
   flex-wrap: nowrap;
-  gap: 1rem;
+  // gap: 1rem;
 }
 
 .product .product__list {
@@ -46,8 +46,11 @@
 }
 
 @media (min-width: 769px) and (max-width: 992px) {
+  .product {
+    padding: 0 24px;
+  }
   .product__content {
-    gap: 1rem;
+    // gap: 1rem;
   }
   .product__item {
     // min-width: 190px;
@@ -56,6 +59,9 @@
 }
 
 @media (min-width: 577px) and (max-width: 768px) {
+  .product {
+    padding: 0 24px;
+  }
   .product__item {
     // min-width: 190px;
     min-width: 15.5rem;
@@ -63,6 +69,9 @@
 }
 
 @media (max-width: 576px) {
+  .product {
+    padding: 0 24px;
+  }
   .product__content {
     flex-direction: column;
     gap: 12px;
