@@ -25,6 +25,10 @@
 .product.result__search {
   gap: 0;
 }
+.product.result__search .product__content {
+  flex-wrap: wrap;
+}
+
 .product .product__search {
   margin: 0;
   padding: 0;
