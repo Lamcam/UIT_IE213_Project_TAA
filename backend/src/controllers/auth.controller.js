@@ -193,26 +193,7 @@ const updatePassword = async (req, res) => {
             res.status(500).json({ message: error.message });
         }
 }
-const updatePassword = async (req, res) => {
-    try {
-        const { email, phone , password, newPassword } = req.body;
-        const user = await User.findOne({ user_email: email });
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        const match = await bcrypt.compare(password, user.user_pass);
-        if (!match) {
-            return res.status(400).json({ message: "Invalid password" });
-        }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(newPassword, salt);
-        await User.findOneAndUpdate({ user_email: email }, { user_pass: hashedPassword });
-        res.status(200).json({ message: "Password updated" });
-        
-        }catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-}
+
 
 const normalizeString = (str) => {
     return str
