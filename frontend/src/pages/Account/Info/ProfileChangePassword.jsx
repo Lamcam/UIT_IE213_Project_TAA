@@ -11,7 +11,7 @@ function ProfileChangePassword() {
     confirmPassword: '',
   });
   const defaultUserData1 = {
-    _id: "65f3e8eb7ef3c2b6f3b74ac6",
+    _id: "6623ad37ce5d6d830aaa1815",
     user_name: 'Nguyễn Văn Bê',
     user_phone: '0123456789',
     user_email: "abc@gmail.com",
@@ -104,6 +104,11 @@ function ProfileChangePassword() {
       .then((response) => {
         // Xử lý phản hồi từ server
         console.log(response.data);
+        setUserData({
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: '',
+        })
       })
       .catch((error) => {
         if (error.response.data.message === 'Mật khẩu không khớp!') {

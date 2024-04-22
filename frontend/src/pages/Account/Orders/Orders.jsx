@@ -5,6 +5,7 @@ import Button1 from 'components/Common/Button1';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiArrowDropUpLine } from "react-icons/ri";
+import ReviewPopup from '../Modal/ReviewPopup';
 function Orders() {
   const defaultUserData1 = {
     _id: '65f3e9a27ef3c2b6f3b7d0d8',
@@ -34,6 +35,7 @@ function Orders() {
         console.error('Error:', error);
       });
   }, []);
+
   const [showMore, setShowMore] = useState(false);
   const handleSeeMore = (orderId) => {
     console.log(showMore)
@@ -46,6 +48,15 @@ function Orders() {
     })
     );
   };
+
+  const [showReviewPopup, setShowReviewPopup] = useState(false)
+  const [selectedReviewPopup_name, setSelectedReviewPopup_name] = useState('');
+  const [selectedReviewPopup_img, setSelectedReviewPopup_img] = useState('');
+  const handleShowReviewPopup = (ord) => {
+    setSelectedReviewPopup_name(ord.product.prod_name)
+    setSelectedReviewPopup_img(ord.product.prod_img[0])
+    setShowReviewPopup(true)
+  }
   return (
     <div id="orders">
       <article className="section__content visible article">
@@ -63,7 +74,7 @@ function Orders() {
                 <li>
                   <div className="orders-item__wrapper">
                     <div className="img-status">
-                      <img className="orders-item__img" src={ord.product.prod_img} alt="" />
+                      <img className="orders-item__img" src={ord.product.prod_img[0]} alt="" />
                       <span className="status headline-small">
                         {order.order.order_status === 1 ? 'Đã giao' : 'Chưa giao'}
                       </span>
@@ -87,16 +98,24 @@ function Orders() {
                       <div className="total-cost body-large">
                         <p>
                           <label>Thành tiền:</label>{' '}
-                          {parseFloat(order.order.order_total_cost.$numberDecimal) + ' đ'}
+                          {parseFloat(ord.orderDetail.price.$numberDecimal) * ord.orderDetail.quantity + ' đ'}
+                          {/* {parseFloat(order.order.order_total_cost.$numberDecimal) + ' đ'} */}
                         </p>
                       </div>
                       <div className="appreciate-repurchase">
-                        <Button1 label="Đánh giá" className="appreciate" />
+                        <Button1 label="Đánh giá" className="appreciate" onClick={()=>handleShowReviewPopup(ord)} />
+                        <ReviewPopup
+                      show={showReviewPopup}
+                      onHide={() => setShowReviewPopup(false)}
+                          name={selectedReviewPopup_name}
+                          img={selectedReviewPopup_img}
+                    />
                         <Button1
                           className="repurchase"
                           label="Mua lại sản phẩm"
                           labelColor="#F1EFE7"
                           backgroundColor="#785B5B"
+                          onClick={()=>window.location.href = `/products/${ord.product._id}`}
                         />
                       </div>
                     </div>

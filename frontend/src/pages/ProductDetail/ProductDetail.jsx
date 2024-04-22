@@ -16,7 +16,7 @@ import { BiDislike, BiLike } from 'react-icons/bi';
 import { TbHeartPlus, TbHeartFilled } from 'react-icons/tb';
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
-import ReviewPopup from 'components/ReviewPopup';
+import ReviewPopup from '../../pages/Account/Modal/ReviewPopup';
 import { NavLink } from 'react-router-dom';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import Button from 'components/Common/Button';
