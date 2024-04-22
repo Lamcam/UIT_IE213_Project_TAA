@@ -1,6 +1,7 @@
 import React from 'react';
 import Pagination from 'react-bootstrap/Pagination';
-import "style/components/Products/ProductPagination.scss"
+import "style/components/Products/ProductPagination.scss";
+
 function ProductPagination({ totalPages, activePage, onPageChange }) {
   const renderPaginationItems = () => {
     const items = [];
@@ -17,11 +18,6 @@ function ProductPagination({ totalPages, activePage, onPageChange }) {
         {1}
       </Pagination.Item>
     );
-
-    // Dấu '...' nếu cần
-    if (activePage > 2) {
-      items.push(<Pagination.Ellipsis key="start-ellipsis" />);
-    }
 
     // Các trang trước trang hiện tại
     for (let i = Math.max(activePage - 1, 2); i < activePage; i++) {
@@ -50,11 +46,6 @@ function ProductPagination({ totalPages, activePage, onPageChange }) {
       );
     }
 
-    // Dấu '...' nếu cần
-    if (activePage < totalPages - 3) {
-      items.push(<Pagination.Ellipsis key="end-ellipsis" />);
-    }
-
     // Trang cuối cùng
     items.push(
       <Pagination.Item key={totalPages} active={totalPages === activePage} onClick={() => onPageChange(totalPages)}>
@@ -79,5 +70,3 @@ function ProductPagination({ totalPages, activePage, onPageChange }) {
 }
 
 export default ProductPagination;
-
-

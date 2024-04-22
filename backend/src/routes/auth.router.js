@@ -12,6 +12,7 @@ router.post('/api/auth/updatePass', auth.updatePassword)
 router.post('/api/auth/changePass/phone', auth.changePasswordByPhone)
 router.post('/api/auth/changePass/email', auth.changePasswordByEmail)
 router.get('/user', auth.getAllUser)
+router.get('/search',auth.searchProduct)
 
 
 

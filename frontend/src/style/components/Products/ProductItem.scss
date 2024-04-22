@@ -58,7 +58,9 @@
 }
 
 .product__item__body .icon-heart {
-  font-size: 32px;
+  // font-size: 32px;
+  height: 32px;
+  width: 32px;
   color: var(--md-sys-color-error-light);
   padding-bottom: 8px;
 }
@@ -74,7 +76,7 @@
   text-decoration: none;
 }
 .product__item__name:hover {
-  color: #9C4048;
+  color: #9c4048;
 }
 .product__item__body .item__price__current {
   font-weight: bold;
