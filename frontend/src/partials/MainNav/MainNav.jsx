@@ -19,7 +19,7 @@ function MainNav(props){
     return (
 
         <Navbar className="main_nav" >
-        <Container fluid='lg'>
+        <Container fluid='lg' className="nav_container">
             <Nav className="my-nav">
                 <NavLink className='nav-link' style={navLiStyle} to="/">Trang chủ</NavLink>
                 <NavLink className='nav-link' style={navLiStyle} to="products">Sản phẩm</NavLink>

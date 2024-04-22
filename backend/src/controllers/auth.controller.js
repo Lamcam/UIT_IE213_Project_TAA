@@ -1,26 +1,27 @@
 const User = require("../models/users.model");
-const cookieParser = require('cookie-parser');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+const Product = require("../models/products.model");
+const cloudinary = require("../utils/cloudinary");
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
-const SerectKey = 'HAN';
+const SerectKey = "HAN";
 
-const createToken =(_id) => {
-   return jwt.sign({ _id }, SerectKey, { expiresIn: '1h' });
-}
+const createToken = (_id) => {
+  return jwt.sign({ _id }, SerectKey, { expiresIn: "1h" });
+};
 
 const getAllUser = async (req, res) => {
     try {
         const user = await User.find({});
         console.log(user);
 
-        res.cookie('user', true, { maxAge: 900000, httpOnly: true });
-        res.status(200).json(user);
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    res.cookie("user", true, { maxAge: 900000, httpOnly: true });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const loginUser = async (req, res) => {
@@ -76,8 +77,8 @@ const registerUser = async (req, res) => {
                 user_pass: hashedPassword,
                 user_avatar: 'https://res.cloudinary.com/dg40uppx3/image/upload/v1713435745/IMG_5790_tgvzuj.jpg',
                 user_cccd: '',
-                local_default_id: '',
-                bank_default_id: '',
+                local_default_id: null,
+                bank_default_id: null,
 
             });
             
@@ -193,15 +194,44 @@ const updatePassword = async (req, res) => {
         }
 }
 
+
+const normalizeString = (str) => {
+    return str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  };
+  
+  const searchProduct = async (req, res) => {
+    try {
+      const keyword = normalizeString(req.query.keyword); // Chuẩn hóa từ khóa tìm kiếm
+  
+      // Tìm kiếm tất cả các sản phẩm có tên chứa từ khóa tìm kiếm (không phân biệt chữ hoa, chữ thường)
+      const products = await Product.find({});
+  
+      const matchingProducts = products.filter((product) =>
+        normalizeString(product.prod_name).includes(keyword)
+      );
+  
+      // Trả về danh sách các sản phẩm kết quả tìm kiếm
+      res.status(200).json({ products: matchingProducts });
+    } catch (error) {
+      console.error("Error searching products:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
+  
 const auth = {
-    getAllUser,
-    registerUser,
-    loginUser,
-    updatePassword,
+  getAllUser,
+  registerUser,
+  loginUser,
+  updatePassword,
     findUserByEmail,
     findUserByPhone,
     changePasswordByEmail,
     changePasswordByPhone,
-}
+  searchProduct,
+};
 
 module.exports = auth;
