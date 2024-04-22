@@ -32,7 +32,7 @@ function AuthPart() {
         <Container className="auth_part">
         <Row className="auth_part__wrapper">
             <Col className='col-4'>
-                <NavLink to="/log_in" className="cart_link">
+                <NavLink to="/cart" className="cart_link">
                     <IoMdCart className="cart-icon" />
                 </NavLink>
             </Col>
