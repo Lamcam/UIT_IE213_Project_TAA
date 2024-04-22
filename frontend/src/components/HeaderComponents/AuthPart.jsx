@@ -17,35 +17,36 @@ function AuthPart() {
         logout();        
     }
 
-    function redirectToHome() {
-        history('/');
-    }
-
-    function handleLogOut(callback) {
-        // localStorage.removeItem('user');
-        // window.location.reload();
-        console.log('log out');
+    function getUserName() {
+        let a = localStorage.getItem('user');
+        a = JSON.parse(a);
+        if (a) {
+            return a[0].user_name;
+        }
+        else{
+            return 'No Name found'
+        }
     }
 
     return (
         <Container className="auth_part">
         <Row className="auth_part__wrapper">
             <Col className='col-4'>
-                <NavLink to="/log_in" className="cart_link">
+                <NavLink to="/cart" className="cart_link">
                     <IoMdCart className="cart-icon" />
                 </NavLink>
             </Col>
 
             <Col className='col-8 user_wrapper' >
                         <Col className='user_name'>
-                            <h6>HAN</h6>
+                            <h6>{getUserName()}</h6>
                         </Col>
 
                         <Col>
                             <DropdownButton id='drop_down_btn' style={{backgroundImage: `url(${avt})`, borderRadius: '50%' }} >
-                                <Dropdown.Item href="#/action-1">Thông tin cá nhân</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Đơn hàng</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Sản phẩm yêu thích</Dropdown.Item>
+                                <Dropdown.Item href="/account/infomation/profile-user">Thông tin cá nhân</Dropdown.Item>
+                                <Dropdown.Item href="/account/orders">Đơn hàng</Dropdown.Item>
+                                <Dropdown.Item href="/account/favor">Sản phẩm yêu thích</Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item><Button variant="danger" onClick={handleClickLogOut}>Đăng xuất</Button></Dropdown.Item>
                             </DropdownButton>

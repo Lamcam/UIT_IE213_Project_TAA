@@ -18,6 +18,8 @@ router.post('/add-address/:id', account.addAddress)
 router.put('/edit-address/:id', account.editAddress)
 router.put('/address-default/:id', account.setAddressDefault)
 router.put('/bank-default/:id', account.setBankCardDefault)
+router.get('/orders/:id', account.getOrders)
+router.get('/favors/:id', account.getFavors)
 // router.get('/account/orders', account.orders)
 
 // router.get('/favor-products', account.favorProducts)

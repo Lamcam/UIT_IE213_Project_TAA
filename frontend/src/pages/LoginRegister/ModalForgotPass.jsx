@@ -2,6 +2,8 @@ import {Button, Modal, Form } from 'react-bootstrap';
 import React, {useState, useEffect} from 'react';
 import './PopUp.scss';
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import axios from 'axios';
+import { element } from 'prop-types';
 
 
 function MyVerticallyCenteredModal(props) {
@@ -98,19 +100,64 @@ function MyVerticallyCenteredModal(props) {
 }
 
 function PhoneEmailVal(props) {
-  
+
+  const [value, setValue] = useState('');
+
   const inform = {
     email: 'Nhập email của bạn',
     phone: 'Nhập số điện thoại của bạn'
   }
+  const handleInputChange = (e) => {
+    setValue(e.target.value);
+  }
+
+  const handleSubmitEmailPhone = async (e) =>{
+    e.preventDefault();
+    if(props.email){
+      await axios.post('http://localhost:8000/api/auth/findUser/email', {
+      email: value
+      })
+      .then(res=>{
+        if(res.status === 200){
+          localStorage.removeItem('phone')
+          localStorage.setItem('email', res.data)
+          props.three()
+        }
+
+      })
+      .catch(err => {
+        alert('Không tìm thấy email trùng khớp')
+        console.log(err, value);
+    })
+    }
+    else{
+      await axios.post('http://localhost:8000/api/auth/findUser/phone', {
+      phone: value
+      })
+      .then(res=>{
+        if(res.status === 200){
+          localStorage.removeItem('email')
+          localStorage.setItem('phone', res.data)
+          props.three()
+        }
+
+      })
+      .catch(err => {
+        alert('Không tìm thấy số điện thoại trùng khớp')
+        console.log(err, value);
+    })
+
+    }
+
+  }
 
   return(
-    <Form className='get_otp' style={{display: props.show? 'flex': 'none' }} >
-      <Form.Control type="text" placeholder={props.email? inform.email : inform.phone } />
+    <Form onSubmit={handleSubmitEmailPhone} className='get_otp' style={{display: props.show? 'flex': 'none' }} >
+      <Form.Control onChange={handleInputChange} type="text" placeholder={props.email? inform.email : inform.phone } />
 
       <Button 
         className='btn_reg_log_round_8px btn_clickable_boldcolor'
-        onClick={props.three}
+        type='submit'
       >
       Lấy mã
       </Button>
@@ -148,6 +195,7 @@ function OtpGet(props) {
     
   const [otp, setOtp] = useState(new Array(6).fill(''));
 
+
   const handleOtpChange = (e, index) => {
       
       if (isNaN(e.target.value)) return false;
@@ -158,6 +206,16 @@ function OtpGet(props) {
       }
 
   };
+
+  const handleClick = () =>{
+    const check =  otp.every(element => element === "1") 
+    if ( check ) props.four();
+    else {
+      alert("mã OTP không khớp")
+      return ; 
+    }
+    
+  }
 
   const handleSubmit = (e) => {
       e.preventDefault();
@@ -179,11 +237,11 @@ function OtpGet(props) {
               />
           ))}
           </div>
-          <label>Bạn chưa nhận được mã ? <a>Gửi lại </a> </label>
+          <label>Bạn chưa nhận được mã ? <>Gửi lại </> </label>
           
           <Button 
           className='btn_reg_log_round_8px btn_clickable_boldcolor'
-          onClick={props.four}
+          onClick={handleClick}
           >Xác nhận</Button>
       </form>
       </>
@@ -191,16 +249,71 @@ function OtpGet(props) {
 };
 
 function ChangePass(props) { 
+  const [input, setInput] = useState({password : "", confirmPass: ""});
+
+  const handleInputChange = (e) => {
+    if(e.target.name === 'pass')
+    {
+      setInput({...input,  password: e.target.value })
+    }
+    else if (e.target.name === 'confirm'){
+      setInput({...input, confirmPass: e.target.value })
+    }  
+  }
+
+  const handleSubmitChangePass = async (e) =>{
+      e.preventDefault();
+      if (input.password !== input.confirmPass ) {
+        alert("Xác nhận mật khẩu không khớp")
+        return
+      }
+      if( input.password.length <= 7 ){
+        alert('Mật khẩu phải có ít nhất 8 ký tự')
+        return
+      }
+
+      const email = localStorage.getItem("email")
+      const phone = localStorage.getItem("email")
+      if(!email && !phone){
+        alert("some thing wrong")
+      }
+      else if(email) {
+          axios.post('http://localhost:8000/api/auth/changePass/email', {email, password: input.password}
+          ).then(res =>{
+            if(res.status === 200) {
+              alert("Cập nhật mật khẩu thành công")
+              window.location.href = '/log_in'
+            }
+            else{
+              console.log(res);
+            }
+          }).catch(err => { console.log(err)})
+          
+          
+      }
+      else if(phone) {
+          axios.post('http://localhost:8000/api/auth/changePass/phone', {phone, password: input.password}
+          ).then(res =>{
+            if(res.status === 200) alert("Cập nhật mật khẩu thành công")
+            else{
+              console.log(res);
+            }
+          }).catch(err => { console.log(err)})
+          
+          
+      }
+}
+
   return (
-          <Form className={props.className} style={{display: props.show? 'flex' : 'none' }}>
+          <Form onSubmit={handleSubmitChangePass} className={props.className} style={{display: props.show? 'flex' : 'none' }}>
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Control type="passowrd" new-password='true' placeholder="Nhập mật khẩu mới" row={2} />
+                <Form.Control name='pass' onChange={handleInputChange} type="password" new-password='true' placeholder="Nhập mật khẩu mới" row={2} />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlTextarea1">
-                <Form.Control type='password' new-password='true' placeholder="Xác nhận mật khẩu mới" rows={2} />
+                <Form.Control name='confirm' onChange={handleInputChange} type='password' new-password='true' placeholder="Xác nhận mật khẩu mới" rows={2} />
               </Form.Group>
 
-              <Button className='btn_reg_log_round_8px btn_clickable_boldcolor' >Xác nhận</Button>
+              <Button type='submit' className='btn_reg_log_round_8px btn_clickable_boldcolor' >Xác nhận</Button>
           </Form>
   );
 }

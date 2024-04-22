@@ -15,7 +15,8 @@ let UsersSchema = new Schema({
     }, //chỉnh lại sau (HAN chỉnh từ null thành string)
     local_default_id: { type: Schema.Types.ObjectId, ref: "locations" }, // HAN delete required: true
     bank_default_id: { type: Schema.Types.ObjectId, ref: "bankcards" },
-    user_cccd: { type: "string", require: true },
+    user_username: { type: "string" },
+    user_cccd: { type: "string", default: "" },
 });
 
 module.exports = mongoose.model("users", UsersSchema);

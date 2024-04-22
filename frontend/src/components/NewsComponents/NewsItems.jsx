@@ -22,6 +22,7 @@ function NewsItems({ news }) {
     return null;
   }
   console.log(news);
+
   return (
     <Row lg={2} md={1} sm={1}>
       <div className="news__card card">

@@ -12,6 +12,7 @@ function AddAddress(props) {
     loca_address: '',
     loca_detail: '',
   });
+  const [errorPhone, setErrorPhone] = useState('');
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewShippingAddress((prevState) => ({
@@ -21,6 +22,11 @@ function AddAddress(props) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const phoneRegex = /^(0[1-9])+([0-9]{8,9})\b$/;
+    if (!phoneRegex.test(newShippingAddress.loca_pers_phone)) {
+      setErrorPhone('Số điện thoại không hợp lệ!');
+      return; // Không gửi form nếu số điện thoại không hợp lệ
+    }
     axios
       .post(`http://localhost:8000/api/account/add-address/${props.id}`, newShippingAddress)
       .then((response) => {
@@ -33,7 +39,7 @@ function AddAddress(props) {
       });
   };
   return (
-    <div id="modal--add-address" className={`profile-modal ${props.show ? 'active' : ''}`}>
+    <div id="modal--add-address" className="profile-modal active">
       <div className="modal__content--form">
         <ButtonIcon
           className="modal__btn--close"
@@ -69,13 +75,15 @@ function AddAddress(props) {
               <div className="col-9 input__wrapper">
                 <input
                   required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorPhone ? "err-border" : ""}`}
                   type="text"
                   id="loca_pers_phone"
                   name="loca_pers_phone"
                   value={newShippingAddress.loca_pers_phone}
                   onChange={handleChange}
                 />
+                                {errorPhone && <div className="err">{errorPhone}</div>}
+
               </div>
             </Row>
           </div>

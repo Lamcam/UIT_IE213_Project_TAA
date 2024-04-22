@@ -6,8 +6,9 @@ import ButtonIcon from 'components/Common/ButtonIcon';
 import Button1 from 'components/Common/Button1';
 import { CgClose } from 'react-icons/cg';
 function EditAddress(props) {
-  const [editAddress, setEditAddress] = useState(props.data)
-    const prevData = useRef(props.data);
+  const [editAddress, setEditAddress] = useState(props.data);
+  const [errorPhone, setErrorPhone] = useState('');
+  const prevData = useRef(props.data);
   // const inputRefs = useRef({});
   useEffect(() => {
     setEditAddress(props.data);
@@ -28,21 +29,27 @@ function EditAddress(props) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-  const isDifferent = Object.keys(editAddress).some((key) => editAddress[key] !== prevData.current[key]);
-    if (!isDifferent) {
-    return;
-  }
+    const isDifferent = Object.keys(editAddress).some(
+      (key) => editAddress[key] !== prevData.current[key],
+    );
+    if (!isDifferent) return;
+    const phoneRegex = /^(0[1-9])+([0-9]{8,9})\b$/;
+    if (!phoneRegex.test(editAddress.loca_pers_phone)) {
+      setErrorPhone('Số điện thoại không hợp lệ!');
+      return; // Không gửi form nếu số điện thoại không hợp lệ
+    }
+
     axios
       .put(`http://localhost:8000/api/account/edit-address/${props.data._id}`, editAddress)
       .then((response) => {
         console.log('edit address success', response.data.message);
         props.onHide();
-        props.onSuccess()
+        props.onSuccess();
       })
       .catch((error) => {
         console.error(error);
       });
-  }
+  };
   return (
     <div id="modal--edit-address" className={`profile-modal ${props.show ? 'active' : ''}`}>
       <div className="modal__content--form">
@@ -80,13 +87,14 @@ function EditAddress(props) {
               <div className="col-9 input__wrapper">
                 <input
                   required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorPhone ? 'err-border' : ''}`}
                   type="text"
                   id="loca_pers_phone"
                   name="loca_pers_phone"
                   value={editAddress.loca_pers_phone}
                   onChange={handleChange}
                 />
+                {errorPhone && <div className="err">{errorPhone}</div>}
               </div>
             </Row>
           </div>
@@ -103,7 +111,8 @@ function EditAddress(props) {
                   type="text"
                   id="loca_address"
                   name="loca_address"
-value={editAddress.loca_address}                  onChange={handleChange}
+                  value={editAddress.loca_address}
+                  onChange={handleChange}
                 />
               </div>
             </Row>
@@ -121,7 +130,8 @@ value={editAddress.loca_address}                  onChange={handleChange}
                   type="text"
                   id="loca_detail"
                   name="loca_detail"
-value={editAddress.loca_detail}                  onChange={handleChange}
+                  value={editAddress.loca_detail}
+                  onChange={handleChange}
                 />
               </div>
             </Row>
