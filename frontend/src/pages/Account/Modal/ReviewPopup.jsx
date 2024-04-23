@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Image } from 'react-bootstrap';
 import { IoMdClose } from 'react-icons/io';
-import productDetailImg from '../assets/image/pencil.png';
+// import productDetailImg from '../assets/image/pencil.png';
 import { FaRegStar, FaStar } from 'react-icons/fa';
-import '../style/components/ReviewPopup.scss';
+import '../ReviewPopup.scss';
+import NotiAddReviewSuccessPopup from 'components/Orders/NotiAddReviewSuccessPopup';
+// import data from '@components/HomeComponents/data';
 
-export default function ReviewPopup({ show, onHide }) {
+export default function ReviewPopup({ show,set, onHide, name, img }) {
+  const [showReviewPopup, setShowReviewPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  const handleCompletionButtonClick = () => {
+    setShowReviewPopup(false); // Ẩn ReviewPopup
+    setShowSuccessPopup(true); // Hiển thị NotiAddReviewSuccessPopup
+  };
+
+  const handleCloseSuccessPopup = () => {
+    setShowSuccessPopup(false); // Ẩn NotiAddReviewSuccessPopup
+    onHide();
+  };
+  // useEffect(() => {
+  //   let timer;
+  //   if (showPopup) {
+  //     timer = setTimeout(() => {
+  //       setShowPopup(false);
+  //       setShowSuccessPopup(true);
+  //     }, 5000);
+  //   }
+  //   return () => clearTimeout(timer);
+  // }, [showPopup]);
+
   function StarRating({ ratingContainerId }) {
     const [selectedRating, setSelectedRating] = useState(0);
 
@@ -31,7 +56,6 @@ export default function ReviewPopup({ show, onHide }) {
       </div>
     );
   }
-
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header className="modal__content__review" closeButton style={{ fontSize: '20px' }}>
@@ -41,13 +65,13 @@ export default function ReviewPopup({ show, onHide }) {
         <div className="modal-body">
           <div className="modal__product">
             <Image
-              src={productDetailImg}
+              src={img}
               className="product__image_small__size"
               id="image-review"
               alt="image small"
             />
             <div className="modal__product--cover">
-              <span>Vòng tay ngôi sao may mắn</span>
+              <span>{name}</span>
               <span>Phân loại hàng: FreeStyle</span>
             </div>
           </div>
@@ -70,6 +94,8 @@ export default function ReviewPopup({ show, onHide }) {
                 id="form__review"
                 placeholder="Để lại đánh giá"
                 className="modal__form-review-textarea mt-12"
+                // value={reviewContent}
+                // onChange={handleReviewChange}
                 required
               ></textarea>
             </div>
@@ -97,11 +123,12 @@ export default function ReviewPopup({ show, onHide }) {
         </Button>
         <Button
           className="btn_round_8px btn_bold btn_review_done review-list__btn--del done-btn"
-          onClick={onHide}
+          onClick={handleCompletionButtonClick}
         >
           Hoàn thành
         </Button>
       </Modal.Footer>
+      {showSuccessPopup && <NotiAddReviewSuccessPopup onHide={handleCloseSuccessPopup} />}
     </Modal>
   );
 }
