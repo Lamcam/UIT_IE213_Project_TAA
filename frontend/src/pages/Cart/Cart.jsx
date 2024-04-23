@@ -4,17 +4,39 @@ import { Col, Container, Row } from 'react-bootstrap';
 import "style/pages/Cart/Cart.scss";
 import React, { useEffect, useState } from 'react';
 import { useGetUserCart } from 'hooks/useGetUserCart';
-
+import { useAsyncValue } from 'react-router-dom';
+import axios from 'axios';
 
 function Cart(props) {
     const temporaryAmount = 350000;
     const discountAmount = 50000;
     const totalAmount = temporaryAmount - discountAmount;
     const [cartItems1, setCartItems] = useState([]);
-    const { getUserCart, data } = useGetUserCart();
     
+
+    useEffect(() => {
+        const fetchItems = async () => {
+            try{
+                const userID = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))._id : null;
+                const res = await axios.post('http://localhost:8000/cart/get', {
+                    user_id: userID,
+                });
+                if (res.status === 200) {
+                    setCartItems(res.data.map(item => createItem(item)));
+                    // return res.data;
+                }
+                else{
+                    alert('Error fetching cart items');
+                }
+                // setCartItems(data.map(item => createItem(item)));
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+            }
+        }
+        fetchItems();
+    }, []); 
+
     const createItem = (item) => {
-        // const moneyCurr = item.prod_cost.$numberDecimal * ( 1- item.prod_discount.$numberDecimal)
             return {
                 imageUrl: item.prod_img[0],
                 productName: item.prod_name,
@@ -24,12 +46,8 @@ function Cart(props) {
     }
 
 
-    // useEffect(() => {
-    //     getUserCart()
-    //     setCartItems(data.map(item => createItem(item)))
-    // }, [data]); // Error truy van back-end lien tuc
 
-    
+
     // Danh sách các mục trong giỏ hàng
     // 
     const cartItems = [

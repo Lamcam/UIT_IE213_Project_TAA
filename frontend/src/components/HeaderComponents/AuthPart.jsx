@@ -7,6 +7,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import './AuthPart.scss';
 import { useLogout } from 'hooks/useLogout';
+import { MdAccountCircle, MdOutlineFavoriteBorder } from "react-icons/md";
+import { RiBillLine } from "react-icons/ri";
 
 function AuthPart() {
   const { logout } = useLogout();
@@ -19,10 +21,9 @@ function AuthPart() {
     let avatar = localStorage.getItem('user');
     avatar = JSON.parse(avatar);
     if (avatar) {
-        console.log('Avatar found', avatar.user_avatar);
       return avatar.user_avatar;
     } else {
-        console.log('No avatar found');
+      console.log('No avatar found');
       return avt;
     }
   };
@@ -55,16 +56,17 @@ function AuthPart() {
             {/* <DropdownButton id='drop_down_btn' style={{backgroundImage: `url(${avt})`, borderRadius: '50%' }} > */}
             <DropdownButton
               id="drop_down_btn"
-              style={{ backgroundImage: `url(${getAvatar()})`, borderRadius: '50%' }}
+              style={{ backgroundImage: `url(${getAvatar()})`,borderRadius: '50%', width: '50px', height: '50px'}}
+              className='dropdown_button'
             >
               <Dropdown.Item href="/account/infomation/profile-user">
-                Thông tin cá nhân
+              <MdAccountCircle /> Thông tin cá nhân 
               </Dropdown.Item>
-              <Dropdown.Item href="/account/orders">Đơn hàng</Dropdown.Item>
-              <Dropdown.Item href="/account/favor">Sản phẩm yêu thích</Dropdown.Item>
+              <Dropdown.Item href="/account/orders"><RiBillLine /> Đơn hàng  </Dropdown.Item>
+              <Dropdown.Item href="/account/favor"><MdOutlineFavoriteBorder/> Sản phẩm yêu thích  </Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item>
-                <Button variant="danger" onClick={handleClickLogOut}>
+                <Button className='logout_btn' variant="danger" onClick={handleClickLogOut}>
                   Đăng xuất
                 </Button>
               </Dropdown.Item>
