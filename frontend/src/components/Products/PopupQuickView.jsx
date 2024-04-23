@@ -6,6 +6,7 @@ import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import 'style/components/Products/PopupQuickView.scss';
 import { useNavigate } from 'react-router-dom';
+import { useAddToCart } from 'hooks/useAddToCart';
 
 PopupQuickView.propTypes = {
   onHide: PropTypes.func.isRequired,
@@ -35,6 +36,7 @@ function PopupQuickView(props) {
   const defaultImage = productImages?.length > 0 ? productImages[0] : '';
   const [selectedImage, setSelectedImage] = useState(defaultImage);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useAddToCart();
 
   const selectImage = (image) => {
     setSelectedImage(image);
@@ -159,6 +161,7 @@ function PopupQuickView(props) {
               iconHeight="24px"
               label="Thêm vào giỏ hàng"
               border="1px solid #9c4048"
+              onClick={() => { addToCart(props.productItem, quantity)}} // Add success pop here (HAN)
             />
             <Button
               className="button__detail__view"

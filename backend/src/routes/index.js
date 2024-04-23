@@ -7,6 +7,7 @@ const account = require("./account.router")
 // const auth = require("./auth.router");
 const auth = require("./auth.router");
 const news = require("./news.router");
+const cart = require("./cart.router")
 // const { hello } = require("../controllers/demo.controller");
 const {
   getProducts,
@@ -24,13 +25,14 @@ const route = (app) => {
 
   // app.use('/account', middlewares.authenticate, account)
 
-  app.use('/news', news)
+    app.use('/news', news)
 
-  app.use("/products", product);
+    app.use("/products", product);
 
-  app.use("/", auth);
+    app.use("/", auth);
     // app.get('/user', getUser)
     app.use("/api/account", account)
+    app.use("/cart", cart)
 };
 
 // app.get("/products", controllers.product.queryProduct);

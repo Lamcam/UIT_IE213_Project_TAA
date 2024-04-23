@@ -16,7 +16,7 @@ import { BiDislike, BiLike } from 'react-icons/bi';
 import { TbHeartPlus, TbHeartFilled } from 'react-icons/tb';
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
-import ReviewPopup from 'components/ReviewPopup';
+import ReviewPopup from '../../pages/Account/Modal/ReviewPopup';
 import { NavLink } from 'react-router-dom';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import Button from 'components/Common/Button';
@@ -41,6 +41,8 @@ ProductDetail.propTypes = {
     cate_id: PropTypes.string.isRequired,
     prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
     prod_num_avai: PropTypes.number.isRequired,
+    prod_color: PropTypes.string.isRequired,
+    prod_size: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -372,11 +374,9 @@ function ProductDetail(props) {
                 <div className="product__name__detail__review">
                   <div className="product__name__detail__review_first">
                     <span>{product?.prod_star_rating}</span>
-                    <FaRegStar />
-                    <FaRegStar />
-                    <FaRegStar />
-                    <FaRegStar />
-                    <FaRegStar />
+                    {Array.from({ length: product?.prod_star_rating }, (_, index) => (
+                      <FaStar key={index} />
+                    ))}
                   </div>
                   <span>2 đánh giá</span>
                   <span>{product?.prod_num_sold} đã bán</span>
@@ -417,11 +417,11 @@ function ProductDetail(props) {
               </div>
               <div className="color__product__detail">
                 <span>Màu sắc: </span>
-                <div className="btn_round_32px">Freestyle</div>
+                <div className="btn_round_32px" >{product?.prod_color}</div>
               </div>
               <div className="size__product__detail">
                 <span>Kích cỡ: </span>
-                <div className="btn_round_32px">L</div>
+                <div className="btn_round_32px">{product?.prod_size}</div>
               </div>
               <div className="quantity__product__detail">
                 <span className="quantity__product__detail_title">Số lượng: </span>

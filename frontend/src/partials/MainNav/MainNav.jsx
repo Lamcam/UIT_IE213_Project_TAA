@@ -17,7 +17,6 @@ const navLiStyle = {
 function MainNav(props){
 
     return (
-
         <Navbar className="main_nav" >
         <Container fluid='lg' className="nav_container">
             <Nav className="my-nav">
