@@ -24,10 +24,10 @@ function Cart(props) {
     }
 
 
-    useEffect(() => {
-        getUserCart()
-        setCartItems(data.map(item => createItem(item)))
-    }, [data]);
+    // useEffect(() => {
+    //     getUserCart()
+    //     setCartItems(data.map(item => createItem(item)))
+    // }, [data]); // Error truy van back-end lien tuc
 
     
     // Danh sách các mục trong giỏ hàng
