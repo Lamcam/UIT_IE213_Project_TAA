@@ -21,7 +21,7 @@ function AuthPart() {
         let a = localStorage.getItem('user');
         a = JSON.parse(a);
         if (a) {
-            return a[0].user_name;
+            return a.user_name;
         }
         else{
             return 'No Name found'

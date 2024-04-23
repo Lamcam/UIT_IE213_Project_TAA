@@ -5,6 +5,7 @@ import { IoHeartSharp } from 'react-icons/io5';
 import { TbHeartPlus } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
 import 'style/components/Products/ProductItem.scss';
+import PopupNotiLogin from './PopupNotiLogin';
 
 ProductItem.propTypes = {
   product: PropTypes.shape({
@@ -30,9 +31,15 @@ ProductItem.propTypes = {
 function ProductItem({ product }) {
   const [isLiked, setIsLiked] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false); // State để theo dõi trạng thái của popup
 
   const toggleLike = () => {
-    setIsLiked(!isLiked);
+    if (!localStorage.getItem('user')) {
+      console.log("Bạn cần đăng nhập");
+      setShowPopupNotiLogin(true); // Mở popup nếu chưa đăng nhập
+    } else {
+      setIsLiked(!isLiked);
+    }
   };
 
   const formatPrice = (price) => {
@@ -47,7 +54,7 @@ function ProductItem({ product }) {
 
   const currentPrice = formatPrice(
     product.prod_cost.$numberDecimal -
-      product.prod_discount.$numberDecimal * product.prod_cost.$numberDecimal,
+    product.prod_discount.$numberDecimal * product.prod_cost.$numberDecimal,
   );
   const discount = product.prod_discount.$numberDecimal * 100;
   const BeforDiscountPrice = formatPrice(product.prod_cost.$numberDecimal);
@@ -86,6 +93,7 @@ function ProductItem({ product }) {
         <div className="line--vertical"></div>
         <NavLink>Mua ngay</NavLink>
       </div>
+      <PopupNotiLogin show={showPopupNotiLogin} onHide={()=>setShowPopupNotiLogin(false)}/>
     </div>
   ) : (
     <div className="product__outstock product__item body-large">
