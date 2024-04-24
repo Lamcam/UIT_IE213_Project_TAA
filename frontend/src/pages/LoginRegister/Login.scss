@@ -11,7 +11,7 @@ section.login{
         flex-direction: column;
         max-width: 500px;
         // width: 100%;
-        margin: 0px 100px;
+        // margin: 0px 100px;
 
     }
 
@@ -69,6 +69,10 @@ section.login{
         width: 100%;
     }
 
+    .login_btn:active, .login_btn:focus .register_btn:active, .register_btn:focus{
+        background-color: var(--md-sys-color-primary-light);
+    }
+
 
     .login_btn, .register_btn{
         background-color: var(--md-sys-color-primary-light);
@@ -107,7 +111,9 @@ section.register{
         font-size: 16px;
         display: flex;
         flex-direction: column;
-        min-width: 406px;
+        // min-width: 406px;
+        // max-width: 406px;
+        // margin: 0px 100px;
 
     }
 
@@ -184,5 +190,11 @@ section.register{
     }
     .form-check{
         max-width: 406px;
+    }
+}
+
+@media screen and (max-width: 744px){
+    .side_bar{
+        display: none;
     }
 }

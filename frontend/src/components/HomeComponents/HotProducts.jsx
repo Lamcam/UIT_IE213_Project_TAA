@@ -4,10 +4,12 @@ import data from './data.js';
 import ProductCard from './ProductCard';
 import Carousel from 'react-bootstrap/Carousel';
 import 'style/components/Home/HotProduct.scss'
+import axios from "axios";
 
 function createCard(product) {
     const {product_id, name, imgURL, prod_cost, prod_discount, status } = product;
     
+
     return (
       <ProductCard
         key={product_id}
@@ -24,7 +26,7 @@ function HotProducts() {
     return (
     <section className="preview_product_section">
       <Container fluid>
-      <h1> Sản phẩm nổi bật trong tuần</h1>
+      <h1 className="title_section"> Sản phẩm nổi bật trong tuần</h1>
       <Carousel fluid >     
         <Carousel.Item interval={1000}>
             <Row>

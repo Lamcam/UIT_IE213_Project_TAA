@@ -162,7 +162,7 @@ function Register() {
                 onClick={handleCheck}
                 label="Tôi đã đọc và đồng ý với Điều kiện giao dịch chung và Chính sách bảo mật thông tin của TAA" />
               <Form.Text className="text-muted">
-              {!valid.check ? '' : inform.check}
+              {valid.check ? '' : inform.check}
               </Form.Text>
         </Form.Group>
 

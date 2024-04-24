@@ -56,7 +56,7 @@ function Login() {
 
           
           <div className="d-grid gap-2">
-            <Button className='login_btn' type="submit" size='lg'>
+            <Button className='login_btn' type="submit" size='lg' active>
               Đăng nhập
             </Button>
             

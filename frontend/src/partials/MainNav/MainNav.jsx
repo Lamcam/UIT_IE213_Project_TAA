@@ -12,6 +12,8 @@ const navLiStyle = {
     maxWidth: '10rem',
     width: '100%',  
     minHeight: '48px',
+    padding: '0 2rem',
+
 }
 
 function MainNav(props){
@@ -24,7 +26,7 @@ function MainNav(props){
                 <NavLink className='nav-link' style={navLiStyle} to="products">Sản phẩm</NavLink>
                 <NavLink className='nav-link' style={navLiStyle} to="news">Tin tức</NavLink>
                 <NavLink className='nav-link' style={navLiStyle} to="about_us">Về chúng tôi</NavLink>
-                <NavDropdown title='Hướng dẫn' className="nav-link" style={navLiStyle} fluid >
+                <NavDropdown title='Hướng dẫn' className="nav-link" fluid >
                     <NavDropdown.Item href="guideline">Hướng dẫn mua hàng</NavDropdown.Item>
                     <NavDropdown.Item href="policy">Chính sách</NavDropdown.Item>
                 </NavDropdown>
