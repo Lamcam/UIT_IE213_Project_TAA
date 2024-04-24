@@ -174,7 +174,7 @@ function Register() {
             </Button>
 
             <div className='login_rec_containter'>
-                <h6 className='login_rec'>Bạn đã có tài khoản ?</h6>
+                <h5 className='login_rec'>Bạn đã có tài khoản ?</h5>
             </div>
 
             <NavLink to='/log_in' className='login_btn btn_clickable_boldcolor'>
