@@ -32,7 +32,7 @@ function Login() {
 
   return (
     <section className="login">
-    <Container className='d-flex'>
+    <Container className='d-flex' fluid>
       <Col className='side_bar d-flex justify-content-center align-item-center col-4'>
           <Image src={logo} alt='TAA_logo'/>
       </Col>
@@ -61,7 +61,7 @@ function Login() {
             </Button>
             
             <div className='create_acc_rec_containter'>
-                <h6 className='create_acc_rec'>Bạn chưa có tài khoản ?</h6>
+                <h5 className='create_acc_rec'>Bạn chưa có tài khoản ?</h5>
             </div>
 
             <NavLink to='/register' className='login_btn btn_clickable_boldcolor'>

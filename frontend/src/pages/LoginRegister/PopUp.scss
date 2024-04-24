@@ -1,6 +1,21 @@
 .modal_title{
     text-align: center;
 }
+
+.forgotPass{
+    font-size: 14px;
+}
+
+
+.login, .register{
+    
+    .form-control{
+        font-size: 17px;
+
+    
+}
+}
+
 .change_pass{
     flex-direction: column;
     gap: 12px;

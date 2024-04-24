@@ -9,9 +9,9 @@ section.login{
         font-size: 16px;
         display: flex;
         flex-direction: column;
-        max-width: 406px;
-        width: 100%;
-        margin: 0px 10px;
+        max-width: 500px;
+        // width: 100%;
+        margin: 0px 100px;
 
     }
 
@@ -31,6 +31,8 @@ section.login{
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        // max-width: 500px;
+        min-width: 500px;
         
     }
 
@@ -56,6 +58,7 @@ section.login{
         align-items: center;
         margin: 5px 0px;
         width: 100%;
+        white-space: nowrap;
     }
 
     .create_acc_rec_containter{
@@ -135,7 +138,7 @@ section.register{
     }
 
     .login_rec::before, .login_rec::after{
-        content: "---------------------";
+        content: "------------";
         margin: 0px 10px;
         color: rgba(25, 25, 25,0);
         display: block;
