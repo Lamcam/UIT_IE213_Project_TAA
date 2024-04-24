@@ -62,7 +62,7 @@ const registerUser = async (req, res) => {
         const { username, phone, email, password } = req.body;
         const defaultName = email.split('@')[0];
         const user = await User.findOne({ user_email: email });
-        console.log(req.body);
+        
         if (user) {
             return res.status(400).json({ message: "User already exists" });
         }
