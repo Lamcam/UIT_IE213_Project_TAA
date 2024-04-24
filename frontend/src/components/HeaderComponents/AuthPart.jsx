@@ -21,7 +21,7 @@ function AuthPart() {
     let avatar = localStorage.getItem('user');
     avatar = JSON.parse(avatar);
     if (avatar) {
-      return avatar.user_avatar;
+      return avatar[0].user_avatar;
     } else {
       console.log('No avatar found');
       return avt;
@@ -31,9 +31,12 @@ function AuthPart() {
   function getUserName() {
     let userName = localStorage.getItem('user');
     userName = JSON.parse(userName);
+
     if (userName) {
-      return userName.user_name;
+      console.log('Name found', userName );
+      return userName[0].user_name;
     } else {
+      console.log('No Name found');
       return 'No Name found';
     }
   }

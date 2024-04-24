@@ -22,11 +22,14 @@ footer {
     }
 
   }
-  .email_input{
-    margin-right: 5px;
-  }
+  
   .input_warrper{
     max-height: 12px;
+
+    input.email_input{
+      height: 100%;
+      margin-right: 2px;
+    }
   }
 
 }
