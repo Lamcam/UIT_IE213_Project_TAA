@@ -60,6 +60,7 @@ const registerUser = async (req, res) => {
 
     try {
         const { username, phone, email, password } = req.body;
+        const defaultName = email.split('@')[0];
         const user = await User.findOne({ user_email: email });
         console.log(req.body);
         if (user) {
@@ -76,10 +77,10 @@ const registerUser = async (req, res) => {
                 user_email: email,
                 user_pass: hashedPassword,
                 user_avatar: 'https://res.cloudinary.com/dg40uppx3/image/upload/v1713435745/IMG_5790_tgvzuj.jpg',
+                local_default_id: new mongoose.Types.ObjectId()  ,
+                bank_default_id: new mongoose.Types.ObjectId() ,
+                user_username: defaultName,
                 user_cccd: '',
-                local_default_id: null,
-                bank_default_id: null,
-
             });
             
             await newUser.save();
