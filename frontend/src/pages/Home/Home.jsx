@@ -11,8 +11,8 @@ const Home = () => {
     return (
         <div className='HomePage' >
             <HomeCarousel></HomeCarousel>
-            <SaleSection></SaleSection>
             <HotProducts></HotProducts> 
+            <SaleSection></SaleSection>
             <QuestionSection></QuestionSection>
             <InfoSection></InfoSection>
             <ImgSection></ImgSection>

@@ -21,6 +21,7 @@ import { NavLink } from 'react-router-dom';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import Button from 'components/Common/Button';
 import axios from 'axios';
+import { useAddToCart } from 'hooks/useAddToCart';
 import PropTypes from 'prop-types';
 
 ProductDetail.propTypes = {
@@ -48,6 +49,7 @@ ProductDetail.propTypes = {
 
 function ProductDetail(props) {
   const [data, setData] = useState([]);
+  const { addToCart } = useAddToCart(); // HAN
   const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
     fetchData();
@@ -417,7 +419,7 @@ function ProductDetail(props) {
               </div>
               <div className="color__product__detail">
                 <span>Màu sắc: </span>
-                <div className="btn_round_32px" >{product?.prod_color}</div>
+                <div className="btn_round_32px">{product?.prod_color}</div>
               </div>
               <div className="size__product__detail">
                 <span>Kích cỡ: </span>
@@ -436,7 +438,7 @@ function ProductDetail(props) {
                     step="1"
                     value={quantity}
                     className="my-input"
-                    readOnly
+                    disabled
                   ></input>
                   <div class="quantity__product-increment outline-text" onClick={handleIncrement}>
                     +
@@ -450,7 +452,9 @@ function ProductDetail(props) {
                 <button
                   className="btn_round_8px btn_clickable_lightcolor"
                   show={showPopup}
-                  onClick={() => setModalShow(true)}
+                  onClick={() => {setModalShow(true);
+                    addToCart(product, quantity)
+                 }}
                 >
                   <MdOutlineAddShoppingCart />
                   Thêm vào giỏ hàng

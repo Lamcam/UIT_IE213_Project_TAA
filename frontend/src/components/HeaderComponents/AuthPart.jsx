@@ -20,8 +20,11 @@ function AuthPart() {
   const getAvatar = () => {
     let avatar = localStorage.getItem('user');
     avatar = JSON.parse(avatar);
-    if (avatar) {
+
+    if (avatar[0].user_avatar === 'undefined') {      
       return avatar.user_avatar;
+    } else if (avatar[0].user_avatar !== 'undefined' ) {
+      return avatar[0].user_avatar;
     } else {
       console.log('No avatar found');
       return avt;
@@ -31,9 +34,13 @@ function AuthPart() {
   function getUserName() {
     let userName = localStorage.getItem('user');
     userName = JSON.parse(userName);
-    if (userName) {
+
+    if (userName[0].user_name === 'undefined') {
       return userName.user_name;
+    } else if(userName[0].user_name !== 'undefined') {
+      return userName[0].user_name;
     } else {
+      console.log('No Name found');
       return 'No Name found';
     }
   }

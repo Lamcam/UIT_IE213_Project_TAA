@@ -104,11 +104,22 @@ const getProductsByCategory = async (req, res) => {
   }
 };
 
+const getHotProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ }).sort({prod_num_sold: -1}).limit(15);
+    
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getProductById,
   getProducts,
   getProductsByCategoryType,
   getProductsByCategory,
+  getHotProducts,
 };
 
 // app.get("/products/:id", async (req, res) => {});

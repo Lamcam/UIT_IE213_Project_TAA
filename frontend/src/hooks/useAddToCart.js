@@ -5,7 +5,7 @@ export function useAddToCart(prod, modal) {
 
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(null);
-    const userID = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))._id : null;
+    const userID = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))[0]._id : null;
     
     const addToCart = async (prod, quantity) => {
         try {
@@ -20,8 +20,7 @@ export function useAddToCart(prod, modal) {
 
             if (res.status === 200) {
                 setLoading(false);
-                // window.location.href = "/cart";
-                console.log('work');
+                alert('Thêm vào giỏ hàng thành công');
                 // modal();
             }
 

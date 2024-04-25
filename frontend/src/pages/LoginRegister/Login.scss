@@ -1,15 +1,17 @@
 section.login{
+    font-size: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0px;
     
     form{
+        font-size: 16px;
         display: flex;
         flex-direction: column;
-        max-width: 406px;
-        width: 100%;
-        margin: 0px 10px;
+        max-width: 500px;
+        // width: 100%;
+        // margin: 0px 100px;
 
     }
 
@@ -29,6 +31,8 @@ section.login{
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        // max-width: 500px;
+        min-width: 500px;
         
     }
 
@@ -54,6 +58,7 @@ section.login{
         align-items: center;
         margin: 5px 0px;
         width: 100%;
+        white-space: nowrap;
     }
 
     .create_acc_rec_containter{
@@ -62,6 +67,10 @@ section.login{
         align-items: center;
         height: 100%;
         width: 100%;
+    }
+
+    .login_btn:active, .login_btn:focus .register_btn:active, .register_btn:focus{
+        background-color: var(--md-sys-color-primary-light);
     }
 
 
@@ -92,15 +101,19 @@ section.login{
 }
 
 section.register{
+    font-size: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0px;
     
     form{
+        font-size: 16px;
         display: flex;
         flex-direction: column;
-        min-width: 406px;
+        // min-width: 406px;
+        // max-width: 406px;
+        // margin: 0px 100px;
 
     }
 
@@ -131,7 +144,7 @@ section.register{
     }
 
     .login_rec::before, .login_rec::after{
-        content: "---------------------";
+        content: "------------";
         margin: 0px 10px;
         color: rgba(25, 25, 25,0);
         display: block;
@@ -177,5 +190,11 @@ section.register{
     }
     .form-check{
         max-width: 406px;
+    }
+}
+
+@media screen and (max-width: 744px){
+    .side_bar{
+        display: none;
     }
 }

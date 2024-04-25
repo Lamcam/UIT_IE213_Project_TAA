@@ -5,9 +5,13 @@ export const useLogout = () => {
     
     const logout = () => {
         
-        localStorage.removeItem("user");
+        
         dispatch({ type: "LOGOUT" });
         window.location.href = "/";
+        setTimeout(() => {
+            localStorage.removeItem("user");
+        }, 100);
+        
         
     }
 

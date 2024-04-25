@@ -12,7 +12,7 @@ export default function RootLayout() {
             <BreadcrumbSection />
                 
             <main>
-                <div className="content" >
+                <div className="content_rootLayout" >
                     <Outlet />
                 </div>
             </main>

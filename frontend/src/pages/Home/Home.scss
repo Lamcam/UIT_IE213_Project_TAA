@@ -1,6 +1,25 @@
 .HomePage{
     font-size: 18px;
     margin-top: 60px;
+
+    h1.title_section{
+        color: #40000A;
+        font-size: 57px;
+        font-family: Playfair Display;
+        font-weight: 700;
+        line-height: 64px;
+        word-wrap: break-word
+    }
+}
+
+.info_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 232px;
+    height: 80px; 
+    text-align: center;
+    white-space: nowrap;
 }
 
 .saleSecCotainer {
@@ -61,4 +80,42 @@ section .qaCard.card{
         }
         
     }
+}
+
+.info_containter{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+@media (min-width: 431px) and (max-width: 800px) {
+    .info_containter{
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+        grid-template-rows: 2fr 2fr;
+        
+        .info_item{
+            display: flex;
+            flex-direction: row;
+            justify-self: center;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        
+    }
+    
+}
+
+@media (max-width: 430px) {
+    .info_containter {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
 }

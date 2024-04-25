@@ -23,7 +23,7 @@ function Register() {
     username: 'Tên đăng nhập phải có ít nhất 1 ký tự',
     phone: 'Số điện thoại phải có từ 10 đến 11 số',
     email: 'Email phải định dạng @ và .com',
-    password: 'Mật khẩu phải có ít nhất 8 ký tự',
+    password: 'Mật khẩu có ít nhất 8 kí tự, gồm chữ, số, ký tự đặc biệt',
     confirm: 'Mật khẩu xác nhận phải khớp với mật khẩu trước đó',
     check: 'Bạn phải đồng ý với điều khoản của TAA'
   }
@@ -42,8 +42,12 @@ function Register() {
   }
 
   const handleInputPasswordChange = (e) => {
+    var regex = /^(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])[a-zA-Z\d@#$%^&+=]{8,}$/;
     setInput({...input, password: e.target.value});
-    if (e.target.value.length >= 8) {
+    console.log(e.target.value);
+    console.log('regex', regex.test(e.target.value));
+    if (regex.test(e.target.value) ) {
+
       setValid({...valid, password: true});
     } else {
       setValid({...valid, password: false});
@@ -109,7 +113,7 @@ function Register() {
 
   return (
     <section className="register">
-    <Container className='d-flex'>
+    <Container className='d-flex' fluid >
       <Col className='side_bar d-flex justify-content-center align-item-center col-4'>
           <Image src={logo} alt='TAA_logo'/>
       </Col>
@@ -162,7 +166,7 @@ function Register() {
                 onClick={handleCheck}
                 label="Tôi đã đọc và đồng ý với Điều kiện giao dịch chung và Chính sách bảo mật thông tin của TAA" />
               <Form.Text className="text-muted">
-              {!valid.check ? '' : inform.check}
+              {valid.check ? '' : inform.check}
               </Form.Text>
         </Form.Group>
 
@@ -174,7 +178,7 @@ function Register() {
             </Button>
 
             <div className='login_rec_containter'>
-                <h6 className='login_rec'>Bạn đã có tài khoản ?</h6>
+                <h5 className='login_rec'>Bạn đã có tài khoản ?</h5>
             </div>
 
             <NavLink to='/log_in' className='login_btn btn_clickable_boldcolor'>

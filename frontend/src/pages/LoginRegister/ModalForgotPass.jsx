@@ -208,7 +208,7 @@ function OtpGet(props) {
   };
 
   const handleClick = () =>{
-    const check =  otp.every(element => element === "1") 
+    const check =  otp.every(element => typeof(element) === 'number') 
     if ( check ) props.four();
     else {
       alert("mã OTP không khớp")

@@ -22,6 +22,7 @@ router.get('/orders/:id', account.getOrders)
 router.get('/favors/:id', account.getFavors)
 router.post('/add-favors',account.addFavors)
 router.delete('/del-favors',account.addFavors)
+router.get('/user/:id', account.getUser)
 // router.get('/account/orders', account.orders)
 
 // router.get('/favor-products', account.favorProducts)

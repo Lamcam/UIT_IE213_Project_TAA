@@ -386,21 +386,40 @@ const getOrders = async (req, res) => {
   }
 };
 const getFavors = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      return res.status(400).json({ message: "ID người dùng không hợp lệ" });
+    try {
+        const userId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res
+                .status(400)
+                .json({ message: "ID người dùng không hợp lệ" });
+        }
+        const favors = await Favors.find({ user_id: userId }).populate('prod_id')
+        if (!favors) {
+            return res.status(404).json({ message: "Not found" });
+        }
+                // Chỉ trả về thông tin sản phẩm
+        const products = favors.map(favor => favor.prod_id);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    const favors = await Favors.find({ user_id: userId }).populate("prod_id");
-    if (!favors) {
-      return res.status(404).json({ message: "Not found" });
+};
+const getUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res
+                .status(400)
+                .json({ message: "ID người dùng không hợp lệ" });
+        }
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({ message: "Not found user" });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    // Chỉ trả về thông tin sản phẩm
-    const products = favors.map((favor) => favor.prod_id);
-    res.status(200).json(products);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
 };
 
 
@@ -444,19 +463,18 @@ const delFavors = async (req, res) => {
 };
 
 module.exports = {
-  updateUser,
-  changePassword,
-  getBankCards,
-  getAddresses,
-  deleteBank,
-  deleteAddress,
-  addBank,
-  addAddress,
-  setAddressDefault,
-  setBankCardDefault,
-  editAddress,
-  getOrders,
-  getFavors,
-  addFavors,
-  delFavors,
+    updateUser,
+    changePassword,
+    getBankCards,
+    getAddresses,
+    deleteBank,
+    deleteAddress,
+    addBank,
+    addAddress,
+    setAddressDefault,
+    setBankCardDefault,
+    editAddress,
+    getOrders,
+    getFavors,
+    getUser
 };

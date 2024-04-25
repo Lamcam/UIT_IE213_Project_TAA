@@ -3,6 +3,7 @@ const router = express.Router();
 const product = require("../controllers/products.controller");
 
 router.get("/", product.getProducts);
+router.get("/hot", product.getHotProducts);
 router.get("/category/:cate_type_name", product.getProductsByCategoryType);
 router.get("/category/:cate_type_name/:cate_name", product.getProductsByCategory);
 router.get("/:id", product.getProductById);

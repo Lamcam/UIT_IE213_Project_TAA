@@ -4,32 +4,21 @@ import Row from 'react-bootstrap/Row';
 import Button1 from 'components/Common/Button1';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import { BiHide, BiShow } from 'react-icons/bi';
+import AddSuccess from '../Modal/modal--add-success';
 function ProfileChangePassword() {
   const [userData, setUserData] = useState({
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
-  const defaultUserData1 = {
-    _id: "6623ad37ce5d6d830aaa1815",
-    user_name: 'Nguyễn Văn Bê',
-    user_phone: '0123456789',
-    user_email: "abc@gmail.com",
-    user_pass: "Abcd@123",
-    user_avatar: "",
-    local_default_id: "1",
-    bank_default_id: "1",
-    user_username: "abc"
-  };
-  // Lưu thông tin người dùng vào Local Storage
-  localStorage.setItem('user', JSON.stringify(defaultUserData1));
-  const defaultUserData = JSON.parse(localStorage.getItem('user'))
-  console.log(defaultUserData)
+  const defaultUser = JSON.parse(localStorage.getItem('user'));
+  const defaultUserData = defaultUser[0];
 
   const [errorOldPassword, setErrorOldPassword] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
   const [errorConfirmPassword, setErrorConfirmPassword] = useState('');
   const [disabled, setDisabled] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,
     newPassword: false,
@@ -44,6 +33,9 @@ function ProfileChangePassword() {
       ...prevState,
       [name]: value,
     }));
+    if (name === 'oldPassword') {
+      setErrorOldPassword('');
+    }
     if (name === 'newPassword') {
       setErrorPassword('');
     }
@@ -97,21 +89,23 @@ function ProfileChangePassword() {
       return;
     }
     // Gửi yêu cầu đến server nếu không có lỗi
-    const id =defaultUserData._id;
+    const id = defaultUserData._id;
     console.log(id);
     axios
       .put(`http://localhost:8000/api/account/change-pass/${id}`, userData)
       .then((response) => {
         // Xử lý phản hồi từ server
         console.log(response.data);
+        setShowSuccess(true);
+        setDisabled(true);
         setUserData({
           oldPassword: '',
           newPassword: '',
           confirmPassword: '',
-        })
+        });
       })
       .catch((error) => {
-        if (error.response.data.message === 'Mật khẩu không khớp!') {
+        if (error.response && error.response.data && error.response.data.message === 'Mật khẩu không khớp!') {
           setErrorOldPassword('Mật khẩu không khớp!');
         }
         console.error('Error:', error);
@@ -233,6 +227,7 @@ function ProfileChangePassword() {
           label="Xác nhận"
           type="submit"
         />
+        {showSuccess && <AddSuccess onClose={() => setShowSuccess(false)} title={'Cập nhật mật khẩu thành công!'}/>}
       </form>
     </article>
   );

@@ -15,6 +15,16 @@ function ProductCard(props) {
         setIsLiked(!isLiked);
     };
 
+    const handleClick = () => {
+        if(!localStorage.getItem('user')){
+            alert('Vui lòng đăng nhập để mua hàng');
+            return;
+        }
+        else{
+            // Add to cart
+        }
+    }
+
     return (
         <Col lg={3} md={3} sm={3} >
             <div className="product__item">
@@ -37,7 +47,7 @@ function ProductCard(props) {
                     <div className="product__item__stock">{status}</div>
                 </div>
                 <div className="product__item__section">
-                    <div className="product__item__view" onClick={() => setShowPopup(true)}>
+                    <div className="product__item__view" onClick={handleClick}>
                         Xem nhanh
                     </div>
 
@@ -45,7 +55,7 @@ function ProductCard(props) {
 
                     <div className="line--vertical">
                     </div>
-                    <NavLink to='/'> Mua ngay</NavLink>
+                    <NavLink to='/' onClick={handleClick}> Mua ngay</NavLink>
                 </div>
             </div>
         </Col >

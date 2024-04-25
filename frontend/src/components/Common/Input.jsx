@@ -1,7 +1,7 @@
 import React from 'react';
 
 const styles = {
-    height: '2.8rem',
+    height: '3.5rem',
     borderRadius: '.75rem',
     border: '1px solid var(--md-sys-color-outline)',
     padding: '0 1rem',
