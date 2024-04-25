@@ -1,5 +1,6 @@
 .product__detail {
-  //   width: 100%;
+  font-family: 'Roboto';
+  width: 100%;
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -14,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  height: 756px;
   &__size {
     border-radius: 4px;
     cursor: pointer;
@@ -29,10 +31,10 @@
 }
 
 .product__image_big {
-  // width: 611px;
-  // height: 684px;
-  width: 96%;
-  height: 100%;
+  width: 632px;
+  height: 756px;
+  // width: 96%;
+  // height: 100%;
   border-radius: 8px;
   cursor: pointer;
   margin-left: 13px;
@@ -135,7 +137,7 @@
 }
 
 .description__product__detail {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 400;
 }
 .description__product__detail span {
@@ -145,6 +147,7 @@
 .description__product__detail li {
   // padding: 10px 0;
 }
+
 .ship__product__detail {
   display: flex;
   gap: 20px;
@@ -152,6 +155,7 @@
   font-size: 16px;
   &_title {
     font-weight: 500;
+    width: 90px;
   }
   &_description {
     display: flex;
@@ -224,6 +228,7 @@
 .color__product__detail span,
 .size__product__detail span {
   font-weight: 500;
+  width: 90px;
 }
 
 .quantity__product__detail,
@@ -473,7 +478,8 @@ input[type='number'] {
   text-align: center;
   border: none;
   width: 55px;
-  color: var(--m-3-sys-light-outline);
+  // color: var(--m-3-sys-light-outline);
+  background: white;
 }
 
 .dropdown {
@@ -604,6 +610,8 @@ input[type='number'] {
 
 .btn__filter__rank,
 .btn__filter__soft {
+  width: 100px;
+  padding: 15px;
   //   padding-right: 0px;
   &:hover {
     cursor: pointer;

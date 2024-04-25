@@ -417,7 +417,7 @@ function ProductDetail(props) {
               </div>
               <div className="color__product__detail">
                 <span>Màu sắc: </span>
-                <div className="btn_round_32px" >{product?.prod_color}</div>
+                <div className="btn_round_32px">{product?.prod_color}</div>
               </div>
               <div className="size__product__detail">
                 <span>Kích cỡ: </span>
@@ -436,7 +436,7 @@ function ProductDetail(props) {
                     step="1"
                     value={quantity}
                     className="my-input"
-                    readOnly
+                    disabled
                   ></input>
                   <div class="quantity__product-increment outline-text" onClick={handleIncrement}>
                     +
