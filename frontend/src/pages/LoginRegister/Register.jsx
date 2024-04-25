@@ -173,7 +173,7 @@ function Register() {
         <Form.Group className="mb-3" controlId="submit_reg">  
           <div className="d-grid gap-2">
             
-            <Button className='register_btn' size="lg" type='submit'>
+            <Button className='register_btn' variant='none' size="lg" type='submit'>
                 Đăng ký
             </Button>
 
@@ -181,7 +181,7 @@ function Register() {
                 <h5 className='login_rec'>Bạn đã có tài khoản ?</h5>
             </div>
 
-            <NavLink to='/log_in' className='login_btn btn_clickable_boldcolor'>
+            <NavLink to='/log_in' className='login_btn btn_clickable_lightcolor_outline'>
               Đăng nhập
             </NavLink>
              
