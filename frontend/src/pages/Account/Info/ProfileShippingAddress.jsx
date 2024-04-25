@@ -10,22 +10,11 @@ import AddAddress from '../Modal/modal--add-address';
 import DelAddress from '../Modal/modal--del-address';
 import EditAddress from '../Modal/modal--edit-address';
 import notFound from '../../../assets/image/account/no-data.jpg';
+import AddSuccess from '../Modal/modal--add-success';
+
 function ProfileShippingAddress() {
-  const defaultUserData1 = {
-    _id: '65f3e8eb7ef3c2b6f3b74ac6',
-    user_name: 'Nguyễn Văn A',
-    user_phone: '0123456789',
-    user_email: 'abc@gmail.com',
-    user_pass: 'Abcd@123',
-    user_avatar: 'user_avatar_3',
-    local_default_id: '65f4645b6a8ec30cb1038008',
-    bank_default_id: '65f4708f6a8ec30cb1038012',
-    user_username: 'abcfff',
-    user_cccd: '072303001111',
-  };
-  // Lưu thông tin người dùng vào Local Storage
-  localStorage.setItem('user', JSON.stringify(defaultUserData1));
-  const defaultUserData = JSON.parse(localStorage.getItem('user'));
+  const defaultUser = JSON.parse(localStorage.getItem('user'));
+  const defaultUserData = defaultUser[0]
   const id = defaultUserData._id;
   const [addresses, setAddresses] = useState([]);
   const [notAddresses, setNotAddress] = useState(false);

@@ -16,7 +16,7 @@ button{
 // Menu
 .container-fluid .row .col-lg-3 {
   padding-left: 0;
-  padding-right: 6px;
+  padding-right: 0;
   height: fit-content;
   min-width: auto;
 }
@@ -420,6 +420,13 @@ article.section__content {
   min-height: 357px;
   height: auto;
   border-radius: 12px;
+  & .success-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px
+  }
   & .input__wrapper{
     display: flex;
     flex-direction: column;

@@ -12,32 +12,8 @@ import AddSuccess from '../Modal/modal--add-success';
 import DelBank from '../Modal/modal--del-bank';
 import notFound from '../../../assets/image/account/no-data.jpg';
 function ProfileBankCard() {
-  const defaultUserData1 = {
-    // _id: '65f3e8eb7ef3c2b6f3b74ac6',
-    // user_name: 'Nguyễn Văn A',
-    // user_phone: '0123456789',
-    // user_email: 'abc@gmail.com',
-    // user_pass: 'Abcd@123',
-    // user_avatar: 'user_avatar_3',
-    // local_default_id: '65f4645b6a8ec30cb1038008',
-    // bank_default_id: '65f4708f6a8ec30cb1038012',
-    // user_username: 'abcfff',
-    // user_cccd: '072303001111',
-
-    _id: '65f3eb13a8f986b1aca6929e',
-    user_name: 'Hoàng Văn E',
-    user_phone: '0987465221',
-    user_email: 'mno@gmail.com',
-    user_pass: 'Abcd@421',
-    user_avatar: '',
-    local_default_id: '',
-    bank_default_id: '',
-    user_username: 'mno',
-    user_cccd: '072303001115',
-  };
-  // Lưu thông tin người dùng vào Local Storage
-  localStorage.setItem('user', JSON.stringify(defaultUserData1));
-  const defaultUserData = JSON.parse(localStorage.getItem('user'));
+  const defaultUser = JSON.parse(localStorage.getItem('user'));
+  const defaultUserData = defaultUser[0]
   const id = defaultUserData._id;
   const [bankCards, setBankCards] = useState([]);
   const [notBankCard, setNotBankCard] = useState(false);

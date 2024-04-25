@@ -2,7 +2,9 @@ import React from "react";
 import { useEffect } from "react";
 import ButtonIcon from 'components/Common/ButtonIcon';
 import { CgClose } from 'react-icons/cg';
-function AddSuccess({ onClose }) {
+import updateSuccess from '../../../assets/image/account/update-success.png';
+
+function AddSuccess({ onClose, title }) {
       // Sử dụng useEffect để tự động đóng modal sau 5 giây
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -21,9 +23,11 @@ function AddSuccess({ onClose }) {
               border="none"
               type="button"
                   onClick={onClose}
-                />
-                <h1 className="profile-modal__title headline-small">Thêm thẻ ngân hàng thành công!</h1>
-                <img src="" alt="" style={{width:"284px", height:"152px"}}/>
+            />
+            <div className="success-content">
+            <h1 className="profile-modal__title headline-small">{ title}</h1>
+              <img src={updateSuccess} alt="" style={{ width: "auto", height: "200px" }} />
+              </div>
               </div>
             </div>
       )

@@ -5,28 +5,43 @@ import Row from 'react-bootstrap/Row';
 import Button1 from 'components/Common/Button1';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import { MdEdit } from 'react-icons/md';
+import AddSuccess from '../Modal/modal--add-success';
 
 function ProfileUser() {
-  const defaultUserData1 = {
-    _id: "6623ad37ce5d6d830aaa1815",
-    user_name: '123',
-    user_phone: '0966723044',
-    user_email: "taa@gmail.com",
-    user_pass: "$2b$10$fcBSGll2TKe0.ZGPCxY1negaTqIQXWE08hnogsNs2.D1FLasYIBhS",
-    user_avatar: "",
-    local_default_id: "",
-    bank_default_id: "",
-    user_username: "taa",
-    user_cccd: ""
-  };
-// Lưu thông tin người dùng vào Local Storage
-  localStorage.setItem('user', JSON.stringify(defaultUserData1));
-  const defaultUserData = JSON.parse(localStorage.getItem('user'))
-
-  const [userData, setUserData] = useState(defaultUserData);
+//   const defaultUserData1 = {
+//     _id: "6623ad37ce5d6d830aaa1815",
+//     user_name: '123',
+//     user_phone: '0966723044',
+//     user_email: "taa@gmail.com",
+//     user_pass: "$2b$10$fcBSGll2TKe0.ZGPCxY1negaTqIQXWE08hnogsNs2.D1FLasYIBhS",
+//     user_avatar: "",
+//     local_default_id: "",
+//     bank_default_id: "",
+//     user_username: "taa",
+//     user_cccd: ""
+//   };
+// // Lưu thông tin người dùng vào Local Storage
+//   localStorage.setItem('user', JSON.stringify(defaultUserData1));
+  const defaultUser = (JSON.parse(localStorage.getItem('user')))[0];
+  const id = defaultUser._id
+  console.log(id)
+  const [userData, setUserData] = useState({});
+  const [defaultUserData, setDefaultUserData] = useState({});
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/account/user/${id}`)
+      .then((response) => {
+        setUserData(response.data);
+        setDefaultUserData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
   const [disabled, setDisabled] = useState(true);
   const [errorPhone, setErrorPhone] = useState('');
   const [errorEmail, setErrorEmail] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +58,7 @@ function ProfileUser() {
   };
 
   useEffect(() => {
+    console.log(defaultUserData)
     const isDifferent = Object.keys(userData).some((key) => userData[key] !== defaultUserData[key]);
     setDisabled(!isDifferent);
   }, [userData]);
@@ -78,12 +94,13 @@ function ProfileUser() {
     }
 
     // Gửi yêu cầu đến server nếu không có lỗi
-    const id = defaultUserData._id
     console.log(id)
     axios.put(`http://localhost:8000/api/account/update-user/${id}`, userData)
       .then(response => {
         // Xử lý phản hồi từ server
         console.log(response.data);
+        setShowSuccess(true)
+        setDisabled(true)
       })
       .catch(error => {
         // Xử lý lỗi từ server
@@ -202,6 +219,7 @@ function ProfileUser() {
 
           onClick={handleChange}
         />
+    {showSuccess && <AddSuccess onClose={() => setShowSuccess(false)} title={'Cập nhật thông tin thành công!'}/>}
       </form>
     </article>
   );

@@ -7,23 +7,10 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import { RiArrowDropUpLine } from 'react-icons/ri';
 import ReviewPopup from '../Modal/ReviewPopup';
 function Orders() {
-  const defaultUserData1 = {
-    _id: '65f3e9a27ef3c2b6f3b7d0d8',
-    user_name: 'Nguyễn Văn B',
-    user_phone: '0987654321',
-    user_email: 'def@gmail.com',
-    user_pass: 'Abcd@456',
-    user_avatar:
-      'https://res.cloudinary.com/dg40uppx3/image/upload/v1713435732/IMG_5365_bw6k0p.jpg',
-    local_default_id: '65f466a46a8ec30cb1038009',
-    bank_default_id: '65f471776a8ec30cb1038013',
-    user_username: 'def',
-    user_cccd: '072303001112',
-  };
-  // Lưu thông tin người dùng vào Local Storage
-  localStorage.setItem('user', JSON.stringify(defaultUserData1));
-  const defaultUserData = JSON.parse(localStorage.getItem('user'));
-  const id = defaultUserData._id;
+  const defaultUser = JSON.parse(localStorage.getItem('user'));
+  const defaultUserData = defaultUser[0]
+  // const id = defaultUserData._id;
+  const id = "65f3ea44a8f986b1aca6929a"
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     axios
@@ -38,7 +25,6 @@ function Orders() {
 
   const [showMore, setShowMore] = useState(false);
   const handleSeeMore = (orderId) => {
-    console.log(showMore);
     setOrders((prevOrders) =>
       prevOrders.map((order) => {
         if (order.order._id === orderId) {

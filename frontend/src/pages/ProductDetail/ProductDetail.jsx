@@ -21,6 +21,7 @@ import { NavLink } from 'react-router-dom';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import Button from 'components/Common/Button';
 import axios from 'axios';
+import { useAddToCart } from 'hooks/useAddToCart';
 import PropTypes from 'prop-types';
 
 ProductDetail.propTypes = {
@@ -48,6 +49,7 @@ ProductDetail.propTypes = {
 
 function ProductDetail(props) {
   const [data, setData] = useState([]);
+  const { addToCart } = useAddToCart(); // HAN
   const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
     fetchData();
@@ -450,7 +452,9 @@ function ProductDetail(props) {
                 <button
                   className="btn_round_8px btn_clickable_lightcolor"
                   show={showPopup}
-                  onClick={() => setModalShow(true)}
+                  onClick={() => {setModalShow(true);
+                    addToCart(product, quantity)
+                 }}
                 >
                   <MdOutlineAddShoppingCart />
                   Thêm vào giỏ hàng
