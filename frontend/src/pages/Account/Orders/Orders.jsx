@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 import Button1 from 'components/Common/Button1';
 import ButtonIcon from 'components/Common/ButtonIcon';
-import { RiArrowDropDownLine } from 'react-icons/ri';
-import { RiArrowDropUpLine } from 'react-icons/ri';
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import ReviewPopup from '../Modal/ReviewPopup';
+import ProductPagination from 'components/Products/ProductPagination';
+import { Row } from 'react-bootstrap';
+
 function Orders() {
   const defaultUser = JSON.parse(localStorage.getItem('user'));
   const defaultUserData = defaultUser[0]
   // const id = defaultUserData._id;
   const id = "65f3ea44a8f986b1aca6929a"
   const [orders, setOrders] = useState([]);
+  const [activePage, setActivePage] = useState(1);
+  const ordersPerPage = 6;
+
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/account/orders/${id}`)
@@ -43,6 +47,19 @@ function Orders() {
     setSelectedReviewPopup_img(ord.product.prod_img[0]);
     setShowReviewPopup(true);
   };
+
+
+  const totalPages = Math.ceil(orders.length / ordersPerPage);
+
+
+  const startIndex = (activePage - 1) * ordersPerPage;
+  const endIndex = startIndex + ordersPerPage;
+  const paginatedOrders = orders.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setActivePage(page);
+  };
+
   return (
     <div id="orders">
       <article className="section__content visible article">
@@ -52,7 +69,7 @@ function Orders() {
         </div>
       </article>
 
-      {orders.map((order) => (
+      {paginatedOrders.map((order) => (
         <React.Fragment key={order._id}>
           <article className=" section__content visible order-content section__content--orders">
             {order.orderDetails.map((ord, index) => (
@@ -142,6 +159,16 @@ function Orders() {
           </article>
         </React.Fragment>
       ))}
+      {/* Product Pagination */}
+      <Row className="product__pagination">
+        {totalPages > 1 && (
+          <ProductPagination
+            totalPages={totalPages}
+            activePage={activePage}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </Row>
     </div>
   );
 }
