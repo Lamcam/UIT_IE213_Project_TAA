@@ -18,6 +18,8 @@ const getCart = async (req, res) => {
 const addProductToCart = async (req, res) => {
     try {
         const { user_id, product_id, quantity } = req.body;
+        console.log(req.body);
+
         console.log(user_id, product_id, quantity);
 
         const user = await User.findById(user_id);
