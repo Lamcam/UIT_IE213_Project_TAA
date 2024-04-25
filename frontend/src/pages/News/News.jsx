@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import NewsItems from 'components/NewsComponents/NewsItems';
+import ProductPagination from 'components/Products/ProductPagination';
 // import { useParams } from 'react-router-dom';
-import { Container, Image } from 'react-bootstrap';
+import { Container, Image, Row } from 'react-bootstrap';
 import 'style/pages/News/News.scss';
 import banner1 from 'assets/image/banners/news__banner--large.jpg';
 import banner2 from 'assets/image/banners/news__banner--large-1.jpg';
@@ -24,21 +25,44 @@ import axios from 'axios';
 
 function News() {
   // const { newsId } = useParams();
-  const [news, setNews] = useState(null);
+  const [news, setNews] = useState([]); // Sửa thành một mảng rỗng thay vì null
+  const [newsData, setnewsData] = useState([]); // Thêm state newsData
+  const [totalPagesNews, setTotalPagesNews] = useState(0);
+  const [activePage, setActivePage] = useState(1);
+  const newsPerPage = 6;
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await axios.get('http://localhost:8000/news');
-        setNews(response.data);
+        const totalPages = Math.ceil(response.data.length / newsPerPage);
+        setTotalPagesNews(totalPages);
+
+        // Calculate the start and end indexes for the initial data
+        const startIdx = (activePage - 1) * newsPerPage;
+        const endIdx = startIdx + newsPerPage;
+
+        // Slice the data based on the start and end indexes
+        const initialData = response.data.slice(startIdx, endIdx);
+        setNews(response.data); // Update the state 'news'
+        setnewsData(initialData); // Update the state 'newsData'
       } catch (error) {
         console.error('Error fetching newspost:', error);
       }
     };
 
     fetchNews();
-  }, []);
-  console.log(news)
+  }, [activePage]);
+
+
+  const handlePageChange = (page) => {
+    setActivePage(page);
+    const startIdx = (page - 1) * newsPerPage;
+    const endIdx = startIdx + newsPerPage;
+    const filteredNews = news.slice(startIdx, endIdx); // Update newsData based on 'news'
+    setnewsData(filteredNews);
+  };
+
 
   return (
     <Container className="news fluid">
@@ -55,9 +79,9 @@ function News() {
       <h1 className="news__title display-large">BÀI VIẾT</h1>
       <div className="news__item">
         <div className="row row-cols-1 row-cols-md-2 g-5">
-          {news &&
-            news.length > 0 &&
-            news.map((item) => (
+          {newsData &&
+            newsData.length > 0 &&
+            newsData.map((item) => (
               <div className="news__item-col" key={item._id}>
                 <NewsItems news={item} />
               </div>
@@ -65,7 +89,15 @@ function News() {
         </div>
       </div>
 
-      <div className="mt-12" id="nav-page"></div>
+      <div className="product__pagination">
+        {totalPagesNews > 1 && (
+          <ProductPagination
+            totalPages={totalPagesNews}
+            activePage={activePage}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </div>
 
       <div className="news__banner">
         <Image src={bannersmall} fluid />
