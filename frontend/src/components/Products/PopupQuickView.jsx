@@ -26,7 +26,9 @@ PopupQuickView.propTypes = {
     prod_description: PropTypes.string.isRequired,
     cate_id: PropTypes.string.isRequired,
     prod_img: PropTypes.arrayOf(PropTypes.string).isRequired,
-    prod_num_avai: PropTypes.number.isRequired
+    prod_num_avai: PropTypes.number.isRequired,
+    prod_color: PropTypes.string.isRequired,
+    prod_size: PropTypes.string.isRequired,
   }).isRequired
 };
 
@@ -136,11 +138,11 @@ function PopupQuickView(props) {
           </div>
           <div className="info__color body-large">
             <p className="info__color__title">Màu sắc:</p>
-            <div className="info__color__value outline-text">Xanh lá</div>
+            <div className="info__color__value outline-text">{props.productItem.prod_color}</div>
           </div>
           <div className="info__size body-large">
             <p className="info__size__title">Kích thước:</p>
-            <div className="info__size__value outline-text">Freestyle</div>
+            <div className="info__size__value outline-text">{props.productItem.prod_size}</div>
           </div>
           <div className="info__quantity">
             <div className="info__quantity__title body-large bold">Số lượng: </div>
@@ -161,8 +163,10 @@ function PopupQuickView(props) {
               iconHeight="24px"
               label="Thêm vào giỏ hàng"
               border="1px solid #9c4048"
-              onClick={() => { addToCart(props.productItem, quantity);
-              console.log('add cart clicked')}} // Add success pop here (HAN)
+              onClick={() => {
+                addToCart(props.productItem, quantity);
+                console.log('add cart clicked')
+              }} // Add success pop here (HAN)
             />
             <Button
               className="button__detail__view"

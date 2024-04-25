@@ -432,6 +432,18 @@ const removeFavoriteProduct = async (userId, productId) => {
 
 const addFavoriteProduct = async (userId, productId) => {
   try {
+    // Kiểm tra xem đã tồn tại sản phẩm yêu thích với cặp user_id và prod_id đã cho chưa
+    const existingFavorite = await Favors.findOne({
+      user_id: userId,
+      prod_id: productId,
+    });
+
+    // Nếu đã tồn tại, không thêm nữa và trả về kết quả
+    if (existingFavorite) {
+      return existingFavorite;
+    }
+
+    // Nếu chưa tồn tại, thêm sản phẩm yêu thích mới vào cơ sở dữ liệu
     const favorProduct = new Favors({ user_id: userId, prod_id: productId });
     const savedProduct = await favorProduct.save();
     return savedProduct;
@@ -476,5 +488,5 @@ module.exports = {
   getFavors,
   getUser,
   addFavors,
-  delFavors
+  delFavors,
 };
