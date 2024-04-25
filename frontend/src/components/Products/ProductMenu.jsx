@@ -24,8 +24,8 @@ function ProductMenu(props) {
     };
 
     return (
-        <Row lg={12} className="product__menu">
-            <ul className="aside__list body-large visible">
+        <div className="product__menu menu__category">
+            <ul className="aside__list body-large">
                 <li className="aside__item title_aside_item">
                     <span className="item__title">
                         <IoMenuSharp className='icon-menu' />
@@ -96,7 +96,7 @@ function ProductMenu(props) {
                     </ul>
                 </li>
             </ul>
-        </Row>
+        </div>
     );
 }
 

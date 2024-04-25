@@ -208,7 +208,7 @@ function Products() {
       <Container className="product" fluid>
         <ProductFilter applyFilter={applyFilter} />
         <Row className="product__content">
-          <Col xxl={3} xl={3} lg={3} md={4} sm={4}>
+          <Col xxl={3} xl={3} lg={3} md={4} sm={4} className="product__category">
             <ProductMenu onCategoryClick={handleCategoryClick} />
           </Col>
           <Col xxl={9} xl={9} lg={9} md={8} sm={8} className="product__list">
