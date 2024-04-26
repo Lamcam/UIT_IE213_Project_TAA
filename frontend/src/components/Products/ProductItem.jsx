@@ -119,9 +119,9 @@ function ProductItem({ product }) {
         </NavLink>
         <div className="product__item__price">
           <div className="item__price__current">{currentPrice} đ</div>
-          {discount > 0 && <div className="item__price__discount">{BeforDiscountPrice} đ</div>}
+          {discount > 0 ? (<div className="item__price__discount">{BeforDiscountPrice} đ</div>):(<div className="item__price__discount"></div>)}
         </div>
-        {discount > 0 && <div className="product__item__discount">Giảm {discount} %</div>}
+        {discount > 0 ? (<div className="product__item__discount">Giảm {discount} %</div>):(<div className="product__item__discount"></div>)}
         <div className="product__item__stock primary-text">Còn hàng</div>
       </div>
       <div className="product__item__section">

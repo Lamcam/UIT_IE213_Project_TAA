@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Modal } from 'react-bootstrap';
+import { Input, Modal, Carousel } from 'react-bootstrap';
 import Button from 'components/Common/Button1'
 import PropTypes from 'prop-types';
 import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
@@ -60,7 +60,8 @@ function PopupQuickView(props) {
   const handleDecrement = () => {
     setQuantity((prevQuantity) => {
       const newQuantity = prevQuantity - 1;
-      return newQuantity >= 0 ? newQuantity : 0;
+      // Đảm bảo số lượng không nhỏ hơn 1
+      return newQuantity >= 1 ? newQuantity : prevQuantity;
     });
   };
 
@@ -116,6 +117,19 @@ function PopupQuickView(props) {
             ))}
           </div>
         </div>
+        <Carousel interval={null} className="quick__view__slider">
+          {productImages.map((image, index) => (
+            <Carousel.Item key={index}>
+              <img
+                src={image}
+                alt="Product"
+                className={selectedImage === image ? "selected" : ""}
+                onClick={() => selectImage(image)}
+                onMouseEnter={() => handleImageHover(image)}
+              />
+            </Carousel.Item>
+          ))}
+        </Carousel>
         <div className="quick__view__info">
           <div className="info__name headline-medium">{props.productItem.prod_name}</div>
           <div className="info__rate">
@@ -132,9 +146,9 @@ function PopupQuickView(props) {
             <div className="info__number__sell">{props.productItem.prod_num_sold} đã bán</div>
           </div>
           <div className="info__price">
-            <p className="info__price__cost body-large">{BeforDiscountPrice} đ</p>
+            {discount > 0 && <p className="info__price__cost body-large">{BeforDiscountPrice} đ</p>}
             <p className="info__price__cost__discount headline-small">{currentPrice} đ</p>
-            <div className="info__percent__discount body-large">Giảm {discount}%</div>
+            {discount > 0 && <div className="info__percent__discount body-large">Giảm {discount}%</div>}
           </div>
           <div className="info__color body-large">
             <p className="info__color__title">Màu sắc:</p>
@@ -148,7 +162,9 @@ function PopupQuickView(props) {
             <div className="info__quantity__title body-large bold">Số lượng: </div>
             <div className="info__quantity__product outline-text body-large">
               <div className="info__quantity__product-decrement outline-text" onClick={handleDecrement}>-</div>
-              <input id="number__product__select" type="number" min="1" max={props.productItem.prod_num_avai} step="1" value={quantity} className="my-input" onChange={handleChange} />
+              <input id="number__product__select" type="number" min="1" max={props.productItem.prod_num_avai} step="1"
+                className="my-input" onChange={handleChange}
+                value={quantity.toLocaleString('en-US', { minimumIntegerDigits: 1, useGrouping: false })} />
               <div className="info__quantity__product-increment outline-text" onClick={handleIncrement}>+</div>
             </div>
             <p className="info__quantity__stock body-medium">{props.productItem.prod_num_avai} sản phẩm sẵn có</p>
@@ -190,12 +206,12 @@ function PopupQuickView(props) {
             </div>
             <div class="info__context__detail">
               <div class="info__context__detail__title">
-                THÔNG TIN THƯƠNG HIỆU:
+                THÔNG TIN THƯƠNG HIỆU
               </div>
               <ul class="info__context__detail__body">
-                <li>- Thương hiệu TAA - Three Accessories Appreciate đã được đăng kí bảo hộ năm 2023.</li>
-                <li>- TAA đã có cửa hàng tại HCM và 100.000 KH mua sắm mỗi năm.</li>
-                <li>- Phương châm của TAA là luôn khách hàng lên hàng đầu, chứng tôi sẽ cố gắng thực hiện hóa mọi nhu cầu của bạn.</li>
+                <li> Sản phẩm thuộc thương hiệu TAA - Three Accessories Appreciate đã được đăng kí bảo hộ năm 2023.</li>
+                {/* <li>- TAA đã có cửa hàng tại HCM và 100.000 KH mua sắm mỗi năm.</li>
+                <li>- Phương châm của TAA là luôn khách hàng lên hàng đầu, chứng tôi sẽ cố gắng thực hiện hóa mọi nhu cầu của bạn.</li> */}
               </ul>
             </div>
           </div>

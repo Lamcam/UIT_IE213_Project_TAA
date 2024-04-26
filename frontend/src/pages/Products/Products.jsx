@@ -6,7 +6,7 @@ import ProductPagination from 'components/Products/ProductPagination';
 import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import 'style/pages/Products/ProductStyle.scss';
+import 'style/pages/Products/Product.scss';
 import { HiOutlineLightBulb } from "react-icons/hi";
 
 function Products() {
