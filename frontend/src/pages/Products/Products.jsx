@@ -252,7 +252,7 @@ function Products() {
           <Row className="product__content">
             <Row className="product__search row-cols-1 row-cols-md-6 g-3">
               {filteredData.map((product) => (
-                <Col key={product._id} xxl={2} xl={3} lg={3} md={4} sm={6}>
+                <Col key={product._id} xxl={2} xl={3} lg={3} md={4} sm={6} className="search__item">
                   <ProductItem product={product} />
                 </Col>
               ))}
