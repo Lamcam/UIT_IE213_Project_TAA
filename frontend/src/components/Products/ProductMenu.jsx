@@ -12,14 +12,20 @@ function ProductMenu(props) {
 
     const handleClick = (category, subCategory = '') => {
         console.log(`${category} - ${subCategory}`);
+        // Lưu trạng thái trước đó của activeCategory
+        const prevActiveCategory = activeCategory;
+
+        document.querySelectorAll('.aside__item__sub-menu .category').forEach(item => {
+            item.classList.remove('active_sub');
+        });
         if (subCategory !== '') {
             // Xử lý khi người dùng chọn subcategory
             setActiveSubCategory(activeSubCategory === subCategory ? null : subCategory);
             props.onCategoryClick(category, activeSubCategory === subCategory ? '' : subCategory);
         } else {
             // Xử lý khi người dùng chỉ chọn category
-            setActiveCategory(activeCategory === category ? null : category);
-            props.onCategoryClick(category, ''); // Truyền chuỗi rỗng cho subcategory
+            setActiveCategory(prevActiveCategory === category ? null : category);
+            props.onCategoryClick(prevActiveCategory === category ? null : category, ''); // Truyền chuỗi rỗng cho subcategory
         }
     };
 

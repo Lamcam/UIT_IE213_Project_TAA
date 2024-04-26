@@ -31,8 +31,11 @@ function Products() {
     // Chuyển hướng đến route tương ứng với category và subcategory (nếu có)
     if (subCategory) {
       navigate(`/products/category/${category}/${subCategory}`);
-    } else {
+    } else if (category) {
       navigate(`/products/category/${category}`);
+    }
+    else {
+      navigate("/products");
     }
   };
 
@@ -214,14 +217,14 @@ function Products() {
           <Col xxl={9} xl={9} lg={9} md={8} sm={8} className="product__list">
             <Row className="row-cols-1 row-cols-md-3 g-3">
               {filteredData.map((product) => (
-                <Col 
-                key={product._id} 
-                xxl={filteredData.length <= 2 ? 6 : 3} 
-                xl={filteredData.length <= 2 ? 6 : 4} 
-                lg={filteredData.length <= 2 ? 6 : 4} 
-                md={6} 
-                sm={6}
-                className={`${filteredData.length <= 4 ? 'small-product' : ''}`}
+                <Col
+                  key={product._id}
+                  xxl={filteredData.length <= 2 ? 6 : 3}
+                  xl={filteredData.length <= 2 ? 6 : 4}
+                  lg={filteredData.length <= 2 ? 6 : 4}
+                  md={6}
+                  sm={6}
+                  className={`${filteredData.length <= 4 ? 'small-product' : ''}`}
                 >
                   <ProductItem product={product} />
                 </Col>
