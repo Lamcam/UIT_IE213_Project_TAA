@@ -32,7 +32,7 @@ ProductItem.propTypes = {
   onFavoriteChange: PropTypes.func
 };
 
-function ProductItem({ product, onFavoriteChange}) {
+function ProductItem({ product, onFavoriteChange }) {
   const [isLiked, setIsLiked] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
@@ -78,7 +78,9 @@ function ProductItem({ product, onFavoriteChange}) {
           });
         }
         setIsLiked(!isLiked);
-        onFavoriteChange();
+        if (onFavoriteChange) {
+          onFavoriteChange();
+        }
       } catch (error) {
         console.error('Error toggling favorite:', error);
       }
@@ -121,9 +123,9 @@ function ProductItem({ product, onFavoriteChange}) {
         </NavLink>
         <div className="product__item__price">
           <div className="item__price__current">{currentPrice} đ</div>
-          {discount > 0 ? (<div className="item__price__discount">{BeforDiscountPrice} đ</div>):(<div className="item__price__discount"></div>)}
+          {discount > 0 ? (<div className="item__price__discount">{BeforDiscountPrice} đ</div>) : (<div className="item__price__discount"></div>)}
         </div>
-        {discount > 0 ? (<div className="product__item__discount">Giảm {discount} %</div>):(<div className="product__item__discount"></div>)}
+        {discount > 0 ? (<div className="product__item__discount">Giảm {discount} %</div>) : (<div className="product__item__discount"></div>)}
         <div className="product__item__stock primary-text">Còn hàng</div>
       </div>
       <div className="product__item__section">

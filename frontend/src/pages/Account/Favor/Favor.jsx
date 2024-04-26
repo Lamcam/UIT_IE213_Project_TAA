@@ -12,7 +12,7 @@ function Favor() {
   // const id = "65f3e9a27ef3c2b6f3b7d0d8"
   const [favors, setFavors] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 8;
 
   const fetchFavorites = async () => {
     try {
@@ -50,7 +50,7 @@ function Favor() {
 
       <Row className="row-cols-1 row-cols-md-3 g-3">
         {currentProducts.map((favor) => (
-          <Col key={favor._id}>
+          <Col key={favor._id} xxl={3}>
             <ProductItem product={favor} onFavoriteChange={fetchFavorites} />
           </Col>
         ))}
