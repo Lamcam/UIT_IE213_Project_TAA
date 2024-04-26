@@ -6,7 +6,7 @@ import ProductPagination from 'components/Products/ProductPagination';
 import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import 'style/pages/Products/ProductStyle.scss';
+import 'style/pages/Products/Product.scss';
 import { HiOutlineLightBulb } from "react-icons/hi";
 
 function Products() {
@@ -31,8 +31,11 @@ function Products() {
     // Chuyển hướng đến route tương ứng với category và subcategory (nếu có)
     if (subCategory) {
       navigate(`/products/category/${category}/${subCategory}`);
-    } else {
+    } else if (category) {
       navigate(`/products/category/${category}`);
+    }
+    else {
+      navigate("/products");
     }
   };
 
@@ -106,6 +109,7 @@ function Products() {
     const startIdx = (page - 1) * productsPerPage;
     const endIdx = startIdx + productsPerPage;
     setFilteredData(data.slice(startIdx, endIdx));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
 
@@ -208,20 +212,20 @@ function Products() {
       <Container className="product" fluid>
         <ProductFilter applyFilter={applyFilter} />
         <Row className="product__content">
-          <Col xxl={3} xl={3} lg={3} md={4} sm={4}>
+          <Col xxl={3} xl={3} lg={3} md={4} sm={4} className="product__category">
             <ProductMenu onCategoryClick={handleCategoryClick} />
           </Col>
           <Col xxl={9} xl={9} lg={9} md={8} sm={8} className="product__list">
             <Row className="row-cols-1 row-cols-md-3 g-3">
               {filteredData.map((product) => (
-                <Col 
-                key={product._id} 
-                xxl={filteredData.length <= 2 ? 6 : 3} 
-                xl={filteredData.length <= 2 ? 6 : 4} 
-                lg={filteredData.length <= 2 ? 6 : 4} 
-                md={6} 
-                sm={6}
-                className={`${filteredData.length <= 4 ? 'small-product' : ''}`}
+                <Col
+                  key={product._id}
+                  xxl={filteredData.length <= 2 ? 6 : 3}
+                  xl={filteredData.length <= 2 ? 6 : 4}
+                  lg={filteredData.length <= 2 ? 6 : 4}
+                  md={6}
+                  sm={6}
+                  className={`${filteredData.length <= 4 ? 'small-product' : ''}`}
                 >
                   <ProductItem product={product} />
                 </Col>
@@ -248,7 +252,7 @@ function Products() {
           <Row className="product__content">
             <Row className="product__search row-cols-1 row-cols-md-6 g-3">
               {filteredData.map((product) => (
-                <Col key={product._id} xxl={2} xl={3} lg={3} md={4} sm={6}>
+                <Col key={product._id} xxl={2} xl={3} lg={3} md={4} sm={6} className="search__item">
                   <ProductItem product={product} />
                 </Col>
               ))}
