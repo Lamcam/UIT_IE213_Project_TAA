@@ -16,21 +16,29 @@ function Cart(props) {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const userID = await localStorage.getItem('user')
+        const userID = (await localStorage.getItem('user'))
           ? JSON.parse(localStorage.getItem('user'))[0]._id
           : null;
 
         console.log(userID);
 
         const res = await axios.post('http://localhost:8000/cart/get', {
-            user_id: userID,
+          user_id: userID,
         });
         if (res.status === 200) {
-          setCartItems(res.data.map((item) => createItem(item)));
-          return res.data;
+          const data = res.data.map((item) => {
+            const productObject = item.product.length > 0 ? item.product[0] : null;
+            return {
+              ...item,
+              product: createItem(productObject),
+            };
+          });
+          setCartItems(data);
 
-        } else if(res.status === 404){
-            alert('Cart is empty or user not found');
+          console.log('cartitm', data);
+          return res.data;
+        } else if (res.status === 404) {
+          alert('Cart is empty or user not found');
         } else {
           alert('Error fetching cart items');
         }
@@ -40,10 +48,11 @@ function Cart(props) {
       }
     };
     fetchItems();
-  }, []);
+  }, [cartItems1]);
 
   const createItem = (item) => {
     return {
+      _id: item._id,
       imageUrl: item.prod_img[0],
       productName: item.prod_name,
       moneyCurrent: item.prod_cost.$numberDecimal * (1 - item.prod_discount.$numberDecimal),
