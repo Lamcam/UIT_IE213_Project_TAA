@@ -29,9 +29,10 @@ ProductItem.propTypes = {
     prod_color: PropTypes.string.isRequired,
     prod_size: PropTypes.string.isRequired,
   }).isRequired,
+  onFavoriteChange: PropTypes.func
 };
 
-function ProductItem({ product }) {
+function ProductItem({ product, onFavoriteChange}) {
   const [isLiked, setIsLiked] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
@@ -77,6 +78,7 @@ function ProductItem({ product }) {
           });
         }
         setIsLiked(!isLiked);
+        onFavoriteChange();
       } catch (error) {
         console.error('Error toggling favorite:', error);
       }

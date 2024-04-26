@@ -14,20 +14,20 @@ function Favor() {
   const [activePage, setActivePage] = useState(1);
   const productsPerPage = 6;
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/account/favors/${id}`)
-      .then((response) => {
-        const nonNullData = response.data.filter(item => item !== null);
-        console.log(nonNullData)
-        setFavors(nonNullData);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }, []);
+  const fetchFavorites = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/account/favors/${id}`);
+      const nonNullData = response.data.filter(item => item !== null);
+      setFavors(nonNullData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
-  
+  useEffect(() => {
+    fetchFavorites();
+  }, [id]);
+
   const totalPages = Math.ceil(favors.length / productsPerPage);
   const startIndex = (activePage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
@@ -37,6 +37,7 @@ function Favor() {
     setActivePage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
 
   return (
     <div id='orders'>
@@ -50,7 +51,7 @@ function Favor() {
       <Row className="row-cols-1 row-cols-md-3 g-3">
         {currentProducts.map((favor) => (
           <Col key={favor._id}>
-            <ProductItem product={favor} />
+            <ProductItem product={favor} onFavoriteChange={fetchFavorites} />
           </Col>
         ))}
       </Row>
