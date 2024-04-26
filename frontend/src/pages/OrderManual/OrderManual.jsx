@@ -35,7 +35,7 @@ function OrderManual() {
           <div className="button-wrapper">
             <Button1 label="Mua ngay" labelColor="#F1EFE7" backgroundColor="#785B5B" />
           </div>
-          .
+          phía dưới.
         </p>
 
         <p>
@@ -58,45 +58,50 @@ function OrderManual() {
               }
             />{' '}
           </div>
-          , từ trang Giỏ hàng, khách hàng lựa chọn sản phẩm muốn mua nếu các thông số như Màu sắc,
-          Kích cỡ và Số lượng sản phẩm đã phù hợp với nhu cầu của khách hàng, khách hàng thực hiện
-          bấm chọn
+          để lựa chọn thêm sản phẩm. Khi muốn mua hàng, từ trang Giỏ hàng, khách hàng lựa chọn sản
+          phẩm muốn mua sau đó kiểm tra nếu các thông số như Màu sắc, Kích cỡ và Số lượng sản phẩm
+          đã phù hợp với nhu cầu của khách hàng, khách hàng thực hiện bấm chọn
           <div className="button-wrapper">
             <Button1 label="Tiến hành đặt hàng" labelColor="#F1EFE7" backgroundColor="#785B5B" />
           </div>
-          .
+          để hoàn hành các thủ tục mua hàng.
         </p>
         <h2 className="orderManual__step headline-small">
           TIẾN HÀNH ĐẶT HÀNG VÀ THANH TOÁN ĐƠN HÀNG
         </h2>
         <p>Trên trang thanh toán, khách hàng lưu ý điền đầy đủ thông tin bắt buộc cho đơn hàng:</p>
-        <h3 className="orderManual__section-title title-large">Thông tin nhận hàng</h3>
-        <i>
-          * TAA khuyến khích khách hàng mua sắm bằng cách đăng ký tài khoản tại TAA.com để tiết kiệm
-          thời gian và nhận những ưu đãi qua tài khoản. Với tài khoản này, bạn sẽ dễ dàng đặt mua
-          sản phẩm mà không cần điền lại thông tin mỗi lần mua hàng.
-        </i>
-        <ul>
-          <li>
-            Đối với khách hàng đã có tài khoản, xin vui lòng đăng nhập bằng tài khoản đã có sẵn
-            trước khi đặt hàng.
-          </li>
-          <li>
-            Đối với khách hàng chưa có tài khoản, xin vui lòng đăng ký, sau đó đăng nhập tài khoản.
-          </li>
-        </ul>
-        <h3 className="orderManual__section-title title-large">Phương thức vận chuyển</h3>
-        <p>Khách hàng vui lòng chọn phương thức vận chuyển theo nhu cầu:</p>
-        <ul>
-          <li>Giao hàng nhanh trong 2h.</li>
-          <li>Giao hàng trong 48h.</li>
-        </ul>
-        <h3 className="orderManual__section-title title-large">Phương thức thanh toán</h3>
-        <p>Bạn có thể chọn một trong các phương thức thanh toán có sẵn:</p>
-        <ul>
-          <li>Thanh toán khi nhận hàng bằng tiền mặt (COD).</li>
-          <li>Thanh toán trực tuyến qua ngân hàng.</li>
-        </ul>
+        <div class="orderManual__section-content">
+          <h3 className="orderManual__section-title">Thông tin nhận hàng</h3>
+          <p>
+            <em>
+              * TAA khuyến khích khách hàng mua sắm bằng cách đăng ký tài khoản tại TAA.com để tiết
+              kiệm thời gian và nhận những ưu đãi qua tài khoản. Với tài khoản này, bạn sẽ dễ dàng
+              đặt mua sản phẩm mà không cần điền lại thông tin mỗi lần mua hàng.
+            </em>
+          </p>
+          <ul>
+            <li>
+              Đối với khách hàng đã có tài khoản, xin vui lòng đăng nhập bằng tài khoản đã có sẵn
+              trước khi đặt hàng.
+            </li>
+            <li>
+              Đối với khách hàng chưa có tài khoản, xin vui lòng đăng ký, sau đó đăng nhập tài
+              khoản.
+            </li>
+          </ul>
+          <h3 className="orderManual__section-title">Phương thức vận chuyển</h3>
+          <p>Khách hàng vui lòng chọn phương thức vận chuyển theo nhu cầu:</p>
+          <ul>
+            <li>Giao hàng nhanh trong 2h.</li>
+            <li>Giao hàng trong 48h.</li>
+          </ul>
+          <h3 className="orderManual__section-title">Phương thức thanh toán</h3>
+          <p>Bạn có thể chọn một trong các phương thức thanh toán có sẵn:</p>
+          <ul>
+            <li>Thanh toán khi nhận hàng bằng tiền mặt (COD).</li>
+            <li>Thanh toán trực tuyến qua ngân hàng.</li>
+          </ul>
+        </div>
 
         <h2 className="orderManual__step headline-small">XÁC NHẬN ĐƠN HÀNG</h2>
         <p>

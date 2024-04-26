@@ -9,6 +9,7 @@
         background-color: rgba($color: #000000, $alpha: 0);
     }
 
+
     .dropdown-toggle::after{
         opacity: 0;
     }
@@ -19,6 +20,10 @@
         border-radius: 50%;
         padding: 8px;
         color: #000000;
+    }
+
+    .dropdown-item{
+        text-align: end;
     }
 }
 
@@ -34,5 +39,31 @@
         align-items: center;
         justify-content: center;
         
+    }
+}
+
+.log_out_btn{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    
+    background-color: var(--md-source);
+    .log{
+        color: white;
+    }
+    .log:hover{
+        background-color: rgba($color: #000000, $alpha: 0);
+    }
+}
+
+
+
+.dropdown-menu{
+    padding: 0px 0px;
+    padding-top: 6px;
+
+    .dropdown-divider{
+        margin-bottom: 0px;
     }
 }

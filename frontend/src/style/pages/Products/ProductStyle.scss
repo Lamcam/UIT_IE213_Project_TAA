@@ -48,6 +48,10 @@
   padding: 0;
 }
 
+.small-product .product__item {
+  width: 242px;
+}
+
 @media (min-width: 769px) and (max-width: 992px) {
   .product {
     padding: 0 24px;
