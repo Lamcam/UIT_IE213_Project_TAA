@@ -56,7 +56,7 @@ function ProfileUser() {
     if (name === 'user_email') {
       setErrorEmail('');
     }
-    if (name == 'user_username') {
+    if (name === 'user_username') {
       setErrorUsername('')
     }
   };

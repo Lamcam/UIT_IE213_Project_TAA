@@ -114,7 +114,7 @@ function ProfileShippingAddress() {
                     <p className="body-medium">SĐT: {add.loca_pers_phone}</p>
                     {add.is_default && <span className="default-label label-large">Mặc định</span>}
                   </div>
-                  <p className="bank-name body-medium">{add.loca_address}</p>
+                  <p className="bank-name body-medium">{add.loca_address}{add.loca_detail !== "" ? ` - ${add.loca_detail}` : ""}</p>
                 </div>
 
                 <div className="shipping-btn">
