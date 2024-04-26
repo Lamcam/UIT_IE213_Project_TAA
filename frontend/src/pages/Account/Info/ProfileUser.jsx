@@ -8,23 +8,23 @@ import { MdEdit } from 'react-icons/md';
 import AddSuccess from '../Modal/modal--add-success';
 
 function ProfileUser() {
-//   const defaultUserData1 = {
-//     _id: "6623ad37ce5d6d830aaa1815",
-//     user_name: '123',
-//     user_phone: '0966723044',
-//     user_email: "taa@gmail.com",
-//     user_pass: "$2b$10$fcBSGll2TKe0.ZGPCxY1negaTqIQXWE08hnogsNs2.D1FLasYIBhS",
-//     user_avatar: "",
-//     local_default_id: "",
-//     bank_default_id: "",
-//     user_username: "taa",
-//     user_cccd: ""
-//   };
-// // Lưu thông tin người dùng vào Local Storage
-//   localStorage.setItem('user', JSON.stringify(defaultUserData1));
-  const defaultUser = (JSON.parse(localStorage.getItem('user')))[0];
-  const id = defaultUser._id
-  console.log(id)
+  //   const defaultUserData1 = {
+  //     _id: "6623ad37ce5d6d830aaa1815",
+  //     user_name: '123',
+  //     user_phone: '0966723044',
+  //     user_email: "taa@gmail.com",
+  //     user_pass: "$2b$10$fcBSGll2TKe0.ZGPCxY1negaTqIQXWE08hnogsNs2.D1FLasYIBhS",
+  //     user_avatar: "",
+  //     local_default_id: "",
+  //     bank_default_id: "",
+  //     user_username: "taa",
+  //     user_cccd: ""
+  //   };
+  // // Lưu thông tin người dùng vào Local Storage
+  //   localStorage.setItem('user', JSON.stringify(defaultUserData1));
+  const defaultUser = JSON.parse(localStorage.getItem('user'))[0];
+  const id = defaultUser._id;
+  console.log(id);
   const [userData, setUserData] = useState({});
   const [defaultUserData, setDefaultUserData] = useState({});
   useEffect(() => {
@@ -41,24 +41,28 @@ function ProfileUser() {
   const [disabled, setDisabled] = useState(true);
   const [errorPhone, setErrorPhone] = useState('');
   const [errorEmail, setErrorEmail] = useState('');
+  const [errorUsername, setErrorUsername] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData(prevState => ({
+    setUserData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
     if (name === 'user_phone') {
-      setErrorPhone("")
+      setErrorPhone('');
     }
     if (name === 'user_email') {
-      setErrorEmail("")
+      setErrorEmail('');
+    }
+    if (name == 'user_username') {
+      setErrorUsername('')
     }
   };
 
   useEffect(() => {
-    console.log(defaultUserData)
+    console.log(defaultUserData);
     const isDifferent = Object.keys(userData).some((key) => userData[key] !== defaultUserData[key]);
     setDisabled(!isDifferent);
   }, [userData]);
@@ -73,47 +77,64 @@ function ProfileUser() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(userData);
-
-      const phoneRegex = /^(0[1-9])+([0-9]{8,9})\b$/;
-    const emailRegex = /^(?!\s)[a-zA-Z\d.+]+@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d-]{2,}(?<!\s)$/;
-    if (!phoneRegex.test(userData.user_phone) && !emailRegex.test(userData.user_email)) {
-      setErrorPhone("Số điện thoại không hợp lệ!")
-      setErrorEmail("Email không hợp lệ!");
+    if (!userData.user_username.trim() || !userData.user_phone.trim() || !userData.user_email.trim()) {
+      if (!userData.user_username.trim()) {
+        setErrorUsername('Tên người dùng không được để trống!');
+      }
+      if (!userData.user_phone.trim()) {
+        setErrorPhone('Số điện thoại không được để trống!');
+      }
+      if (!userData.user_email.trim()) {
+        setErrorEmail('Email không được để trống!');
+      }
       return;
     }
-    if(!phoneRegex.test(userData.user_phone)){
-      setErrorPhone("Số điện thoại không hợp lệ!");
+
+    const phoneRegex = /^(0[1-9])+([0-9]{8,9})\b$/;
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!phoneRegex.test(userData.user_phone) && !emailRegex.test(userData.user_email)) {
+      setErrorPhone('Số điện thoại không hợp lệ!');
+      setErrorEmail('Email không hợp lệ!');
+      return;
+    }
+    if (!phoneRegex.test(userData.user_phone)) {
+      setErrorPhone('Số điện thoại không hợp lệ!');
       return; // Không gửi form nếu số điện thoại không hợp lệ
     }
-  if (!emailRegex.test(userData.user_email)) {
-    setErrorEmail("Email không hợp lệ!");
-    return; // Không gửi form nếu email không hợp lệ
+    if (!emailRegex.test(userData.user_email)) {
+      setErrorEmail('Email không hợp lệ!');
+      return; // Không gửi form nếu email không hợp lệ
     }
     if (disabled) {
       return;
     }
 
     // Gửi yêu cầu đến server nếu không có lỗi
-    console.log(id)
-    axios.put(`http://localhost:8000/api/account/update-user/${id}`, userData)
-      .then(response => {
+    console.log(id);
+    axios
+      .put(`http://localhost:8000/api/account/update-user/${id}`, userData)
+      .then((response) => {
         // Xử lý phản hồi từ server
         console.log(response.data);
-        setShowSuccess(true)
-        setDisabled(true)
+        setShowSuccess(true);
+        setDisabled(true);
       })
-      .catch(error => {
+      .catch((error) => {
         // Xử lý lỗi từ server
         console.error('Error:', error);
       });
   };
   return (
     <article id="profile-user" className="section__content visible">
-      <h2 className="headline-small" style={{marginTop:"12px"}}>Hồ sơ cá nhân</h2>
-      <p style={{ marginTop: '8px' }} className='body-large'>Quản lý thông tin cá nhân của bạn</p>
+      <h2 className="headline-small" style={{ marginTop: '12px' }}>
+        Hồ sơ cá nhân
+      </h2>
+      <p style={{ marginTop: '8px' }} className="body-large">
+        Quản lý thông tin cá nhân của bạn
+      </p>
       <hr className="hr-title" />
 
-      <form action="/" method="PUT" onSubmit={handleSubmit} className='form__content'>
+      <form action="/" method="PUT" onSubmit={handleSubmit} className="form__content">
         <div className="form__row">
           <Row>
             <label className="col-3 label-large" htmlFor="user_name">
@@ -122,6 +143,7 @@ function ProfileUser() {
             <div className="col-9 input__wrapper">
               <input
                 readOnly
+                disabled
                 className="input__wrapper-child"
                 type="text"
                 id="user_name"
@@ -138,8 +160,7 @@ function ProfileUser() {
             </label>
             <div className="col-9 input__wrapper">
               <input
-                required
-                className="input__wrapper-child"
+                className={`input__wrapper-child ${errorUsername ? 'err-border' : ''}`}
                 type="text"
                 id="user_username"
                 name="user_username"
@@ -151,6 +172,7 @@ function ProfileUser() {
                 backgroundColor="transparent"
                 label={<MdEdit style={{ color: '#524343' }} />}
               />
+              {errorUsername && <div className="err">{errorUsername}</div>}
             </div>
           </Row>
         </div>
@@ -162,8 +184,7 @@ function ProfileUser() {
 
             <div className="col-9 input__wrapper">
               <input
-                required
-                className={`input__wrapper-child ${errorPhone ? "err-border" : ""}`}
+                className={`input__wrapper-child ${errorPhone ? 'err-border' : ''}`}
                 type="text"
                 id="user_phone"
                 name="user_phone"
@@ -177,8 +198,7 @@ function ProfileUser() {
                 backgroundColor="transparent"
                 label={<MdEdit style={{ color: '#524343' }} />}
               />
-                                      {errorPhone && <div className="err">{errorPhone}</div>}
-
+              {errorPhone && <div className="err">{errorPhone}</div>}
             </div>
           </Row>
         </div>
@@ -189,8 +209,7 @@ function ProfileUser() {
             </label>
             <div className="col-9 input__wrapper">
               <input
-                required
-                className={`input__wrapper-child ${errorEmail ? "err-border" : ""}`}
+                className={`input__wrapper-child ${errorEmail ? 'err-border' : ''}`}
                 type="text"
                 id="user_email"
                 name="user_email"
@@ -204,8 +223,7 @@ function ProfileUser() {
                 backgroundColor="transparent"
                 label={<MdEdit style={{ color: '#524343' }} />}
               />
-                        {errorEmail && <div className="err">{errorEmail}</div>}
-
+              {errorEmail && <div className="err">{errorEmail}</div>}
             </div>
           </Row>
         </div>
@@ -216,10 +234,14 @@ function ProfileUser() {
           className="save-btn label-large"
           label="Lưu thay đổi"
           type="submit"
-
           onClick={handleChange}
         />
-    {showSuccess && <AddSuccess onClose={() => setShowSuccess(false)} title={'Cập nhật thông tin thành công!'}/>}
+        {showSuccess && (
+          <AddSuccess
+            onClose={() => setShowSuccess(false)}
+            title={'Cập nhật thông tin thành công!'}
+          />
+        )}
       </form>
     </article>
   );
