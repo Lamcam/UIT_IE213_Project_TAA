@@ -109,6 +109,7 @@ function Products() {
     const startIdx = (page - 1) * productsPerPage;
     const endIdx = startIdx + productsPerPage;
     setFilteredData(data.slice(startIdx, endIdx));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
 

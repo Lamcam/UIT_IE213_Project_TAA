@@ -35,6 +35,7 @@ function Favor() {
 
   const handlePageChange = (page) => {
     setActivePage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
