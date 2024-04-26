@@ -5,7 +5,7 @@ import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import Input from 'components/Common/Input';
 // import Button from 'react-bootstrap/Button';
 import Button from 'components/Common/Button';
-import './footer.module.scss'
+import './footer.scss'
 // import base from 'base.module.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,57 +14,63 @@ const logoStyle = {
   minHeight: '70px',
 }
 
+const descripStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  // gap: '16px'
+
+}
+
 const Footer = () => {
   return (
     <footer className="dark-light mt-12">
       <Container className='footer_container'>
-        <Row className='d-flex justify-content-start' >
-          <Col>
+        <Row className='d-flex justify-content-around' >
+          <Col className='col-4' >
             <img className='img-fluid' src={logo} alt='logo' style={logoStyle} ></img>
-            <p>
-              TAA là một nền tảng thương mại điện tử chuyên về bán đồ phụ kiện trang
-              sức. Với sự tập trung vào việc cung cấp những sản phẩm chất lượng cao
-              và thiết kế độc đáo, TAA đã trở thành điểm đến lý tưởng cho những người
-              đam mê phụ kiện và trang sức.
-              <br></br>
+            <p className='describe'>
               Việc mua hàng của bạn là động lực cho chúng tôi tiếp tục duy trì được công ty.
-              <br></br>
+            </p>
+
+            <p className='describe'>
               Bạn liên hệ với chúng tôi bằng các mạng xã hội dưới đây.
             </p>
 
             <Row>
-              <Col className='col-2'>
+              <Col className='col-1'>
                 <a href="/"><i className="fab fa-facebook-f"><FaFacebook color='blue' size={25} /></i></a>
               </Col>
-              <Col className='col-2'>
+              <Col className='col-1'>
                 <a href="/"><i className="fab fa-instagram"> <FaInstagram color='pink' size={25} /></i></a>
               </Col>
-              <Col className='col-2' >
+              <Col className='col-1' >
                 <a href="/"><i className="fab fa-twitter"> <FaYoutube color='red' size={25} />  </i></a>
               </Col>
             </Row>
 
           </Col>
 
-          <Col>
+          <Col className='col-2'>
             <h3 className='footer__title'>Công ty</h3>
             <ul>
-              <li><a href='/'>Tin tức </a></li>
-              <li><a href="/">Về chúng tôi</a></li>
-              <li><a href="/">Hướng dẫn mua hàng</a></li>
-              <li><a href="/">Chính sách</a></li>
+              <li><a href='/news'>Tin tức </a></li>
+              <li><a href="/about_us">Về chúng tôi</a></li>
+              <li><a href="/guideline">Hướng dẫn mua hàng</a></li>
+              <li><a href="/policy">Chính sách</a></li>
             </ul>
+
+
           </Col>
 
-          <Col sm={0} >
+          <Col className='col-4'>
             <h3 className='footer__title' >Cập nhật về chúng tôi</h3>
             <p>Xác nhận thư điện tử của bạn để nhận được ngay những cập nhật mới nhất từ chúng tôi hàng tuần</p>
 
-            <Row className='input_warrper d-flex justify-content-center align-items-center'>
+            <Row className='input_warrper d-flex align-items-center justify-content-between'>
               <Col className='col-7'>
-                <Input className="email_input" type="email" placeholder="Email Address" />
+                <Input className="email_input" type="email" placeholder="Điền thư điện tử của bạn" />
               </Col>
-              <Col className='col-4'>
+              <Col className='col-4' style={{paddingLeft: '0px'}}>
                 <Button className='btn_reg_log_round_32px btn_clickable_boldcolor' label='Xác nhận' type='submit'>
                 </Button>
               </Col>
@@ -73,11 +79,11 @@ const Footer = () => {
           </Col>
         </Row>
 
-        <Row>
+        {/* <Row>
           <Col className="text-center">
             <p>&copy; 2023 TAA. All rights reserved.</p>
           </Col>
-        </Row>
+        </Row> */}
       </Container>
     </footer>
   );

@@ -72,11 +72,14 @@ function AuthPart() {
               <Dropdown.Item href="/account/orders"><RiBillLine /> Đơn hàng  </Dropdown.Item>
               <Dropdown.Item href="/account/favor"><MdOutlineFavoriteBorder/> Sản phẩm yêu thích  </Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item>
-                <Button className='logout_btn' variant="danger" onClick={handleClickLogOut}>
-                  Đăng xuất
-                </Button>
-              </Dropdown.Item>
+              
+
+              <div className='log_out_btn'>
+                {/* <Dropdown.Item className='log' onClick={handleClickLogOut}> Đăng xuất </Dropdown.Item> */}
+                <div data-rr-ui-dropdown-item className='log dropdown-item' role='button' tabIndex={0}  onClick={handleClickLogOut}>Đăng xuất</div>
+              </div>
+               
+              
             </DropdownButton>
           </Col>
         </Col>
@@ -85,3 +88,6 @@ function AuthPart() {
   );
 }
 export default AuthPart;
+ {/* <Button className='logout_btn' variant="danger" onClick={handleClickLogOut}>
+                  Đăng xuất
+                </Button> */}

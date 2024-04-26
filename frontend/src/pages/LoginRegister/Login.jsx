@@ -64,7 +64,7 @@ function Login() {
                 <h5 className='create_acc_rec'>Bạn chưa có tài khoản ?</h5>
             </div>
 
-            <NavLink to='/register' className='login_btn btn_clickable_boldcolor'>
+            <NavLink to='/register' className='register_btn btn_clickable_lightcolor_outline'>
               Đăng ký
             </NavLink>
           </div>

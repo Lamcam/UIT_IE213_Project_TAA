@@ -8,13 +8,13 @@ import { CgClose } from 'react-icons/cg';
 function EditAddress(props) {
   const [editAddress, setEditAddress] = useState(props.data);
   const [errorPhone, setErrorPhone] = useState('');
+  const [errorName, setErrorName] = useState('');
+  const [errorAddress, setErrorAddress] = useState('');
   const prevData = useRef(props.data);
-  // const inputRefs = useRef({});
   useEffect(() => {
     setEditAddress(props.data);
   }, [props.data]);
   useEffect(() => {
-    // Check if props.data has changed
     if (JSON.stringify(props.data) !== JSON.stringify(prevData.current)) {
       setEditAddress(props.data);
       prevData.current = props.data; // Update previous data
@@ -26,9 +26,30 @@ function EditAddress(props) {
       ...prevState,
       [name]: value,
     }));
+    if (name === 'loca_pers_name') {
+      setErrorName('');
+    }
+    if (name === 'loca_pers_phone') {
+      setErrorPhone('');
+    }
+    if (name === 'loca_address') {
+      setErrorAddress('')
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!editAddress.loca_pers_name.trim() || !editAddress.loca_pers_phone.trim() || !editAddress.loca_address.trim()) {
+      if (!editAddress.loca_pers_name.trim()) {
+        setErrorName('Tên người nhận không được để trống!');
+      }
+      if (!editAddress.loca_pers_phone.trim()) {
+        setErrorPhone('Số điện thoại không được để trống!');
+      }
+      if (!editAddress.loca_address.trim()) {
+        setErrorAddress('Địa chỉ tổng quan không được để trống!');
+      }
+      return;
+    }
     const isDifferent = Object.keys(editAddress).some(
       (key) => editAddress[key] !== prevData.current[key],
     );
@@ -68,8 +89,7 @@ function EditAddress(props) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorName ? "err-border" : ""}`}
                   type="text"
                   id="loca_pers_name"
                   name="loca_pers_name"
@@ -86,7 +106,6 @@ function EditAddress(props) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
                   className={`input__wrapper-child ${errorPhone ? 'err-border' : ''}`}
                   type="text"
                   id="loca_pers_phone"
@@ -106,8 +125,7 @@ function EditAddress(props) {
 
               <div className="col-9 input__wrapper">
                 <input
-                  required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorAddress ? "err-border" : ""}`}
                   type="text"
                   id="loca_address"
                   name="loca_address"
@@ -125,7 +143,6 @@ function EditAddress(props) {
 
               <div className="col-9 input__wrapper">
                 <input
-                  required
                   className="input__wrapper-child"
                   type="text"
                   id="loca_detail"

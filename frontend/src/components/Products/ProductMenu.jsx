@@ -12,20 +12,26 @@ function ProductMenu(props) {
 
     const handleClick = (category, subCategory = '') => {
         console.log(`${category} - ${subCategory}`);
+        // Lưu trạng thái trước đó của activeCategory
+        const prevActiveCategory = activeCategory;
+
+        document.querySelectorAll('.aside__item__sub-menu .category').forEach(item => {
+            item.classList.remove('active_sub');
+        });
         if (subCategory !== '') {
             // Xử lý khi người dùng chọn subcategory
             setActiveSubCategory(activeSubCategory === subCategory ? null : subCategory);
             props.onCategoryClick(category, activeSubCategory === subCategory ? '' : subCategory);
         } else {
             // Xử lý khi người dùng chỉ chọn category
-            setActiveCategory(activeCategory === category ? null : category);
-            props.onCategoryClick(category, ''); // Truyền chuỗi rỗng cho subcategory
+            setActiveCategory(prevActiveCategory === category ? null : category);
+            props.onCategoryClick(prevActiveCategory === category ? null : category, ''); // Truyền chuỗi rỗng cho subcategory
         }
     };
 
     return (
-        <Row lg={12} className="product__menu">
-            <ul className="aside__list body-large visible">
+        <div className="product__menu menu__category">
+            <ul className="aside__list body-large">
                 <li className="aside__item title_aside_item">
                     <span className="item__title">
                         <IoMenuSharp className='icon-menu' />
@@ -96,7 +102,7 @@ function ProductMenu(props) {
                     </ul>
                 </li>
             </ul>
-        </Row>
+        </div>
     );
 }
 

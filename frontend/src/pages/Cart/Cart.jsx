@@ -8,10 +8,27 @@ import { useAsyncValue } from 'react-router-dom';
 import axios from 'axios';
 
 function Cart(props) {
-  const temporaryAmount = 350000;
-  const discountAmount = 50000;
+  const [temporaryAmount, setTemporaryAmount] = useState(0);
+  let discountAmount;
+  if (temporaryAmount > 0) {
+    const min = 5000; // Giá trị nhỏ nhất
+    const max = 50000; // Giá trị lớn nhất
+    const step = 5000; // Bước nhảy
+
+    // Tính toán số ngẫu nhiên
+    const randomSteps = Math.floor(Math.random() * ((max - min) / step + 1));
+    discountAmount = min + randomSteps * step;
+  } else {
+    discountAmount = 0;
+  }
   const totalAmount = temporaryAmount - discountAmount;
   const [cartItems1, setCartItems] = useState([]);
+  const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
+
+  const handleCheckedItemsChange = (checkedItemsInfo) => {
+    setCheckedItemsInfo(checkedItemsInfo);
+  };
+  console.log(checkedItemsInfo)
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -62,34 +79,35 @@ function Cart(props) {
 
   // Danh sách các mục trong giỏ hàng
   //
-  const cartItems = [
-    {
-      imageUrl: 'https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825',
-      productName: 'Vongf tay ddinhs ddas raats rta nhieu ne haha',
-      moneyCurrent: 100000,
-      moneyBeforeDiscount: 150000,
-    },
-    {
-      imageUrl: 'https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825',
-      productName: 'Ten san pham 2',
-      moneyCurrent: 120000,
-      // moneyBeforeDiscount: 170000
-    },
-    // Thêm các mục khác nếu cần
-  ];
+  // const cartItems = [
+  //   {
+  //     imageUrl: 'https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825',
+  //     productName: 'Vongf tay ddinhs ddas raats rta nhieu ne haha',
+  //     moneyCurrent: 100000,
+  //     moneyBeforeDiscount: 150000,
+  //   },
+  //   {
+  //     imageUrl: 'https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825',
+  //     productName: 'Ten san pham 2',
+  //     moneyCurrent: 120000,
+  //     // moneyBeforeDiscount: 170000
+  //   },
+  //   // Thêm các mục khác nếu cần
+  // ];
 
   return (
     <Container className="cart">
       <Row className="cart__content">
         <Col lg={9} md={12} className="cart__content__item">
           {/* Truyền danh sách các mục vào CartItem */}
-          <CartItem cartItems={cartItems1} />
+          <CartItem cartItems={cartItems1} setMoneyAll={setTemporaryAmount} onCheckedItemsChange={handleCheckedItemsChange}/>
         </Col>
         <Col lg={3} md={12} className="cart__content__bill">
           <CartBill
             temporaryAmount={temporaryAmount}
             discountAmount={discountAmount}
             totalAmount={totalAmount}
+            checkedItemsInfo={checkedItemsInfo}
           />
         </Col>
       </Row>

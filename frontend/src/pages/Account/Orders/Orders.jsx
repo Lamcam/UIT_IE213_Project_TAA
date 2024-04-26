@@ -14,7 +14,7 @@ function Orders() {
   const id = "65f3ea44a8f986b1aca6929a"
   const [orders, setOrders] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const ordersPerPage = 6;
+  const ordersPerPage = 1;
 
   useEffect(() => {
     axios
@@ -58,6 +58,12 @@ function Orders() {
 
   const handlePageChange = (page) => {
     setActivePage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const formatPrice = (price) => {
+    const priceNumber = parseFloat(price);
+    let formattedPrice = priceNumber.toLocaleString('vi-VN', { maximumFractionDigits: 0 });
+    return formattedPrice.trim();
   };
 
   return (
@@ -95,14 +101,14 @@ function Orders() {
                         </p>
                         <p className="price">
                           <label>Giá tiền:</label>{' '}
-                          {parseFloat(ord.orderDetail.price.$numberDecimal) + ' đ'}
+                          {formatPrice(parseFloat(ord.orderDetail.price.$numberDecimal)) + ' đ'}
                         </p>
                       </div>
                       <div className="total-cost body-large">
                         <p>
                           <label>Thành tiền:</label>{' '}
-                          {parseFloat(ord.orderDetail.price.$numberDecimal) *
-                            ord.orderDetail.quantity +
+                          {formatPrice(parseFloat(ord.orderDetail.price.$numberDecimal) *
+                            ord.orderDetail.quantity) +
                             ' đ'}
                           {/* {parseFloat(order.order.order_total_cost.$numberDecimal) + ' đ'} */}
                         </p>

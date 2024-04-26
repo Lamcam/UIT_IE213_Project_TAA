@@ -13,15 +13,39 @@ function AddAddress(props) {
     loca_detail: '',
   });
   const [errorPhone, setErrorPhone] = useState('');
+  const [errorName, setErrorName] = useState('');
+  const [errorAddress, setErrorAddress] = useState('');
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewShippingAddress((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    if (name === 'loca_pers_name') {
+      setErrorName('');
+    }
+    if (name === 'loca_pers_phone') {
+      setErrorPhone('');
+    }
+    if (name === 'loca_address') {
+      setErrorAddress('')
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!newShippingAddress.loca_pers_name.trim() || !newShippingAddress.loca_pers_phone.trim() || !newShippingAddress.loca_address.trim()) {
+      if (!newShippingAddress.loca_pers_name.trim()) {
+        setErrorName('Tên người nhận không được để trống!');
+      }
+      if (!newShippingAddress.loca_pers_phone.trim()) {
+        setErrorPhone('Số điện thoại không được để trống!');
+      }
+      if (!newShippingAddress.loca_address.trim()) {
+        setErrorAddress('Địa chỉ tổng quan không được để trống!');
+      }
+      return;
+    }
+    
     const phoneRegex = /^(0[1-9])+([0-9]{8,9})\b$/;
     if (!phoneRegex.test(newShippingAddress.loca_pers_phone)) {
       setErrorPhone('Số điện thoại không hợp lệ!');
@@ -56,14 +80,15 @@ function AddAddress(props) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorName ? "err-border" : ""}`}
                   type="text"
                   id="loca_pers_name"
                   name="loca_pers_name"
                   value={newShippingAddress.loca_pers_name}
                   onChange={handleChange}
                 />
+{errorName && <div className="err">{errorName}</div>}
+
               </div>
             </Row>
           </div>
@@ -74,7 +99,6 @@ function AddAddress(props) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
                   className={`input__wrapper-child ${errorPhone ? "err-border" : ""}`}
                   type="text"
                   id="loca_pers_phone"
@@ -95,14 +119,15 @@ function AddAddress(props) {
 
               <div className="col-9 input__wrapper">
                 <input
-                  required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorAddress ? "err-border" : ""}`}
                   type="text"
                   id="loca_address"
                   name="loca_address"
                   value={newShippingAddress.loca_address}
                   onChange={handleChange}
                 />
+                                                {errorAddress && <div className="err">{errorAddress}</div>}
+
               </div>
             </Row>
           </div>
@@ -114,7 +139,6 @@ function AddAddress(props) {
 
               <div className="col-9 input__wrapper">
                 <input
-                  required
                   className="input__wrapper-child"
                   type="text"
                   id="loca_detail"

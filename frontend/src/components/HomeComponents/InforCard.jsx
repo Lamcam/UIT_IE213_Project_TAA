@@ -5,7 +5,7 @@ function InforCard(props) {
     return (
         <Card className={props.className}>
             <Card.Body>
-                <Card.Title>{props.title}</Card.Title>
+                <Card.Title style={{textAlign: 'center'}}>{props.title}</Card.Title>
                 <Card.Text>
                     {props.text}
                 </Card.Text>
