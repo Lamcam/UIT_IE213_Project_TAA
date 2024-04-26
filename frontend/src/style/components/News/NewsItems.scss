@@ -27,9 +27,9 @@
   }
 }
 
-.news__card:hover {
-  cursor: pointer;
-}
+// .news__card:hover {
+//   cursor: pointer;
+// }
 
 .article__title {
   font-weight: bold;
@@ -42,6 +42,9 @@
   color: #000000;
 }
 
+.article__title:hover {
+  color: #9c4048;
+}
 
 .article__context {
   text-align: justify;
