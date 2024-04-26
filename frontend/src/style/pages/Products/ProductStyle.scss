@@ -45,6 +45,10 @@
   padding: 0;
 }
 
+.small-product .product__item {
+  width: 242px;
+}
+
 @media (min-width: 769px) and (max-width: 992px) {
   .product__content {
     gap: 1rem;
