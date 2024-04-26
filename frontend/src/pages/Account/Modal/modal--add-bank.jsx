@@ -15,12 +15,26 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
   });
   const [errorCCCD, setErrorCCCD] = useState('');
   const [errorBankNumber, setErrorBankNumber] = useState('');
+  const [errorBankName, setErrorBankName] = useState('');
+  const [errorBankPersName, setErrorBankPersName] = useState('');
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewCardData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    if (name === 'bank_pers_name') {
+      setErrorBankPersName('');
+    }
+    if (name === 'bank_pers_cccd') {
+      setErrorCCCD('');
+    }
+    if (name == 'bank_name') {
+      setErrorBankName('')
+    }
+    if (name == 'bank_number') {
+      setErrorBankNumber('')
+    }
   };
 
   // // Hàm xử lý khi mở Modal 2
@@ -31,22 +45,43 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !newCardData.bank_pers_name.trim() ||
+      !newCardData.bank_pers_cccd.trim() ||
+      !newCardData.bank_name.trim() ||
+      !newCardData.bank_number.trim()
+    ) {
+      if (!newCardData.bank_pers_name.trim()) {
+        setErrorBankPersName('Tên người nhận không được để trống!');
+      }
+      if (!newCardData.bank_pers_cccd.trim()) {
+        setErrorCCCD('CCCD không được để trống!');
+      }
+      if (!newCardData.bank_name.trim()) {
+        setErrorBankName('Tên ngân hàng không được để trống!');
+      }
+      if (!newCardData.bank_number.trim()) {
+        setErrorBankNumber('Số tài khoản không được để trống!');
+      }
+      return;
+    }
+
     const cccdRegex = /^\d{12}$/;
-    const bankNumberRegex = /^\d+$/;
+    const bankNumberRegex = /^[0-9]{9,15}$/;
     if (
       !cccdRegex.test(newCardData.bank_pers_cccd) &&
       !bankNumberRegex.test(newCardData.bank_number)
     ) {
-      setErrorCCCD('CCCD không hợp lệ!');
-      setErrorBankNumber('Số tài khoản không hợp lệ!');
+      setErrorCCCD('CCCD phải chứa 12 chữ số!');
+      setErrorBankNumber('Số tài khoản phải chứa từ 9 đến 15 chữ số!');
       return;
     }
     if (!cccdRegex.test(newCardData.bank_pers_cccd)) {
-      setErrorCCCD('CCCD không hợp lệ!');
+      setErrorCCCD('CCCD phải chứa 12 chữ số!');
       return; // Không gửi form nếu cccd không hợp lệ
     }
     if (!bankNumberRegex.test(newCardData.bank_number)) {
-      setErrorBankNumber('Số tài khoản không hợp lệ!');
+      setErrorBankNumber('Số tài khoản phải chứa từ 9 đến 15 chữ số!');
       return; // Không gửi form nếu STK không hợp lệ
     }
     axios
@@ -79,14 +114,14 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorBankPersName ? "err-border" : ""}`}
                   type="text"
                   id="bank_pers_name"
                   name="bank_pers_name"
                   value={newCardData.bank_pers_name}
                   onChange={handleChange}
                 />
+                                {errorBankPersName && <div className="err">{errorBankPersName}</div>}
               </div>
             </Row>
           </div>
@@ -97,7 +132,6 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
                   className={`input__wrapper-child ${errorCCCD ? "err-border" : ""}`}
                   type="text"
                   id="bank_pers_cccd"
@@ -117,14 +151,14 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
 
               <div className="col-9 input__wrapper">
                 <input
-                  required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorBankName ? "err-border" : ""}`}
                   type="text"
                   id="bank_name"
                   name="bank_name"
                   value={newCardData.bank_name}
                   onChange={handleChange}
                 />
+                                {errorBankName && <div className="err">{errorBankName}</div>}
               </div>
             </Row>
           </div>
@@ -135,7 +169,6 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
                   className={`input__wrapper-child ${errorBankNumber ? "err-border" : ""}`}
                   type="text"
                   id="bank_number"
