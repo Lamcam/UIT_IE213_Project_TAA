@@ -8,6 +8,7 @@ import PaymentMethod from 'components/Orders/PaymentMethod';
 import "style/pages/Order/Order.scss"
 import OrderBill from 'components/Orders/OrderBill';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 Order.propTypes = {
 
 };
@@ -20,39 +21,42 @@ Order.propTypes = {
 // };
 
 
-const orderItems = [
-    {
-        imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-        productName: "Vongf tay ddinhs ddas raats rta nhieu ne haha",
-        moneyCurrent: 100000,
-        // moneyBeforeDiscount: 150000
-        number: 1,
-    },
-    {
-        imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-        productName: "Ten san pham 2",
-        moneyCurrent: 120000,
-        // moneyBeforeDiscount: 170000
-        number: 1,
-    },
-    {
-        imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-        productName: "Ten san pham 3",
-        moneyCurrent: 120000,
-        // moneyBeforeDiscount: 170000
-        number: 1,
-    },
-    {
-        imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-        productName: "Ten san pham 4",
-        moneyCurrent: 120000,
-        // moneyBeforeDiscount: 170000
-        number: 1,
-    },
-];
-const totalOrderAmount = orderItems.reduce((total, item) => total + (item.moneyCurrent * item.number), 0);
+// const orderItems = [
+//     {
+//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
+//         productName: "Vongf tay ddinhs ddas raats rta nhieu ne haha",
+//         moneyCurrent: 100000,
+//         // moneyBeforeDiscount: 150000
+//         number: 1,
+//     },
+//     {
+//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
+//         productName: "Ten san pham 2",
+//         moneyCurrent: 120000,
+//         // moneyBeforeDiscount: 170000
+//         number: 1,
+//     },
+//     {
+//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
+//         productName: "Ten san pham 3",
+//         moneyCurrent: 120000,
+//         // moneyBeforeDiscount: 170000
+//         number: 1,
+//     },
+//     {
+//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
+//         productName: "Ten san pham 4",
+//         moneyCurrent: 120000,
+//         // moneyBeforeDiscount: 170000
+//         number: 1,
+//     },
+// ];
 
 function Order(props) {
+    const location = useLocation();
+    const orderItems = location.state?.data;
+const totalOrderAmount = orderItems.reduce((total, item) => total + (item.moneyCurrent * item.number), 0);
+
     const [deliveryInformation, setDeliveryInformation] = useState('')
 const defaultUser = JSON.parse(localStorage.getItem('user'));
 const defaultUserData = defaultUser[0]

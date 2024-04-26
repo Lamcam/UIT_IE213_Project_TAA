@@ -21,6 +21,7 @@ function CartItem(props) {
   const [quantity, setQuantity] = useState({});
   const [checkedItems, setCheckedItems] = useState([]);
   const [allItemsChecked, setAllItemsChecked] = useState(false);
+  const [checkedItemsInfo, setCheckedItemsInfo]=useState([])
 
   useEffect(() => {
     const initialCheckedItems = Array(props.cartItems.length).fill(false);
@@ -34,6 +35,17 @@ function CartItem(props) {
 
   useEffect(() => {
     calculateTotalPrice();
+    const checkedItemsInfo = [];
+  
+      checkedItems.forEach((item, i) => {
+        if (item === true) {
+          // item.number = quantity[i] || 1; // Thêm thuộc tính number vào đối tượng item
+          props.cartItems[i].number = quantity[i] || 1
+          checkedItemsInfo.push(props.cartItems[i]); // Đưa đối tượng item vào mảng checkedItemsInfo
+        }
+      });
+      setCheckedItemsInfo(checkedItemsInfo);
+      props.onCheckedItemsChange(checkedItemsInfo)
   }, [checkedItems, quantity]);
 
   const handleCheckboxClick = (index) => {
@@ -43,6 +55,7 @@ function CartItem(props) {
       return newCheckedItems;
     });
   };
+  
 
   const handleAllCheckboxClick = () => {
     setAllItemsChecked((prevState) => !prevState);
@@ -92,6 +105,17 @@ function CartItem(props) {
     return formattedPrice.trim();
   };
 
+  // const getCheckedItem = () => {
+  //   const checkedItemsInfo = [];
+  
+  //   props.cartItems.forEach((item, index) => {
+  //     if (checkedItems[index]) {
+  //       checkedItemsInfo.push(item);
+  //     }
+  //   });
+  // setCheckedItemsInfo(checkedItemsInfo)
+  // }
+  // console.log(checkedItemsInfo)
   return (
     <Table borderless responsive="lg" className="table__cart__item">
       <thead className="cart__item__thead title-medium">
@@ -172,7 +196,6 @@ function CartItem(props) {
             </td>
             <td>
               <div className="item__total__money">
-                {/* {formatPrice((quantity[index] || 1) * item.moneyCurrent)} đ */}
                 {formatPrice(calculateSubtotal(index))} đ
               </div>
             </td>

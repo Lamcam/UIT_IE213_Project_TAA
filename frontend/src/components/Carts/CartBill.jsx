@@ -2,12 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import  Button from 'components/Common/Button1';
 import 'style/components/Carts/CartBill.scss';
+import { useNavigate } from 'react-router-dom';
+
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 function CartBill(props) {
   const { temporaryAmount, discountAmount, totalAmount } = props;
-
+  const navigate = useNavigate();
+  const handleOrder = () => {
+    console.log(props.checkedItemsInfo)
+    navigate('/order', { state: { data: props.checkedItemsInfo } });
+  }
+  
   return (
     <div className="cart__bill">
       <div className="cart__bill__header title-large">Hóa đơn của bạn</div>
@@ -33,7 +40,7 @@ function CartBill(props) {
                   <Button
                       className="body-large"
                       label="Tiến hành đặt hàng"
-                      onClick={() => (window.location.href = `/order`)}
+                      onClick={handleOrder}
 
                   />
         </div>

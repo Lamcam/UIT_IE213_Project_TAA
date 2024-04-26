@@ -5,9 +5,9 @@ import Button from 'components/Common/Button1'
 import { MdEdit } from 'react-icons/md';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-// function numberWithCommas(x) {
-//     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-// }
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 OrderBill.propTypes = {
     orderItems: PropTypes.arrayOf(
         PropTypes.shape({
@@ -60,8 +60,7 @@ function OrderBill(props) {
                         <div className="order__product__name">{item.productName}</div>
                         <div className="order__product__number__price">
                             <div className="order__product__number">SL: {item.number}</div>
-                            {/* <div className="order__product__price">x{numberWithCommas(item.moneyCurrent)} đ</div> */}
-                            <div className="order__product__price">x{item.moneyCurrent} đ</div>
+                            <div className="order__product__price">x{numberWithCommas(item.moneyCurrent)} đ</div>
 
                         </div>
                     </div>
@@ -73,8 +72,7 @@ function OrderBill(props) {
             <div className="order__bill__line"></div>
             <div className="order__bill__money__temporary title-medium">
                 <div className="money__temporary__title">Tạm tính:</div>
-                {/* <div className="money__temporary__value">{numberWithCommas(props.totalOrderAmount)} đ</div> */}
-                <div className="order__product__price">x{props.totalOrderAmount} đ</div>
+                <div className="money__temporary__value">{numberWithCommas(props.totalOrderAmount)} đ</div>
 
             </div>
             <div className="order__bill__money__ship title-medium">
@@ -84,8 +82,7 @@ function OrderBill(props) {
             <div className="order__bill__line"></div>
             <div className="order__bill__total__money title-medium">
                 <div className="money__total__title">Thành tiền:</div>
-                {/* <div className="money__total__value">{numberWithCommas(props.totalOrderAmount)} đ</div> */}
-                <div className="money__total__value">{props.totalOrderAmount} đ</div>
+                <div className="money__total__value">{numberWithCommas(props.totalOrderAmount)} đ</div>
 
             </div>
             <div className="order__bill__note title-medium">Đã bao gồm VAT, phí đóng gói, phí vận chuyển và cả chi phí khác.</div>
