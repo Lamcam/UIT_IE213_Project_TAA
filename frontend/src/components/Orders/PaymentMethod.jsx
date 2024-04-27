@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Button1 from "components/Common/Button1"
+import Button1 from 'components/Common/Button1';
 import { MdOutlineRadioButtonChecked, MdOutlineRadioButtonUnchecked } from 'react-icons/md';
 import 'style/components/Orders/PaymentMethod.scss';
 import ModalDeliveryPayment from './Modal--DeliveryPayment';
-
+import notFound from '../../assets/image/account/no-data.jpg';
 function PaymentMethod(props) {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [notBankCard, setNotBankCard] = useState(false);
   const [deliveryPaymentDefault, setDeliveryPaymentDefault] = useState('');
-  const [isModalDeliveryPayment, setIsModalDeliveryPayment] = useState(false)
+  const [isModalDeliveryPayment, setIsModalDeliveryPayment] = useState(false);
+  const [selectedItems, setSelectedItems] = useState({});
 
   // Hàm xử lý sự kiện khi click vào một nút
   const handleClick = (index) => {
@@ -19,21 +21,24 @@ function PaymentMethod(props) {
     // Nếu không, cập nhật trạng thái của nút mới được chọn
     setSelectedOption(index);
     props.onPaymentMethodChange(index === 0 || index === 1);
-    if (index === 1) {
-      axios
-        .get(`http://localhost:8000/api/account/bank-cards/${props.id}`)
-        .then((response) => {
+  };
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/account/bank-cards/${props.id}`)
+      .then((response) => {
+        if (Array.isArray(response.data) && response.data.length === 0) {
+          setNotBankCard(true);
+        } else {
           const bankCardDefault = response.data.find((item) => {
             return item.is_default === true;
           });
           setDeliveryPaymentDefault(bankCardDefault);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-  };
-
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
   // Hàm để che dấu số tài khoản, chỉ hiển thị 4 số cuối
   const maskBankNumber = (bankNumber) => {
     // Kiểm tra xem bankNumber có tồn tại không
@@ -45,6 +50,9 @@ function PaymentMethod(props) {
     const masked = bankNumber.substring(0, bankNumber.length - 4).replace(/\d/g, '*');
     const lastFourDigits = bankNumber.substring(bankNumber.length - 4);
     return masked + lastFourDigits;
+  };
+  const handleCheckedItems = (item) => {
+    setSelectedItems(item);
   };
 
   return (
@@ -66,21 +74,43 @@ function PaymentMethod(props) {
         )}
         <span>Thanh toán trực tuyến qua ngân hàng</span>
       </div>
-      {selectedOption === 1 && (
+      <ModalDeliveryPayment
+        show={isModalDeliveryPayment}
+        onHide={() => setIsModalDeliveryPayment(false)}
+        onCheckedItems={handleCheckedItems}
+      />
+
+      {selectedOption === 1 && (notBankCard ? (
+              <div className="no-data">
+                <p className="body-large">Không có tài khoản thanh toán được tìm thấy</p>
+                <img src={notFound} alt="Not found" />
+              </div>
+            ):(
         <div className="account-item__wrapper">
-          <div className="account-info">
+          <div className="account-info" style={{ paddingLeft: '48px' }}>
             <div className="account-number-default">
               <p className="body-large" style={{ marginBottom: '0' }}>
                 STK:
               </p>
               <p className="body-large" style={{ marginBottom: '0' }}>
-                {maskBankNumber(deliveryPaymentDefault.bank_number)}{' '}
+                {maskBankNumber(
+                  Object.keys(selectedItems).length === 0
+                    ? deliveryPaymentDefault.bank_number
+                    : selectedItems.bank_number,
+                )}{' '}
               </p>
-              {deliveryPaymentDefault.is_default && (
+              {(Object.keys(selectedItems).length === 0
+                ? deliveryPaymentDefault.is_default
+                : selectedItems.is_default) && (
                 <span className="default-label label-large">Mặc định</span>
               )}
             </div>
-            <p className="bank-name body-large">Ngân hàng {deliveryPaymentDefault.bank_name}</p>
+            <p className="bank-name body-large">
+              Ngân hàng{' '}
+              {Object.keys(selectedItems).length === 0
+                ? deliveryPaymentDefault.bank_name
+                : selectedItems.bank_name}
+            </p>
           </div>
 
           <div className="bank-btn">
@@ -91,12 +121,11 @@ function PaymentMethod(props) {
               className="set-default-btn label-large"
               label="Thay đổi"
               type="button"
-              // onClick={() => handleSetDefault(bankCard, bankCard._id, id)}
+              onClick={() => setIsModalDeliveryPayment(true)}
             />
-            <ModalDeliveryPayment/>
           </div>
         </div>
-      )}
+      ))}
     </div>
   );
 }
