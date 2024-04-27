@@ -57,7 +57,9 @@ function Order(props) {
     const orderItems = location.state?.data;
     // const totalOrderAmount = orderItems.reduce((total, item) => total + (item.moneyCurrent * item.number), 0);
     const totalOrderAmount = location.state?.total
-
+    const temporaryAmount = location.state?.temporary
+    const discountAmount = location.state?.discount
+    console.log(location.state)
     const [deliveryInformation, setDeliveryInformation] = useState('')
 const defaultUser = JSON.parse(localStorage.getItem('user'));
 const defaultUserData = defaultUser[0]
@@ -92,7 +94,8 @@ const onSuccess = () => {
     const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
 
     const handleDeliveryMethodChange = (selected) => {
-        setDeliveryMethodSelected(selected);
+        setDeliveryMethodSelected(selected)
+        
     };
 
     const handlePaymentMethodChange = (selected) => {
@@ -109,13 +112,18 @@ const onSuccess = () => {
                     <DeliveryMethod
                         onDeliveryMethodChange={handleDeliveryMethodChange} />
                     <PaymentMethod
-                        onPaymentMethodChange={handlePaymentMethodChange} />
+                        onPaymentMethodChange={handlePaymentMethodChange}
+                        // deliveryPaymentDefault={deliveryPaymentDefault}
+                        id={id}
+                    />
                 </Col>
                 <Col lg={4} md={12} className="order__content__bill">
                     <OrderBill
                         orderItems={orderItems}
                         totalOrderAmount={totalOrderAmount}
                         deliveryMethodSelected={deliveryMethodSelected} paymentMethodSelected={paymentMethodSelected}
+                        temporaryAmount={temporaryAmount}
+                        discountAmount={discountAmount}
                     />
                 </Col>
             </Row>
