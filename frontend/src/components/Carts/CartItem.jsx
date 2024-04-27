@@ -4,6 +4,8 @@ import { Table } from 'react-bootstrap';
 import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import 'style/components/Carts/CartItem.scss';
+import axios from 'axios';
+import { useDeleteCartItem } from 'hooks/useDeleteCartIem';
 
 CartItem.propTypes = {
   cartItems: PropTypes.arrayOf(
@@ -18,12 +20,12 @@ CartItem.propTypes = {
   // calculateTotalPriceFunction: PropTypes.func.isRequired, // Thêm prop mới
 };
 
-function CartItem(props) {
+function CartItem(props, id) {
+  const { deleteFromCart } = useDeleteCartItem();
   const [quantity, setQuantity] = useState({});
   const [checkedItems, setCheckedItems] = useState([]);
   const [allItemsChecked, setAllItemsChecked] = useState(false);
-  const [checkedItemsInfo, setCheckedItemsInfo] = useState([])
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
 
   useEffect(() => {
     const initialCheckedItems = Array(props.cartItems.length).fill(false);
@@ -38,16 +40,16 @@ function CartItem(props) {
   useEffect(() => {
     calculateTotalPrice();
     const checkedItemsInfo = [];
-  
-      checkedItems.forEach((item, i) => {
-        if (item === true) {
-          // item.number = quantity[i] || 1; // Thêm thuộc tính number vào đối tượng item
-          props.cartItems[i].number = quantity[i] || 1
-          checkedItemsInfo.push(props.cartItems[i]); // Đưa đối tượng item vào mảng checkedItemsInfo
-        }
-      });
-      setCheckedItemsInfo(checkedItemsInfo);
-      props.onCheckedItemsChange(checkedItemsInfo)
+
+    checkedItems.forEach((item, i) => {
+      if (item === true) {
+        // item.number = quantity[i] || 1; // Thêm thuộc tính number vào đối tượng item
+        props.cartItems[i].number = quantity[i] || 1;
+        checkedItemsInfo.push(props.cartItems[i]); // Đưa đối tượng item vào mảng checkedItemsInfo
+      }
+    });
+    setCheckedItemsInfo(checkedItemsInfo);
+    props.onCheckedItemsChange(checkedItemsInfo);
   }, [checkedItems, quantity]);
 
   const handleCheckboxClick = (index) => {
@@ -57,7 +59,6 @@ function CartItem(props) {
       return newCheckedItems;
     });
   };
-  
 
   const handleAllCheckboxClick = () => {
     setAllItemsChecked((prevState) => !prevState);
@@ -110,7 +111,7 @@ function CartItem(props) {
 
   // const getCheckedItem = () => {
   //   const checkedItemsInfo = [];
-  
+
   //   props.cartItems.forEach((item, index) => {
   //     if (checkedItems[index]) {
   //       checkedItemsInfo.push(item);
@@ -151,22 +152,26 @@ function CartItem(props) {
             </td>
             <td>
               <div className="info__product">
-                <img className="img__product" src={item.imageUrl} alt={item.productName} />
-                <span className="name__product">{item.productName}</span>
+                <img
+                  className="img__product"
+                  src={item.product.imageUrl}
+                  alt={item.product.productName}
+                />
+                <span className="name__product">{item.product.productName}</span>
               </div>
             </td>
             <td>
               <div
                 className={
-                  item.moneyBeforeDiscount
+                  item.product.moneyBeforeDiscount
                     ? 'item__money__product have__discount'
                     : 'item__money__product'
                 }
               >
-                <span className="money__current">{formatPrice(item.moneyCurrent)} đ</span>
-                {item.moneyBeforeDiscount && (
+                <span className="money__current">{item.product.moneyCurrent} đ</span>
+                {item.product.moneyBeforeDiscount && (
                   <span className="money__befor__discount primary-text">
-                    {formatPrice(item.moneyBeforeDiscount)} đ
+                    {item.product.moneyBeforeDiscount} đ
                   </span>
                 )}
               </div>
@@ -199,12 +204,17 @@ function CartItem(props) {
             </td>
             <td>
               <div className="item__total__money">
-                {formatPrice(calculateSubtotal(index))} đ
+                {/* {formatPrice(calculateSubtotal(index))} đ */}
+                {(quantity[index] || 1) * item.product.moneyCurrent} đ
               </div>
             </td>
             <td>
               <div className="item__delete__product">
-                <RiDeleteBin6Line className="icon__delete primary-text" />
+                <RiDeleteBin6Line
+                  className="icon__delete primary-text"
+                  method="delete"
+                  onClick={() => deleteFromCart(item?._doc?._id)}
+                />
               </div>
             </td>
           </tr>

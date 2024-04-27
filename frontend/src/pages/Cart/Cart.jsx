@@ -28,7 +28,7 @@ function Cart(props) {
   const handleCheckedItemsChange = (checkedItemsInfo) => {
     setCheckedItemsInfo(checkedItemsInfo);
   };
-  console.log(checkedItemsInfo)
+  console.log(checkedItemsInfo);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -43,7 +43,16 @@ function Cart(props) {
           user_id: userID,
         });
         if (res.status === 200) {
-          setCartItems(res.data.map((item) => createItem(item)));
+          const data = res.data.map((item) => {
+            const productObject = item.product.length > 0 ? item.product[0] : null;
+            return {
+              ...item,
+              product: createItem(productObject),
+            };
+          });
+          setCartItems(data);
+
+          console.log('cartitm', data);
           return res.data;
         } else if (res.status === 404) {
           alert('Cart is empty or user not found');
@@ -60,6 +69,7 @@ function Cart(props) {
 
   const createItem = (item) => {
     return {
+      _id: item._id,
       imageUrl: item.prod_img[0],
       productName: item.prod_name,
       moneyCurrent: item.prod_cost.$numberDecimal * (1 - item.prod_discount.$numberDecimal),
@@ -90,7 +100,11 @@ function Cart(props) {
       <Row className="cart__content">
         <Col lg={9} md={12} className="cart__content__item">
           {/* Truyền danh sách các mục vào CartItem */}
-          <CartItem cartItems={cartItems1} setMoneyAll={setTemporaryAmount} onCheckedItemsChange={handleCheckedItemsChange} totalAmount={totalAmount}/>
+          <CartItem
+            cartItems={cartItems1}
+            setMoneyAll={setTemporaryAmount}
+            onCheckedItemsChange={handleCheckedItemsChange}
+          />
         </Col>
         <Col lg={3} md={12} className="cart__content__bill">
           <CartBill
