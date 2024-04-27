@@ -20,6 +20,8 @@ OrderBill.propTypes = {
     totalOrderAmount: PropTypes.number.isRequired,
     deliveryMethodSelected: PropTypes.bool,
     paymentMethodSelected: PropTypes.bool,
+    temporaryAmount: PropTypes.number.isRequired,
+    discountAmount: PropTypes.number.isRequired,
 };
 function OrderBill(props) {
     console.log(props.deliveryMethodSelected)
@@ -71,8 +73,13 @@ function OrderBill(props) {
             </div>
             <div className="order__bill__line"></div>
             <div className="order__bill__money__temporary title-medium">
-                <div className="money__temporary__title">Tạm tính:</div>
-                <div className="money__temporary__value">{numberWithCommas(props.totalOrderAmount)} đ</div>
+            <div className="money__temporary__title">Tạm tính ({props.orderItems.length}):</div>
+                <div className="money__temporary__value">{numberWithCommas(props.temporaryAmount)} đ</div>
+
+            </div>
+            <div className="order__bill__money__temporary title-medium">
+                <div className="money__temporary__title">Giảm giá:</div>
+                <div className="money__temporary__value">{numberWithCommas(props.discountAmount)} đ</div>
 
             </div>
             <div className="order__bill__money__ship title-medium">

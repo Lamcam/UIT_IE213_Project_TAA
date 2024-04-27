@@ -8,6 +8,7 @@ import Button from 'components/Common/Button';
 import './footer.scss'
 // import base from 'base.module.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { MdMailOutline } from 'react-icons/md';
 
 const logoStyle = {
   maxHeight: '200px',
@@ -22,6 +23,10 @@ const descripStyle = {
 }
 
 const Footer = () => {
+
+  const handleClick = ()=>{
+      
+  }
   return (
     <footer className="dark-light mt-12">
       <Container className='footer_container'>
@@ -62,17 +67,21 @@ const Footer = () => {
 
           </Col>
 
-          <Col className='col-4'>
+          <Col className='col-5'>
             <h3 className='footer__title' >Cập nhật về chúng tôi</h3>
             <p>Xác nhận thư điện tử của bạn để nhận được ngay những cập nhật mới nhất từ chúng tôi hàng tuần</p>
 
-            <Row className='input_warrper d-flex align-items-center justify-content-between'>
-              <Col className='col-7'>
-                <Input className="email_input" type="email" placeholder="Điền thư điện tử của bạn" />
+            <Row className='input_warrper'>
+              <Col className='col-9'>
+                <div className='input_section'>
+                  <MdMailOutline style={{ height: '28px', width: '28px', marginLeft: '15px'}} />
+                  <Input className="email_input" type="email" placeholder="Điền thư điện tử của bạn" />
+                </div>
               </Col>
-              <Col className='col-4' style={{paddingLeft: '0px'}}>
-                <Button className='btn_reg_log_round_32px btn_clickable_boldcolor' label='Xác nhận' type='submit'>
-                </Button>
+              <Col className='col-3' style={{paddingLeft: '0px'}}> 
+                 <Button className='btn_reg_log_round_32px btn_clickable_boldcolor' label='Xác nhận' type='submit'>
+                <a href='header'></a>
+                 </Button> 
               </Col>
             </Row>
 

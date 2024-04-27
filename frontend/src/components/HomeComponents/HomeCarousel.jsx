@@ -12,7 +12,7 @@ function HomeCarousel() {
   };
 
   return (
-    <Carousel activeIndex={index} onSelect={handleSelect} interval={2500}>
+    <Carousel activeIndex={index} onSelect={handleSelect} interval={2000}>
       <Carousel.Item>
         <Image src={banner1} fluid />
       </Carousel.Item>
