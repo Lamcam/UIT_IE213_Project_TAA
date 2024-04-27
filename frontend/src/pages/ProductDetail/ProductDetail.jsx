@@ -14,7 +14,8 @@ import { FaChevronDown } from 'react-icons/fa';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
 import { BiDislike, BiLike } from 'react-icons/bi';
-import { TbHeartPlus, TbHeartFilled } from 'react-icons/tb';
+import { TbHeartPlus } from 'react-icons/tb';
+import { IoHeartSharp } from 'react-icons/io5';
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 import ReviewPopup from '../../pages/Account/Modal/ReviewPopup';
@@ -24,6 +25,7 @@ import Button from 'components/Common/Button';
 import axios from 'axios';
 import { useAddToCart } from 'hooks/useAddToCart';
 import PropTypes from 'prop-types';
+import PopupNotiLogin from 'components/Products/PopupNotiLogin';
 
 ProductDetail.propTypes = {
   product: PropTypes.shape({
@@ -187,21 +189,37 @@ function ProductDetail(props) {
   const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
+
+  //heart plus
+  const [isFilled, setIsFilled] = useState(false);
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/products/${productId}`);
-        console.log('data', response.data);
         setProduct(response.data);
-        setProductFetched(true); // Đánh dấu rằng dữ liệu sản phẩm đã được lấy thành công
+        setProductFetched(true);
       } catch (error) {
         console.error('Error fetching product:', error);
       }
     };
 
-    fetchProduct();
-  }, [productId]);
+    const fetchFavorites = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+          const userId = user[0]._id;
+          const favoritesResponse = await axios.get(`http://localhost:8000/api/account/favors/${userId}`);
+          const favoriteProducts = favoritesResponse.data;
+          const isFavorite = favoriteProducts.some((favoriteProduct) => favoriteProduct._id === productId);
+          setIsFilled(isFavorite);
+        }
+      } catch (error) {
+        console.error('Error fetching favorites:', error);
+      }
+    };
 
+    Promise.all([fetchData(), fetchFavorites()]);
+  }, [productId]);
   useEffect(() => {
     if (productFetched && thumbnailImages.length > 0) {
       setCurrentImg(thumbnailImages[0]);
@@ -245,12 +263,10 @@ function ProductDetail(props) {
     setSelectedOption1(option1);
   };
 
-  //heart plus
-  const [isFilled, setIsFilled] = useState(false);
 
-  const handleClick = () => {
-    setIsFilled(!isFilled);
-  };
+  // const handleClick = () => {
+  //   setIsFilled(!isFilled);
+  // };
 
   //like dislike
   const [likeType1, setLikeType1] = useState(null);
@@ -311,7 +327,36 @@ function ProductDetail(props) {
   };
 
   const [modalShow, setModalShow] = React.useState(false);
+  const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
+  const toggleLike = async () => {
+    if (!localStorage.getItem('user')) {
+      console.log("Bạn cần đăng nhập");
+      setShowPopupNotiLogin(true);
+    } else {
+      try {
+        const user_current = JSON.parse(localStorage.getItem('user'))[0];
+        const user_id = user_current._id;
 
+        if (isFilled) {
+          await axios.delete('http://localhost:8000/api/account/del-favors', {
+            data: {
+              userId: user_id,
+              productId: product._id
+            }
+
+          });
+        } else {
+          await axios.post('http://localhost:8000/api/account/add-favors', {
+            userId: user_id,
+            productId: product._id
+          });
+        }
+        setIsFilled(!isFilled);
+      } catch (error) {
+        console.error('Error toggling favorite:', error);
+      }
+    }
+  };
   return (
     <div className="productDetail">
       {/* <Button
@@ -331,9 +376,8 @@ function ProductDetail(props) {
                 <Image
                   key={index}
                   src={imgSrc}
-                  className={`product__image_small__size ${
-                    selectedThumbnail === imgSrc ? 'selected' : ''
-                  }`}
+                  className={`product__image_small__size ${selectedThumbnail === imgSrc ? 'selected' : ''
+                    }`}
                   alt="image small"
                   preview={false}
                   onClick={() => handleThumbnailClick(imgSrc)}
@@ -368,9 +412,9 @@ function ProductDetail(props) {
                   <h1 className="product__name__detail__title">{product?.prod_name}</h1>
                   <div>
                     {isFilled ? (
-                      <TbHeartFilled className="heart_plus" onClick={handleClick} />
+                      <IoHeartSharp className="heart_plus" onClick={toggleLike} />
                     ) : (
-                      <TbHeartPlus className="heart_plus" onClick={handleClick} />
+                      <TbHeartPlus className="heart_plus" onClick={toggleLike} />
                     )}
                   </div>
                 </div>
