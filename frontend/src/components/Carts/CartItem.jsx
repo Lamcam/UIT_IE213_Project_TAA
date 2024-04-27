@@ -7,25 +7,43 @@ import 'style/components/Carts/CartItem.scss';
 import axios from 'axios';
 import { useDeleteCartItem } from 'hooks/useDeleteCartIem';
 
+// CartItem.propTypes = {
+//   cartItems: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       imageUrl: PropTypes.string.isRequired,
+//       productName: PropTypes.string.isRequired,
+//       moneyCurrent: PropTypes.number.isRequired,
+//       moneyBeforeDiscount: PropTypes.number,
+//       _id:PropTypes.string.isRequired
+//     }),
+//   ).isRequired,
+//   setMoneyAll: PropTypes.func.isRequired,
+// };
 CartItem.propTypes = {
   cartItems: PropTypes.arrayOf(
     PropTypes.shape({
-      imageUrl: PropTypes.string.isRequired,
-      productName: PropTypes.string.isRequired,
-      moneyCurrent: PropTypes.number.isRequired,
-      moneyBeforeDiscount: PropTypes.number,
-    }),
+      product: PropTypes.shape({
+        imageUrl: PropTypes.string.isRequired,
+        productName: PropTypes.string.isRequired,
+        moneyCurrent: PropTypes.number.isRequired,
+        moneyBeforeDiscount: PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.string // Vì "moneyBeforeDiscount" có thể là số hoặc chuỗi
+        ]),
+        _id: PropTypes.string.isRequired,
+      }).isRequired,
+    })
   ).isRequired,
   setMoneyAll: PropTypes.func.isRequired,
-  // calculateTotalPriceFunction: PropTypes.func.isRequired, // Thêm prop mới
 };
 
 function CartItem(props, id) {
+  props.cartItems.map((item)=>{console.log(item)})
   const { deleteFromCart } = useDeleteCartItem();
   const [quantity, setQuantity] = useState({});
   const [checkedItems, setCheckedItems] = useState([]);
   const [allItemsChecked, setAllItemsChecked] = useState(false);
-  const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
+  // const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
 
   useEffect(() => {
     const initialCheckedItems = Array(props.cartItems.length).fill(false);
@@ -43,12 +61,11 @@ function CartItem(props, id) {
 
     checkedItems.forEach((item, i) => {
       if (item === true) {
-        // item.number = quantity[i] || 1; // Thêm thuộc tính number vào đối tượng item
         props.cartItems[i].number = quantity[i] || 1;
-        checkedItemsInfo.push(props.cartItems[i]); // Đưa đối tượng item vào mảng checkedItemsInfo
+        checkedItemsInfo.push(props.cartItems[i].product); // Đưa đối tượng item vào mảng checkedItemsInfo
       }
     });
-    setCheckedItemsInfo(checkedItemsInfo);
+    // setCheckedItemsInfo(checkedItemsInfo);
     props.onCheckedItemsChange(checkedItemsInfo);
   }, [checkedItems, quantity]);
 
@@ -101,7 +118,7 @@ function CartItem(props, id) {
 
   // Tính thành tiền của từng sản phẩm
   const calculateSubtotal = (index) => {
-    return (quantity[index] || 1) * props.cartItems[index].moneyCurrent;
+    return (quantity[index] || 1) * props.cartItems[index].product.moneyCurrent;
   };
   const formatPrice = (price) => {
     const priceNumber = parseFloat(price);
@@ -109,17 +126,6 @@ function CartItem(props, id) {
     return formattedPrice.trim();
   };
 
-  // const getCheckedItem = () => {
-  //   const checkedItemsInfo = [];
-
-  //   props.cartItems.forEach((item, index) => {
-  //     if (checkedItems[index]) {
-  //       checkedItemsInfo.push(item);
-  //     }
-  //   });
-  // setCheckedItemsInfo(checkedItemsInfo)
-  // }
-  // console.log(checkedItemsInfo)
   return (
     <Table borderless responsive="lg" className="table__cart__item">
       <thead className="cart__item__thead title-medium">
@@ -168,10 +174,10 @@ function CartItem(props, id) {
                     : 'item__money__product'
                 }
               >
-                <span className="money__current">{item.product.moneyCurrent} đ</span>
+                <span className="money__current">{formatPrice(item.product.moneyCurrent)} đ</span>
                 {item.product.moneyBeforeDiscount && (
                   <span className="money__befor__discount primary-text">
-                    {item.product.moneyBeforeDiscount} đ
+                    {formatPrice(item.product.moneyBeforeDiscount)} đ
                   </span>
                 )}
               </div>
@@ -204,8 +210,8 @@ function CartItem(props, id) {
             </td>
             <td>
               <div className="item__total__money">
-                {/* {formatPrice(calculateSubtotal(index))} đ */}
-                {(quantity[index] || 1) * item.product.moneyCurrent} đ
+                {formatPrice(calculateSubtotal(index))} đ
+                {/* {(quantity[index] || 1) * item.product.moneyCurrent} đ */}
               </div>
             </td>
             <td>

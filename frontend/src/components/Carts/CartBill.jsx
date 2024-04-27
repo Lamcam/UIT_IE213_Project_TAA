@@ -11,9 +11,10 @@ function CartBill(props) {
   const { temporaryAmount, discountAmount, totalAmount } = props;
   const navigate = useNavigate();
   const handleOrder = () => {
-    console.log(props.checkedItemsInfo)
+    // console.log(props.checkedItemsInfo)
     navigate('/order', { state: { data: props.checkedItemsInfo, total:totalAmount } });
   }
+  console.log(props.checkedItemsInfo)
   
   return (
     <div className="cart__bill">
