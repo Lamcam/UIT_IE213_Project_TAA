@@ -47,7 +47,7 @@ function CartItem(props, id) {
   const [allItemsChecked, setAllItemsChecked] = useState(false);
   // const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
   console.log('cartItem23231', props.cartItems);
-  
+
 
   useEffect(() => {
     const initialCheckedItems = Array(props.cartItems.length).fill(false);
@@ -213,12 +213,14 @@ function CartItem(props, id) {
                         +
                       </div>
                     </div>
-                    <div className="item__delete__product">
-                      <RiDeleteBin6Line
-                        className="icon__delete primary-text"
-                        method="delete"
-                        onClick={() => deleteFromCart(item?._doc?._id)}
-                      />
+                    <div className="delete__product__cart">
+                      <div className="item__delete__product">
+                        <RiDeleteBin6Line
+                          className="icon__delete primary-text"
+                          method="delete"
+                          onClick={() => deleteFromCart(item?._doc?._id)}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -300,7 +302,7 @@ function CartItem(props, id) {
                     step="1"
                     value={quantity[index] || 1}
                     // value={item._doc.quantity || 1}
-                  className="item__number__product"
+                    className="item__number__product"
                     readOnly
                   />
                   <div

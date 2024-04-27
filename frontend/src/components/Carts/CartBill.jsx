@@ -33,7 +33,7 @@ function CartBill(props) {
       <div className="cart__bill__line"></div>
       <div className="cart__bill__footer">
         <div className="cart__bill__total__money title-medium">
-          <div className="money__total__title">Tổng cộng:</div>
+          <div className="money__total__title">Tổng:</div>
           <div className="money__total__value">{numberWithCommas(totalAmount)} đ</div>
         </div>
         <div className="cart__bill__note title-medium">(Đã bao gồm VAT)</div>
