@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import  Button from 'components/Common/Button1';
+import Button from 'components/Common/Button1';
 import 'style/components/Carts/CartBill.scss';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,9 +12,9 @@ function CartBill(props) {
   const navigate = useNavigate();
   const handleOrder = () => {
     console.log(props.checkedItemsInfo)
-    navigate('/order', { state: { data: props.checkedItemsInfo, total:totalAmount } });
+    navigate('/order', { state: { data: props.checkedItemsInfo, total: totalAmount } });
   }
-  
+
   return (
     <div className="cart__bill">
       <div className="cart__bill__header title-large">Hóa đơn của bạn</div>
@@ -37,12 +37,13 @@ function CartBill(props) {
         </div>
         <div className="cart__bill__note title-medium">(Đã bao gồm VAT)</div>
         <div className="cart__bill__order">
-                  <Button
-                      className="body-large"
-                      label="Tiến hành đặt hàng"
-                      onClick={handleOrder}
-
-                  />
+          <Button
+            className="body-large"
+            label="Tiến hành đặt hàng"
+            onClick={handleOrder}
+            labelColor="#F1EFE7"
+            backgroundColor="#785b5b"
+          />
         </div>
       </div>
     </div>
