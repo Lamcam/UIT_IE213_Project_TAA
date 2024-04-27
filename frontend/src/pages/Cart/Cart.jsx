@@ -28,7 +28,7 @@ function Cart(props) {
   const handleCheckedItemsChange = (checkedItemsInfo) => {
     setCheckedItemsInfo(checkedItemsInfo);
   };
-  console.log(checkedItemsInfo)
+  console.log(checkedItemsInfo);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -65,7 +65,7 @@ function Cart(props) {
       }
     };
     fetchItems();
-  }, [cartItems1]);
+  }, []);
 
   const createItem = (item) => {
     return {
@@ -100,7 +100,11 @@ function Cart(props) {
       <Row className="cart__content">
         <Col lg={9} md={12} className="cart__content__item">
           {/* Truyền danh sách các mục vào CartItem */}
-          <CartItem cartItems={cartItems1} setMoneyAll={setTemporaryAmount} onCheckedItemsChange={handleCheckedItemsChange}/>
+          <CartItem
+            cartItems={cartItems1}
+            setMoneyAll={setTemporaryAmount}
+            onCheckedItemsChange={handleCheckedItemsChange}
+          />
         </Col>
         <Col lg={3} md={12} className="cart__content__bill">
           <CartBill
