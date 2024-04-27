@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import 'style/components/Products/ProductItem.scss';
 import PopupNotiLogin from './PopupNotiLogin';
 import axios from 'axios';
-
+import { useAddToCart } from 'hooks/useAddToCart';
 ProductItem.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -36,6 +36,10 @@ function ProductItem({ product, onFavoriteChange }) {
   const [isLiked, setIsLiked] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
+  const { addToCart } = useAddToCart();
+  const addToCartAndRedirect = () => {
+    addToCart(product, 1);
+  };
 
   useEffect(() => {
     const fetchUserFavorites = async () => {
@@ -134,7 +138,7 @@ function ProductItem({ product, onFavoriteChange }) {
         </div>
         <PopupQuickView show={showPopup} onHide={() => setShowPopup(false)} productItem={product} />
         <div className="line--vertical"></div>
-        <NavLink>Mua ngay</NavLink>
+        <NavLink to="/cart" onClick={addToCartAndRedirect}>Mua ngay</NavLink>
       </div>
       <PopupNotiLogin show={showPopupNotiLogin} onHide={() => setShowPopupNotiLogin(false)} />
     </div>
