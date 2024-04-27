@@ -20,6 +20,7 @@ section.breadcrumbs_section{
     nav{
         display: flex;
         flex-direction: row;
+        // z-index: 1;
 
         ol.breadcrumb{
             display: flex;

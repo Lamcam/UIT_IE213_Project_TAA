@@ -181,7 +181,6 @@ function PopupQuickView(props) {
               border="1px solid #9c4048"
               onClick={() => {
                 addToCart(props.productItem, quantity);
-                console.log('add cart clicked')
               }} // Add success pop here (HAN)
             />
             <Button

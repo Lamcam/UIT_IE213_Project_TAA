@@ -3,9 +3,12 @@ import React from 'react';
 const styles = {
     height: '3.5rem',
     borderRadius: '.75rem',
-    border: '1px solid var(--md-sys-color-outline)',
-    padding: '0 1rem',
+    width: '100%',
+    // border: '1px solid var(--md-sys-color-outline)',
+    border: 'none',
+    padding: '0 0rem',
     backgroundColor: 'transparent',
+    outline: 'none'
       
 }
 

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import { Container, Row } from 'react-bootstrap';
-import data from './data.js';
 import ProductCard from './ProductCard';
 import Carousel from 'react-bootstrap/Carousel';
 import 'style/components/Home/HotProduct.scss'
@@ -46,20 +45,20 @@ function HotProducts() {
     <section className="preview_product_section">
       <Container fluid>
       <h1 className="title_section"> Sản phẩm nổi bật trong tuần</h1>
-      <Carousel fluid >     
-        <Carousel.Item interval={1000}>
+      <Carousel fluid className="carousel_container" >     
+        <Carousel.Item interval={2000}>
             <Row>
                 {products.slice(0,4).map(createCard)} 
             </Row>
         </Carousel.Item>
 
-        <Carousel.Item interval={500}>
+        <Carousel.Item interval={2000}>
             <Row>
                 {products.slice(5,9).map(createCard)} 
             </Row>
         </Carousel.Item>
 
-        <Carousel.Item>
+        <Carousel.Item interval={2000}>
             <Row>
                 {products.slice(10,14).map(createCard)} 
             </Row>

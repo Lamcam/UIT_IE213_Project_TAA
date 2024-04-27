@@ -54,7 +54,7 @@ function MyVerticallyCenteredModal(props) {
       <Modal.Header closeButton className='modal_forgotPass_header'>
 
       <MdOutlineKeyboardArrowLeft 
-        style={{ width: '1.7em', height: '1.7em', cursor: 'pointer'}}
+        style={{ width: '1.7em', height: '1.7em', cursor: 'pointer', display: modal.modal1 ? 'none': null }}
         onClick={handleMove.bind(this, index <=1 ? 1: index-1)}
       />
 

@@ -67,10 +67,10 @@ function AuthPart() {
               className='dropdown_button'
             >
               <Dropdown.Item href="/account/infomation/profile-user">
-              <MdAccountCircle /> Thông tin cá nhân 
+               Thông tin cá nhân <MdAccountCircle />
               </Dropdown.Item>
-              <Dropdown.Item href="/account/orders"><RiBillLine /> Đơn hàng  </Dropdown.Item>
-              <Dropdown.Item href="/account/favor"><MdOutlineFavoriteBorder/> Sản phẩm yêu thích  </Dropdown.Item>
+              <Dropdown.Item href="/account/orders"> Đơn hàng <RiBillLine />  </Dropdown.Item>
+              <Dropdown.Item href="/account/favor"> Sản phẩm yêu thích <MdOutlineFavoriteBorder/> </Dropdown.Item>
               <Dropdown.Divider />
               
 

@@ -28,26 +28,31 @@ CartItem.propTypes = {
         moneyCurrent: PropTypes.number.isRequired,
         moneyBeforeDiscount: PropTypes.oneOfType([
           PropTypes.number,
-          PropTypes.string // Vì "moneyBeforeDiscount" có thể là số hoặc chuỗi
+          PropTypes.string, // Vì "moneyBeforeDiscount" có thể là số hoặc chuỗi
         ]),
         _id: PropTypes.string.isRequired,
       }).isRequired,
-    })
+    }),
   ).isRequired,
   setMoneyAll: PropTypes.func.isRequired,
 };
 
 function CartItem(props, id) {
-  props.cartItems.map((item)=>{console.log(item)})
+  props.cartItems.map((item) => {
+    console.log(item);
+  });
   const { deleteFromCart } = useDeleteCartItem();
-  const [quantity, setQuantity] = useState({});
+  const [quantity, setQuantity] = useState(props.cartItems.map((item) => item._doc.quantity));
   const [checkedItems, setCheckedItems] = useState([]);
   const [allItemsChecked, setAllItemsChecked] = useState(false);
   // const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
+  console.log('cartItem23231', props.cartItems);
+  
 
   useEffect(() => {
     const initialCheckedItems = Array(props.cartItems.length).fill(false);
     setCheckedItems(initialCheckedItems);
+    setQuantity(props.cartItems.map((item) => item._doc.quantity) || 1);
   }, [props.cartItems.length]);
 
   useEffect(() => {
@@ -61,6 +66,7 @@ function CartItem(props, id) {
 
     checkedItems.forEach((item, i) => {
       if (item === true) {
+        // console.log("test", props.cartItems[i].number);
         props.cartItems[i].number = quantity[i] || 1;
         checkedItemsInfo.push(props.cartItems[i].product); // Đưa đối tượng item vào mảng checkedItemsInfo
       }
@@ -197,6 +203,7 @@ function CartItem(props, id) {
                   max={10}
                   step="1"
                   value={quantity[index] || 1}
+                  // value={item._doc.quantity || 1}
                   className="item__number__product"
                   readOnly
                 />

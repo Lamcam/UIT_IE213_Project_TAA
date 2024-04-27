@@ -24,6 +24,16 @@ footer {
     margin: 0px 0px;
   }
 
+  .input_section{
+    border: 1.5px solid var(--md-source);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    border-radius: 5px;
+  }
   
 
   ul{
@@ -38,7 +48,14 @@ footer {
         text-decoration: none;
         color: black;
       }
+      
+      a:hover{
+        color: #9c4048;
+      }
+
     }
+
+    
 
     p{
       font-size: 17px;
@@ -51,6 +68,8 @@ footer {
 
   
 .input_warrper{
+
+  flex-direction: row;
 
     input.email_input{
       height: 100%;
