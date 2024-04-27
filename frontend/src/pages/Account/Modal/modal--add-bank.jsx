@@ -29,10 +29,10 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
     if (name === 'bank_pers_cccd') {
       setErrorCCCD('');
     }
-    if (name == 'bank_name') {
+    if (name === 'bank_name') {
       setErrorBankName('')
     }
-    if (name == 'bank_number') {
+    if (name === 'bank_number') {
       setErrorBankNumber('')
     }
   };

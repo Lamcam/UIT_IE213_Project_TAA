@@ -27,7 +27,7 @@ function AddAddress(props) {
     if (name === 'loca_pers_phone') {
       setErrorPhone('');
     }
-    if (name == 'loca_address') {
+    if (name === 'loca_address') {
       setErrorAddress('')
     }
   };
@@ -87,7 +87,7 @@ function AddAddress(props) {
                   value={newShippingAddress.loca_pers_name}
                   onChange={handleChange}
                 />
-                                                {errorName && <div className="err">{errorName}</div>}
+{errorName && <div className="err">{errorName}</div>}
 
               </div>
             </Row>

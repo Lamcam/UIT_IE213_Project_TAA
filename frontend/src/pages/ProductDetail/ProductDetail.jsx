@@ -10,6 +10,7 @@ import productDetailImg5 from '../../assets/image/t5.jpg';
 import '../../style/pages/ProductDetail/ProductDetail.scss';
 import ProductItem from 'components/Products/ProductItem';
 import { GiRabbitHead } from 'react-icons/gi';
+import { FaChevronDown } from 'react-icons/fa';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
 import { BiDislike, BiLike } from 'react-icons/bi';
@@ -433,8 +434,7 @@ function ProductDetail(props) {
                   </span>
                   <span className="product__name__detail__price_second">
                     {product?.prod_cost.$numberDecimal -
-                      product?.prod_cost.$numberDecimal * product?.prod_discount.$numberDecimal}
-                    đ
+                      product?.prod_cost.$numberDecimal * product?.prod_discount.$numberDecimal} đ
                   </span>
                   <span className="product__name__detail__price_third">
                     {product?.prod_discount.$numberDecimal * 100} %
@@ -498,7 +498,7 @@ function ProductDetail(props) {
                   show={showPopup}
                   onClick={() => {
                     setModalShow(true);
-                    addToCart(product, quantity)
+                    addToCart(product, quantity);
                   }}
                 >
                   <MdOutlineAddShoppingCart />
