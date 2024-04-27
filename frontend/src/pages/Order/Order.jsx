@@ -55,7 +55,8 @@ Order.propTypes = {
 function Order(props) {
     const location = useLocation();
     const orderItems = location.state?.data;
-const totalOrderAmount = orderItems.reduce((total, item) => total + (item.moneyCurrent * item.number), 0);
+    // const totalOrderAmount = orderItems.reduce((total, item) => total + (item.moneyCurrent * item.number), 0);
+    const totalOrderAmount = location.state?.total
 
     const [deliveryInformation, setDeliveryInformation] = useState('')
 const defaultUser = JSON.parse(localStorage.getItem('user'));

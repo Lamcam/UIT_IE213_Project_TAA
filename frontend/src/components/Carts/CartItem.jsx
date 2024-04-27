@@ -15,13 +15,15 @@ CartItem.propTypes = {
     }),
   ).isRequired,
   setMoneyAll: PropTypes.func.isRequired,
+  // calculateTotalPriceFunction: PropTypes.func.isRequired, // Thêm prop mới
 };
 
 function CartItem(props) {
   const [quantity, setQuantity] = useState({});
   const [checkedItems, setCheckedItems] = useState([]);
   const [allItemsChecked, setAllItemsChecked] = useState(false);
-  const [checkedItemsInfo, setCheckedItemsInfo]=useState([])
+  const [checkedItemsInfo, setCheckedItemsInfo] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const initialCheckedItems = Array(props.cartItems.length).fill(false);
@@ -93,6 +95,7 @@ function CartItem(props) {
       }
     });
     props.setMoneyAll(totalPrice);
+    // props.calculateTotalPriceFunction(totalPrice); // Truyền totalPrice ra ngoài component
   };
 
   // Tính thành tiền của từng sản phẩm

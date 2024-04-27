@@ -12,7 +12,7 @@ function CartBill(props) {
   const navigate = useNavigate();
   const handleOrder = () => {
     console.log(props.checkedItemsInfo)
-    navigate('/order', { state: { data: props.checkedItemsInfo } });
+    navigate('/order', { state: { data: props.checkedItemsInfo, total:totalAmount } });
   }
   
   return (
