@@ -43,10 +43,10 @@ const styleList = {
 function QuestionCard(param) {
     return(
     <Container className="qa_list">
-        <h1 style={styleTitle}> Hỏi đáp xoay </h1>
+        <h1 style={styleTitle}> Hỏi xoáy đáp xoay </h1>
         <h3 style={styleText} > Nơi trả lời những câu hỏi của bạn </h3>
         <ListGroup>
-            <ListGroup.Item style={styleList}>Làm sao để mua hàng trên TAA?</ListGroup.Item>
+            <ListGroup.Item style={styleList}>Làm sao để có thể mua hàng trên TAA?</ListGroup.Item>
             <ListGroup.Item style={styleList}>Chính sách bảo hành của TAA như thế nào?</ListGroup.Item>
             <ListGroup.Item style={styleList}>Làm sao để đổi hàng trên TAA?</ListGroup.Item>
             <ListGroup.Item style={styleList}>Thông tin về TAA</ListGroup.Item>

@@ -15,6 +15,12 @@ function ProductCard(props) {
         setIsLiked(!isLiked);
     };
 
+    const formatPrice = (price) => {
+        const priceNumber = parseFloat(price);
+        let formattedPrice = priceNumber.toLocaleString('vi-VN', { maximumFractionDigits: 0 });
+        return formattedPrice.trim();
+      };
+
     const handleClick = () => {
         if(!localStorage.getItem('user')){
             alert('Vui lòng đăng nhập để mua hàng');
@@ -24,13 +30,14 @@ function ProductCard(props) {
             // Add to cart
         }
     }
-
+    // const BeforDiscountPrice = formatPrice(price * (1 + discount));
+    
     return (
-        <Col lg={3} md={3} sm={3} >
-            <div className="product__item">
+        <Col lg={2.5} md={3} sm={3}  >
+            <div className="product__item body-large">
                 <div className="product__item__img">
-                    <img className="img_front" src={imgURL[0]} alt='img'></img>
-                    <img className="img_after" src={imgURL[1]} alt='img' ></img>
+                    <img className="img_front" src={imgURL[0]} alt='Ảnh sản phẩm'></img>
+                    <img className="img_after" src={imgURL[1]} alt='Ảnh sản phẩm' ></img>
                 </div>
                 <div className="product__item__body">
                     {isLiked ? (
@@ -40,10 +47,10 @@ function ProductCard(props) {
                     )}
                     <div className="product__item__name label-large">{name}</div>
                     <div className="product__item__price">
-                        <div className="item__price__current">{price} đ</div>
-                        <div className="item__price__discount">{discount * 100 } đ</div>
+                        <div className="item__price__current">{ formatPrice(price * (1 - discount)) } đ</div>
+                        {discount > 0 ? (<div className="item__price__discount">{formatPrice(price)} đ</div>):(<div className="item__price__discount"></div>)}
                     </div>
-                    <div className="product__item__discount">Giảm {discount * 100}%</div>
+                    {discount > 0 ? ( <div className="product__item__discount"> Giảm {discount * 100}%</div> ) : <div className="product__item__discount"></div>}
                     <div className="product__item__stock">{status}</div>
                 </div>
                 <div className="product__item__section">

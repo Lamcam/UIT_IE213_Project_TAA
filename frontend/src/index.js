@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import Footer from 'partials/Footer/Footer';
+import Footer from 'partials/Footer/Footer';
 import { AuthContextProvider } from 'context/AuthContext';
 // import ModalForgotPass from 'pages/LoginRegister/ModalForgotPass';
 
@@ -17,9 +17,8 @@ root.render(
   <React.StrictMode>
     <AuthContextProvider>
         <App></App>
-      </AuthContextProvider>
+    </AuthContextProvider>
   </React.StrictMode>
-     
 );
 
 // If you want to start measuring performance in your app, pass a function

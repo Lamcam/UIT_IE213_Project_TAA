@@ -1,12 +1,15 @@
 header{
     // margin: 0px 100px;
     padding: 0px 80px;
-
+    z-index: 1000;
     .headerOffcanvas{
         width: 48px;
         height: 48px;
         cursor: pointer;
         display: none;
+    }
+    .header__link{
+        z-index: 999;
     }
 
     .dropdown-menu {
@@ -51,10 +54,11 @@ header .search-bar{
     justify-content: space-between;
     gap: .5rem;
     padding: 0 1rem;
-    border: 1px solid #ccc;
+    border: 1.4px solid var(--md-source);
     border-radius: 1rem;
     background-color: #f5f5f5;
     margin: 0px 1rem;
+    z-index: 3;
 
     input{
         border: none;

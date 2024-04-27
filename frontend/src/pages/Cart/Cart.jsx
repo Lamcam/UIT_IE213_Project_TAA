@@ -96,9 +96,9 @@ function Cart(props) {
   // ];
 
   return (
-    <Container className="cart">
+    <Container className="cart" fluid id="cart">
       <Row className="cart__content">
-        <Col lg={9} md={12} className="cart__content__item">
+        <Col xl={9} lg={9} md={12} className="cart__content__item">
           {/* Truyền danh sách các mục vào CartItem */}
           <CartItem
             cartItems={cartItems1}
@@ -106,7 +106,7 @@ function Cart(props) {
             onCheckedItemsChange={handleCheckedItemsChange}
           />
         </Col>
-        <Col lg={3} md={12} className="cart__content__bill">
+        <Col xl={3} lg={3} md={12} className="cart__content__bill">
           <CartBill
             temporaryAmount={temporaryAmount}
             discountAmount={discountAmount}

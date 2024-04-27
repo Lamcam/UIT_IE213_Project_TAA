@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import  Button from 'components/Common/Button1';
+import Button from 'components/Common/Button1';
 import 'style/components/Carts/CartBill.scss';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,17 +33,18 @@ function CartBill(props) {
       <div className="cart__bill__line"></div>
       <div className="cart__bill__footer">
         <div className="cart__bill__total__money title-medium">
-          <div className="money__total__title">Tổng cộng:</div>
+          <div className="money__total__title">Tổng:</div>
           <div className="money__total__value">{numberWithCommas(totalAmount)} đ</div>
         </div>
         <div className="cart__bill__note title-medium">(Đã bao gồm VAT)</div>
         <div className="cart__bill__order">
-                  <Button
-                      className="body-large"
-                      label="Tiến hành đặt hàng"
-                      onClick={handleOrder}
-
-                  />
+          <Button
+            className="body-large"
+            label="Tiến hành đặt hàng"
+            onClick={handleOrder}
+            labelColor="#F1EFE7"
+            backgroundColor="#785b5b"
+          />
         </div>
       </div>
     </div>
