@@ -42,7 +42,12 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
   //   onClose(); // Đóng Modal 1
   //   onDataToModal2(newCardData); // Truyền dữ liệu cho Modal 2
   // };
-
+  const handleModalClick = (e) => {
+    // Kiểm tra xem phần tử được nhấp có là nền của modal hay không
+    if (e.target === e.currentTarget) {
+      onClose(); // Gọi hàm onHide khi nhấp vào nền modal
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -96,7 +101,7 @@ function AddBank({ onClose, onDataToModal2, id, onSuccess, show }) {
       });
   };
   return (
-    <div id="modal--add-bank" className="profile-modal active">
+    <div id="modal--add-bank" className="profile-modal active" onClick={handleModalClick}>
       <div className="modal__content--form">
         <ButtonIcon
           className="modal__btn--close"

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes, { number } from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
@@ -31,6 +31,7 @@ CartItem.propTypes = {
           PropTypes.string, // Vì "moneyBeforeDiscount" có thể là số hoặc chuỗi
         ]),
         _id: PropTypes.string.isRequired,
+        number: PropTypes.number.isRequired
       }).isRequired,
     }),
   ).isRequired,
@@ -66,8 +67,7 @@ function CartItem(props, id) {
 
     checkedItems.forEach((item, i) => {
       if (item === true) {
-        // console.log("test", props.cartItems[i].number);
-        props.cartItems[i].number = quantity[i] || 1;
+        props.cartItems[i].product.number = quantity[i] || 1;
         checkedItemsInfo.push(props.cartItems[i].product); // Đưa đối tượng item vào mảng checkedItemsInfo
       }
     });

@@ -22,16 +22,18 @@ function ModalDeliveryPayment(props) {
   const [notBankCard, setNotBankCard] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
+  const idBankCard = props.idBankCard;
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/account/bank-cards/${id}`)
       .then((response) => {
         if (Array.isArray(response.data) && response.data.length === 0) {
           setNotBankCard(true);
+          // props.updateNotBankCards(true)
         } else {
           setBankCards(response.data);
           const bankCardDefaultIndex = response.data.findIndex((item) => {
-            return item.is_default === true;
+            return item._id === idBankCard;
           });
           setSelectedOption(bankCardDefaultIndex);
         }
@@ -45,7 +47,10 @@ function ModalDeliveryPayment(props) {
       .get(`http://localhost:8000/api/account/bank-cards/${id}`)
       .then((response) => {
         console.log(response.data);
-        if (Array.isArray(response.data) && response.data.length === 0) setNotBankCard(true);
+        if (Array.isArray(response.data) && response.data.length === 0) {
+          setNotBankCard(true);
+          // props.onSuccess
+        }
         else setNotBankCard(false);
         setBankCards(response.data);
       })
@@ -130,10 +135,21 @@ function ModalDeliveryPayment(props) {
   const handleSubmit = () => {
     props.onHide();
     console.log(selectedItem);
+    console.log(notBankCard)
+    if (notBankCard === true) {
+      props.onCheckedItems('')
+      return
+    }
     props.onCheckedItems(selectedItem);
   };
+  const handleModalClick = (e) => {
+    // Kiểm tra xem phần tử được nhấp có là nền của modal hay không
+    if (e.target === e.currentTarget) {
+      props.onHide(); // Gọi hàm onHide khi nhấp vào nền modal
+    }
+  };
   return (
-    <div className={`modal__delivery-payment ${props.show ? 'active' : ''}`}>
+    <div className={`modal__delivery-payment ${props.show ? 'active' : ''}`} onClick={handleModalClick}>
       <div className="modal__content--form">
         <ButtonIcon
           className="modal__btn--close"
@@ -159,7 +175,6 @@ function ModalDeliveryPayment(props) {
               /> */}
             {showModal1 && (
               <AddBank
-                style={{ backgroundColor: 'rgba(0 0 0 0.8)' }}
                 show={showModal1}
                 onClose={() => setShowModal1(false)}
                 onDataToModal2={handleOpenModal2}
@@ -188,7 +203,7 @@ function ModalDeliveryPayment(props) {
             <ul className="accounts-list">
               {notBankCard && (
                 <div className="no-data">
-                  <p className="body-large">Không có tài khoản thanh toán được tìm thấy</p>
+                  <p className="body-large">Không có tài khoản thanh toán được tìm thấy, thêm tại đây!</p>
                   <img src={notFound} alt="Not found" />
                 </div>
               )}
@@ -238,7 +253,6 @@ function ModalDeliveryPayment(props) {
                         />
                         {isOpenDelete && (
                           <DelBank
-                            style={{ backgroundColor: 'rgba(0 0 0 0.8)' }}
                             show={isOpenDelete}
                             onHide={() => setIsOpenDelete(false)}
                             id={selectedBankCardId}

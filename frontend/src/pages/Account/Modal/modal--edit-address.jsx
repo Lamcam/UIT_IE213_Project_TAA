@@ -71,8 +71,14 @@ function EditAddress(props) {
         console.error(error);
       });
   };
+  const handleModalClick = (e) => {
+    // Kiểm tra xem phần tử được nhấp có là nền của modal hay không
+    if (e.target === e.currentTarget) {
+      props.onHide(); // Gọi hàm onHide khi nhấp vào nền modal
+    }
+  };
   return (
-    <div id="modal--edit-address" className={`profile-modal ${props.show ? 'active' : ''}`}>
+    <div id="modal--edit-address" className={`profile-modal ${props.show ? 'active' : ''}`} onClick={handleModalClick}>
       <div className="modal__content--form">
         <ButtonIcon
           className="modal__btn--close"

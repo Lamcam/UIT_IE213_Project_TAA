@@ -14,8 +14,14 @@ function AddSuccess({ onClose, title }) {
     // Xóa bộ đếm khi component unmount
     return () => clearTimeout(timer);
   }, [onClose]);
+  const handleModalClick = (e) => {
+    // Kiểm tra xem phần tử được nhấp có là nền của modal hay không
+    if (e.target === e.currentTarget) {
+      onClose(); // Gọi hàm onHide khi nhấp vào nền modal
+    }
+  };
       return (
-          <div id="modal--add-success" className="profile-modal active">
+          <div id="modal--add-success" className="profile-modal active" onClick={handleModalClick}>
               <div className="modal__content--form">
                 <ButtonIcon
                   className="modal__btn--close"

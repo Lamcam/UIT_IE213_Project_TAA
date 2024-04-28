@@ -4,6 +4,12 @@ import ButtonIcon from 'components/Common/ButtonIcon';
 import Button1 from 'components/Common/Button1';
 import { CgClose } from 'react-icons/cg';
 function DelBank(props) {
+  const handleModalClick = (e) => {
+    // Kiểm tra xem phần tử được nhấp có là nền của modal hay không
+    if (e.target === e.currentTarget) {
+      props.onHide(); // Gọi hàm onHide khi nhấp vào nền modal
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -21,7 +27,7 @@ function DelBank(props) {
       });
   };
   return (
-    <div id="modal--del-bank" className={`profile-modal ${props.show ? 'active' : ''}`}>
+    <div id="modal--del-bank" className={`profile-modal ${props.show ? 'active' : ''}`} onClick={handleModalClick}>
       <div className="modal__content--confirm on-primary">
         <ButtonIcon
           className="modal__btn--close"

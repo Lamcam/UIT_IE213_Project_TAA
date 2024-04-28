@@ -5,12 +5,15 @@ import { MdOutlineRadioButtonChecked, MdOutlineRadioButtonUnchecked } from 'reac
 import 'style/components/Orders/PaymentMethod.scss';
 import ModalDeliveryPayment from './Modal--DeliveryPayment';
 import notFound from '../../assets/image/account/no-data.jpg';
+import AddBank from 'pages/Account/Modal/modal--add-bank';
 function PaymentMethod(props) {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [notBankCard, setNotBankCard] = useState(false);
-  const [deliveryPaymentDefault, setDeliveryPaymentDefault] = useState('');
+  // const [notBankCard, setNotBankCard] = useState(false);
+  // const [deliveryPaymentDefault, setDeliveryPaymentDefault] = useState('');
   const [isModalDeliveryPayment, setIsModalDeliveryPayment] = useState(false);
   const [selectedItems, setSelectedItems] = useState({});
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
+  // const [bankCards, setBankCards] = useState([]);
 
   // Hàm xử lý sự kiện khi click vào một nút
   const handleClick = (index) => {
@@ -22,23 +25,25 @@ function PaymentMethod(props) {
     setSelectedOption(index);
     props.onPaymentMethodChange(index === 0 || index === 1);
   };
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/account/bank-cards/${props.id}`)
-      .then((response) => {
-        if (Array.isArray(response.data) && response.data.length === 0) {
-          setNotBankCard(true);
-        } else {
-          const bankCardDefault = response.data.find((item) => {
-            return item.is_default === true;
-          });
-          setDeliveryPaymentDefault(bankCardDefault);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }, []);
+  // useEffect(() => {
+    // axios
+    //   .get(`http://localhost:8000/api/account/bank-cards/${props.id}`)
+    //   .then((response) => {
+    //     if (Array.isArray(response.data) && response.data.length === 0) {
+    //       setNotBankCard(true);
+    //     } 
+    //     else {
+    //       const bankCardDefault = response.data.find((item) => {
+    //         return item.is_default === true;
+    //       });
+    //       // setDeliveryPaymentDefault(bankCardDefault);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
+    
+  // }, [notBankCard]);
   // Hàm để che dấu số tài khoản, chỉ hiển thị 4 số cuối
   const maskBankNumber = (bankNumber) => {
     // Kiểm tra xem bankNumber có tồn tại không
@@ -54,7 +59,10 @@ function PaymentMethod(props) {
   const handleCheckedItems = (item) => {
     setSelectedItems(item);
   };
-
+  // const updateNotBankCard = (val) => {
+  //   setNotBankCard(val)
+  // }
+  console.log(selectedItems)
   return (
     <div className="payment__method">
       <div className="payment__method__title title-large">3. Phương thức thanh toán</div>
@@ -74,58 +82,85 @@ function PaymentMethod(props) {
         )}
         <span>Thanh toán trực tuyến qua ngân hàng</span>
       </div>
-      <ModalDeliveryPayment
+      {isModalDeliveryPayment && (<ModalDeliveryPayment
         show={isModalDeliveryPayment}
         onHide={() => setIsModalDeliveryPayment(false)}
         onCheckedItems={handleCheckedItems}
-      />
+        deliveryPaymentDefault={props.deliveryPaymentDefault}
+        idBankCard={Object.keys(selectedItems).length === 0 ? props.deliveryPaymentDefault._id : selectedItems._id}
+      />)}
 
-      {selectedOption === 1 && (notBankCard ? (
+      {selectedOption === 1 &&
+        (!props.deliveryPaymentDefault || !selectedItems ? (
+          <ul className="accounts-list">
+            <div className="account-item__wrapper">
+              <div className="account-info" style={{padding: "0 0 0 48px", marginRight: "48px" }}>
               <div className="no-data">
-                <p className="body-large">Không có tài khoản thanh toán được tìm thấy</p>
-                <img src={notFound} alt="Not found" />
-              </div>
-            ):(
-        <div className="account-item__wrapper">
-          <div className="account-info" style={{ paddingLeft: '48px' }}>
-            <div className="account-number-default">
-              <p className="body-large" style={{ marginBottom: '0' }}>
-                STK:
-              </p>
-              <p className="body-large" style={{ marginBottom: '0' }}>
-                {maskBankNumber(
-                  Object.keys(selectedItems).length === 0
-                    ? deliveryPaymentDefault.bank_number
-                    : selectedItems.bank_number,
-                )}{' '}
-              </p>
-              {(Object.keys(selectedItems).length === 0
-                ? deliveryPaymentDefault.is_default
-                : selectedItems.is_default) && (
-                <span className="default-label label-large">Mặc định</span>
-              )}
+              <img src={notFound} alt="Not found" />
+                  <p className="body-large">Bạn chưa có tài khoản thanh toán, hãy thêm tài khoản để thanh toán trực tuyến qua ngân hàng!</p>
+                </div>
             </div>
-            <p className="bank-name body-large">
-              Ngân hàng{' '}
-              {Object.keys(selectedItems).length === 0
-                ? deliveryPaymentDefault.bank_name
-                : selectedItems.bank_name}
-            </p>
-          </div>
+            <div className="bank-btn">
+                <Button1
+                  className="set-default-btn label-large"
+                  label="Thêm tài khoản"
+                  type="button"
+                  onClick={() => setIsOpenAdd(true)}
+              />
+              {isOpenAdd && (
+                <AddBank
+                  show={isOpenAdd}
+                  onClose={() => setIsOpenAdd(false)}
+                  id={props.id}
+                  onSuccess={props.onSuccessAddBank}
+                />
+              )}
+              </div>
+            </div>
+          </ul>
+        ) : (
+          <ul className="accounts-list">
+            <div className="account-item__wrapper">
+              <div className="account-info" style={{ paddingLeft: '48px' }}>
+                <div className="account-number-default">
+                  <p className="body-large" style={{ marginBottom: '0' }}>
+                    STK:
+                  </p>
+                  <p className="body-large" style={{ marginBottom: '0' }}>
+                    {maskBankNumber(
+                      Object.keys(selectedItems).length === 0
+                        ? props.deliveryPaymentDefault.bank_number
+                        : selectedItems.bank_number,
+                    )}{' '}
+                  </p>
+                  {(Object.keys(selectedItems).length === 0
+                    ? props.deliveryPaymentDefault.is_default
+                    : selectedItems.is_default) && (
+                    <span className="default-label label-large">Mặc định</span>
+                  )}
+                </div>
+                <p className="bank-name body-large">
+                  Ngân hàng{' '}
+                  {Object.keys(selectedItems).length === 0
+                    ? props.deliveryPaymentDefault.bank_name
+                    : selectedItems.bank_name}
+                </p>
+              </div>
 
-          <div className="bank-btn">
-            <Button1
-              // backgroundColor={bankCard.is_default ? '#1D1B201F' : '#785B5B'}
-              // labelColor={bankCard.is_default ? 'rgba(32, 26, 26, 0.38)' : '#F1EFE7'}
-              // border="none"
-              className="set-default-btn label-large"
-              label="Thay đổi"
-              type="button"
-              onClick={() => setIsModalDeliveryPayment(true)}
-            />
-          </div>
-        </div>
-      ))}
+              <div className="bank-btn">
+                <Button1
+                  // backgroundColor={bankCard.is_default ? '#1D1B201F' : '#785B5B'}
+                  // labelColor={bankCard.is_default ? 'rgba(32, 26, 26, 0.38)' : '#F1EFE7'}
+                  // border="none"
+                  className="set-default-btn label-large"
+                  label="Thay đổi"
+                  type="button"
+                  onClick={() => setIsModalDeliveryPayment(true)}
+                />
+              </div>
+            </div>
+          </ul>
+        ))}
     </div>
   );
 }
