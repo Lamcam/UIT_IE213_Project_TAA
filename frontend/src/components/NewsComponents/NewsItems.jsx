@@ -23,6 +23,10 @@ function NewsItems({ news }) {
   }
   console.log(news);
 
+  const goToNextPageTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <Row lg={2} md={1} sm={1}>
       <div className="news__card card">
@@ -34,7 +38,11 @@ function NewsItems({ news }) {
           </Col>
           <Col sm={8}>
             <div className="card__body">
-              <NavLink to={`/news/${news._id}`} className="article__title title-medium">
+              <NavLink
+                to={`/news/${news._id}`}
+                className="article__title title-medium"
+                onClick={goToNextPageTop}
+              >
                 {news.b_title}
               </NavLink>
               <p className="article__context body-medium">{news.b_content}</p>
