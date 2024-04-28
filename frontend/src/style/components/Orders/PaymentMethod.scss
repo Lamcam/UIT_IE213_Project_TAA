@@ -26,6 +26,38 @@
   font-size: 24px;
 }
 
-.payment__method .account-info{
-  padding-left: 48px;
+.modal__delivery-payment {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  font-size: 12px;
+
+  &.active {
+    display: block;
+  }
+  & .modal__content--form{
+    // padding: 0;
+    padding: 40px 24px 32px 24px;
+    & form{
+      & .li__wrapper{
+        display: flex;
+        align-items: center;
+      }
+      & .btn__wrapper1{
+        padding: 20px 0 12px 0;
+        & .btn__cancel-submit{
+          display: flex;
+          gap: 12px;
+          flex-direction: row;
+          padding-right: 16px;
+        }
+      }
+    }
+  }
 }

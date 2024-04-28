@@ -1,11 +1,10 @@
-
-
 import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import Button1 from 'components/Common/Button1';
 import { GrAdd } from 'react-icons/gr';
+import { CgClose } from 'react-icons/cg';
 import { MdDeleteOutline } from 'react-icons/md';
 import AddBank from '../../pages/Account/Modal/modal--add-bank';
 import ConfirmBank from '../../pages/Account/Modal/modal--confirm-bank';
@@ -13,19 +12,29 @@ import ConfirmPhone from '../../pages/Account/Modal/modal--confirm-phone';
 import AddSuccess from '../../pages/Account/Modal/modal--add-success';
 import DelBank from '../../pages/Account/Modal/modal--del-bank';
 import notFound from '../../assets/image/account/no-data.jpg';
-import "../../pages/Account/index.scss"
-function ModalDeliveryPayment() {
+import { MdOutlineRadioButtonChecked, MdOutlineRadioButtonUnchecked } from 'react-icons/md';
+import '../../pages/Account/index.scss';
+function ModalDeliveryPayment(props) {
   const defaultUser = JSON.parse(localStorage.getItem('user'));
-  const defaultUserData = defaultUser[0]
+  const defaultUserData = defaultUser[0];
   const id = defaultUserData._id;
   const [bankCards, setBankCards] = useState([]);
   const [notBankCard, setNotBankCard] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedItem, setSelectedItem] = useState({});
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/account/bank-cards/${id}`)
       .then((response) => {
-        if (Array.isArray(response.data) && response.data.length === 0) setNotBankCard(true);
-        setBankCards(response.data);
+        if (Array.isArray(response.data) && response.data.length === 0) {
+          setNotBankCard(true);
+        } else {
+          setBankCards(response.data);
+          const bankCardDefaultIndex = response.data.findIndex((item) => {
+            return item.is_default === true;
+          });
+          setSelectedOption(bankCardDefaultIndex);
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -97,100 +106,179 @@ function ModalDeliveryPayment() {
     setIsOpenDelete(true);
   };
 
-  return (
-    <article id="profile-bank-card" className="section__content visible">
-      <div className="section__title">
-        <h2 className="headline-small">Tài khoản ngân hàng</h2>
-        <ButtonIcon
-          className="section__btn"
-          border="none"
-          label={<GrAdd />}
-          type="button"
-          onClick={handleOpenModal1}
-        />
-        {showModal1 && (
-          <AddBank
-            show={showModal1}
-            onClose={() => setShowModal1(false)}
-            onDataToModal2={handleOpenModal2}
-            id={id}
-            onSuccess={onSuccess}
-          />
-        )}
-        {showModal2 && (
-          <ConfirmBank
-            onClose={() => setShowModal2(false)}
-            onDataToModal3={handleOpenModal3} // Truyền hàm xử lý mở Modal 3
-            dataFromModal1={dataFromModal1} // Truyền dữ liệu từ Modal 1 cho Modal 2
-          />
-        )}
-        {showModal3 && (
-          <ConfirmPhone
-            onClose={() => setShowModal3(false)}
-            dataFromModal2={dataFromModal2}
-            id={id} // Truyền dữ liệu từ Modal 2 cho Modal 3
-          />
-        )}
-        {showModal4 && <AddSuccess onClose={() => setShowModal4(false)} />}
-      </div>
-      <hr className="hr-title" />
-      <ul className="accounts-list">
-        {notBankCard && (
-          <div className="no-data">
-            <p className="body-large">Không có tài khoản thanh toán được tìm thấy</p>
-            <img src={notFound} alt="Not found" />
-          </div>
-        )}
-        {bankCards.map((bankCard, index) => (
-          <React.Fragment key={bankCard._id}>
-            <li>
-              <div className="account-item__wrapper">
-                <div className="account-info">
-                  <div className="account-number-default">
-                    <p className="body-large">STK:</p>
-                    <p className="body-large">{maskBankNumber(bankCard.bank_number)} </p>
-                    {bankCard.is_default && (
-                      <span className="default-label label-large">Mặc định</span>
-                    )}
-                  </div>
-                  <p className="bank-name body-large">Ngân hàng {bankCard.bank_name}</p>
-                </div>
+  // Hàm xử lý sự kiện khi click vào một nút
+  const handleClick = (index) => {
+    // Nếu nút đã được chọn, không làm gì cả
+    if (index === selectedOption) {
+      return;
+    }
+    // Nếu không, cập nhật trạng thái của nút mới được chọn
+    setSelectedOption(index);
+    // props.onPaymentMethodChange(index === 0 || index === 1);
+  };
+  useEffect(() => {
+    let checkedItemsInfo = '';
 
-                <div className="bank-btn">
-                  <Button1
-                    backgroundColor={bankCard.is_default ? '#1D1B201F' : '#785B5B'}
-                    labelColor={bankCard.is_default ? 'rgba(32, 26, 26, 0.38)' : '#F1EFE7'}
-                    border="none"
-                    className="set-default-btn label-large"
-                    label="Thiết lập mặc định"
-                    type="button"
-                    onClick={() => handleSetDefault(bankCard, bankCard._id, id)}
-                  />
-                  <ButtonIcon
-                    className="bank-item__btn--del"
-                    label={<MdDeleteOutline style={{ color: '#785B5B' }} />}
-                    type="button"
-                    border="none"
-                    backgroundColor="#F2E5E4"
-                    onClick={() => handleDeletedBankCard(bankCard._id)}
-                  />
-                  <DelBank
-                    show={isOpenDelete}
-                    onHide={() => setIsOpenDelete(false)}
-                    id={selectedBankCardId}
-                    onSuccess={onSuccess}
-                    notBankCard={notBankCard}
-                    userId={id}
-                  />
+    bankCards.forEach((item, index) => {
+      if (index === selectedOption) {
+        checkedItemsInfo = item; // Đưa đối tượng item vào mảng checkedItemsInfo
+      }
+    });
+    setSelectedItem(checkedItemsInfo);
+  }, [selectedOption]);
+
+  const handleSubmit = () => {
+    props.onHide();
+    console.log(selectedItem);
+    props.onCheckedItems(selectedItem);
+  };
+  return (
+    <div className={`modal__delivery-payment ${props.show ? 'active' : ''}`}>
+      <div className="modal__content--form">
+        <ButtonIcon
+          className="modal__btn--close"
+          label={<CgClose />}
+          border="none"
+          onClick={props.onHide}
+        />
+        <article id="profile-bank-card" className="section__content">
+          <div className="section__title">
+            <h2 className="headline-small">Tài khoản ngân hàng</h2>
+            {/* <ButtonIcon
+          className="modal__btn--close"
+          label={<CgClose />}
+          border="none"
+          onClick={props.onHide}
+        /> */}
+            {/* <ButtonIcon
+              className="section__btn"
+              border="none"
+              label={<GrAdd />}
+              type="button"
+              onClick={handleOpenModal1}
+              /> */}
+            {showModal1 && (
+              <AddBank
+                style={{ backgroundColor: 'rgba(0 0 0 0.8)' }}
+                show={showModal1}
+                onClose={() => setShowModal1(false)}
+                onDataToModal2={handleOpenModal2}
+                id={id}
+                onSuccess={onSuccess}
+              />
+            )}
+            {showModal2 && (
+              <ConfirmBank
+                onClose={() => setShowModal2(false)}
+                onDataToModal3={handleOpenModal3} // Truyền hàm xử lý mở Modal 3
+                dataFromModal1={dataFromModal1} // Truyền dữ liệu từ Modal 1 cho Modal 2
+              />
+            )}
+            {showModal3 && (
+              <ConfirmPhone
+                onClose={() => setShowModal3(false)}
+                dataFromModal2={dataFromModal2}
+                id={id} // Truyền dữ liệu từ Modal 2 cho Modal 3
+              />
+            )}
+            {showModal4 && <AddSuccess onClose={() => setShowModal4(false)} />}
+          </div>
+          <hr className="hr-title" />
+          <form style={{ display: 'block', padding: 0 }}>
+            <ul className="accounts-list">
+              {notBankCard && (
+                <div className="no-data">
+                  <p className="body-large">Không có tài khoản thanh toán được tìm thấy</p>
+                  <img src={notFound} alt="Not found" />
                 </div>
+              )}
+              {bankCards.map((bankCard, index) => (
+                <React.Fragment key={bankCard._id}>
+                  <li className="li__wrapper">
+                    {selectedOption === index ? (
+                      <MdOutlineRadioButtonChecked
+                        className="icon__radio"
+                        onClick={() => handleClick(index)}
+                      />
+                    ) : (
+                      <MdOutlineRadioButtonUnchecked
+                        className="icon__radio"
+                        onClick={() => handleClick(index)}
+                      />
+                    )}
+                    <div className="account-item__wrapper">
+                      <div className="account-info" onClick={() => handleClick(index)}>
+                        <div className="account-number-default">
+                          <p className="body-large">STK:</p>
+                          <p className="body-large">{maskBankNumber(bankCard.bank_number)} </p>
+                          {bankCard.is_default && (
+                            <span className="default-label label-large">Mặc định</span>
+                          )}
+                        </div>
+                        <p className="bank-name body-large">Ngân hàng {bankCard.bank_name}</p>
+                      </div>
+
+                      <div className="bank-btn">
+                        <Button1
+                          backgroundColor={bankCard.is_default ? '#1D1B201F' : '#785B5B'}
+                          labelColor={bankCard.is_default ? 'rgba(32, 26, 26, 0.38)' : '#F1EFE7'}
+                          border="none"
+                          className="set-default-btn label-large"
+                          label="Thiết lập mặc định"
+                          type="button"
+                          onClick={() => handleSetDefault(bankCard, bankCard._id, id)}
+                        />
+                        <ButtonIcon
+                          className="bank-item__btn--del"
+                          label={<MdDeleteOutline style={{ color: '#785B5B' }} />}
+                          type="button"
+                          border="none"
+                          backgroundColor="#F2E5E4"
+                          onClick={() => handleDeletedBankCard(bankCard._id)}
+                        />
+                        {isOpenDelete && (
+                          <DelBank
+                            style={{ backgroundColor: 'rgba(0 0 0 0.8)' }}
+                            show={isOpenDelete}
+                            onHide={() => setIsOpenDelete(false)}
+                            id={selectedBankCardId}
+                            onSuccess={onSuccess}
+                            notBankCard={notBankCard}
+                            userId={id}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                  <hr />
+                  {/* {index < bankCards.length - 1 && <hr />} */}
+                </React.Fragment>
+              ))}
+            </ul>
+            <div className="btn__wrapper btn__wrapper1">
+              <ButtonIcon
+                className="section__btn"
+                border="none"
+                label={<GrAdd />}
+                type="button"
+                onClick={handleOpenModal1}
+              />
+              <div className="btn__cancel-submit">
+                <Button1 label="Hủy bỏ" type="button" onClick={props.onHide} className="col-6" />
+                <Button1
+                  label="Tiếp tục"
+                  type="button"
+                  className="col-6"
+                  labelColor="#F1EFE7"
+                  backgroundColor="#785B5B"
+                  onClick={handleSubmit}
+                />
               </div>
-            </li>
-            {index < bankCards.length - 1 && <hr />}
-          </React.Fragment>
-        ))}
-      </ul>
-    </article>
+            </div>
+          </form>
+        </article>
+      </div>
+    </div>
   );
 }
 export default ModalDeliveryPayment;
-
