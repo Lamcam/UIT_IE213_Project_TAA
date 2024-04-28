@@ -113,6 +113,8 @@ function PhoneEmailVal(props) {
 
   const handleSubmitEmailPhone = async (e) =>{
     e.preventDefault();
+    console.log('this is run');
+
     if(props.email){
       await axios.post('http://localhost:8000/api/auth/findUser/email', {
       email: value
@@ -152,12 +154,14 @@ function PhoneEmailVal(props) {
   }
 
   return(
-    <Form onSubmit={handleSubmitEmailPhone} className='get_otp' style={{display: props.show? 'flex': 'none' }} >
+    // <Form onSubmit={handleSubmitEmailPhone} className='get_otp' style={{display: props.show? 'flex': 'none' }} >
+      <Form className='get_otp' style={{display: props.show? 'flex': 'none' }} > 
       <Form.Control onChange={handleInputChange} type="text" placeholder={props.email? inform.email : inform.phone } />
 
       <Button 
         className='btn_reg_log_round_8px btn_clickable_boldcolor'
-        type='submit'
+        // type='submit'
+        onClick={handleSubmitEmailPhone}
       >
       Lấy mã
       </Button>
@@ -208,7 +212,8 @@ function OtpGet(props) {
   };
 
   const handleClick = () =>{
-    const check =  otp.every(element => typeof(element) === 'number') 
+    const check =  otp.every(element => typeof(element) === 'string') 
+    console.log(otp, typeof(otp[0]));
     if ( check ) props.four();
     else {
       alert("mã OTP không khớp")

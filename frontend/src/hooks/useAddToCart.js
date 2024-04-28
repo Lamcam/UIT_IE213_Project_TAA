@@ -20,7 +20,8 @@ export function useAddToCart(prod, modal) {
 
             if (res.status === 200) {
                 setLoading(false);
-                alert('Thêm vào giỏ hàng thành công');
+                // alert('Thêm vào giỏ hàng thành công');
+                console.log('Thêm vào giỏ hàng thành công');
                 // modal();
             }
 
@@ -30,7 +31,9 @@ export function useAddToCart(prod, modal) {
         }
 
     };
+    
 
     return { addToCart, loading, error };
 
 }
+
