@@ -146,7 +146,9 @@ function BreadcrumbSection() {
         case 'infomation':
           coverted = 'Thông tin'
           break;
-
+        case 'order':
+          coverted = 'Đặt hàng'
+          break;
         case 'profile-user':
           coverted = 'Hồ sơ cá nhân'
           break;
