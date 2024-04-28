@@ -14,44 +14,6 @@ Order.propTypes = {
 };
 
 
-// const deliveryInformation = {
-//     name: 'Lâm Cẩm',
-//     phoneNumber: '1234567890',
-//     address: 'KTX Khu A, ĐHQG, Thành phố Hồ Chí Minh',
-// };
-
-
-// const orderItems = [
-//     {
-//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-//         productName: "Vongf tay ddinhs ddas raats rta nhieu ne haha",
-//         moneyCurrent: 100000,
-//         // moneyBeforeDiscount: 150000
-//         number: 1,
-//     },
-//     {
-//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-//         productName: "Ten san pham 2",
-//         moneyCurrent: 120000,
-//         // moneyBeforeDiscount: 170000
-//         number: 1,
-//     },
-//     {
-//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-//         productName: "Ten san pham 3",
-//         moneyCurrent: 120000,
-//         // moneyBeforeDiscount: 170000
-//         number: 1,
-//     },
-//     {
-//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-//         productName: "Ten san pham 4",
-//         moneyCurrent: 120000,
-//         // moneyBeforeDiscount: 170000
-//         number: 1,
-//     },
-// ];
-
 function Order(props) {
     const location = useLocation();
     const orderItems = location.state?.data;
@@ -61,41 +23,45 @@ function Order(props) {
     const discountAmount = location.state?.discount
     console.log(location.state)
     const [deliveryInformation, setDeliveryInformation] = useState('')
-const defaultUser = JSON.parse(localStorage.getItem('user'));
-const defaultUserData = defaultUser[0]
-const id = defaultUserData._id;
-useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
-        .then((response) => {
-            const addressDefault = response.data.find((item) => {
-                return item.is_default === true;
+    const defaultUser = JSON.parse(localStorage.getItem('user'));
+    const defaultUserData = defaultUser[0]
+    const id = defaultUserData._id;
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
+            .then((response) => {
+                const addressDefault = response.data.find((item) => {
+                    return item.is_default === true;
+                });
+                setDeliveryInformation(addressDefault);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
             });
-        setDeliveryInformation(addressDefault);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-}, []);
-const onSuccess = () => {
-    axios
-  .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
-    .then((response) => {
-        const addressDefault = response.data.find((item) => {
-            return item.is_default === true;
-        });
-    setDeliveryInformation(addressDefault);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-}
+    }, []);
+
+
+
+    const onSuccess = () => {
+        axios
+            .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
+            .then((response) => {
+                const addressDefault = response.data.find((item) => {
+                    return item.is_default === true;
+                });
+                setDeliveryInformation(addressDefault);
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
     const [deliveryMethodSelected, setDeliveryMethodSelected] = useState(false);
     const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
 
     const handleDeliveryMethodChange = (selected) => {
         setDeliveryMethodSelected(selected)
-        
+
     };
 
     const handlePaymentMethodChange = (selected) => {
@@ -103,12 +69,14 @@ const onSuccess = () => {
     };
 
     return (
-        <Container className="order">
+        <Container className="order" fluid>
             <Row className='order__content'>
                 <Col lg={8} md={12} className='order__content__list'>
                     <DeliveryInformation
                         deliveryInformation={deliveryInformation}
-                        onSuccess={onSuccess} />
+                        onSuccess={onSuccess}
+                    />
+
                     <DeliveryMethod
                         onDeliveryMethodChange={handleDeliveryMethodChange} />
                     <PaymentMethod
