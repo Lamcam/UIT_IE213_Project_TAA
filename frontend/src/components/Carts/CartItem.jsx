@@ -31,11 +31,12 @@ CartItem.propTypes = {
           PropTypes.string, // Vì "moneyBeforeDiscount" có thể là số hoặc chuỗi
         ]),
         _id: PropTypes.string.isRequired,
-        number: PropTypes.number.isRequired
+        number: PropTypes.number.isRequired,
       }).isRequired,
     }),
   ).isRequired,
   setMoneyAll: PropTypes.func.isRequired,
+  onDeleteCartItem: PropTypes.func.isRequired,
 };
 
 function CartItem(props, id) {
@@ -48,7 +49,22 @@ function CartItem(props, id) {
   const [allItemsChecked, setAllItemsChecked] = useState(false);
   // const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
   console.log('cartItem23231', props.cartItems);
+  const handleDeleteItem = async (productId) => {
+    try {
+      // Gọi hàm xóa sản phẩm từ hook useDeleteCartItem hoặc từ API trực tiếp
+      await deleteFromCart(productId);
+      // Cập nhật danh sách sản phẩm sau khi xóa thành công
+      const updatedCartItems = props.cartItems.filter((item) => item._doc._id !== productId);
+      props.onDeleteCartItem(updatedCartItems);
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
 
+  useEffect(() => {
+    // Cập nhật danh sách sản phẩm sau khi xóa
+    // Gọi lại hook useDeleteCartItem hoặc các phương thức xử lý tương tự
+  }, [props.cartItems.length]);
 
   useEffect(() => {
     const initialCheckedItems = Array(props.cartItems.length).fill(false);
@@ -147,197 +163,200 @@ function CartItem(props, id) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  return (
-    isMobile ? (
-      <Table borderless className="cart" size='sm' id="cart_resize">
-        <thead className="cart__item__thead title-medium">
-          <tr>
-            <th>
-              <div className="item__checkbox__all">
-                {allItemsChecked ? (
-                  <ImCheckboxChecked className="check-box" onClick={handleAllCheckboxClick} />
-                ) : (
-                  <ImCheckboxUnchecked className="check-box" onClick={handleAllCheckboxClick} />
-                )}
-              </div>
-            </th>
-            <th>Sản phẩm</th>
-          </tr>
-        </thead>
-        <tbody className="cart__item__tbody body-large">
-          {props.cartItems.map((item, index) => (
-            <tr key={index} className={index === props.cartItems.length - 1 ? 'last__item' : ''}>
-              <td className="item__checkbox">
-                {checkedItems[index] ? (
-                  <ImCheckboxChecked className="check-box" onClick={() => handleCheckboxClick(index)} />
-                ) : (
-                  <ImCheckboxUnchecked className="check-box" onClick={() => handleCheckboxClick(index)} />
-                )}
-              </td>
-              <td>
-                <div className="info__product">
-                  <div className="img__product"><img
-                    src={item.product.imageUrl}
-                    alt={item.product.productName}
-                  /></div>
-                  <div className="info__product--responsive">
-                    <div className="name__product">
-                      <p>{item.product.productName}</p>
-                    </div>
-                    <div className="item__total__money">
-                      {/* {formatPrice(calculateSubtotal(index))} đ */}
-                      {(quantity[index] || 1) * item.product.moneyCurrent} đ
-
-                    </div>
-                    <div className="item__number">
-                      <div
-                        className="item__number__decrease"
-                        onClick={() => handleDecreaseQuantity(index)}
-                      >
-                        -
-                      </div>
-                      <input
-                        id=""
-                        type="number"
-                        min="1"
-                        max={10}
-                        step="1"
-                        value={quantity[index] || 1}
-                        className="item__number__product"
-                        readOnly
-                      />
-                      <div
-                        className="item__number__increase"
-                        onClick={() => handleIncreaseQuantity(index)}
-                      >
-                        +
-                      </div>
-                    </div>
-                    <div className="delete__product__cart">
-                      <div className="item__delete__product">
-                        <RiDeleteBin6Line
-                          className="icon__delete primary-text"
-                          method="delete"
-                          onClick={() => deleteFromCart(item?._doc?._id)}
-                        />
-                      </div>
-                    </div>
-                  </div>
+  return isMobile ? (
+    <Table borderless className="cart" size="sm" id="cart_resize">
+      <thead className="cart__item__thead title-medium">
+        <tr>
+          <th>
+            <div className="item__checkbox__all">
+              {allItemsChecked ? (
+                <ImCheckboxChecked className="check-box" onClick={handleAllCheckboxClick} />
+              ) : (
+                <ImCheckboxUnchecked className="check-box" onClick={handleAllCheckboxClick} />
+              )}
+            </div>
+          </th>
+          <th>Sản phẩm</th>
+        </tr>
+      </thead>
+      <tbody className="cart__item__tbody body-large">
+        {props.cartItems.map((item, index) => (
+          <tr key={index} className={index === props.cartItems.length - 1 ? 'last__item' : ''}>
+            <td className="item__checkbox">
+              {checkedItems[index] ? (
+                <ImCheckboxChecked
+                  className="check-box"
+                  onClick={() => handleCheckboxClick(index)}
+                />
+              ) : (
+                <ImCheckboxUnchecked
+                  className="check-box"
+                  onClick={() => handleCheckboxClick(index)}
+                />
+              )}
+            </td>
+            <td>
+              <div className="info__product">
+                <div className="img__product">
+                  <img src={item.product.imageUrl} alt={item.product.productName} />
                 </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    ) : (
-      <Table borderless responsive="sm" className="table__cart__item" size='sm'>
-        <thead className="cart__item__thead title-medium">
-          <tr>
-            <th>
-              <div className="item__checkbox__all">
-                {allItemsChecked ? (
-                  <ImCheckboxChecked className="check-box" onClick={handleAllCheckboxClick} />
-                ) : (
-                  <ImCheckboxUnchecked className="check-box" onClick={handleAllCheckboxClick} />
-                )}
-              </div>
-            </th>
-            <th>Sản phẩm</th>
-            <th>Giá tiền</th>
-            <th>Số lượng</th>
-            <th>Thành tiền</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody className="cart__item__tbody body-large">
-          {props.cartItems.map((item, index) => (
-            <tr key={index} className={index === props.cartItems.length - 1 ? 'last__item' : ''}>
-              <td className="item__checkbox">
-                {checkedItems[index] ? (
-                  <ImCheckboxChecked className="check-box" onClick={() => handleCheckboxClick(index)} />
-                ) : (
-                  <ImCheckboxUnchecked className="check-box" onClick={() => handleCheckboxClick(index)} />
-                )}
-              </td>
-              <td>
-                <div className="info__product">
-                  <div className="img__product"><img
-                    src={item.product.imageUrl}
-                    alt={item.product.productName}
-                  /></div>
+                <div className="info__product--responsive">
                   <div className="name__product">
                     <p>{item.product.productName}</p>
                   </div>
+                  <div className="item__total__money">
+                    {/* {formatPrice(calculateSubtotal(index))} đ */}
+                    {(quantity[index] || 1) * item.product.moneyCurrent} đ
+                  </div>
+                  <div className="item__number">
+                    <div
+                      className="item__number__decrease"
+                      onClick={() => handleDecreaseQuantity(index)}
+                    >
+                      -
+                    </div>
+                    <input
+                      id=""
+                      type="number"
+                      min="1"
+                      max={10}
+                      step="1"
+                      value={quantity[index] || 1}
+                      className="item__number__product"
+                      readOnly
+                    />
+                    <div
+                      className="item__number__increase"
+                      onClick={() => handleIncreaseQuantity(index)}
+                    >
+                      +
+                    </div>
+                  </div>
+                  <div className="delete__product__cart">
+                    <div className="item__delete__product">
+                      <RiDeleteBin6Line
+                        className="icon__delete primary-text"
+                        method="delete"
+                        onClick={() => deleteFromCart(item?._doc?._id)}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </td>
-              <td>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  ) : (
+    <Table borderless responsive="sm" className="table__cart__item" size="sm">
+      <thead className="cart__item__thead title-medium">
+        <tr>
+          <th>
+            <div className="item__checkbox__all">
+              {allItemsChecked ? (
+                <ImCheckboxChecked className="check-box" onClick={handleAllCheckboxClick} />
+              ) : (
+                <ImCheckboxUnchecked className="check-box" onClick={handleAllCheckboxClick} />
+              )}
+            </div>
+          </th>
+          <th>Sản phẩm</th>
+          <th>Giá tiền</th>
+          <th>Số lượng</th>
+          <th>Thành tiền</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody className="cart__item__tbody body-large">
+        {props.cartItems.map((item, index) => (
+          <tr key={index} className={index === props.cartItems.length - 1 ? 'last__item' : ''}>
+            <td className="item__checkbox">
+              {checkedItems[index] ? (
+                <ImCheckboxChecked
+                  className="check-box"
+                  onClick={() => handleCheckboxClick(index)}
+                />
+              ) : (
+                <ImCheckboxUnchecked
+                  className="check-box"
+                  onClick={() => handleCheckboxClick(index)}
+                />
+              )}
+            </td>
+            <td>
+              <div className="info__product">
+                <div className="img__product">
+                  <img src={item.product.imageUrl} alt={item.product.productName} />
+                </div>
+                <div className="name__product">
+                  <p>{item.product.productName}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div
+                className={
+                  item.product.moneyBeforeDiscount
+                    ? 'item__money__product have__discount'
+                    : 'item__money__product'
+                }
+              >
+                <span className="money__current">{formatPrice(item.product.moneyCurrent)} đ</span>
+                {item.product.moneyBeforeDiscount && (
+                  <span className="money__befor__discount primary-text">
+                    {formatPrice(item.product.moneyBeforeDiscount)} đ
+                  </span>
+                )}
+              </div>
+            </td>
+            <td>
+              <div className="item__number">
                 <div
-                  className={
-                    item.product.moneyBeforeDiscount
-                      ? 'item__money__product have__discount'
-                      : 'item__money__product'
-                  }
+                  className="item__number__decrease"
+                  onClick={() => handleDecreaseQuantity(index)}
                 >
-                  <span className="money__current">{formatPrice(item.product.moneyCurrent)} đ</span>
-                  {item.product.moneyBeforeDiscount && (
-                    <span className="money__befor__discount primary-text">
-                      {formatPrice(item.product.moneyBeforeDiscount)} đ
-                    </span>
-                  )}
+                  -
                 </div>
-              </td>
-              <td>
-                <div className="item__number">
-                  <div
-                    className="item__number__decrease"
-                    onClick={() => handleDecreaseQuantity(index)}
-                  >
-                    -
-                  </div>
-                  <input
-                    id=""
-                    type="number"
-                    min="1"
-                    max={10}
-                    step="1"
-                    value={quantity[index] || 1}
-                    // value={item._doc.quantity || 1}
-                    className="item__number__product"
-                    readOnly
-                  />
-                  <div
-                    className="item__number__increase"
-                    onClick={() => handleIncreaseQuantity(index)}
-                  >
-                    +
-                  </div>
+                <input
+                  id=""
+                  type="number"
+                  min="1"
+                  max={10}
+                  step="1"
+                  value={quantity[index] || 1}
+                  // value={item._doc.quantity || 1}
+                  className="item__number__product"
+                  readOnly
+                />
+                <div
+                  className="item__number__increase"
+                  onClick={() => handleIncreaseQuantity(index)}
+                >
+                  +
                 </div>
-              </td>
-              <td>
-                <div className="item__total__money">
-                  {formatPrice(calculateSubtotal(index))} đ
-                  {/* {(quantity[index] || 1) * item.product.moneyCurrent} đ */}
-                </div>
-              </td>
-              <td>
-                <div className="item__delete__product">
-                  <RiDeleteBin6Line
-                    className="icon__delete primary-text"
-                    method="delete"
-                    onClick={() => deleteFromCart(item?._doc?._id)}
-                  />
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-
-    )
-
-
+              </div>
+            </td>
+            <td>
+              <div className="item__total__money">
+                {formatPrice(calculateSubtotal(index))} đ
+                {/* {(quantity[index] || 1) * item.product.moneyCurrent} đ */}
+              </div>
+            </td>
+            <td>
+              <div className="item__delete__product">
+                <RiDeleteBin6Line
+                  className="icon__delete primary-text"
+                  method="delete"
+                  onClick={() => handleDeleteItem(item?._doc?._id)}
+                />
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   );
-
 }
 
 export default CartItem;
