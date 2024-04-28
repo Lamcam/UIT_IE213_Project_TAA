@@ -1,177 +1,203 @@
+import React, { useState, useEffect } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import './breadcrumbs.scss';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
-
+import axios from 'axios';
 function BreadcrumbSection() {
-    const location = useLocation()
+  const location = useLocation()
+  const params = useParams();
+  const currentPath = location.pathname;
+  let currentLink = ''
+  const [productName, setProductName] = useState('');
 
-    const currentPath = location.pathname;
-    let currentLink = ''
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // console.log('Fetching product data...');
+        const response = await axios.get(`http://localhost:8000/products/${params.productId}`);
+        // console.log('Product data:', response.data);
+        setProductName(response.data.prod_name);
+        // console.log("name", productName)
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      }
+    };
 
-    const changePath = (path) =>{
-      let coverted = '';
+    fetchData()
+  }, [params.productId, currentPath]);
+
+  const changePath = (path, currentPath) => {
+    let coverted = '';
+    if (params.productId && parseInt(params.productId) === parseInt(path) && currentPath.includes('products')) {
+      coverted = productName;
+    }
+    else if (params.newsId && parseInt(params.newsId) === parseInt(path) && currentPath.includes('news')) {
+      coverted = 'Bài viết';
+    } else {
       switch (path) {
         case 'log_in':
-          coverted= 'Đăng nhập'
+          coverted = 'Đăng nhập'
           break;
         case 'register':
-          coverted= 'Đăng ký'
+          coverted = 'Đăng ký'
           break;
         case 'products':
-          coverted= 'Sản phẩm'
+          coverted = 'Sản phẩm'
           break;
         case 'news':
-          coverted= 'Tin tức'
+          coverted = 'Tin tức'
           break;
         case 'cart':
-          coverted= 'Giỏ hàng'
+          coverted = 'Giỏ hàng'
           break;
         case 'about_us':
-          coverted= 'Về chúng tôi'
+          coverted = 'Về chúng tôi'
           break;
         case 'guideline':
-          coverted= 'Hướng dẫn'
+          coverted = 'Hướng dẫn'
           break;
         case 'policy':
-          coverted= 'Chính sách'
+          coverted = 'Chính sách'
           break;
         case 'category':
-          coverted= 'Thể loại'
+          coverted = 'Thể loại'
           break;
         case 'Phu_kien_toc':
-          coverted= 'Thể loại'
+          coverted = 'Phụ kiện tóc'
           break;
-      
+
         case 'Tram_cai':
-          coverted= 'Trâm cài'
+          coverted = 'Trâm cài'
           break;
-      
+
         case 'Kep':
-          coverted= 'Kẹp'
+          coverted = 'Kẹp'
           break;
 
         case 'Day_cot_toc':
-          coverted= 'Dây cột tóc'
+          coverted = 'Dây cột tóc'
           break;
 
         case 'Cai_toc':
-          coverted= 'Cài tóc'
+          coverted = 'Cài tóc'
           break;
 
         case 'Tui_vi':
-          coverted= 'Túi ví'
+          coverted = 'Túi ví'
           break;
 
         case 'Tui_xach':
-          coverted= 'Túi xách'
+          coverted = 'Túi xách'
           break;
         case 'Vi':
-          coverted= 'Ví'
+          coverted = 'Ví'
           break;
 
         case 'Thiep':
-          coverted= 'Thiệp'
+          coverted = 'Thiệp'
           break;
 
         case 'Op_lung':
-          coverted= 'Ốp lưng'
+          coverted = 'Ốp lưng'
           break;
         case 'Mat_kinh':
-          coverted= 'Mắt kính'
+          coverted = 'Mắt kính'
           break;
 
         case 'Day_deo':
-          coverted= 'Dây đeo'
+          coverted = 'Dây đeo'
           break;
 
         case 'Mu_non':
-          coverted= 'Mũ nón'
+          coverted = 'Mũ nón'
           break;
 
         case 'Khau_trang':
-          coverted= 'Khẩu trang'
+          coverted = 'Khẩu trang'
           break;
 
         case 'Trang_suc':
-          coverted= 'Trang sức'
+          coverted = 'Trang sức'
           break;
         case 'Vong_co':
-          coverted= 'Vòng cổ'
+          coverted = 'Vòng cổ'
           break;
 
         case 'Vong_tay':
-          coverted= 'Vòng tay'
+          coverted = 'Vòng tay'
           break;
         case 'Hoa_tai':
-          coverted= 'Hoa tai'
+          coverted = 'Hoa tai'
           break;
 
         case 'Nhan':
-          coverted= 'Nhẫn'
+          coverted = 'Nhẫn'
           break;
-      
+
         case 'Khac':
-          coverted= 'Khác'
+          coverted = 'Khác'
           break;
 
         case 'account':
-          coverted= 'Tài khoản'
+          coverted = 'Tài khoản'
           break;
-        
+
         case 'infomation':
-          coverted= 'Thông tin'
+          coverted = 'Thông tin'
           break;
 
         case 'profile-user':
-          coverted= 'Hồ sơ cá nhân'
+          coverted = 'Hồ sơ cá nhân'
           break;
         case 'profile-bank-card':
-          coverted= 'Tài khoản ngân hàng'
+          coverted = 'Tài khoản ngân hàng'
           break;
         case 'profile-shipping-address':
-          coverted= 'Địa chỉ giao hàng'
+          coverted = 'Địa chỉ giao hàng'
           break;
 
         case 'profile-change-password':
-          coverted= 'Đổi mật khẩu'
+          coverted = 'Đổi mật khẩu'
           break;
 
         case 'orders':
-          coverted= 'Đơn hàng'
+          coverted = 'Đơn hàng'
           break;
         case 'favor':
-          coverted= 'Sản phẩm yêu thích'
+          coverted = 'Sản phẩm yêu thích'
           break;
-      
+
         default:
           coverted = path
           break;
       }
 
-      return coverted;
-
     }
-    
-    const crumbs = location.pathname.split('/')
-        .filter(crumb => crumb !== '')
-        .map(crumb => {currentLink += `/${crumb}`
+    return coverted;
+  }
 
+  const crumbs = location.pathname.split('/')
+    .filter(crumb => crumb !== '')
+    .map(crumb => {
+      currentLink += `/${crumb}`
+      console.log(crumb)
       return (
-       
-          <Breadcrumb.Item href={currentLink}>{changePath(crumb)}</Breadcrumb.Item>
+
+        <Breadcrumb.Item href={currentLink}>{changePath(crumb, currentPath)}</Breadcrumb.Item>
       )
     })
 
-    
+
   return (
-      
+
     // </div>
-    <section className='breadcrumbs_section' style={{display: currentPath === '/'? 'none' : null }} >
-        <Breadcrumb>
-            <Breadcrumb.Item href='/'>Trang chủ</Breadcrumb.Item>
-            {crumbs}
-        </Breadcrumb>
+    <section className='breadcrumbs_section'
+      style={{ display: currentPath === '/' || currentPath === '/log_in' || currentPath === '/register' ? 'none' : null }} >
+      <Breadcrumb>
+        <Breadcrumb.Item href='/'>Trang chủ</Breadcrumb.Item>
+        {crumbs}
+      </Breadcrumb>
     </section>
   );
 }
