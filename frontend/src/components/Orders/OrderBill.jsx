@@ -18,6 +18,7 @@ OrderBill.propTypes = {
         })
     ).isRequired,
     totalOrderAmount: PropTypes.number.isRequired,
+    deliveryFee: PropTypes.number.isRequired,
     deliveryMethodSelected: PropTypes.bool,
     paymentMethodSelected: PropTypes.bool,
     temporaryAmount: PropTypes.number.isRequired,
@@ -84,12 +85,12 @@ function OrderBill(props) {
             </div>
             <div className="order__bill__money__ship title-medium">
                 <div className="money__ship__title">Phí vận chuyển:</div>
-                <div className="money__ship__value"> { numberWithCommas(10000)}đ</div>
+                <div className="money__ship__value"> { numberWithCommas(props.deliveryFee)}đ</div>
             </div>
             <div className="order__bill__line"></div>
             <div className="order__bill__total__money title-medium">
                 <div className="money__total__title">Thành tiền:</div>
-                <div className="money__total__value">{numberWithCommas(props.totalOrderAmount - 10000)} đ</div>
+                <div className="money__total__value">{numberWithCommas(props.totalOrderAmount + (props.deliveryFee))} đ</div>
 
             </div>
             <div className="order__bill__note title-medium">Đã bao gồm VAT, phí đóng gói, phí vận chuyển và cả chi phí khác.</div>

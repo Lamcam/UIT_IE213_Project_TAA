@@ -8,22 +8,24 @@ import { useAsyncValue } from 'react-router-dom';
 import axios from 'axios';
 
 function Cart(props) {
+  const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
   const [temporaryAmount, setTemporaryAmount] = useState(0);
   let discountAmount;
   if (temporaryAmount > 0) {
-    const min = 5000; // Giá trị nhỏ nhất
-    const max = 50000; // Giá trị lớn nhất
-    const step = 5000; // Bước nhảy
+    // const min = 5000; // Giá trị nhỏ nhất
+    // const max = 50000; // Giá trị lớn nhất
+    // const step = 5000; // Bước nhảy
 
     // Tính toán số ngẫu nhiên
-    const randomSteps = Math.floor(Math.random() * ((max - min) / step + 1));
-    discountAmount = min + randomSteps * step;
+    // const randomSteps = Math.floor(Math.random() * ((max - min) / step + 1));
+    // discountAmount = min + randomSteps * step;
+    discountAmount = 5000 * checkedItemsInfo.length;
+    if (discountAmount > 50000) discountAmount = 50000;
   } else {
     discountAmount = 0;
   }
   const totalAmount = temporaryAmount - discountAmount;
   const [cartItems1, setCartItems] = useState([]);
-  const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
 
   const handleCheckedItemsChange = (checkedItemsInfo) => {
     setCheckedItemsInfo(checkedItemsInfo);
@@ -94,7 +96,10 @@ function Cart(props) {
   //   },
   //   // Thêm các mục khác nếu cần
   // ];
-
+  const handleDeleteCartItem = async (updatedCartItems) => {
+    // Cập nhật danh sách cartItems sau khi xóa sản phẩm
+    setCartItems(updatedCartItems);
+  };
   return (
     <Container className="cart" fluid id="cart">
       <Row className="cart__content">
@@ -104,6 +109,7 @@ function Cart(props) {
             cartItems={cartItems1}
             setMoneyAll={setTemporaryAmount}
             onCheckedItemsChange={handleCheckedItemsChange}
+            onDeleteCartItem={handleDeleteCartItem}
           />
         </Col>
         <Col xl={3} lg={3} md={12} className="cart__content__bill">

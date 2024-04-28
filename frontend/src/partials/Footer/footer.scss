@@ -68,7 +68,7 @@ footer {
 
   
 .input_warrper{
-
+  flex-wrap: wrap;
   flex-direction: row;
 
     input.email_input{
@@ -129,11 +129,11 @@ footer {
   }
 }
 
-@media (max-width: 744px) {
-  // footer{
-
+@media (max-width: 900px) {
+  footer{
+    padding: 15px 0px;
     
-  // }
+  }
 
  
   

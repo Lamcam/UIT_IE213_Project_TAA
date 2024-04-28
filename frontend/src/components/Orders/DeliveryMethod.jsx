@@ -13,8 +13,8 @@ function DeliveryMethod(props) {
         }
         // Nếu không, cập nhật trạng thái của nút mới được chọn
         setSelectedOption(index);
+        props.handleDeliveryFee(index===0 ? 30000 : 0)
         props.onDeliveryMethodChange(index === 0 || index === 1);
-
     };
 
     return (

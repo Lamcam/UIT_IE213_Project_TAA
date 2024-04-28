@@ -229,6 +229,7 @@ article.section__content {
     text-align: center;
     & img{
       width: 200px;
+      height: auto;
     }
   }
 }
@@ -236,6 +237,7 @@ article.section__content {
 .shipping-item__wrapper{
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 .account-info,
 .shipping-info {
