@@ -212,7 +212,9 @@
   background: var(--M3-sys-light-primary, #785b5b) !important;
   color: var(--M3-sys-light-on-primary, #f1efe7) !important;
 }
-
+.btn_clickable_boldcolor.buynow {
+  cursor: pointer;
+}
 .productDetail button:hover {
   cursor: pointer;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2), 0px 1px 3px 1px rgba(0, 0, 0, 0.2);

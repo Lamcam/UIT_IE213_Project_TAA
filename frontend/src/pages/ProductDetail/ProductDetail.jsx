@@ -26,7 +26,7 @@ import axios from 'axios';
 import { useAddToCart } from 'hooks/useAddToCart';
 import PropTypes from 'prop-types';
 import PopupNotiLogin from 'components/Products/PopupNotiLogin';
-
+import { useNavigate } from 'react-router-dom';
 ProductDetail.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -51,6 +51,7 @@ ProductDetail.propTypes = {
 };
 
 function ProductDetail(props) {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const { addToCart } = useAddToCart(); // HAN
   const [filteredData, setFilteredData] = useState([]);
@@ -188,7 +189,7 @@ function ProductDetail(props) {
   const thumbnailImages = product?.prod_img || [];
   const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
-  const content = "Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích."
+
 
   //heart plus
   const [isFilled, setIsFilled] = useState(false);
@@ -327,10 +328,12 @@ function ProductDetail(props) {
   };
 
   const [modalShow, setModalShow] = React.useState(false);
+  const [content, setContent] = useState('');
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
   const toggleLike = async () => {
     if (!localStorage.getItem('user')) {
       console.log("Bạn cần đăng nhập");
+      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích!");
       setShowPopupNotiLogin(true);
     } else {
       try {
@@ -355,6 +358,37 @@ function ProductDetail(props) {
       } catch (error) {
         console.error('Error toggling favorite:', error);
       }
+    }
+  };
+  const handleAddToCart = () => {
+    if (!localStorage.getItem('user')) {
+      console.log("Bạn cần đăng nhập");
+      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!");
+      setShowPopupNotiLogin(true);
+    } else {
+      addToCart(props.productItem, quantity);
+      setModalShow(true);
+      setTimeout(() => {
+        setModalShow(false); // Ẩn popup sau 5 giây
+      }, 3000);
+    }
+  };
+  // const contentBuyNow = "Bạn cần đăng nhập để thực hiện mua ngay!";
+  const addToCartAndRedirect = () => {
+    if (!localStorage.getItem('user')) {
+      console.log('Bạn cần đăng nhập');
+      setContent("Bạn cần đăng nhập để thực hiện mua ngay!");
+      setShowPopupNotiLogin(true);
+    } else {
+      (async () => {
+        try {
+          await addToCart(product, 1);
+          console.log('Sản phẩm đã được thêm vào giỏ hàng');
+          navigate("/cart");
+        } catch (error) {
+          console.error('Lỗi khi thêm vào giỏ hàng:', error);
+        }
+      })();
     }
   };
   return (
@@ -497,16 +531,13 @@ function ProductDetail(props) {
                 <button
                   className="btn_round_8px btn_clickable_lightcolor"
                   show={showPopup}
-                  onClick={() => {
-                    setModalShow(true);
-                    addToCart(product, quantity);
-                  }}
+                  onClick={handleAddToCart}
                 >
                   <MdOutlineAddShoppingCart />
                   Thêm vào giỏ hàng
                 </button>
                 <NotiAddCartSuccessPopup show={modalShow} onHide={() => setModalShow(false)} />
-                <NavLink className="btn_round_8px btn_clickable_boldcolor">Mua ngay</NavLink>
+                <div className="btn_round_8px btn_clickable_boldcolor buynow" onClick={addToCartAndRedirect}>Mua ngay</div>
               </div>
             </div>
           </Col>

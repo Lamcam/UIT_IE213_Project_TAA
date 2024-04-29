@@ -7,7 +7,8 @@ import { MdOutlineAddShoppingCart } from "react-icons/md";
 import 'style/components/Products/PopupQuickView.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAddToCart } from 'hooks/useAddToCart';
-
+import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
+import PopupNotiLogin from './PopupNotiLogin';
 PopupQuickView.propTypes = {
   onHide: PropTypes.func.isRequired,
   productItem: PropTypes.shape({
@@ -39,7 +40,21 @@ function PopupQuickView(props) {
   const [selectedImage, setSelectedImage] = useState(defaultImage);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useAddToCart();
-
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
+  const content = "Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!"
+  const handleAddToCart = () => {
+    if (!localStorage.getItem('user')) {
+      console.log("Bạn cần đăng nhập");
+      setShowPopupNotiLogin(true);
+    } else {
+      addToCart(props.productItem, quantity);
+      setShowSuccessPopup(true);
+      setTimeout(() => {
+        setShowSuccessPopup(false); // Ẩn popup sau 5 giây
+      }, 3000);
+    }
+  };
   const selectImage = (image) => {
     setSelectedImage(image);
   };
@@ -179,10 +194,14 @@ function PopupQuickView(props) {
               iconHeight="24px"
               label="Thêm vào giỏ hàng"
               border="1px solid #9c4048"
-              onClick={() => {
-                addToCart(props.productItem, quantity);
-              }} // Add success pop here (HAN)
+              onClick={handleAddToCart
+                //   () => {
+                //   addToCart(props.productItem, quantity);
+                // }
+              } // Add success pop here (HAN)
             />
+            <PopupNotiLogin content={content} show={showPopupNotiLogin} onHide={() => setShowPopupNotiLogin(false)} />
+            <NotiAddCartSuccessPopup show={showSuccessPopup} onHide={() => setShowSuccessPopup(false)} />
             <Button
               className="button__detail__view"
               backgroundColor="#785B5B"

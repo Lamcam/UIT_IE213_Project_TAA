@@ -8,6 +8,7 @@ import 'style/components/Products/ProductItem.scss';
 import PopupNotiLogin from './PopupNotiLogin';
 import axios from 'axios';
 import { useAddToCart } from 'hooks/useAddToCart';
+import { useNavigate } from 'react-router-dom';
 ProductItem.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -29,18 +30,34 @@ ProductItem.propTypes = {
     prod_color: PropTypes.string.isRequired,
     prod_size: PropTypes.string.isRequired,
   }).isRequired,
-  onFavoriteChange: PropTypes.func
+  onFavoriteChange: PropTypes.func,
 };
 
 function ProductItem({ product, onFavoriteChange }) {
+  const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
+  const[content, setContent]=useState('');
   const { addToCart } = useAddToCart();
-  const content = "Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích."
   const addToCartAndRedirect = () => {
-    addToCart(product, 1);
+    if (!localStorage.getItem('user')) {
+      console.log('Bạn cần đăng nhập');
+      setContent("Bạn cần đăng nhập để thực hiện mua ngay!");
+      setShowPopupNotiLogin(true);
+    } else {
+      (async () => {
+        try {
+          await addToCart(product, 1);
+          console.log('Sản phẩm đã được thêm vào giỏ hàng');
+          navigate("/cart");
+        } catch (error) {
+          console.error('Lỗi khi thêm vào giỏ hàng:', error);
+        }
+      })();
+    }
   };
+
 
   useEffect(() => {
     const fetchUserFavorites = async () => {
@@ -50,7 +67,7 @@ function ProductItem({ product, onFavoriteChange }) {
 
         const response = await axios.get(`http://localhost:8000/api/account/favors/${user_id}`);
         const favorites = response.data;
-        setIsLiked(favorites.some(favorite => favorite._id === product._id));
+        setIsLiked(favorites.some((favorite) => favorite._id === product._id));
       } catch (error) {
         console.error('Error fetching user favorites:', error);
       }
@@ -61,7 +78,8 @@ function ProductItem({ product, onFavoriteChange }) {
 
   const toggleLike = async () => {
     if (!localStorage.getItem('user')) {
-      console.log("Bạn cần đăng nhập");
+      console.log('Bạn cần đăng nhập');
+      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích!")
       setShowPopupNotiLogin(true);
     } else {
       try {
@@ -72,14 +90,13 @@ function ProductItem({ product, onFavoriteChange }) {
           await axios.delete('http://localhost:8000/api/account/del-favors', {
             data: {
               userId: user_id,
-              productId: product._id
-            }
-
+              productId: product._id,
+            },
           });
         } else {
           await axios.post('http://localhost:8000/api/account/add-favors', {
             userId: user_id,
-            productId: product._id
+            productId: product._id,
           });
         }
         setIsLiked(!isLiked);
@@ -103,7 +120,8 @@ function ProductItem({ product, onFavoriteChange }) {
   }
 
   const currentPrice = formatPrice(
-    product.prod_cost.$numberDecimal - product.prod_discount.$numberDecimal * product.prod_cost.$numberDecimal
+    product.prod_cost.$numberDecimal -
+    product.prod_discount.$numberDecimal * product.prod_cost.$numberDecimal,
   );
   const discount = product.prod_discount.$numberDecimal * 100;
   const BeforDiscountPrice = formatPrice(product.prod_cost.$numberDecimal);
@@ -128,9 +146,17 @@ function ProductItem({ product, onFavoriteChange }) {
         </NavLink>
         <div className="product__item__price">
           <div className="item__price__current">{currentPrice} đ</div>
-          {discount > 0 ? (<div className="item__price__discount">{BeforDiscountPrice} đ</div>) : (<div className="item__price__discount"></div>)}
+          {discount > 0 ? (
+            <div className="item__price__discount">{BeforDiscountPrice} đ</div>
+          ) : (
+            <div className="item__price__discount"></div>
+          )}
         </div>
-        {discount > 0 ? (<div className="product__item__discount">Giảm {discount} %</div>) : (<div className="product__item__discount"></div>)}
+        {discount > 0 ? (
+          <div className="product__item__discount">Giảm {discount} %</div>
+        ) : (
+          <div className="product__item__discount"></div>
+        )}
         <div className="product__item__stock primary-text">Còn hàng</div>
       </div>
       <div className="product__item__section">
@@ -139,9 +165,15 @@ function ProductItem({ product, onFavoriteChange }) {
         </div>
         <PopupQuickView show={showPopup} onHide={() => setShowPopup(false)} productItem={product} />
         <div className="line--vertical"></div>
-        <NavLink to="/cart" onClick={addToCartAndRedirect}>Mua ngay</NavLink>
+        <div onClick={addToCartAndRedirect}>
+          Mua ngay
+        </div>
       </div>
-      <PopupNotiLogin content={content} show={showPopupNotiLogin} onHide={() => setShowPopupNotiLogin(false)} />
+      <PopupNotiLogin
+        content={content}
+        show={showPopupNotiLogin}
+        onHide={() => setShowPopupNotiLogin(false)}
+      />
     </div>
   ) : (
     <div className="product__outstock product__item body-large">
