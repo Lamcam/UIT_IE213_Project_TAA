@@ -62,11 +62,14 @@ function Order(props) {
         console.error('Error:', error);
       });
   };
-
-  const [deliveryMethodSelected, setDeliveryMethodSelected] = useState('');
-  const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
+  
+  const [deliveryMethodSelected, setDeliveryMethodSelected] = useState(null);
+    const [paymentMethodSelected, setPaymentMethodSelected] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(0)
-
+  const [selectedPaymentInfo, setSelectedPaymentInfo] = useState(null)
+  const [selectedAddressInfo, setSelectedAddressInfo] =useState(null)
+  console.log(deliveryMethodSelected)
+  console.log(paymentMethodSelected)
   const handleDeliveryMethodChange = (selected) => {
     setDeliveryMethodSelected(selected);
   };
@@ -79,6 +82,12 @@ function Order(props) {
   }
   const updateDeliveryPayment = (item) => {
     setDeliveryPayment(item)
+  }
+  const handleSelectedPaymentInfo = (item) => {
+    setSelectedPaymentInfo(item)
+  }
+  const handleSelectedAddressInfo = (item) => {
+    setSelectedAddressInfo(item)
   }
 
   const updateDeliveryInformation = (item) => {
@@ -94,6 +103,7 @@ function Order(props) {
             // onSuccess={onSuccess}
             id={id}
             updateDeliveryInformation={updateDeliveryInformation}
+            selectedAddressInfo={handleSelectedAddressInfo}
           />
           <DeliveryMethod onDeliveryMethodChange={handleDeliveryMethodChange} handleDeliveryFee={handleDeliveryFee} />
           <PaymentMethod
@@ -101,6 +111,7 @@ function Order(props) {
             deliveryPaymentDefault={deliveryPayment}
             id={id}
             updateDeliveryPayment={updateDeliveryPayment}
+            selectedPaymentInfo={handleSelectedPaymentInfo}
           />
         </Col>
         <Col lg={4} md={12} className="order__content__bill">
@@ -112,6 +123,9 @@ function Order(props) {
             temporaryAmount={temporaryAmount}
             discountAmount={discountAmount}
             deliveryFee={deliveryFee}
+
+            selectedPaymentInfo={selectedPaymentInfo}
+            selectedAddressInfo={selectedAddressInfo}
           />
         </Col>
       </Row>

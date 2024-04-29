@@ -9,7 +9,7 @@ import AddBank from 'pages/Account/Modal/modal--add-bank';
 function PaymentMethod(props) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isModalDeliveryPayment, setIsModalDeliveryPayment] = useState(false);
-  const [selectedItems, setSelectedItems] = useState('');
+  const [selectedItems, setSelectedItems] = useState(null);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   console.log('selectitemss', selectedItems)
   console.log(props.deliveryPaymentDefault)
@@ -25,13 +25,18 @@ function PaymentMethod(props) {
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, []);
+    }, []);
+  
+  useEffect(() => {
+    props.selectedPaymentInfo(selectedItems)
+  }, [selectedItems])
+
   const handleClick = (index) => {
     if (index === selectedOption) {
       return;
     }
     setSelectedOption(index);
-    props.onPaymentMethodChange(index === 0 || index === 1);
+    props.onPaymentMethodChange(index);
   };
 
   const maskBankNumber = (bankNumber) => {
@@ -67,34 +72,34 @@ function PaymentMethod(props) {
   }
 
   const handleOnHide = () => {
-    axios
-      .get(`http://localhost:8000/api/account/bank-cards/${props.id}`)
-      .then((response) => {
-        console.log(response.data);
-        const bankCardAfterDel = response.data.find((item) => {
-          return item._id === selectedItems._id;
-        });
-        const bankCardDefault = response.data.find((item) => {
-          return item.is_default === true;
-        });
-        const bankCardDefaultIndex = response.data.findIndex((item) => {
-          return item.is_default === true;
-        });
-        if (!bankCardAfterDel) {
-          if (!bankCardDefault) {
-            console.log('k co defalut')
-            updateDeliveryPayment(null)
-            setSelectedItems('')
-            setIsModalDeliveryPayment(false)
+      axios
+        .get(`http://localhost:8000/api/account/bank-cards/${props.id}`)
+        .then((response) => {
+          console.log(response.data);
+            const bankCardAfterDel = response.data.find((item) => {
+              return item._id === selectedItems._id;
+            });
+            const bankCardDefault = response.data.find((item) => {
+              return item.is_default === true;
+            });
+            const bankCardDefaultIndex = response.data.findIndex((item) => {
+              return item.is_default === true;
+            });
+            if (!bankCardAfterDel) {
+              if (!bankCardDefault) {
+                console.log('k co defalut')
+                updateDeliveryPayment(null)
+                setSelectedItems(null)
+                setIsModalDeliveryPayment(false)
+              }
+              else {
+                console.log('co dèal')
+                setIsModalDeliveryPayment(false)
+                setSelectedItems('Bạn chưa chọn tài khoản thanh toán phù hợp')
+              }
+              
           }
-          else {
-            console.log('co dèal')
-            setIsModalDeliveryPayment(false)
-            setSelectedItems('Bạn chưa chọn tài khoản thanh toán phù hợp')
-          }
-
-        }
-        setIsModalDeliveryPayment(false)
+          setIsModalDeliveryPayment(false)
 
       })
       .catch((error) => {
@@ -124,17 +129,17 @@ function PaymentMethod(props) {
 
 
 
-      {selectedOption === 1 && selectedItems === 'Bạn chưa chọn tài khoản thanh toán phù hợp' && (<ul className="accounts-list">
-        <div className="account-item__wrapper">
-          <div className="account-info" style={{ padding: "0 0 0 48px", marginRight: "200px" }}>
-            <p className="body-large">Bạn chưa chọn tài khoản thanh toán phù hợp!</p>
-          </div>
-          <div className="bank-btn">
-            <Button1
-              className="set-default-btn label-large"
-              label="Thay đổi"
-              type="button"
-              onClick={() => setIsModalDeliveryPayment(true)}
+      {selectedOption === 1 && selectedItems==='Bạn chưa chọn tài khoản thanh toán phù hợp' && (<ul className="accounts-list">
+            <div className="account-item__wrapper">
+              <div className="account-info" style={{paddingRight: "40px"}}>
+                  <p className="body-large">Bạn chưa chọn tài khoản thanh toán phù hợp!</p>
+            </div>
+            <div className="bank-btn" style={{paddingRight:"1rem"}}>
+                <Button1
+                  className="set-default-btn label-large"
+                  label="Thay đổi"
+                  type="button"
+                  onClick={() => setIsModalDeliveryPayment(true)}
             />
             {isModalDeliveryPayment && (<ModalDeliveryPayment
               show={isModalDeliveryPayment}
@@ -155,13 +160,13 @@ function PaymentMethod(props) {
 
           <ul className="accounts-list">
             <div className="account-item__wrapper">
-              <div className="account-info" style={{ padding: "0 0 0 48px", marginRight: "200px" }}>
-                <div className="no-data">
-                  <img src={notFound} alt="Not found" />
-                  <p className="body-large">Bạn chưa có tài khoản thanh toán, hãy thêm tài khoản để thanh toán trực tuyến qua ngân hàng!</p>
+              <div className="account-info" style={{paddingRight:"40px"}}>
+              <div className="no-data">
+              <img src={notFound} alt="Not found" />
+                  <p className="body-large">Bạn chưa có tài khoản thanh toán, hãy thêm tài khoản để thanh toán!!!</p>
                 </div>
-              </div>
-              <div className="bank-btn">
+            </div>
+            <div className="bank-btn"  style={{paddingRight:"1rem"}}>
                 <Button1
                   className="set-default-btn label-large"
                   label="Thêm tài khoản"
@@ -212,7 +217,7 @@ function PaymentMethod(props) {
                 </p>
               </div>
 
-              <div className="bank-btn">
+              <div className="bank-btn" style={{paddingRight: "1rem"}}>
                 <Button1
                   className="set-default-btn label-large"
                   label="Thay đổi"

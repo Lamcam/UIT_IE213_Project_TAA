@@ -103,6 +103,9 @@ function DeliveryInformation(props) {
             });
     }
     console.log(props.deliveryInformation)
+    useEffect(() => {
+        props.selectedAddressInfo(selectedItems)
+    }, [selectedItems])
     return (
         <div className="delivery__info">
             <div className="delivery__info__title title-large">1. Thông tin nhận hàng</div>
