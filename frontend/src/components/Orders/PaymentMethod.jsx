@@ -110,7 +110,7 @@ function PaymentMethod(props) {
   return (
     <div className="payment__method">
       <div className="payment__method__title title-large">3. Phương thức thanh toán</div>
-      <div className="payment__method__one body-medium" onClick={() => handleClick(0)}>
+      <div className="payment__method__one body-large" onClick={() => handleClick(0)}>
         {selectedOption === 0 ? (
           <MdOutlineRadioButtonChecked className="icon__radio" />
         ) : (
@@ -118,7 +118,7 @@ function PaymentMethod(props) {
         )}
         <span>Thanh toán tiền khi nhận hàng (COD)</span>
       </div>
-      <div className="payment__method__two body-medium" onClick={() => handleClick(1)}>
+      <div className="payment__method__two body-large" onClick={() => handleClick(1)}>
         {selectedOption === 1 ? (
           <MdOutlineRadioButtonChecked className="icon__radio" />
         ) : (
@@ -188,7 +188,7 @@ function PaymentMethod(props) {
 
           <ul className="accounts-list">
             <div className="account-item__wrapper">
-              <div className="account-info" style={{ paddingLeft: '48px' }}>
+              <div className="account-info" style={{ paddingLeft: '48px', gap:"6px", paddingTop:"6px" }}>
                 <div className="account-number-default">
                   <p className="body-large" style={{ marginBottom: '0' }}>
                     STK:

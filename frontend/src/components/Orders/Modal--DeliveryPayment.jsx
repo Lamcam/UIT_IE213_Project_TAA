@@ -34,15 +34,15 @@ function ModalDeliveryPayment(props) {
           setBankCards(response.data);
           const bankCardIndex = response.data.findIndex((item) => item._id === props.idBankCard);
           setSelectedOption(bankCardIndex);
-          setSelectedItem(response.data[bankCardIndex])
+          setSelectedItem(response.data[bankCardIndex]);
         }
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   }, []); // Sử dụng mảng rỗng để đảm bảo useEffect chỉ chạy một lần sau khi render đầu tiên
-  console.log('selectedItem',selectedItem)
-  console.log('selectOption', selectedOption)
+  console.log('selectedItem', selectedItem);
+  console.log('selectOption', selectedOption);
   const onSuccess = () => {
     axios
       .get(`http://localhost:8000/api/account/bank-cards/${id}`)
@@ -50,17 +50,13 @@ function ModalDeliveryPayment(props) {
         console.log(response.data);
         if (Array.isArray(response.data) && response.data.length === 0) {
           setNotBankCard(true);
-        }
-        else
-          setNotBankCard(false);
+        } else setNotBankCard(false);
         setBankCards(response.data);
-
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   };
-
 
   const onSuccessDel = () => {
     axios
@@ -69,8 +65,7 @@ function ModalDeliveryPayment(props) {
         console.log(response.data);
         if (Array.isArray(response.data) && response.data.length === 0) {
           setNotBankCard(true);
-        }
-        else {
+        } else {
           setNotBankCard(false);
           const bankCardAfterDel = response.data.find((item) => {
             return item._id === idBankCard;
@@ -83,17 +78,16 @@ function ModalDeliveryPayment(props) {
           });
           if (!bankCardAfterDel) {
             if (!bankCardDefault) {
-              console.log('k co default ne')
-              props.updateDeliveryPayment(null)
-              props.onCheckedItems(null)
-            }
-            else {
-              console.log('co default')
-              setSelectedItem(bankCardDefault)
-              setSelectedOption(bankCardDefaultIndex)
+              console.log('k co default ne');
+              props.updateDeliveryPayment(null);
+              props.onCheckedItems(null);
+            } else {
+              console.log('co default');
+              setSelectedItem(bankCardDefault);
+              setSelectedOption(bankCardDefaultIndex);
               // props.onCheckedItems('')
-              props.updateDeliveryPayment(bankCardDefault)
-             }
+              props.updateDeliveryPayment(bankCardDefault);
+            }
           }
         }
         setBankCards(response.data);
@@ -157,12 +151,12 @@ function ModalDeliveryPayment(props) {
     // if(selectedItem._id === id) {setSelectedOption(0)
   };
 
-  const handleClick = (item,index) => {
+  const handleClick = (item, index) => {
     if (index === selectedOption) {
       return;
     }
     setSelectedOption(index);
-    setSelectedItem(item)
+    setSelectedItem(item);
     // props.onPaymentMethodChange(index === 0 || index === 1);
   };
 
@@ -177,24 +171,26 @@ function ModalDeliveryPayment(props) {
     setSelectedItem(checkedItemsInfo);
   }, [selectedOption]);
 
-
   const handleSubmit = () => {
     props.onHideSubmit();
     if (notBankCard === true) {
-      console.log('notBankCard === true')
-      props.updateDeliveryPayment(null)
-      props.onCheckedItems(null)
-      return
+      console.log('notBankCard === true');
+      props.updateDeliveryPayment(null);
+      props.onCheckedItems(null);
+      return;
     }
     props.onCheckedItems(selectedItem);
   };
   const handleModalClick = (e) => {
     if (e.target === e.currentTarget) {
-      props.onHide(); 
+      props.onHide();
     }
   };
   return (
-    <div className={`modal__delivery-payment ${props.show ? 'active' : ''}`} onClick={handleModalClick}>
+    <div
+      className={`modal__delivery-payment ${props.show ? 'active' : ''}`}
+      onClick={handleModalClick}
+    >
       <div className="modal__content--form">
         <ButtonIcon
           className="modal__btn--close"
@@ -235,7 +231,9 @@ function ModalDeliveryPayment(props) {
             <ul className="accounts-list">
               {notBankCard && (
                 <div className="no-data">
-                  <p className="body-large">Không có tài khoản thanh toán được tìm thấy, thêm tại đây!</p>
+                  <p className="body-large">
+                    Không có tài khoản thanh toán được tìm thấy, thêm tại đây!
+                  </p>
                   <img src={notFound} alt="Not found" />
                 </div>
               )}
@@ -245,16 +243,22 @@ function ModalDeliveryPayment(props) {
                     {selectedOption === index ? (
                       <MdOutlineRadioButtonChecked
                         className="icon__radio"
-                        onClick={() => handleClick(bankCard,index)}
+                        onClick={() => handleClick(bankCard, index)}
+                        style={{ cursor: 'pointer' }}
                       />
                     ) : (
                       <MdOutlineRadioButtonUnchecked
                         className="icon__radio"
-                        onClick={() => handleClick(bankCard,index)}
+                        onClick={() => handleClick(bankCard, index)}
+                        style={{ cursor: 'pointer' }}
                       />
                     )}
                     <div className="account-item__wrapper">
-                      <div className="account-info" onClick={() => handleClick(bankCard,index)}>
+                      <div
+                        className="account-info"
+                        onClick={() => handleClick(bankCard, index)}
+                        style={{ cursor: 'pointer' }}
+                      >
                         <div className="account-number-default">
                           <p className="body-large stk">STK:</p>
                           <p className="body-large">{maskBankNumber(bankCard.bank_number)} </p>
