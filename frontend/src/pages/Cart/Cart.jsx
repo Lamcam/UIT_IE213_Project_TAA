@@ -19,15 +19,13 @@ function Cart(props) {
     // Tính toán số ngẫu nhiên
     // const randomSteps = Math.floor(Math.random() * ((max - min) / step + 1));
     // discountAmount = min + randomSteps * step;
-    discountAmount = 5000 * checkedItemsInfo.length
-    if (discountAmount > 50000)
-      discountAmount=50000
+    discountAmount = 5000 * checkedItemsInfo.length;
+    if (discountAmount > 50000) discountAmount = 50000;
   } else {
     discountAmount = 0;
   }
   const totalAmount = temporaryAmount - discountAmount;
   const [cartItems1, setCartItems] = useState([]);
-
 
   const handleCheckedItemsChange = (checkedItemsInfo) => {
     setCheckedItemsInfo(checkedItemsInfo);
@@ -98,7 +96,10 @@ function Cart(props) {
   //   },
   //   // Thêm các mục khác nếu cần
   // ];
-
+  const handleDeleteCartItem = async (updatedCartItems) => {
+    // Cập nhật danh sách cartItems sau khi xóa sản phẩm
+    setCartItems(updatedCartItems);
+  };
   return (
     <Container className="cart" fluid id="cart">
       <Row className="cart__content">
@@ -108,6 +109,7 @@ function Cart(props) {
             cartItems={cartItems1}
             setMoneyAll={setTemporaryAmount}
             onCheckedItemsChange={handleCheckedItemsChange}
+            onDeleteCartItem={handleDeleteCartItem}
           />
         </Col>
         <Col xl={3} lg={3} md={12} className="cart__content__bill">
