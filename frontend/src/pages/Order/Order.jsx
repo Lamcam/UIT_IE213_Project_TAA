@@ -9,10 +9,7 @@ import 'style/pages/Order/Order.scss';
 import OrderBill from 'components/Orders/OrderBill';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-Order.propTypes = {
-
-};
-
+Order.propTypes = {};
 
 function Order(props) {
   const location = useLocation();
@@ -23,7 +20,7 @@ function Order(props) {
   const discountAmount = location.state?.discount;
   console.log(location.state);
   const [deliveryInformation, setDeliveryInformation] = useState('');
-  const [deliveryPayment, setDeliveryPayment] = useState('');
+  const [deliveryPayment, setDeliveryPayment] = useState(null);
   const defaultUser = JSON.parse(localStorage.getItem('user'));
   const defaultUserData = defaultUser[0];
   const id = defaultUserData._id;
@@ -65,19 +62,7 @@ function Order(props) {
         console.error('Error:', error);
       });
   };
-  const onSuccessAddBank = () => {
-    axios
-      .get(`http://localhost:8000/api/account/bank-cards/${id}`)
-      .then((response) => {
-        const bankCardDefault = response.data.find((item) => {
-          return item.is_default === true;
-        });
-        setDeliveryPayment(bankCardDefault);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+  
   const [deliveryMethodSelected, setDeliveryMethodSelected] = useState('');
     const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
     const [deliveryFee, setDeliveryFee] = useState(0)
@@ -92,7 +77,10 @@ function Order(props) {
     const handleDeliveryFee = (val) => {
       setDeliveryFee(val)
   }
-
+  const updateDeliveryPayment = (item) => {
+    setDeliveryPayment(item)
+  }
+console.log(deliveryPayment)
   return (
     <Container className="order" fluid>
       <Row className="order__content">
@@ -102,8 +90,8 @@ function Order(props) {
           <PaymentMethod
             onPaymentMethodChange={handlePaymentMethodChange}
             deliveryPaymentDefault={deliveryPayment}
-            onSuccessAddBank={onSuccessAddBank}
             id={id}
+            updateDeliveryPayment={updateDeliveryPayment}
           />
         </Col>
         <Col lg={4} md={12} className="order__content__bill">

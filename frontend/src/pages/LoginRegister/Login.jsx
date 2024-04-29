@@ -33,11 +33,13 @@ function Login() {
   return (
     <section className="login">
     <Container className='d-flex' fluid>
-      <Col className='side_bar d-flex justify-content-center align-item-center col-4'>
-          <Image src={logo} alt='TAA_logo'/>
+      <Col className='side_bar d-flex justify-content-center align-item-center' lg={4}>
+          <div className='d-flex justify-content-center align-item-center' >
+            <Image src={logo} alt='TAA_logo'/>
+          </div>
       </Col>
 
-      <Col className='login_form col-8'>
+      <Col className='login_form' lg={8}>
         <h1> Đăng nhập </h1>
         <Form action='POST' onSubmit={handleSubmit}  >
           <Form.Group className="mb-3 input" controlId="formBasicEmail">
