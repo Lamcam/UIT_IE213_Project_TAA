@@ -85,7 +85,7 @@ function ModalDeliveryPayment(props) {
             if (!bankCardDefault) {
               console.log('k co default ne')
               props.updateDeliveryPayment(null)
-              props.onCheckedItems('')
+              props.onCheckedItems(null)
             }
             else {
               console.log('co default')
@@ -183,7 +183,7 @@ function ModalDeliveryPayment(props) {
     if (notBankCard === true) {
       console.log('notBankCard === true')
       props.updateDeliveryPayment(null)
-      props.onCheckedItems('')
+      props.onCheckedItems(null)
       return
     }
     props.onCheckedItems(selectedItem);
@@ -256,7 +256,7 @@ function ModalDeliveryPayment(props) {
                     <div className="account-item__wrapper">
                       <div className="account-info" onClick={() => handleClick(bankCard,index)}>
                         <div className="account-number-default">
-                          <p className="body-large">STK:</p>
+                          <p className="body-large stk">STK:</p>
                           <p className="body-large">{maskBankNumber(bankCard.bank_number)} </p>
                           {bankCard.is_default && (
                             <span className="default-label label-large">Mặc định</span>

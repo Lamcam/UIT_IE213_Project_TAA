@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'components/Common/Button1';
 import "style/components/Orders/DeliveryInformation.scss"
 import { MdEdit } from 'react-icons/md';
@@ -32,6 +32,9 @@ function DeliveryInformation(props) {
     };
     console.log(selectedItems)
 
+    useEffect(() => {
+        props.selectedAddressInfo(selectedItems)
+    }, [selectedItems])
     return (
         <div className="delivery__info">
             <div className="delivery__info__title title-large">1. Thông tin nhận hàng</div>

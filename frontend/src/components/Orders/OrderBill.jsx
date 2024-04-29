@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import 'style/components/Orders/OrderBill.scss'
 import Button from 'components/Common/Button1'
 import { MdEdit } from 'react-icons/md';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -19,17 +19,27 @@ OrderBill.propTypes = {
     ).isRequired,
     totalOrderAmount: PropTypes.number.isRequired,
     deliveryFee: PropTypes.number.isRequired,
-    deliveryMethodSelected: PropTypes.bool,
-    paymentMethodSelected: PropTypes.bool,
+    deliveryMethodSelected: PropTypes.number,
+    paymentMethodSelected: PropTypes.number,
     temporaryAmount: PropTypes.number.isRequired,
     discountAmount: PropTypes.number.isRequired,
 };
 function OrderBill(props) {
-    // console.log(props.deliveryMethodSelected)
-    // console.log(props.paymentMethodSelected)
-    const color = props.deliveryMethodSelected && props.paymentMethodSelected ? "#F1EFE7" : "#201A1A";
-    const backgroundColor = props.deliveryMethodSelected && props.paymentMethodSelected ? "#785B5B" : "rgba(29, 27, 32, 0.12)";
-    const border = props.deliveryMethodSelected && props.paymentMethodSelected ? "1px solid #857373" : "none";
+    console.log(props.deliveryMethodSelected)
+    console.log(props.paymentMethodSelected)
+    console.log(props.selectedPaymentInfo)
+    console.log(props.selectedAddressInfo)
+    const [disabled, setDisabled] = useState(true)
+    useEffect(() => {
+        if (props.deliveryMethodSelected !== null && (props.paymentMethodSelected === 0 || (props.paymentMethodSelected === 1 && props.selectedPaymentInfo !== null)) && props.selectedAddressInfo !== null) {
+            setDisabled(false)
+        }
+        else setDisabled(true)
+    }, [props.deliveryMethodSelected, props.paymentMethodSelected, props.selectedPaymentInfo, props.selectedAddressInfo]);
+    
+    const color = !disabled ? "#F1EFE7" : "#201A1A";
+    const backgroundColor = !disabled ? "#785B5B" : "rgba(29, 27, 32, 0.12)";
+    const border = !disabled ? "1px solid #857373" : "none";
 
     const navigate = useNavigate();
 
@@ -46,7 +56,7 @@ function OrderBill(props) {
                         iconWidth={18}
                         iconHeight={18}
                         label="Sửa"
-                        type="submit"
+                        type="button"
                         labelColor="#F1EFE7"
                         backgroundColor="#785B5B"
                         onClick={handleModifyButtonClick} />
@@ -101,6 +111,7 @@ function OrderBill(props) {
                     border={border}
                     labelColor={color}
                     backgroundColor={backgroundColor}
+                    // onClick={handelSubmit}
                 />
             </div>
 

@@ -63,10 +63,13 @@ function Order(props) {
       });
   };
   
-  const [deliveryMethodSelected, setDeliveryMethodSelected] = useState('');
-    const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
-    const [deliveryFee, setDeliveryFee] = useState(0)
-
+  const [deliveryMethodSelected, setDeliveryMethodSelected] = useState(null);
+    const [paymentMethodSelected, setPaymentMethodSelected] = useState(null);
+  const [deliveryFee, setDeliveryFee] = useState(0)
+  const [selectedPaymentInfo, setSelectedPaymentInfo] = useState(null)
+  const [selectedAddressInfo, setSelectedAddressInfo] =useState(null)
+  console.log(deliveryMethodSelected)
+  console.log(paymentMethodSelected)
   const handleDeliveryMethodChange = (selected) => {
     setDeliveryMethodSelected(selected);
   };
@@ -80,18 +83,25 @@ function Order(props) {
   const updateDeliveryPayment = (item) => {
     setDeliveryPayment(item)
   }
+  const handleSelectedPaymentInfo = (item) => {
+    setSelectedPaymentInfo(item)
+  }
+  const handleSelectedAddressInfo = (item) => {
+    setSelectedAddressInfo(item)
+  }
 console.log(deliveryPayment)
   return (
     <Container className="order">
       <Row className="order__content">
         <Col lg={8} md={12} className="order__content__list">
-          <DeliveryInformation deliveryInformation={deliveryInformation} onSuccess={onSuccess} />
-                  <DeliveryMethod onDeliveryMethodChange={handleDeliveryMethodChange} handleDeliveryFee={handleDeliveryFee} />
+          <DeliveryInformation deliveryInformation={deliveryInformation} onSuccess={onSuccess} selectedAddressInfo={handleSelectedAddressInfo} />
+          <DeliveryMethod onDeliveryMethodChange={handleDeliveryMethodChange} handleDeliveryFee={handleDeliveryFee} />
           <PaymentMethod
             onPaymentMethodChange={handlePaymentMethodChange}
             deliveryPaymentDefault={deliveryPayment}
             id={id}
             updateDeliveryPayment={updateDeliveryPayment}
+            selectedPaymentInfo={handleSelectedPaymentInfo}
           />
         </Col>
         <Col lg={4} md={12} className="order__content__bill">
@@ -101,8 +111,11 @@ console.log(deliveryPayment)
             deliveryMethodSelected={deliveryMethodSelected}
             paymentMethodSelected={paymentMethodSelected}
             temporaryAmount={temporaryAmount}
-                      discountAmount={discountAmount}
-                      deliveryFee={deliveryFee}
+            discountAmount={discountAmount}
+            deliveryFee={deliveryFee}
+
+            selectedPaymentInfo={selectedPaymentInfo}
+            selectedAddressInfo={selectedAddressInfo}
           />
         </Col>
       </Row>
