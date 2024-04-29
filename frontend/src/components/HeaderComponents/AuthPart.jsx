@@ -1,21 +1,43 @@
-import React from 'react';
+import React, {useEffect}  from 'react';
 import { NavLink } from 'react-router-dom';
 import { IoMdCart } from 'react-icons/io';
-import { Col, Container, Row, Button } from 'react-bootstrap';
+import { Col, Container, Row, Badge, Dropdown, DropdownButton } from 'react-bootstrap';
 import avt from 'assets/image/pencil.png';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import './AuthPart.scss';
 import { useLogout } from 'hooks/useLogout';
 import { MdAccountCircle, MdOutlineFavoriteBorder } from "react-icons/md";
 import { RiBillLine } from "react-icons/ri";
+import axios from 'axios';
 
 function AuthPart() {
   const { logout } = useLogout();
-
+  const [cartQuantity, setCartQuantity] = React.useState(0);
+  
   const handleClickLogOut = () => {
     logout();
   };
+
+  const getCartQuantity = async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const id = user[0]._id;
+    console.log('user_id', id);
+    const res = await axios.post('http://localhost:8000/cart/getQuantity', {
+      user_id: id,
+    });
+    if (res.status === 200) {
+      console.log(res.data);
+      setCartQuantity(res.data);
+      return res.data;
+    } else {
+      console.log('No cart found');
+      setCartQuantity(0);
+      return 0;
+    }
+  }
+
+  useEffect(() => {
+    getCartQuantity();
+  },[])
 
   const getAvatar = () => {
     let avatar = localStorage.getItem('user');
@@ -49,8 +71,9 @@ function AuthPart() {
     <Container className="auth_part">
       <Row className="auth_part__wrapper">
         <Col className="col-4">
+        <Badge className='number_cart'>{cartQuantity}</Badge>
           <NavLink to="/cart" className="cart_link">
-            <IoMdCart className="cart-icon" />
+            <IoMdCart className="cart-icon"> </IoMdCart>
           </NavLink>
         </Col>
 
