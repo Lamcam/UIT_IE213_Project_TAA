@@ -94,7 +94,7 @@ function Order(props) {
   }
 
   return (
-    <Container className="order">
+    <Container className="order" fluid>
       <Row className="order__content">
         <Col lg={8} md={12} className="order__content__list">
           <DeliveryInformation deliveryInformation={deliveryInformation} onSuccess={onSuccess} />
