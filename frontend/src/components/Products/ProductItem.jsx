@@ -37,6 +37,7 @@ function ProductItem({ product, onFavoriteChange }) {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
   const { addToCart } = useAddToCart();
+  const content = "Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích."
   const addToCartAndRedirect = () => {
     addToCart(product, 1);
   };
@@ -140,7 +141,7 @@ function ProductItem({ product, onFavoriteChange }) {
         <div className="line--vertical"></div>
         <NavLink to="/cart" onClick={addToCartAndRedirect}>Mua ngay</NavLink>
       </div>
-      <PopupNotiLogin show={showPopupNotiLogin} onHide={() => setShowPopupNotiLogin(false)} />
+      <PopupNotiLogin content={content} show={showPopupNotiLogin} onHide={() => setShowPopupNotiLogin(false)} />
     </div>
   ) : (
     <div className="product__outstock product__item body-large">

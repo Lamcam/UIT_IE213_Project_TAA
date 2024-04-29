@@ -188,7 +188,7 @@ function ProductDetail(props) {
   const thumbnailImages = product?.prod_img || [];
   const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
-
+  const content = "Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích."
 
   //heart plus
   const [isFilled, setIsFilled] = useState(false);
@@ -417,6 +417,7 @@ function ProductDetail(props) {
                       <TbHeartPlus className="heart_plus" onClick={toggleLike} />
                     )}
                   </div>
+                  <PopupNotiLogin content={content} show={showPopupNotiLogin} onHide={() => setShowPopupNotiLogin(false)} />
                 </div>
                 <div className="product__name__detail__review">
                   <div className="product__name__detail__review_first">

@@ -1,6 +1,7 @@
-import React from 'react';
-import Modal from 'react-bootstrap/Modal';
-import 'style/components/Products/PopupNotiLogin.scss'
+import notLogin from 'assets/image/products/no-login.png';
+import { Modal } from 'react-bootstrap';
+import Button from 'components/Common/Button1';
+import 'style/components/Products/PopupNotiLogin.scss';
 PopupNotiLogin.propTypes = {
 
 };
@@ -14,16 +15,24 @@ function PopupNotiLogin(props) {
             centered
             className='popup__noti noti__login'
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className='noti__login__header'>
 
             </Modal.Header>
             <Modal.Body className="noti__login__body">
+                <img src={notLogin} alt='no-login'></img>
                 <p className='title-medium primary-text'>
-                    Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích.
+                    {props.content}
                 </p>
+                <div className="noti__button">
+                        <Button
+                            label="Đăng nhập"
+                            labelColor="#f1efe7"
+                            backgroundColor="#785b5b"
+                        />
+                </div>
             </Modal.Body>
-            <Modal.Footer>
-            </Modal.Footer>
+            {/* <Modal.Footer>
+            </Modal.Footer> */}
         </Modal>
     );
 }
