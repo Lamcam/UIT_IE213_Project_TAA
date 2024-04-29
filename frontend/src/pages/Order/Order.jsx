@@ -19,7 +19,7 @@ function Order(props) {
   const temporaryAmount = location.state?.temporary;
   const discountAmount = location.state?.discount;
   console.log(location.state);
-  const [deliveryInformation, setDeliveryInformation] = useState('');
+  const [deliveryInformation, setDeliveryInformation] = useState(null);
   const [deliveryPayment, setDeliveryPayment] = useState(null);
   const defaultUser = JSON.parse(localStorage.getItem('user'));
   const defaultUserData = defaultUser[0];
@@ -77,8 +77,8 @@ function Order(props) {
   const handlePaymentMethodChange = (selected) => {
     setPaymentMethodSelected(selected);
   };
-    const handleDeliveryFee = (val) => {
-      setDeliveryFee(val)
+  const handleDeliveryFee = (val) => {
+    setDeliveryFee(val)
   }
   const updateDeliveryPayment = (item) => {
     setDeliveryPayment(item)
@@ -89,12 +89,22 @@ function Order(props) {
   const handleSelectedAddressInfo = (item) => {
     setSelectedAddressInfo(item)
   }
-console.log(deliveryPayment)
+
+  const updateDeliveryInformation = (item) => {
+    setDeliveryInformation(item)
+  }
+  console.log(deliveryPayment)
   return (
-    <Container className="order">
+    <Container className="order" fluid>
       <Row className="order__content">
         <Col lg={8} md={12} className="order__content__list">
-          <DeliveryInformation deliveryInformation={deliveryInformation} onSuccess={onSuccess} selectedAddressInfo={handleSelectedAddressInfo} />
+          <DeliveryInformation
+            deliveryInformation={deliveryInformation}
+            // onSuccess={onSuccess}
+            id={id}
+            updateDeliveryInformation={updateDeliveryInformation}
+            selectedAddressInfo={handleSelectedAddressInfo}
+          />
           <DeliveryMethod onDeliveryMethodChange={handleDeliveryMethodChange} handleDeliveryFee={handleDeliveryFee} />
           <PaymentMethod
             onPaymentMethodChange={handlePaymentMethodChange}

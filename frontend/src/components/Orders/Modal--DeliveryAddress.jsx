@@ -17,11 +17,11 @@ function ModalDeliveryAddress(props) {
     const defaultUser = JSON.parse(localStorage.getItem('user'));
     const defaultUserData = defaultUser[0]
     const id = defaultUserData._id;
-    const id_address = props.id_address;
+    const idAddress = props.idAddress;
     const [addresses, setAddresses] = useState([]);
     const [notAddresses, setNotAddress] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('');
-    const [selectedItem, setSelectedItem] = useState({});
+    const [selectedOption, setSelectedOption] = useState(0);
+    const [selectedItem, setSelectedItem] = useState(null);
     useEffect(() => {
         axios
             .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
@@ -30,23 +30,68 @@ function ModalDeliveryAddress(props) {
                     setNotAddress(true);
                 } else {
                     setAddresses(response.data);
-                    const addressDefaultIndex = response.data.findIndex((item) => {
-                        return item._id === id_address;
+                    const addressIndex = response.data.findIndex((item) => {
+                        return item._id === props.idAddress;
                     });
-                    setSelectedOption(addressDefaultIndex);
+                    setSelectedOption(addressIndex);
+                    setSelectedItem(response.data[addressIndex])
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }, []);
-
+    console.log('selectedItem', selectedItem)
+    console.log('selectOption', selectedOption)
     const onSuccess = () => {
         axios
             .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
             .then((response) => {
-                if (Array.isArray(response.data) && response.data.length === 0) setNotAddress(true);
-                else setNotAddress(false);
+                if (Array.isArray(response.data) && response.data.length === 0) { setNotAddress(true); }
+                else {
+                    setNotAddress(false);
+                    setAddresses(response.data);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+
+    const onSuccessDel = () => {
+        axios
+            .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
+            .then((response) => {
+                console.log(response.data);
+                if (Array.isArray(response.data) && response.data.length === 0) {
+                    setNotAddress(true);
+                }
+                else {
+                    setNotAddress(false);
+                    const addressAfterDel = response.data.find((item) => {
+                        return item._id === idAddress;
+                    });
+                    const addressDefault = response.data.find((item) => {
+                        return item.is_default === true;
+                    });
+                    const addressDefaultIndex = response.data.findIndex((item) => {
+                        return item.is_default === true;
+                    });
+                    if (!addressAfterDel) {
+                        if (!addressDefault) {
+                            console.log('k co default ne')
+                            props.updateDeliveryInformation(null)
+                            props.onCheckedItems(null)
+                        }
+                        else {
+                            console.log('co default')
+                            setSelectedItem(addressDefault)
+                            setSelectedOption(addressDefaultIndex)
+                            // props.onCheckedItems(null)
+                            props.updateDeliveryInformation(addressDefault)
+                        }
+                    }
+                }
                 setAddresses(response.data);
             })
             .catch((error) => {
@@ -78,27 +123,28 @@ function ModalDeliveryAddress(props) {
     // const [isOpenConfirmPhone, setIsOpenConfirmPhone] = useState(false);
     // const [isOpenAddSuccess, setIsOpenAddSuccess] = useState(false);
 
-    const [selectedAddressId, setSelectedAddressId] = useState('');
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
     const handleDeletedAddress = (id) => {
         setSelectedAddressId(id);
         setIsOpenDelete(true);
     };
-    const [selectedEditAdress, setSelectedEditAdress] = useState('');
+    const [selectedEditAdress, setSelectedEditAdress] = useState(null);
     const handleEditedAddress = (add) => {
         setSelectedEditAdress(add);
         setIsOpenEdit(true);
     };
-    const handleClick = (index) => {
+    const handleClick = (item, index) => {
         // Nếu nút đã được chọn, không làm gì cả
         if (index === selectedOption) {
             return;
         }
         // Nếu không, cập nhật trạng thái của nút mới được chọn
         setSelectedOption(index);
+        setSelectedItem(item)
         // props.onPaymentMethodChange(index === 0 || index === 1);
     };
     useEffect(() => {
-        let checkedItemsInfo = '';
+        let checkedItemsInfo = null;
 
         addresses.forEach((item, index) => {
             if (index === selectedOption) {
@@ -108,16 +154,23 @@ function ModalDeliveryAddress(props) {
         setSelectedItem(checkedItemsInfo);
     }, [selectedOption]);
     const handleSubmit = () => {
-        props.onHide();
-        console.log(selectedItem);
+        // props.onHide();
+        // console.log(selectedItem);
+        props.onHideSubmit();
         if (notAddresses === true) {
-            props.onCheckedItems('')
+            props.updateDeliveryInformation(null)
+            props.onCheckedItems(null)
             return
         }
         props.onCheckedItems(selectedItem);
     };
+    const handleModalClick = (e) => {
+        if (e.target === e.currentTarget) {
+            props.onHide();
+        }
+    };
     return (
-        <div className={`modal__delivery-address ${props.show ? 'active' : ''}`}>
+        <div className={`modal__delivery-address ${props.show ? 'active' : ''}`} onClick={handleModalClick}>
             <div className="modal__content--form">
                 <ButtonIcon
                     className="modal__btn--close"
@@ -145,12 +198,12 @@ function ModalDeliveryAddress(props) {
                                     {selectedOption === index ? (
                                         <MdOutlineRadioButtonChecked
                                             className="icon__radio"
-                                            onClick={() => handleClick(index)}
+                                            onClick={() => handleClick(add,index)}
                                         />
                                     ) : (
                                         <MdOutlineRadioButtonUnchecked
                                             className="icon__radio"
-                                            onClick={() => handleClick(index)}
+                                            onClick={() => handleClick(add,index)}
                                         />
                                     )}
                                     <div className="shipping-item__wrapper">
@@ -179,7 +232,7 @@ function ModalDeliveryAddress(props) {
                                                     onHide={() => setIsOpenDelete(false)}
                                                     id={selectedAddressId}
                                                     // addresses={addresses}
-                                                    onSuccess={onSuccess}
+                                                    onSuccess={onSuccessDel}
                                                     userId={id}
                                                 />
                                                 <ButtonIcon

@@ -99,7 +99,7 @@ function EditAddress(props) {
                   type="text"
                   id="loca_pers_name"
                   name="loca_pers_name"
-                  value={editAddress.loca_pers_name}
+                  value={editAddress?.loca_pers_name}
                   onChange={handleChange}
                 />
               </div>
@@ -116,7 +116,7 @@ function EditAddress(props) {
                   type="text"
                   id="loca_pers_phone"
                   name="loca_pers_phone"
-                  value={editAddress.loca_pers_phone}
+                  value={editAddress?.loca_pers_phone}
                   onChange={handleChange}
                 />
                 {errorPhone && <div className="err">{errorPhone}</div>}
@@ -135,7 +135,7 @@ function EditAddress(props) {
                   type="text"
                   id="loca_address"
                   name="loca_address"
-                  value={editAddress.loca_address}
+                  value={editAddress?.loca_address}
                   onChange={handleChange}
                 />
               </div>
@@ -153,7 +153,7 @@ function EditAddress(props) {
                   type="text"
                   id="loca_detail"
                   name="loca_detail"
-                  value={editAddress.loca_detail}
+                  value={editAddress?.loca_detail}
                   onChange={handleChange}
                 />
               </div>
