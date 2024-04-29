@@ -11,43 +11,6 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 Order.propTypes = {};
 
-// const deliveryInformation = {
-//     name: 'Lâm Cẩm',
-//     phoneNumber: '1234567890',
-//     address: 'KTX Khu A, ĐHQG, Thành phố Hồ Chí Minh',
-// };
-
-// const orderItems = [
-//     {
-//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-//         productName: "Vongf tay ddinhs ddas raats rta nhieu ne haha",
-//         moneyCurrent: 100000,
-//         // moneyBeforeDiscount: 150000
-//         number: 1,
-//     },
-//     {
-//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-//         productName: "Ten san pham 2",
-//         moneyCurrent: 120000,
-//         // moneyBeforeDiscount: 170000
-//         number: 1,
-//     },
-//     {
-//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-//         productName: "Ten san pham 3",
-//         moneyCurrent: 120000,
-//         // moneyBeforeDiscount: 170000
-//         number: 1,
-//     },
-//     {
-//         imageUrl: "https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825",
-//         productName: "Ten san pham 4",
-//         moneyCurrent: 120000,
-//         // moneyBeforeDiscount: 170000
-//         number: 1,
-//     },
-// ];
-
 function Order(props) {
   const location = useLocation();
   const orderItems = location.state?.data;
@@ -57,7 +20,7 @@ function Order(props) {
   const discountAmount = location.state?.discount;
   console.log(location.state);
   const [deliveryInformation, setDeliveryInformation] = useState('');
-  const [deliveryPayment, setDeliveryPayment] = useState('');
+  const [deliveryPayment, setDeliveryPayment] = useState(null);
   const defaultUser = JSON.parse(localStorage.getItem('user'));
   const defaultUserData = defaultUser[0];
   const id = defaultUserData._id;
@@ -99,19 +62,7 @@ function Order(props) {
         console.error('Error:', error);
       });
   };
-  const onSuccessAddBank = () => {
-    axios
-      .get(`http://localhost:8000/api/account/bank-cards/${id}`)
-      .then((response) => {
-        const bankCardDefault = response.data.find((item) => {
-          return item.is_default === true;
-        });
-        setDeliveryPayment(bankCardDefault);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+  
   const [deliveryMethodSelected, setDeliveryMethodSelected] = useState('');
     const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
     const [deliveryFee, setDeliveryFee] = useState(0)
@@ -126,7 +77,10 @@ function Order(props) {
     const handleDeliveryFee = (val) => {
       setDeliveryFee(val)
   }
-
+  const updateDeliveryPayment = (item) => {
+    setDeliveryPayment(item)
+  }
+console.log(deliveryPayment)
   return (
     <Container className="order">
       <Row className="order__content">
@@ -136,8 +90,8 @@ function Order(props) {
           <PaymentMethod
             onPaymentMethodChange={handlePaymentMethodChange}
             deliveryPaymentDefault={deliveryPayment}
-            onSuccessAddBank={onSuccessAddBank}
             id={id}
+            updateDeliveryPayment={updateDeliveryPayment}
           />
         </Col>
         <Col lg={4} md={12} className="order__content__bill">

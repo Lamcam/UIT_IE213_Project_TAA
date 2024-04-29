@@ -20,8 +20,8 @@ function ModalDeliveryPayment(props) {
   const id = defaultUserData._id;
   const [bankCards, setBankCards] = useState([]);
   const [notBankCard, setNotBankCard] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
-  const [selectedItem, setSelectedItem] = useState({});
+  const [selectedOption, setSelectedOption] = useState(0);
+  const [selectedItem, setSelectedItem] = useState('');
   const idBankCard = props.idBankCard;
   useEffect(() => {
     axios
@@ -32,16 +32,17 @@ function ModalDeliveryPayment(props) {
           // props.updateNotBankCards(true)
         } else {
           setBankCards(response.data);
-          const bankCardDefaultIndex = response.data.findIndex((item) => {
-            return item._id === idBankCard;
-          });
-          setSelectedOption(bankCardDefaultIndex);
+          const bankCardIndex = response.data.findIndex((item) => item._id === props.idBankCard);
+          setSelectedOption(bankCardIndex);
+          setSelectedItem(response.data[bankCardIndex])
         }
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   }, []); // Sử dụng mảng rỗng để đảm bảo useEffect chỉ chạy một lần sau khi render đầu tiên
+  console.log('selectedItem',selectedItem)
+  console.log('selectOption', selectedOption)
   const onSuccess = () => {
     axios
       .get(`http://localhost:8000/api/account/bank-cards/${id}`)
@@ -49,15 +50,59 @@ function ModalDeliveryPayment(props) {
         console.log(response.data);
         if (Array.isArray(response.data) && response.data.length === 0) {
           setNotBankCard(true);
-          // props.onSuccess
         }
-        else setNotBankCard(false);
+        else
+          setNotBankCard(false);
+        setBankCards(response.data);
+
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
+
+  const onSuccessDel = () => {
+    axios
+      .get(`http://localhost:8000/api/account/bank-cards/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        if (Array.isArray(response.data) && response.data.length === 0) {
+          setNotBankCard(true);
+        }
+        else {
+          setNotBankCard(false);
+          const bankCardAfterDel = response.data.find((item) => {
+            return item._id === idBankCard;
+          });
+          const bankCardDefault = response.data.find((item) => {
+            return item.is_default === true;
+          });
+          const bankCardDefaultIndex = response.data.findIndex((item) => {
+            return item.is_default === true;
+          });
+          if (!bankCardAfterDel) {
+            if (!bankCardDefault) {
+              console.log('k co default ne')
+              props.updateDeliveryPayment(null)
+              props.onCheckedItems('')
+            }
+            else {
+              console.log('co default')
+              setSelectedItem(bankCardDefault)
+              setSelectedOption(bankCardDefaultIndex)
+              // props.onCheckedItems('')
+              props.updateDeliveryPayment(bankCardDefault)
+             }
+          }
+        }
         setBankCards(response.data);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   };
+
   const handleSetDefault = (bankCard, bankCardId, userId) => {
     axios
       .put(`http://localhost:8000/api/account/bank-default/${bankCardId}`, { id: userId })
@@ -109,18 +154,18 @@ function ModalDeliveryPayment(props) {
   const handleDeletedBankCard = (id) => {
     setSelectedBankCardId(id);
     setIsOpenDelete(true);
+    // if(selectedItem._id === id) {setSelectedOption(0)
   };
 
-  // Hàm xử lý sự kiện khi click vào một nút
-  const handleClick = (index) => {
-    // Nếu nút đã được chọn, không làm gì cả
+  const handleClick = (item,index) => {
     if (index === selectedOption) {
       return;
     }
-    // Nếu không, cập nhật trạng thái của nút mới được chọn
     setSelectedOption(index);
+    setSelectedItem(item)
     // props.onPaymentMethodChange(index === 0 || index === 1);
   };
+
   useEffect(() => {
     let checkedItemsInfo = '';
 
@@ -132,20 +177,20 @@ function ModalDeliveryPayment(props) {
     setSelectedItem(checkedItemsInfo);
   }, [selectedOption]);
 
+
   const handleSubmit = () => {
-    props.onHide();
-    console.log(selectedItem);
-    console.log(notBankCard)
+    props.onHideSubmit();
     if (notBankCard === true) {
+      console.log('notBankCard === true')
+      props.updateDeliveryPayment(null)
       props.onCheckedItems('')
       return
     }
     props.onCheckedItems(selectedItem);
   };
   const handleModalClick = (e) => {
-    // Kiểm tra xem phần tử được nhấp có là nền của modal hay không
     if (e.target === e.currentTarget) {
-      props.onHide(); // Gọi hàm onHide khi nhấp vào nền modal
+      props.onHide(); 
     }
   };
   return (
@@ -160,19 +205,6 @@ function ModalDeliveryPayment(props) {
         <article id="profile-bank-card" className="section__content">
           <div className="section__title">
             <h2 className="headline-small">Tài khoản ngân hàng</h2>
-            {/* <ButtonIcon
-          className="modal__btn--close"
-          label={<CgClose />}
-          border="none"
-          onClick={props.onHide}
-        /> */}
-            {/* <ButtonIcon
-              className="section__btn"
-              border="none"
-              label={<GrAdd />}
-              type="button"
-              onClick={handleOpenModal1}
-              /> */}
             {showModal1 && (
               <AddBank
                 show={showModal1}
@@ -213,16 +245,16 @@ function ModalDeliveryPayment(props) {
                     {selectedOption === index ? (
                       <MdOutlineRadioButtonChecked
                         className="icon__radio"
-                        onClick={() => handleClick(index)}
+                        onClick={() => handleClick(bankCard,index)}
                       />
                     ) : (
                       <MdOutlineRadioButtonUnchecked
                         className="icon__radio"
-                        onClick={() => handleClick(index)}
+                        onClick={() => handleClick(bankCard,index)}
                       />
                     )}
                     <div className="account-item__wrapper">
-                      <div className="account-info" onClick={() => handleClick(index)}>
+                      <div className="account-info" onClick={() => handleClick(bankCard,index)}>
                         <div className="account-number-default">
                           <p className="body-large">STK:</p>
                           <p className="body-large">{maskBankNumber(bankCard.bank_number)} </p>
@@ -256,7 +288,7 @@ function ModalDeliveryPayment(props) {
                             show={isOpenDelete}
                             onHide={() => setIsOpenDelete(false)}
                             id={selectedBankCardId}
-                            onSuccess={onSuccess}
+                            onSuccess={onSuccessDel}
                             notBankCard={notBankCard}
                             userId={id}
                           />
@@ -265,7 +297,6 @@ function ModalDeliveryPayment(props) {
                     </div>
                   </li>
                   <hr />
-                  {/* {index < bankCards.length - 1 && <hr />} */}
                 </React.Fragment>
               ))}
             </ul>

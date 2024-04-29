@@ -25,8 +25,8 @@ OrderBill.propTypes = {
     discountAmount: PropTypes.number.isRequired,
 };
 function OrderBill(props) {
-    console.log(props.deliveryMethodSelected)
-    console.log(props.paymentMethodSelected)
+    // console.log(props.deliveryMethodSelected)
+    // console.log(props.paymentMethodSelected)
     const color = props.deliveryMethodSelected && props.paymentMethodSelected ? "#F1EFE7" : "#201A1A";
     const backgroundColor = props.deliveryMethodSelected && props.paymentMethodSelected ? "#785B5B" : "rgba(29, 27, 32, 0.12)";
     const border = props.deliveryMethodSelected && props.paymentMethodSelected ? "1px solid #857373" : "none";
