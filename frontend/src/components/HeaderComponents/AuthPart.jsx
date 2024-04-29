@@ -1,7 +1,7 @@
-import React, {useEffect}  from 'react';
+import React, {useEffect, useState}  from 'react';
 import { NavLink } from 'react-router-dom';
 import { IoMdCart } from 'react-icons/io';
-import { Col, Container, Row, Badge, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Col, Container, Row, Badge, Dropdown, DropdownButton, Modal, Button } from 'react-bootstrap';
 import avt from 'assets/image/pencil.png';
 import './AuthPart.scss';
 import { useLogout } from 'hooks/useLogout';
@@ -12,6 +12,9 @@ import axios from 'axios';
 function AuthPart() {
   const { logout } = useLogout();
   const [cartQuantity, setCartQuantity] = React.useState(0);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   
   const handleClickLogOut = () => {
     logout();
@@ -99,7 +102,7 @@ function AuthPart() {
 
               <div className='log_out_btn'>
                 {/* <Dropdown.Item className='log' onClick={handleClickLogOut}> Đăng xuất </Dropdown.Item> */}
-                <div data-rr-ui-dropdown-item className='log dropdown-item' role='button' tabIndex={0}  onClick={handleClickLogOut}>Đăng xuất</div>
+                <div data-rr-ui-dropdown-item className='log dropdown-item' role='button' tabIndex={0}  onClick={handleShow}>Đăng xuất</div>
               </div>
                
               
@@ -107,6 +110,21 @@ function AuthPart() {
           </Col>
         </Col>
       </Row>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title as='h2' >Đăng xuất</Modal.Title>
+        </Modal.Header>
+        <Modal.Body as='h4'>Bạn có chắc muốn đăng xuất?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Đóng
+          </Button>
+          <Button variant="danger" onClick={handleClickLogOut}>
+            Đăng xuất
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
