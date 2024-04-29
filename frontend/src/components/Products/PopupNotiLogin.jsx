@@ -2,11 +2,17 @@ import notLogin from 'assets/image/products/no-login.png';
 import { Modal } from 'react-bootstrap';
 import Button from 'components/Common/Button1';
 import 'style/components/Products/PopupNotiLogin.scss';
+import { useNavigate } from 'react-router-dom';
 PopupNotiLogin.propTypes = {
 
 };
 
 function PopupNotiLogin(props) {
+    const navigate = useNavigate();
+
+    const handleNotiLogin = () => {
+        navigate("/log_in");
+    };
     return (
         <Modal
             {...props}
@@ -24,11 +30,12 @@ function PopupNotiLogin(props) {
                     {props.content}
                 </p>
                 <div className="noti__button">
-                        <Button
-                            label="Đăng nhập"
-                            labelColor="#f1efe7"
-                            backgroundColor="#785b5b"
-                        />
+                    <Button
+                        label="Đăng nhập"
+                        labelColor="#f1efe7"
+                        backgroundColor="#785b5b"
+                        onClick={handleNotiLogin}
+                    />
                 </div>
             </Modal.Body>
             {/* <Modal.Footer>
