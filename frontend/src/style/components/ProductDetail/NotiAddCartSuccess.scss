@@ -1,11 +1,11 @@
 .modal-noti-add-cart-success {
   background-color: var(--m-3-sys-light-primary, #785b5b);
-  border: 1px solid var(--m-3-sys-light-primary, #785b5b);
-  color: white;
+  // border: 1px solid var(--m-3-sys-light-primary, #785b5b);
+  border: none;
 
   &-body {
     color: white;
-    height: 300px;
+    height: 200px;
     text-align: center;
     background-color: var(--m-3-sys-light-primary, #785b5b);
     border: 1px solid var(--m-3-sys-light-primary, #785b5b);
@@ -14,8 +14,8 @@
 
 .go-check-circle-fill {
   color: white;
-  width:70px;
-  height:70px;
+  width: 70px;
+  height: 70px;
 }
 
 .modal-noti-add-cart-success-body {
