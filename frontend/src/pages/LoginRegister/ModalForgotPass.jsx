@@ -66,7 +66,7 @@ function MyVerticallyCenteredModal(props) {
           {modal.modal3 ? 'Nhập mã OTP' : ''}
           {modal.modal4 ? 'Đổi mật khẩu' : ''}
         </Modal.Title>
-
+        {modal.modal3? ( <p style={{textAlign: 'center'}} className="modal_content">Nhập mã OTP được gửi đến cho {localStorage.getItem('email')} </p> ): null}
         <div className="email_phone_button_wrapper">
           <Button
             className="email_button"
@@ -205,7 +205,7 @@ function OtpGet(props) {
   };
 
   const handleClick = () => {
-    const check = otp.every((element) => typeof element === 'string');
+    const check = otp.every((element) => (typeof(element) === 'string') && element !== '');
     console.log(otp, typeof otp[0]);
     if (check) props.four();
     else {
@@ -228,7 +228,7 @@ function OtpGet(props) {
         <div className="input_containter">
           {otp.map((data, index) => (
             <input
-              type="text"
+              type="number"
               name="otp"
               maxLength="1"
               key={index}
