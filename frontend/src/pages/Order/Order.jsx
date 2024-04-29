@@ -14,11 +14,10 @@ Order.propTypes = {};
 function Order(props) {
   const location = useLocation();
   const orderItems = location.state?.data;
-  // const totalOrderAmount = orderItems.reduce((total, item) => total + (item.moneyCurrent * item.number), 0);
   const totalOrderAmount = location.state?.total;
   const temporaryAmount = location.state?.temporary;
   const discountAmount = location.state?.discount;
-  console.log(location.state);
+  console.log(location.state.data);
   const [deliveryInformation, setDeliveryInformation] = useState(null);
   const [deliveryPayment, setDeliveryPayment] = useState(null);
   const defaultUser = JSON.parse(localStorage.getItem('user'));
@@ -116,6 +115,7 @@ function Order(props) {
         </Col>
         <Col lg={4} md={12} className="order__content__bill">
           <OrderBill
+            id={id}
             orderItems={orderItems}
             totalOrderAmount={totalOrderAmount}
             deliveryMethodSelected={deliveryMethodSelected}

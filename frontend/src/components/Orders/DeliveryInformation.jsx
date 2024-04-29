@@ -147,7 +147,8 @@ function DeliveryInformation(props) {
                                     ? props.deliveryInformation.loca_pers_name
                                     : selectedItems.loca_pers_name}
                             </div>
-                            <div className="person__phone body-medium">{selectedItems && Object.keys(selectedItems).length === 0
+                            <hr className='hr-line'/>
+                            <div className="person__phone body-large">{selectedItems && Object.keys(selectedItems).length === 0
                                 ? props.deliveryInformation.loca_pers_phone
                                 : selectedItems.loca_pers_phone}</div>
                             {(selectedItems && Object.keys(selectedItems).length === 0
@@ -156,7 +157,7 @@ function DeliveryInformation(props) {
                                 <div className="label__default body-medium">Mặc định</div>}
 
                         </div>
-                        <div className="detail__address body-medium">
+                        <div className="detail__address body-large">
                             {selectedItems && Object.keys(selectedItems).length === 0
                                 ? props.deliveryInformation.loca_address : selectedItems.loca_address}
                             {selectedItems && Object.keys(selectedItems).length === 0

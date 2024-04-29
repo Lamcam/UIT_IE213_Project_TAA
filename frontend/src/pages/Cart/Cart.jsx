@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useGetUserCart } from 'hooks/useGetUserCart';
 import { useAsyncValue } from 'react-router-dom';
 import axios from 'axios';
+import notFound from '../../assets/image/account/no-data.jpg';
 
 function Cart(props) {
   const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
@@ -26,6 +27,7 @@ function Cart(props) {
   }
   const totalAmount = temporaryAmount - discountAmount;
   const [cartItems1, setCartItems] = useState([]);
+  const [notProduct, setNotProduct] = useState(false);
 
   const handleCheckedItemsChange = (checkedItemsInfo) => {
     setCheckedItemsInfo(checkedItemsInfo);
@@ -45,17 +47,23 @@ function Cart(props) {
           user_id: userID,
         });
         if (res.status === 200) {
-          const data = res.data.map((item) => {
-            const productObject = item.product.length > 0 ? item.product[0] : null;
-            return {
-              ...item,
-              product: createItem(productObject),
-            };
-          });
-          setCartItems(data);
+          if (Array.isArray(res.data) && res.data.length === 0) {
+            setNotProduct(true)
+          }
+          else {
+            setNotProduct(false)
+            const data = res.data.map((item) => {
+              const productObject = item.product.length > 0 ? item.product[0] : null;
+              return {
+                ...item,
+                product: createItem(productObject),
+              };
+            });
+            setCartItems(data);
 
-          console.log('cartitm', data);
-          return res.data;
+            console.log('cartitm', data);
+            return res.data;
+          }
         } else if (res.status === 404) {
           alert('Cart is empty or user not found');
         } else {
@@ -111,6 +119,12 @@ function Cart(props) {
             onCheckedItemsChange={handleCheckedItemsChange}
             onDeleteCartItem={handleDeleteCartItem}
           />
+          {notProduct && (
+          <div className="no-data">
+              <img src={notFound} alt="Not found"/>
+              <p className="body-large">Oops! Giỏ hàng của bạn trống rỗng :((</p>
+          </div>
+        )}
         </Col>
         <Col xl={3} lg={3} md={12} className="cart__content__bill">
           <CartBill

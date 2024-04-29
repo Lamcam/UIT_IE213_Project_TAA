@@ -75,6 +75,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  & hr{
+    border-width: 24px;
+    width: 1px;
+    margin: 0px;
+  }
 }
 
 .detail__name__phone .label__default {
@@ -83,7 +88,7 @@
   align-items: flex-start;
   border-radius: 5px;
   border: 1px solid #857373;
-  color: #857373;
+  color: #9C4048;
 }
 
 // #modal--edit-address form{

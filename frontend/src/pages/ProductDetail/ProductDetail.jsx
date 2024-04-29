@@ -209,9 +209,13 @@ function ProductDetail(props) {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
           const userId = user[0]._id;
-          const favoritesResponse = await axios.get(`http://localhost:8000/api/account/favors/${userId}`);
+          const favoritesResponse = await axios.get(
+            `http://localhost:8000/api/account/favors/${userId}`,
+          );
           const favoriteProducts = favoritesResponse.data;
-          const isFavorite = favoriteProducts.some((favoriteProduct) => favoriteProduct._id === productId);
+          const isFavorite = favoriteProducts.some(
+            (favoriteProduct) => favoriteProduct._id === productId,
+          );
           setIsFilled(isFavorite);
         }
       } catch (error) {
@@ -263,7 +267,6 @@ function ProductDetail(props) {
   const handleOptionChangeSort = (option1) => {
     setSelectedOption1(option1);
   };
-
 
   // const handleClick = () => {
   //   setIsFilled(!isFilled);
@@ -332,7 +335,7 @@ function ProductDetail(props) {
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
   const toggleLike = async () => {
     if (!localStorage.getItem('user')) {
-      console.log("Bạn cần đăng nhập");
+      console.log('Bạn cần đăng nhập');
       setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích!");
       setShowPopupNotiLogin(true);
     } else {
@@ -344,14 +347,13 @@ function ProductDetail(props) {
           await axios.delete('http://localhost:8000/api/account/del-favors', {
             data: {
               userId: user_id,
-              productId: product._id
-            }
-
+              productId: product._id,
+            },
           });
         } else {
           await axios.post('http://localhost:8000/api/account/add-favors', {
             userId: user_id,
-            productId: product._id
+            productId: product._id,
           });
         }
         setIsFilled(!isFilled);
@@ -410,8 +412,9 @@ function ProductDetail(props) {
                 <Image
                   key={index}
                   src={imgSrc}
-                  className={`product__image_small__size ${selectedThumbnail === imgSrc ? 'selected' : ''
-                    }`}
+                  className={`product__image_small__size ${
+                    selectedThumbnail === imgSrc ? 'selected' : ''
+                  }`}
                   alt="image small"
                   preview={false}
                   onClick={() => handleThumbnailClick(imgSrc)}
@@ -451,7 +454,11 @@ function ProductDetail(props) {
                       <TbHeartPlus className="heart_plus" onClick={toggleLike} />
                     )}
                   </div>
-                  <PopupNotiLogin content={content} show={showPopupNotiLogin} onHide={() => setShowPopupNotiLogin(false)} />
+                  <PopupNotiLogin
+                    content={content}
+                    show={showPopupNotiLogin}
+                    onHide={() => setShowPopupNotiLogin(false)}
+                  />
                 </div>
                 <div className="product__name__detail__review">
                   <div className="product__name__detail__review_first">
@@ -469,7 +476,9 @@ function ProductDetail(props) {
                   </span>
                   <span className="product__name__detail__price_second">
                     {product?.prod_cost.$numberDecimal -
-                      product?.prod_cost.$numberDecimal * product?.prod_discount.$numberDecimal} đ
+                      product?.prod_cost.$numberDecimal *
+                        product?.prod_discount.$numberDecimal}{' '}
+                    đ
                   </span>
                   <span className="product__name__detail__price_third">
                     {product?.prod_discount.$numberDecimal * 100} %
@@ -776,16 +785,16 @@ function ProductDetail(props) {
           </div>
         </Row>
 
-        <div className="product__suggestion">
-          <span className="product__suggestion__title">Các sản phẩm đề xuất</span>
+        <Row className="product__suggestion container">
+          <span className="product__suggestion__title">CÁC SẢN PHẨM ĐỀ XUẤT</span>
           <div className="product__suggestion__items">
             {filteredData.slice(5, 9).map((product) => (
-              <Col key={product._id} lg={3} md={6} xs={6}>
+              <Col key={product._id} xxl={3}>
                 <ProductItem product={product} />
               </Col>
             ))}
           </div>
-        </div>
+        </Row>
       </Container>
     </div>
   );

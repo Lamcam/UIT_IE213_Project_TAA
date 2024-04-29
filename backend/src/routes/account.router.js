@@ -23,6 +23,7 @@ router.get("/favors/:id", account.getFavors);
 router.post("/add-favors", account.addFavors);
 router.delete("/del-favors", account.delFavors);
 router.get("/user/:id", account.getUser);
+router.post("/order", account.addOrder)
 // router.get('/account/orders', account.orders)
 
 // router.get('/favor-products', account.favorProducts)

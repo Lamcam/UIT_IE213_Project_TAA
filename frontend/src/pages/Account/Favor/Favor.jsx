@@ -9,7 +9,6 @@ function Favor() {
   const defaultUser = JSON.parse(localStorage.getItem('user'));
   const defaultUserData = defaultUser[0]
   const id = defaultUserData._id;
-  // const id = "65f3e9a27ef3c2b6f3b7d0d8"
   const [favors, setFavors] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const productsPerPage = 8;
