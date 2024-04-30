@@ -41,8 +41,8 @@ function OrderBill(props) {
     if (
       props.deliveryMethodSelected !== null &&
       (props.paymentMethodSelected === 0 ||
-        (props.paymentMethodSelected === 1 && props.selectedPaymentInfo !== null)) &&
-      props.selectedAddressInfo !== null
+        (props.paymentMethodSelected === 1 && props.selectedPaymentInfo !== null && props.selectedPaymentInfo !=='Bạn chưa chọn tài khoản thanh toán phù hợp')) &&
+      (props.selectedAddressInfo !== null && props.selectedAddressInfo !=="Bạn chưa chọn địa chỉ giao hàng phù hợp")
     ) {
       setDisabled(false);
     } else setDisabled(true);
@@ -53,7 +53,7 @@ function OrderBill(props) {
     props.selectedAddressInfo,
   ]);
 
-  const color = !disabled ? '#F1EFE7' : '#201A1A';
+  const color = !disabled ? '#F1EFE7' : 'rgba(32, 26, 26, 0.38)';
   const backgroundColor = !disabled ? '#785B5B' : 'rgba(29, 27, 32, 0.12)';
   const border = !disabled ? '1px solid #857373' : 'none';
   const [showAllItems, setShowAllItems] = useState(false);

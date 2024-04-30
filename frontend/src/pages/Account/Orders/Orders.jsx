@@ -14,7 +14,7 @@ function Orders() {
   // const id = "65f3ea44a8f986b1aca6929a"
   const [orders, setOrders] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const ordersPerPage = 1;
+  const ordersPerPage = 3;
 
   useEffect(() => {
     axios

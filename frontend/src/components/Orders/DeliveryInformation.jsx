@@ -109,6 +109,33 @@ function DeliveryInformation(props) {
     return (
         <div className="delivery__info">
             <div className="delivery__info__title title-large">1. Thông tin nhận hàng</div>
+            {selectedItems === 'Bạn chưa chọn địa chỉ giao hàng phù hợp' && (
+                <div className="delivery__info__location" style={{alignItems:"center"}}>
+                <div className="location__detail" style={{paddingBottom:"0"}}>   
+                    <p className='body-large' style={{marginBottom:"0"}}>Bạn chưa chọn địa chỉ giao hàng phù hợp!</p>
+                </div>
+                <div className="location__button">
+                    <Button
+                        label="Thay đổi"
+                        type="submit"
+                        labelColor="#785B5B"
+                        onClick={() => setIsModalDeliveryAddress(true)
+
+                        }
+                    />
+                    {isModalDeliveryAddress && (
+                        <ModalDeliveryAddress
+                            show={isModalDeliveryAddress}
+                            onHide={handleOnHide}
+                            onHideSubmit={() => setIsModalDeliveryAddress(false)}
+                            onCheckedItems={handleCheckedItems}
+                            idAddress={selectedItems && Object.keys(selectedItems).length === 0 ? props.deliveryInformation._id : selectedItems._id}
+                            updateDeliveryInformation={updateDeliveryInformation}
+                        />)}
+                    </div>
+                    </div>
+            )}
+
             {selectedItems !== 'Bạn chưa chọn địa chỉ giao hàng phù hợp' &&
                 (!props.deliveryInformation ? (
                     <div className="delivery__info__location">
@@ -189,30 +216,7 @@ function DeliveryInformation(props) {
                 )
             }
 
-            {selectedItems === 'Bạn chưa chọn địa chỉ giao hàng phù hợp' && (<ul className="accounts-list">
-                <div className="account-item__wrapper">
-                    <div className="account-info" style={{ padding: "0 0 0 48px", marginRight: "200px" }}>
-                        <p className="body-large">Bạn chưa chọn tài khoản thanh toán phù hợp!</p>
-                    </div>
-                    <div className="bank-btn">
-                        <Button
-                            className="set-default-btn label-large"
-                            label="Thay đổi"
-                            type="button"
-                            onClick={() => setIsModalDeliveryAddress(true)}
-                        />
-                        {isModalDeliveryAddress && (<ModalDeliveryAddress
-                            show={isModalDeliveryAddress}
-                            onHide={handleOnHide}
-                            onHideSubmit={() => setIsModalDeliveryAddress(false)}
-                            onCheckedItems={handleCheckedItems}
-                            idAddress={props.deliveryInformation._id}
-                            updateDeliveryInformation={updateDeliveryInformation}
-                        />)}
-                    </div>
-                </div>
-            </ul>)}
-
+            
         </div>
 
     );
