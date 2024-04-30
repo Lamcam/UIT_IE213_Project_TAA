@@ -7,8 +7,6 @@ import 'style/components/Carts/CartItem.scss';
 import axios from 'axios';
 import { useDeleteCartItem } from 'hooks/useDeleteCartIem';
 import DeleteCartItemPopup from 'components/Carts/DeleteCartItemPopup';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
 
 // CartItem.propTypes = {
 //   cartItems: PropTypes.arrayOf(
@@ -56,7 +54,6 @@ function CartItem(props, id) {
   //handel delete cart items from
   const [showModal, setShowModal] = useState(false);
   const [itemIdToDelete, setItemIdToDelete] = useState(null);
-
   const handleDeleteItem = async (productId) => {
     try {
       // Gọi hàm xóa sản phẩm từ hook useDeleteCartItem hoặc từ API trực tiếp
@@ -77,7 +74,12 @@ function CartItem(props, id) {
     // Mở modal
     setShowModal(true);
   };
-
+  const handleConfirmDelete = () => {
+    // Thực hiện việc xóa sản phẩm
+    handleDeleteItem(itemIdToDelete);
+    // Đóng modal xóa sản phẩm
+    setShowModal(false);
+  };
   useEffect(() => {
     // Cập nhật danh sách sản phẩm sau khi xóa
     // Gọi lại hook useDeleteCartItem hoặc các phương thức xử lý tương tự
@@ -253,30 +255,10 @@ function CartItem(props, id) {
                     <div className="item__delete__product">
                       <RiDeleteBin6Line
                         className="icon__delete primary-text"
-                        method="delete"
+                        // method="delete"
                         onClick={() => handleDeleteClick(item?._doc?._id)}
                       />
-
-                      <Modal show={showModal} onHide={() => setShowModal(false)}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Xác nhận xóa</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <p>Bạn có chắc chắn muốn xóa?</p>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="secondary" onClick={() => setShowModal(false)}>
-                            Hủy bỏ
-                          </Button>
-                          {/* Truyền itemIdToDelete vào hàm deleteFromCart */}
-                          <Button
-                            variant="primary"
-                            onClick={() => handleDeleteItem(itemIdToDelete)}
-                          >
-                            Đồng ý
-                          </Button>
-                        </Modal.Footer>
-                      </Modal>
+                      <DeleteCartItemPopup showModal={showModal} onClose={() => setShowModal(false)} onConfirmDelete={handleConfirmDelete} />
                     </div>
                   </div>
                 </div>
@@ -385,9 +367,10 @@ function CartItem(props, id) {
               <div className="item__delete__product">
                 <RiDeleteBin6Line
                   className="icon__delete primary-text"
-                  method="delete"
-                  onClick={() => handleDeleteItem(item?._doc?._id)}
+                  // method="delete"
+                  onClick={() => handleDeleteClick(item?._doc?._id)}
                 />
+                <DeleteCartItemPopup showModal={showModal} onClose={() => setShowModal(false)} onConfirmDelete={handleConfirmDelete} />
               </div>
             </td>
           </tr>
@@ -395,6 +378,8 @@ function CartItem(props, id) {
       </tbody>
     </Table>
   );
+
+
 }
 
 export default CartItem;
