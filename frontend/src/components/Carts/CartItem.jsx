@@ -6,6 +6,9 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import 'style/components/Carts/CartItem.scss';
 import axios from 'axios';
 import { useDeleteCartItem } from 'hooks/useDeleteCartIem';
+import DeleteCartItemPopup from 'components/Carts/DeleteCartItemPopup';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 // CartItem.propTypes = {
 //   cartItems: PropTypes.arrayOf(
@@ -49,6 +52,11 @@ function CartItem(props, id) {
   const [allItemsChecked, setAllItemsChecked] = useState(false);
   // const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
   console.log('cartItem23231', props.cartItems);
+
+  //handel delete cart items from
+  const [showModal, setShowModal] = useState(false);
+  const [itemIdToDelete, setItemIdToDelete] = useState(null);
+
   const handleDeleteItem = async (productId) => {
     try {
       // Gọi hàm xóa sản phẩm từ hook useDeleteCartItem hoặc từ API trực tiếp
@@ -56,9 +64,18 @@ function CartItem(props, id) {
       // Cập nhật danh sách sản phẩm sau khi xóa thành công
       const updatedCartItems = props.cartItems.filter((item) => item._doc._id !== productId);
       props.onDeleteCartItem(updatedCartItems);
+      // Đóng modal sau khi xóa
+      setShowModal(false);
     } catch (error) {
       console.error('Error deleting item:', error);
     }
+  };
+
+  const handleDeleteClick = (itemId) => {
+    // Lưu ID của mục được chọn để xóa vào state
+    setItemIdToDelete(itemId);
+    // Mở modal
+    setShowModal(true);
   };
 
   useEffect(() => {
@@ -237,8 +254,29 @@ function CartItem(props, id) {
                       <RiDeleteBin6Line
                         className="icon__delete primary-text"
                         method="delete"
-                        onClick={() => deleteFromCart(item?._doc?._id)}
+                        onClick={() => handleDeleteClick(item?._doc?._id)}
                       />
+
+                      <Modal show={showModal} onHide={() => setShowModal(false)}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Xác nhận xóa</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <p>Bạn có chắc chắn muốn xóa?</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={() => setShowModal(false)}>
+                            Hủy bỏ
+                          </Button>
+                          {/* Truyền itemIdToDelete vào hàm deleteFromCart */}
+                          <Button
+                            variant="primary"
+                            onClick={() => handleDeleteItem(itemIdToDelete)}
+                          >
+                            Đồng ý
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
                     </div>
                   </div>
                 </div>

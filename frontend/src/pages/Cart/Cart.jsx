@@ -103,7 +103,9 @@ function Cart(props) {
               <img src={notFound} alt="Not found"/>
               <p className="body-large">Oops! Giỏ hàng của bạn trống rỗng :((</p>
           </div>
-        )}
+          )}
+          
+          
         </Col>
         <Col xl={3} lg={3} md={12} className="cart__content__bill">
           <CartBill
