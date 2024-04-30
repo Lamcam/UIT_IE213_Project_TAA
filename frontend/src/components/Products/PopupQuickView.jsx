@@ -45,7 +45,7 @@ function PopupQuickView(props) {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
   const content = "Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!"
-  
+
   const handleAddToCart = () => {
     if (!localStorage.getItem('user')) {
       console.log("Bạn cần đăng nhập");
@@ -53,11 +53,11 @@ function PopupQuickView(props) {
     } else {
       addToCart(props.productItem, quantity);
       setShowSuccessPopup(true);
-      
-      
+
+
       setTimeout(() => {
         getCartQuantity();
-      },1000)
+      }, 1000)
       setTimeout(() => {
         setShowSuccessPopup(false); // Ẩn popup sau 5 giây
       }, 3000);
@@ -90,15 +90,23 @@ function PopupQuickView(props) {
 
   const handleChange = (event) => {
     let value = parseInt(event.target.value);
-    if (isNaN(value)) {
-      value = 0;
-    } else if (value > parseInt(props.productItem.prod_num_avai)) {
+    console.log(value)
+    if (value > parseInt(props.productItem.prod_num_avai)) {
       value = parseInt(props.productItem.prod_num_avai);
     } else if (value < 0) {
-      value = 0;
+      value = 1;
     }
     setQuantity(value);
+
   };
+
+  const handleBlur = () => {
+    if (quantity === 0 || isNaN(quantity)) {
+      setQuantity(1);
+    }
+  };
+
+
   const formatPrice = (price) => {
     const priceNumber = parseFloat(price);
     let formattedPrice = priceNumber.toLocaleString('vi-VN', { maximumFractionDigits: 0 });
@@ -186,7 +194,7 @@ function PopupQuickView(props) {
             <div className="info__quantity__product outline-text body-large">
               <div className="info__quantity__product-decrement outline-text" onClick={handleDecrement}>-</div>
               <input id="number__product__select" type="number" min="1" max={props.productItem.prod_num_avai} step="1"
-                className="my-input" onChange={handleChange}
+                className="my-input" onChange={handleChange} onBlur={handleBlur}
                 value={quantity.toLocaleString('en-US', { minimumIntegerDigits: 1, useGrouping: false })} />
               <div className="info__quantity__product-increment outline-text" onClick={handleIncrement}>+</div>
             </div>
