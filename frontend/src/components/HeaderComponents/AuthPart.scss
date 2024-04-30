@@ -1,121 +1,141 @@
-.auth_part{
-    width: 100%;
-    padding: 0px !important;
+.auth_part {
+  width: 100%;
+  padding: 0px !important;
 
-    .avatar_auth{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .auth_part__wrapper {
-        width: 100%;
-    }
-    
-    .cart_link{
-        // display: flex;
-        // align-items: start;
-        // justify-content: center;
-        width: 100%;
-        height: 100%;
-
-        
-    }
-    
-    .number_cart{
-        position: absolute;
-        top: 8px;
-        background-color: var(--md-source) !important;   
-        
-    }
-
-    #drop_down_btn{
-        width: 50px;
-        height: 50px;
-        border: 1px solid #785B5B;
-        border-radius: 50%;
-        padding: 10px;
-        background-color: rgba($color: #000000, $alpha: 0);
-    }
-
-
-    .dropdown-toggle::after{
-        opacity: 0;
-    }
-
-    .cart-icon{
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        padding: 8px;
-        color: #000000;
-    }
-
-    .dropdown-item{
-        text-align: end;
-        margin-bottom: 8px;
-    }
-
-    .dropdown-item:active{
-        color:#9c4048;
-        background-color: rgba($color: #000000, $alpha: 0);
-    }
-}
-
-.user_wrapper{
+  .avatar_auth {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+  }
+
+  .auth_part__wrapper {
+    width: 100%;
+  }
+
+  .cart_link {
+    // display: flex;
+    // align-items: start;
+    // justify-content: center;
+    width: 100%;
     height: 100%;
+  }
 
-    .user_name{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-    }
+  .number_cart {
+    position: absolute;
+    top: 8px;
+    background-color: var(--md-source) !important;
+  }
+
+  #drop_down_btn {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #785b5b;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: rgba($color: #000000, $alpha: 0);
+  }
+
+  .dropdown-toggle::after {
+    opacity: 0;
+  }
+
+  .cart-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 8px;
+    color: #000000;
+  }
+
+  .dropdown-item {
+    text-align: end;
+    margin-bottom: 8px;
+  }
+
+  .dropdown-item:active {
+    color: #9c4048;
+    background-color: rgba($color: #000000, $alpha: 0);
+  }
 }
 
-.log_out_btn{
+.user_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+
+  .user_name {
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 40px;
-    border-bottom-right-radius: inherit;
-    border-bottom-left-radius: inherit;
-    
-    background-color: var(--md-source);
-    .log{
-        color: white;
-    }
-    .log:hover{
-        background-color: rgba($color: #000000, $alpha: 0);
-    }
+    justify-content: center;
+  }
 }
 
+.log_out_btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border-bottom-right-radius: inherit;
+  border-bottom-left-radius: inherit;
 
-
-.dropdown-menu{
-    padding: 0px 0px;
-    padding-top: 6px;
-
-    .dropdown-divider{
-        margin-bottom: 0px;
-    }
+  background-color: var(--md-source);
+  .log {
+    color: white;
+  }
+  .log:hover {
+    background-color: rgba($color: #000000, $alpha: 0);
+  }
 }
 
-@media (max-width: 700px){
-    .auth_part {
-        width: 130px;
+.modal_logOut {
+  h1, h4 {
+    text-align: center;
     }
+
+  .btn-close-logout,
+  .btn-logout {
+    color:  white;
+    width:  100%;
+    height:  50px;
+    border-radius:  8px;
+    border: #785b5b 1px solid;
+    font-family: 'Roboto';
+    font-size: 17px;
+    font-weight: 500;
+   }
+}
+.modal-header {
+    border-bottom: none !important;
+}
+.btn_modal_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  margin-top: 100px;
+  gap: 20px;
+}
+
+.dropdown-menu {
+  padding: 0px 0px;
+  padding-top: 6px;
+
+  .dropdown-divider {
+    margin-bottom: 0px;
+  }
+}
+
+@media (max-width: 700px) {
+  .auth_part {
+    width: 130px;
+  }
 }
 
 @media (max-width: 900px) {
-    .user_name {
-        display: none !important;
-    }
-
-    
-    
+  .user_name {
+    display: none !important;
+  }
 }

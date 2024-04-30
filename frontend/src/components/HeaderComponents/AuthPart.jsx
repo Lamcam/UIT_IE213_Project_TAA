@@ -139,19 +139,21 @@ function AuthPart() {
         </Col>
       </Row>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title as="h2">Đăng xuất</Modal.Title>
-        </Modal.Header>
-        <Modal.Body as="h4">Bạn có chắc muốn đăng xuất?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Đóng
-          </Button>
-          <Button variant="danger" onClick={handleClickLogOut}>
-            Đăng xuất
-          </Button>
-        </Modal.Footer>
+      <Modal show={show} onHide={handleClose} centered size='lg' className='modal_logOut'>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Title as="h1">Đăng xuất</Modal.Title>
+        <Modal.Body as="h4">Bạn có chắc muốn đăng xuất khỏi TAA?
+            <div className='btn_modal_container'>
+              <Button className='btn-close-logout btn_clickable_lightcolor_outline'  onClick={handleClose}>
+                Đóng
+              </Button>
+              <Button className='btn-logout btn_clickable_boldcolor' onClick={handleClickLogOut}>
+                Đăng xuất
+              </Button>
+            </div>
+        
+        </Modal.Body>
+        
       </Modal>
     </Container>
   );
