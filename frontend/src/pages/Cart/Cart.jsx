@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useGetUserCart } from 'hooks/useGetUserCart';
 import { useAsyncValue } from 'react-router-dom';
 import axios from 'axios';
-import notFound from '../../assets/image/account/no-data.jpg';
+import notFound from 'assets/image/account/no-data.jpg';
 import { useAuthContext } from 'hooks/useAuthContext';
 
 function Cart(props) {
@@ -43,10 +43,9 @@ function Cart(props) {
         });
         if (res.status === 200) {
           if (Array.isArray(res.data) && res.data.length === 0) {
-            setNotProduct(true)
-          }
-          else {
-            setNotProduct(false)
+            setNotProduct(true);
+          } else {
+            setNotProduct(false);
             const data = res.data.map((item) => {
               const productObject = item.product.length > 0 ? item.product[0] : null;
               return {
@@ -84,35 +83,51 @@ function Cart(props) {
 
   const handleDeleteCartItem = async (updatedCartItems) => {
     // Cập nhật danh sách cartItems sau khi xóa sản phẩm
+    if (updatedCartItems.length === 0) {
+      setNotProduct(true);
+      return;
+    }
     setCartItems(updatedCartItems);
     getCartQuantity();
   };
   return (
     <Container className="cart" fluid id="cart">
       <Row className="cart__content">
-        <Col xl={9} lg={9} md={12} className="cart__content__item">
-          {/* Truyền danh sách các mục vào CartItem */}
-          <CartItem
-            cartItems={cartItems1}
-            setMoneyAll={setTemporaryAmount}
-            onCheckedItemsChange={handleCheckedItemsChange}
-            onDeleteCartItem={handleDeleteCartItem}
-          />
-          {notProduct && (
-          <div className="no-data">
-              <img src={notFound} alt="Not found"/>
-              <p className="body-large">Oops! Giỏ hàng của bạn trống rỗng :((</p>
+        {notProduct ? (
+          <div className="no-data body-large" style={{ textAlign: 'center' }}>
+            <img
+              src={notFound}
+              alt="Not found"
+              style={{
+                width: '200px',
+                height: 'auto',
+              }}
+            />
+            <p>Oops! Giỏ hàng của bạn trống rỗng.</p>
+            <p style={{ fontSize: '20px' }}>Hãy quay lại tìm sản phẩm cho mình bạn nhé ^^</p>
           </div>
+        ) : (
+          <React.Fragment>
+            <Col xl={9} lg={9} md={12} className="cart__content__item">
+              {/* Truyền danh sách các mục vào CartItem */}
+              <CartItem
+                cartItems={cartItems1}
+                setMoneyAll={setTemporaryAmount}
+                onCheckedItemsChange={handleCheckedItemsChange}
+                onDeleteCartItem={handleDeleteCartItem}
+                // notProduct={notProduct}
+              />
+            </Col>
+            <Col xl={3} lg={3} md={12} className="cart__content__bill">
+              <CartBill
+                temporaryAmount={temporaryAmount}
+                discountAmount={discountAmount}
+                totalAmount={totalAmount}
+                checkedItemsInfo={checkedItemsInfo}
+              />
+            </Col>
+          </React.Fragment>
         )}
-        </Col>
-        <Col xl={3} lg={3} md={12} className="cart__content__bill">
-          <CartBill
-            temporaryAmount={temporaryAmount}
-            discountAmount={discountAmount}
-            totalAmount={totalAmount}
-            checkedItemsInfo={checkedItemsInfo}
-          />
-        </Col>
       </Row>
     </Container>
   );
