@@ -25,7 +25,36 @@ const getBlogsById = async (req, res) => {
   }
 };
 
+const postBlogs = async (req, res) => {
+    try {
+      // Lấy thông tin từ request body
+      const { b_title, b_date, b_content, b_heading, b_text, b_image } = req.body;
+  
+      // Tạo một bài viết mới
+      const newBlog = new Blog({
+        b_title,
+        b_date,
+        b_content,
+        b_heading,
+        b_text,
+        b_image,
+      });
+  
+      // Lưu bài viết mới vào cơ sở dữ liệu
+      const savedBlog = await newBlog.save();
+  
+      // Trả về phản hồi thành công
+      res.status(201).json(savedBlog);
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
+
 module.exports = {
     getBlogs,
     getBlogsById,
+    postBlogs,
 };
