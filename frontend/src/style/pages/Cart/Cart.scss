@@ -1,20 +1,6 @@
 .cart#cart {
   & .cart__content__item {
     padding: 0;
-    & .no-data {
-      text-align: center;
-      background-color: white;
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
-      & img {
-        width: 200px;
-        height: auto;
-      }
-      & p {
-        font-size: 20px;
-        padding-bottom: 20px;
-      }
-    }
   }
   & .cart__content__bill {
     padding: 0 0 12px 12px;
