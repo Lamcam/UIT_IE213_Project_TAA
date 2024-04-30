@@ -76,6 +76,7 @@ function Cart(props) {
       _id: item._id,
       imageUrl: item.prod_img[0],
       productName: item.prod_name,
+      productSold: item.prod_num_avai,
       moneyCurrent: item.prod_cost.$numberDecimal * (1 - item.prod_discount.$numberDecimal),
       moneyBeforeDiscount: item.prod_cost.$numberDecimal,
     };
@@ -115,7 +116,7 @@ function Cart(props) {
                 setMoneyAll={setTemporaryAmount}
                 onCheckedItemsChange={handleCheckedItemsChange}
                 onDeleteCartItem={handleDeleteCartItem}
-                // notProduct={notProduct}
+              // notProduct={notProduct}
               />
             </Col>
             <Col xl={3} lg={3} md={12} className="cart__content__bill">
