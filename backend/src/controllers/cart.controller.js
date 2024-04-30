@@ -88,11 +88,11 @@ const getQuantityCartByUserId = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
         const cartList = await Cart.find({ user_id: user_id });
-        if (cartList.length > 0) {
-            return res.status(200).json(cartList.length);
+        if (cartList) {
+            return res.status(200).json(cartList);
         }  
         else {
-            return res.status(200).json(0);
+            return res.status(200).json([]);
         }
     } catch(error) {
         console.log(error);
