@@ -12,6 +12,7 @@ let OrdersSchema = new Schema({
     loca_id: { type: Schema.Types.ObjectId, ref: "locations" },
     order_is_paying: { type: "number", default: 0 },
     quantity: { type: "number", default: 1 },
+    order_status:{type: "number", default: 0}
 });
 
 module.exports = mongoose.model("orders", OrdersSchema);

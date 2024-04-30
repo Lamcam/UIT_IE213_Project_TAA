@@ -86,7 +86,6 @@ function Cart(props) {
     // Cập nhật danh sách cartItems sau khi xóa sản phẩm
     if (updatedCartItems.length === 0) {
       setNotProduct(true);
-      return;
     }
     setCartItems(updatedCartItems);
     getCartQuantity();
