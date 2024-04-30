@@ -1,52 +1,44 @@
-import React, { useEffect } from "react"
-import MainNav from "../MainNav/MainNav";
-import Logo from 'components/Common/Logo.jsx' // error
-import SearchBar from "components/HeaderComponents/SearchBar";
-import "./Header.scss";
-import AuthPart from "components/HeaderComponents/AuthPart";
-import UnAuthPart from "components/HeaderComponents/UnAuthPart";
-import { Container } from "react-bootstrap";
-import HeaderOffcanvas from "components/HeaderComponents/Offcanvas";
+import React, { useEffect } from 'react';
+import MainNav from '../MainNav/MainNav';
+import Logo from 'components/Common/Logo.jsx'; // error
+import SearchBar from 'components/HeaderComponents/SearchBar';
+import './Header.scss';
+import AuthPart from 'components/HeaderComponents/AuthPart';
+import UnAuthPart from 'components/HeaderComponents/UnAuthPart';
+import { Container } from 'react-bootstrap';
+import HeaderOffcanvas from 'components/HeaderComponents/Offcanvas';
 
 function Header() {
-   const Auth = localStorage.getItem('user');
-   
-   function checkAuth() {
-        if (Auth) {
-            
-            return <AuthPart />
-        }
-        return <UnAuthPart />
+  const Auth = localStorage.getItem('user');
+
+  function checkAuth() {
+    if (Auth) {
+      return <AuthPart />;
     }
+    return <UnAuthPart />;
+  }
 
-    useEffect(() => {
-        checkAuth();
-   }, [Auth]);
-   
+  useEffect(() => {
+    checkAuth();
+  }, [Auth]);
 
-    return (
-        <header className="visible un-radius">
-            
-            <div className="header__top">
-                <Container fluid='lg'>
-                    <HeaderOffcanvas />
-                    <a className="header__link" href="/">
-                        <Logo />
-                    </a>
-                    <SearchBar></SearchBar>
+  return (
+    <header className="visible un-radius">
+      <div className="header__top">
+        <Container fluid="lg">
+          <HeaderOffcanvas />
+          <a className="header__link" href="/">
+            <Logo />
+          </a>
+          <SearchBar></SearchBar>
 
-                    <div className="header__wrapper">
-                        
-                        {checkAuth()}
+          <div className="header__wrapper">{checkAuth()}</div>
+        </Container>
+      </div>
 
-                    </div>
-                </Container>
-            </div>
-
-            <MainNav />
-
-        </header>
-    )
+      <MainNav />
+    </header>
+  );
 }
 
 export default Header;
