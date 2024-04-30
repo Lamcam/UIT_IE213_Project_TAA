@@ -4,5 +4,6 @@ const news = require("../controllers/news.controller");
 
 router.get("/", news.getBlogs);
 router.get("/:id", news.getBlogsById);
+router.post("/", news.postBlogs);
 
 module.exports = router;
