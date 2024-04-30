@@ -8,7 +8,7 @@ import ButtonIcon from 'components/Common/ButtonIcon';
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import axios from 'axios';
 import OrderSuccess from './Modal--OrderSuccess';
-
+import { useAuthContext } from 'hooks/useAuthContext';
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
@@ -30,6 +30,7 @@ OrderBill.propTypes = {
 };
 
 function OrderBill(props) {
+  const { getCartQuantity } = useAuthContext();
   console.log('phuong thuc giao hang', props.deliveryMethodSelected);
   console.log('phuong thuc thanh toan', props.paymentMethodSelected);
   console.log('thong tin thanh toan ngan hang', props.selectedPaymentInfo);
@@ -75,6 +76,8 @@ function OrderBill(props) {
         .then((response) => {
             console.log(response.data);
             setShowSuccess(true);
+            
+            getCartQuantity();
         })
         .catch((error) => {
           console.error('Error:', error);
