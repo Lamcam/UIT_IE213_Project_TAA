@@ -169,6 +169,7 @@
     .item__delete__product {
       width: 32px;
       height: 32px;
+      cursor: pointer;
     }
     .item__number__product {
       width: 24px;
@@ -176,6 +177,7 @@
     }
     .cart__item__tbody .item__delete__product {
       margin: 0;
+      cursor: pointer;
     }
     .cart__item__tbody .delete__product__cart {
       display: flex;

@@ -52,6 +52,7 @@
 
   & .item__checkbox {
     padding: 12px 6px 12px 12px;
+    cursor: pointer;
   }
 
   & .item__number {
@@ -124,4 +125,10 @@
     border-bottom-right-radius: 12px;
   }
 }
+.item__delete__product {
+  cursor: pointer;
+}
 
+.item__checkbox__all {
+  cursor: pointer;
+}

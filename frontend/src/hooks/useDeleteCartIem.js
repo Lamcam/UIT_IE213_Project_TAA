@@ -19,7 +19,7 @@ export function useDeleteCartItem(prod) {
 
       if (res.status === 200) {
         setLoading(false);
-        alert('Xóa khỏi giỏ hàng thành công');
+        // alert('Xóa khỏi giỏ hàng thành công');
       }
     } catch (error) {
       console.error('Error deleting item from cart:', error);
