@@ -97,7 +97,7 @@ function AuthPart() {
             <h6>{getUserName()}</h6>
           </Col>
 
-          <Col>
+          <Col className='avatar_auth'>
             {/* <DropdownButton id='drop_down_btn' style={{backgroundImage: `url(${avt})`, borderRadius: '50%' }} > */}
             <DropdownButton
               id="drop_down_btn"

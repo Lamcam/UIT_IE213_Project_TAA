@@ -150,6 +150,25 @@ section .qaCard.card{
     
 }
 
+.quest_container{
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+@media (max-width: 978px) {
+    .quest_container{
+        flex-direction: column;
+        justify-content: unset;
+        align-items: center;
+        gap: 1rem;
+    }
+    .qaCard.card {
+       height: 350px !important;
+    }
+    
+}
+
 @media (max-width: 450px) {
     .info_containter {
         display: flex;

@@ -25,6 +25,7 @@ footer {
   }
 
   .input_section{
+    position: relative;
     border: 1.5px solid var(--md-source);
     width: 100%;
     height: 100%;
@@ -68,6 +69,7 @@ footer {
 
   
 .input_warrper{
+  // position: relative;
   flex-wrap: wrap;
   flex-direction: row;
 
@@ -110,6 +112,16 @@ footer {
 
 .describe{
   margin-top: 16px;
+}
+
+.errorEmail{
+  font-family: 'Roboto';
+  position: absolute;
+  bottom: -33px;
+  color: #9c4048;
+  font-size: 16px;
+  font-weight: 400;
+
 }
 
 

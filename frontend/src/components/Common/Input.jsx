@@ -18,8 +18,9 @@ const Input = (props) => {
             <input 
             className={props.className}
             style={styles} 
-            type={props.type}
+            type='email'
             placeholder={props.placeholder}
+            onChange={props.onChange}
             />
     );
 };
