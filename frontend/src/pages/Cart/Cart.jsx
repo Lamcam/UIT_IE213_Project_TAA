@@ -15,13 +15,6 @@ function Cart(props) {
   const [temporaryAmount, setTemporaryAmount] = useState(0);
   let discountAmount;
   if (temporaryAmount > 0) {
-    // const min = 5000; // Giá trị nhỏ nhất
-    // const max = 50000; // Giá trị lớn nhất
-    // const step = 5000; // Bước nhảy
-
-    // Tính toán số ngẫu nhiên
-    // const randomSteps = Math.floor(Math.random() * ((max - min) / step + 1));
-    // discountAmount = min + randomSteps * step;
     discountAmount = 5000 * checkedItemsInfo.length;
     if (discountAmount > 50000) discountAmount = 50000;
   } else {
@@ -89,23 +82,6 @@ function Cart(props) {
     };
   };
 
-  // Danh sách các mục trong giỏ hàng
-  //
-  // const cartItems = [
-  //   {
-  //     imageUrl: 'https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825',
-  //     productName: 'Vongf tay ddinhs ddas raats rta nhieu ne haha',
-  //     moneyCurrent: 100000,
-  //     moneyBeforeDiscount: 150000,
-  //   },
-  //   {
-  //     imageUrl: 'https://www.junie.vn/cdn/shop/files/vong-tay-amanda-14.jpg?v=1696476825',
-  //     productName: 'Ten san pham 2',
-  //     moneyCurrent: 120000,
-  //     // moneyBeforeDiscount: 170000
-  //   },
-  //   // Thêm các mục khác nếu cần
-  // ];
   const handleDeleteCartItem = async (updatedCartItems) => {
     // Cập nhật danh sách cartItems sau khi xóa sản phẩm
     setCartItems(updatedCartItems);

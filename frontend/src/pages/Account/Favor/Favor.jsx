@@ -11,7 +11,7 @@ function Favor() {
   const id = defaultUserData._id;
   const [favors, setFavors] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const productsPerPage = 8;
+  const productsPerPage = 12;
 
   const fetchFavorites = async () => {
     try {
