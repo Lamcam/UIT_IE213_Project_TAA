@@ -46,7 +46,7 @@ const Footer = () => {
       <Container className="footer_container">
         <Row className="d-flex justify-content-around">
           {/* <Col className='col-4' lg={4} > */}
-          <Col lg={4} sm={7}>
+          <Col lg={4} sm={6}>
             <img className="img-fluid" src={logo} alt="logo" style={logoStyle}></img>
             <p className="describe">
               Việc mua hàng của bạn là động lực cho chúng tôi tiếp tục duy trì được công ty.
