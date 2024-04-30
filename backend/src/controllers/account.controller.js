@@ -390,6 +390,16 @@ const getOrders = async (req, res) => {
 
         // Duyệt qua từng đơn hàng để lấy thông tin sản phẩm
         for (const order of orders) {
+                        // Kiểm tra nếu ngày hiện tại lớn hơn order_datetime 3 ngày, thì cập nhật order_status thành 1
+            const orderDate = new Date(order.order_datetime);
+                        const currentDate = new Date();
+                        const diffInDays = Math.floor((currentDate - orderDate) / (1000 * 60 * 60 * 24));
+            
+                        if (diffInDays > 2 && order.order_status !== 1) {
+                            await Orders.findByIdAndUpdate(order._id, { order_status: 1 });
+            }
+            console.log(orderDate, currentDate, diffInDays)
+
             // Tìm chi tiết đơn hàng
             const orderDetails = await OrdersDetail.find({
                 order_id: order._id,
@@ -409,6 +419,7 @@ const getOrders = async (req, res) => {
                     product,
                 });
             }
+
 
             // Thêm thông tin đơn hàng và các sản phẩm tương ứng vào mảng chính
             ordersWithProducts.push({
@@ -535,7 +546,7 @@ const addOrder = async (req, res) => {
             .status(400)
             .json({ message: "ID người dùng không hợp lệ" });
     }
-    const newOrder = await createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id);
+    const newOrder = await createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id, orderDetails);
     console.log('Thêm đơn hàng thành công:', newOrder);
 
     const orderdetails = await createOrderdetails(newOrder._id, orderDetails);
@@ -572,7 +583,7 @@ async function createOrderdetails(orderId, orderItems) {
     throw error; // Ném lỗi để xử lý ở phần gọi hàm
   }
 }
-async function createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id) {
+async function createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id, orderItems) {
   try {
         const newOrder = new Orders({
           _id: new mongoose.Types.ObjectId(),
@@ -583,8 +594,9 @@ async function createOrder(order_total_cost, user_id, bank_id, pay_id_option, tr
           pay_id: pay_id_option===0?'65f41349bd7a1382211874b0':'65f41375bd7a1382211874b1',
           tran_id: tran_id_option===0?'65f3ed65a8f986b1aca692a0':'65f3ebe2a8f986b1aca6929f',
           loca_id:loca_id,
-          order_is_paying:pay_id_option===0?0:1,
-          order_status:0,
+        order_is_paying: pay_id_option === 0 ? 0 : 1,
+          quantity: orderItems.length,
+          order_status: 0,
         });
         await newOrder.save();
         console.log('Đã tạo đơn hàng:', newOrder._id);
