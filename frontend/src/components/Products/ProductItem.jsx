@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import 'style/components/Products/ProductItem.scss';
 import PopupNotiLogin from './PopupNotiLogin';
 import axios from 'axios';
+import { useAuthContext } from 'hooks/useAuthContext';
 import { useAddToCart } from 'hooks/useAddToCart';
 import { useNavigate } from 'react-router-dom';
 ProductItem.propTypes = {
@@ -35,6 +36,7 @@ ProductItem.propTypes = {
 
 function ProductItem({ product, onFavoriteChange }) {
   const navigate = useNavigate();
+  const { getCartQuantity } = useAuthContext();
   const [isLiked, setIsLiked] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
@@ -51,6 +53,7 @@ function ProductItem({ product, onFavoriteChange }) {
           await addToCart(product, 1);
           console.log('Sản phẩm đã được thêm vào giỏ hàng');
           navigate("/cart");
+          getCartQuantity();
         } catch (error) {
           console.error('Lỗi khi thêm vào giỏ hàng:', error);
         }

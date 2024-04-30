@@ -5,8 +5,8 @@ const { default: mongoose } = require("mongoose");
 
 const getCart = async (req, res) => {
     try {
-        console.log("cart", cart);
         const cart = await Cart.find({});
+        console.log("cart", cart);
         // res.cookie('user', true, { maxAge: 900000, httpOnly: true });
         res.status(200).json(cart);
     } catch (error) {
@@ -79,6 +79,28 @@ const deleteAllProductFromCart = async (req, res) => {
 //     }
 // };
 
+const getQuantityCartByUserId = async (req, res) => {
+    try {
+        const { user_id } = req.body;
+        console.log("user_id", user_id);
+        const user = await User.findById(user_id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const cartList = await Cart.find({ user_id: user_id });
+        if (cartList) {
+            return res.status(200).json(cartList);
+        }  
+        else {
+            return res.status(200).json([]);
+        }
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+
+}
+
 const getCartByUserId = async (req, res) => {
     try {
         const { user_id } = req.body;
@@ -103,6 +125,7 @@ const getCartByUserId = async (req, res) => {
                 })
             );
             const cartItems = await promises;
+            // console.log("cartItems", cartItems[0]._doc.quantity);
             return res.status(200).json(cartItems);
         }
 
@@ -121,7 +144,7 @@ const getCartByUserId = async (req, res) => {
 };
 
 const deleteCartItem = async (req, res, next) => {
-    console.log("delete", req.params);
+    // console.log("delete", req.params);
     const cartId = req.params.id;
     console.log("id", cartId);
     try {
@@ -146,6 +169,7 @@ const cart = {
     addProductToCart,
     getCartByUserId,
     getCart,
+    getQuantityCartByUserId,
     deleteAllProductFromCart,
     deleteCartItem,
     deleteCartItem,

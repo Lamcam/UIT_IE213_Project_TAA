@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
+// import Home from 'pages/Home/Home';
 import App from './App.js';
 // import App from './App';
 // import GetOtp from 'pages/LoginRegister/Get_otp';
@@ -18,6 +19,7 @@ root.render(
     <AuthContextProvider>
         <App></App>
     </AuthContextProvider>
+    {/* <Home></Home> */}
   </React.StrictMode>
 );
 

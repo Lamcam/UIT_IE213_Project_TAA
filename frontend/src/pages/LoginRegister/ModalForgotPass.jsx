@@ -112,7 +112,6 @@ function PhoneEmailVal(props) {
 
   const handleSubmitEmailPhone = async (e) => {
     e.preventDefault();
-    console.log('this is run');
 
     if (props.email) {
       await axios
@@ -231,6 +230,7 @@ function OtpGet(props) {
               type="number"
               name="otp"
               maxLength="1"
+              inputMode="numeric"
               key={index}
               value={data}
               onChange={(e) => handleOtpChange(e, index)}

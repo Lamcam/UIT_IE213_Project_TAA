@@ -12,7 +12,8 @@ function ProductCard(props) {
     const [showPopup, setShowPopup] = useState(false);
 
     const toggleLike = () => {
-        setIsLiked(!isLiked);
+        localStorage.getItem('user') ? setIsLiked(!isLiked) : console.log('Vui lòng đang nhập');;
+        // setIsLiked(!isLiked);
     };
 
     const formatPrice = (price) => {

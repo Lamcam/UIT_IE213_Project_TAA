@@ -7,8 +7,10 @@ import { useGetUserCart } from 'hooks/useGetUserCart';
 import { useAsyncValue } from 'react-router-dom';
 import axios from 'axios';
 import notFound from '../../assets/image/account/no-data.jpg';
+import { useAuthContext } from 'hooks/useAuthContext';
 
 function Cart(props) {
+  const { getCartQuantity } = useAuthContext();
   const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
   const [temporaryAmount, setTemporaryAmount] = useState(0);
   let discountAmount;
@@ -83,6 +85,7 @@ function Cart(props) {
   const handleDeleteCartItem = async (updatedCartItems) => {
     // Cập nhật danh sách cartItems sau khi xóa sản phẩm
     setCartItems(updatedCartItems);
+    getCartQuantity();
   };
   return (
     <Container className="cart" fluid id="cart">
