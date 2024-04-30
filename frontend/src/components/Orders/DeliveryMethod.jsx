@@ -13,24 +13,24 @@ function DeliveryMethod(props) {
         }
         // Nếu không, cập nhật trạng thái của nút mới được chọn
         setSelectedOption(index);
-        props.onDeliveryMethodChange(index === 0 || index === 1);
-
+        props.handleDeliveryFee(index===0 ? 30000 : 0)
+        props.onDeliveryMethodChange(index);
     };
 
     return (
         <div className="delivery__method">
             <div className="delivery__method__title title-large">2. Phương thức vận chuyển</div>
-            <div className="delivery__method__one body-medium" onClick={() => handleClick(0)}>
+            <div className="delivery__method__one body-large" onClick={() => handleClick(0)}>
                 <div className="radio__check">
                     {selectedOption === 0 ? <MdOutlineRadioButtonChecked className="icon__radio" /> : <MdOutlineRadioButtonUnchecked className="icon__radio" />}
                 </div>
-                <span>Giao hàng nhanh trong 2 giờ (Trễ tặng 100k): Nhận hàng trước 16h hôm nay</span>
+                <span>Giao hàng nhanh trong 2 giờ (Trễ tặng 100k)</span>
             </div>
-            <div className="delivery__method__two body-medium" onClick={() => handleClick(1)}>
+            <div className="delivery__method__two body-large" onClick={() => handleClick(1)}>
                 <div className="radio__check">
                     {selectedOption === 1 ? <MdOutlineRadioButtonChecked className="icon__radio" /> : <MdOutlineRadioButtonUnchecked className="icon__radio" />}
                 </div>
-                <span>Giao hàng trong 72 giờ: 30.000 đ</span>
+                <span>Giao hàng trong 72 giờ</span>
             </div>
         </div>
     );

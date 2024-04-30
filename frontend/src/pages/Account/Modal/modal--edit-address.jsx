@@ -8,13 +8,13 @@ import { CgClose } from 'react-icons/cg';
 function EditAddress(props) {
   const [editAddress, setEditAddress] = useState(props.data);
   const [errorPhone, setErrorPhone] = useState('');
+  const [errorName, setErrorName] = useState('');
+  const [errorAddress, setErrorAddress] = useState('');
   const prevData = useRef(props.data);
-  // const inputRefs = useRef({});
   useEffect(() => {
     setEditAddress(props.data);
   }, [props.data]);
   useEffect(() => {
-    // Check if props.data has changed
     if (JSON.stringify(props.data) !== JSON.stringify(prevData.current)) {
       setEditAddress(props.data);
       prevData.current = props.data; // Update previous data
@@ -26,9 +26,30 @@ function EditAddress(props) {
       ...prevState,
       [name]: value,
     }));
+    if (name === 'loca_pers_name') {
+      setErrorName('');
+    }
+    if (name === 'loca_pers_phone') {
+      setErrorPhone('');
+    }
+    if (name === 'loca_address') {
+      setErrorAddress('')
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!editAddress.loca_pers_name.trim() || !editAddress.loca_pers_phone.trim() || !editAddress.loca_address.trim()) {
+      if (!editAddress.loca_pers_name.trim()) {
+        setErrorName('Tên người nhận không được để trống!');
+      }
+      if (!editAddress.loca_pers_phone.trim()) {
+        setErrorPhone('Số điện thoại không được để trống!');
+      }
+      if (!editAddress.loca_address.trim()) {
+        setErrorAddress('Địa chỉ tổng quan không được để trống!');
+      }
+      return;
+    }
     const isDifferent = Object.keys(editAddress).some(
       (key) => editAddress[key] !== prevData.current[key],
     );
@@ -50,8 +71,14 @@ function EditAddress(props) {
         console.error(error);
       });
   };
+  const handleModalClick = (e) => {
+    // Kiểm tra xem phần tử được nhấp có là nền của modal hay không
+    if (e.target === e.currentTarget) {
+      props.onHide(); // Gọi hàm onHide khi nhấp vào nền modal
+    }
+  };
   return (
-    <div id="modal--edit-address" className={`profile-modal ${props.show ? 'active' : ''}`}>
+    <div id="modal--edit-address" className={`profile-modal ${props.show ? 'active' : ''}`} onClick={handleModalClick}>
       <div className="modal__content--form">
         <ButtonIcon
           className="modal__btn--close"
@@ -68,12 +95,11 @@ function EditAddress(props) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorName ? "err-border" : ""}`}
                   type="text"
                   id="loca_pers_name"
                   name="loca_pers_name"
-                  value={editAddress.loca_pers_name}
+                  value={editAddress?.loca_pers_name}
                   onChange={handleChange}
                 />
               </div>
@@ -86,12 +112,11 @@ function EditAddress(props) {
               </label>
               <div className="col-9 input__wrapper">
                 <input
-                  required
                   className={`input__wrapper-child ${errorPhone ? 'err-border' : ''}`}
                   type="text"
                   id="loca_pers_phone"
                   name="loca_pers_phone"
-                  value={editAddress.loca_pers_phone}
+                  value={editAddress?.loca_pers_phone}
                   onChange={handleChange}
                 />
                 {errorPhone && <div className="err">{errorPhone}</div>}
@@ -106,12 +131,11 @@ function EditAddress(props) {
 
               <div className="col-9 input__wrapper">
                 <input
-                  required
-                  className="input__wrapper-child"
+                  className={`input__wrapper-child ${errorAddress ? "err-border" : ""}`}
                   type="text"
                   id="loca_address"
                   name="loca_address"
-                  value={editAddress.loca_address}
+                  value={editAddress?.loca_address}
                   onChange={handleChange}
                 />
               </div>
@@ -125,12 +149,11 @@ function EditAddress(props) {
 
               <div className="col-9 input__wrapper">
                 <input
-                  required
                   className="input__wrapper-child"
                   type="text"
                   id="loca_detail"
                   name="loca_detail"
-                  value={editAddress.loca_detail}
+                  value={editAddress?.loca_detail}
                   onChange={handleChange}
                 />
               </div>

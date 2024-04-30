@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import { useAuthContext } from "./useAuthContext";
 
 export function useAddToCart(prod, modal) {
 
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(null);
     const userID = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))[0]._id : null;
-    
+    const { cartQuantity, setCartQuantity } = useAuthContext();
+
     const addToCart = async (prod, quantity) => {
         try {
             setLoading(true);
@@ -20,7 +22,9 @@ export function useAddToCart(prod, modal) {
 
             if (res.status === 200) {
                 setLoading(false);
-                alert('Thêm vào giỏ hàng thành công');
+                // alert('Thêm vào giỏ hàng thành công');
+                console.log('Thêm vào giỏ hàng thành công');
+                // getCartQuantity();
                 // modal();
             }
 
@@ -30,7 +34,9 @@ export function useAddToCart(prod, modal) {
         }
 
     };
+    
 
     return { addToCart, loading, error };
 
 }
+

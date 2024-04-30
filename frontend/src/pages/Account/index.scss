@@ -229,6 +229,7 @@ article.section__content {
     text-align: center;
     & img{
       width: 200px;
+      height: auto;
     }
   }
 }
@@ -236,6 +237,7 @@ article.section__content {
 .shipping-item__wrapper{
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 .account-info,
 .shipping-info {
@@ -352,12 +354,15 @@ article.section__content {
   justify-content: space-between;
   padding: 10px 0;
   width: 100%;
+  gap: 32px;
     & .status{
       color: #9C4048;
       padding: 0 5px;
       border-radius: 5px;
       border: 1px solid #857373;
       line-height: inherit;
+      white-space: nowrap;
+      height: fit-content;
     }
   & .name{
     font-size: 20px;
@@ -503,6 +508,7 @@ flex-direction: column;
   }
   .container-fluid .row .col-12 {
     padding-left: 0;
+    width: 100%;
   }
 }
 

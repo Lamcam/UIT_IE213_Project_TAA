@@ -10,10 +10,12 @@ import productDetailImg5 from '../../assets/image/t5.jpg';
 import '../../style/pages/ProductDetail/ProductDetail.scss';
 import ProductItem from 'components/Products/ProductItem';
 import { GiRabbitHead } from 'react-icons/gi';
+import { FaChevronDown } from 'react-icons/fa';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
 import { BiDislike, BiLike } from 'react-icons/bi';
-import { TbHeartPlus, TbHeartFilled } from 'react-icons/tb';
+import { TbHeartPlus } from 'react-icons/tb';
+import { IoHeartSharp } from 'react-icons/io5';
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 import ReviewPopup from '../../pages/Account/Modal/ReviewPopup';
@@ -23,7 +25,8 @@ import Button from 'components/Common/Button';
 import axios from 'axios';
 import { useAddToCart } from 'hooks/useAddToCart';
 import PropTypes from 'prop-types';
-
+import PopupNotiLogin from 'components/Products/PopupNotiLogin';
+import { useNavigate } from 'react-router-dom';
 ProductDetail.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -48,6 +51,7 @@ ProductDetail.propTypes = {
 };
 
 function ProductDetail(props) {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const { addToCart } = useAddToCart(); // HAN
   const [filteredData, setFilteredData] = useState([]);
@@ -186,21 +190,41 @@ function ProductDetail(props) {
   const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
+
+  //heart plus
+  const [isFilled, setIsFilled] = useState(false);
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/products/${productId}`);
-        console.log('data', response.data);
         setProduct(response.data);
-        setProductFetched(true); // Đánh dấu rằng dữ liệu sản phẩm đã được lấy thành công
+        setProductFetched(true);
       } catch (error) {
         console.error('Error fetching product:', error);
       }
     };
 
-    fetchProduct();
-  }, [productId]);
+    const fetchFavorites = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+          const userId = user[0]._id;
+          const favoritesResponse = await axios.get(
+            `http://localhost:8000/api/account/favors/${userId}`,
+          );
+          const favoriteProducts = favoritesResponse.data;
+          const isFavorite = favoriteProducts.some(
+            (favoriteProduct) => favoriteProduct._id === productId,
+          );
+          setIsFilled(isFavorite);
+        }
+      } catch (error) {
+        console.error('Error fetching favorites:', error);
+      }
+    };
 
+    Promise.all([fetchData(), fetchFavorites()]);
+  }, [productId]);
   useEffect(() => {
     if (productFetched && thumbnailImages.length > 0) {
       setCurrentImg(thumbnailImages[0]);
@@ -244,12 +268,9 @@ function ProductDetail(props) {
     setSelectedOption1(option1);
   };
 
-  //heart plus
-  const [isFilled, setIsFilled] = useState(false);
-
-  const handleClick = () => {
-    setIsFilled(!isFilled);
-  };
+  // const handleClick = () => {
+  //   setIsFilled(!isFilled);
+  // };
 
   //like dislike
   const [likeType1, setLikeType1] = useState(null);
@@ -310,7 +331,68 @@ function ProductDetail(props) {
   };
 
   const [modalShow, setModalShow] = React.useState(false);
+  const [content, setContent] = useState('');
+  const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
+  const toggleLike = async () => {
+    if (!localStorage.getItem('user')) {
+      console.log('Bạn cần đăng nhập');
+      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích!");
+      setShowPopupNotiLogin(true);
+    } else {
+      try {
+        const user_current = JSON.parse(localStorage.getItem('user'))[0];
+        const user_id = user_current._id;
 
+        if (isFilled) {
+          await axios.delete('http://localhost:8000/api/account/del-favors', {
+            data: {
+              userId: user_id,
+              productId: product._id,
+            },
+          });
+        } else {
+          await axios.post('http://localhost:8000/api/account/add-favors', {
+            userId: user_id,
+            productId: product._id,
+          });
+        }
+        setIsFilled(!isFilled);
+      } catch (error) {
+        console.error('Error toggling favorite:', error);
+      }
+    }
+  };
+  const handleAddToCart = () => {
+    if (!localStorage.getItem('user')) {
+      console.log("Bạn cần đăng nhập");
+      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!");
+      setShowPopupNotiLogin(true);
+    } else {
+      addToCart(props.productItem, quantity);
+      setModalShow(true);
+      setTimeout(() => {
+        setModalShow(false); // Ẩn popup sau 5 giây
+      }, 3000);
+    }
+  };
+  // const contentBuyNow = "Bạn cần đăng nhập để thực hiện mua ngay!";
+  const addToCartAndRedirect = () => {
+    if (!localStorage.getItem('user')) {
+      console.log('Bạn cần đăng nhập');
+      setContent("Bạn cần đăng nhập để thực hiện mua ngay!");
+      setShowPopupNotiLogin(true);
+    } else {
+      (async () => {
+        try {
+          await addToCart(product, 1);
+          console.log('Sản phẩm đã được thêm vào giỏ hàng');
+          navigate("/cart");
+        } catch (error) {
+          console.error('Lỗi khi thêm vào giỏ hàng:', error);
+        }
+      })();
+    }
+  };
   return (
     <div className="productDetail">
       {/* <Button
@@ -367,11 +449,16 @@ function ProductDetail(props) {
                   <h1 className="product__name__detail__title">{product?.prod_name}</h1>
                   <div>
                     {isFilled ? (
-                      <TbHeartFilled className="heart_plus" onClick={handleClick} />
+                      <IoHeartSharp className="heart_plus" onClick={toggleLike} />
                     ) : (
-                      <TbHeartPlus className="heart_plus" onClick={handleClick} />
+                      <TbHeartPlus className="heart_plus" onClick={toggleLike} />
                     )}
                   </div>
+                  <PopupNotiLogin
+                    content={content}
+                    show={showPopupNotiLogin}
+                    onHide={() => setShowPopupNotiLogin(false)}
+                  />
                 </div>
                 <div className="product__name__detail__review">
                   <div className="product__name__detail__review_first">
@@ -389,7 +476,8 @@ function ProductDetail(props) {
                   </span>
                   <span className="product__name__detail__price_second">
                     {product?.prod_cost.$numberDecimal -
-                      product?.prod_cost.$numberDecimal * product?.prod_discount.$numberDecimal}
+                      product?.prod_cost.$numberDecimal *
+                        product?.prod_discount.$numberDecimal}{' '}
                     đ
                   </span>
                   <span className="product__name__detail__price_third">
@@ -452,15 +540,13 @@ function ProductDetail(props) {
                 <button
                   className="btn_round_8px btn_clickable_lightcolor"
                   show={showPopup}
-                  onClick={() => {setModalShow(true);
-                    addToCart(product, quantity)
-                 }}
+                  onClick={handleAddToCart}
                 >
                   <MdOutlineAddShoppingCart />
                   Thêm vào giỏ hàng
                 </button>
                 <NotiAddCartSuccessPopup show={modalShow} onHide={() => setModalShow(false)} />
-                <NavLink className="btn_round_8px btn_clickable_boldcolor">Mua ngay</NavLink>
+                <div className="btn_round_8px btn_clickable_boldcolor buynow" onClick={addToCartAndRedirect}>Mua ngay</div>
               </div>
             </div>
           </Col>
@@ -699,16 +785,16 @@ function ProductDetail(props) {
           </div>
         </Row>
 
-        <div className="product__suggestion">
-          <span className="product__suggestion__title">Các sản phẩm đề xuất</span>
+        <Row className="product__suggestion container">
+          <span className="product__suggestion__title">CÁC SẢN PHẨM ĐỀ XUẤT</span>
           <div className="product__suggestion__items">
             {filteredData.slice(5, 9).map((product) => (
-              <Col key={product._id} lg={3} md={6} xs={6}>
+              <Col key={product._id} xxl={3}>
                 <ProductItem product={product} />
               </Col>
             ))}
           </div>
-        </div>
+        </Row>
       </Container>
     </div>
   );

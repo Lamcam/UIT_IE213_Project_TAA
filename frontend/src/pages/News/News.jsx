@@ -61,6 +61,7 @@ function News() {
     const endIdx = startIdx + newsPerPage;
     const filteredNews = news.slice(startIdx, endIdx); // Update newsData based on 'news'
     setnewsData(filteredNews);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
 

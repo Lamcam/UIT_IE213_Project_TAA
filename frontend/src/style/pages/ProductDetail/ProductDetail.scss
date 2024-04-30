@@ -71,8 +71,9 @@
   &__first {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     font-size: 24px;
+    gap: 15px;
   }
 
   &__title {
@@ -211,7 +212,9 @@
   background: var(--M3-sys-light-primary, #785b5b) !important;
   color: var(--M3-sys-light-on-primary, #f1efe7) !important;
 }
-
+.btn_clickable_boldcolor.buynow {
+  cursor: pointer;
+}
 .productDetail button:hover {
   cursor: pointer;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2), 0px 1px 3px 1px rgba(0, 0, 0, 0.2);
@@ -429,7 +432,7 @@
 .product__suggestion {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 101.5%;
   border-radius: 8px;
   background: white;
   &__title {
@@ -440,11 +443,12 @@
     gap: 12px;
     font-size: 32px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
   }
   &__items {
     display: flex;
     width: 100%;
+    gap: 2px;
   }
 }
 // .product__suggestion .product_suggestion__items .product_suggestion__item {
@@ -610,8 +614,18 @@ input[type='number'] {
 
 .btn__filter__rank,
 .btn__filter__soft {
-  width: 100px;
+  width: 120px;
   padding: 15px;
+  /* Ẩn dropdown */
+  // -webkit-appearance: none;
+  // -moz-appearance: none;
+  // appearance: none;
+
+  /* Tùy chỉnh kiểu hiển thị */
+  background-color: transparent;
+  border: none;
+  outline: none;
+  /* Thêm boder hoặc box-shadow để tạo hiệu ứng hover hoặc focus nếu cần */
   //   padding-right: 0px;
   &:hover {
     cursor: pointer;

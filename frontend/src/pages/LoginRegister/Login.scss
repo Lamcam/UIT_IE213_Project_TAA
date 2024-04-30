@@ -44,7 +44,7 @@ section.login {
 
   .create_acc_rec::before,
   .create_acc_rec::after {
-    content: '---------------------';
+    content: '---------------';
     margin: 0px 10px;
     color: rgba(25, 25, 25, 0);
     display: block;
@@ -131,6 +131,16 @@ section.register {
   align-items: center;
   margin: 0px;
 
+
+  .form-check-input:checked{
+    background-color: var(--md-source);
+    border-color: var(--md-source);
+  }
+
+  .text-muted.form-text{
+    color: red !important;
+  }
+
   form {
     font-size: 16px;
     display: flex;
@@ -166,10 +176,11 @@ section.register {
     max-width: 400px;
     min-height: 555px;
   }
+  
 
   .login_rec::before,
   .login_rec::after {
-    content: '------------';
+    content: '--------------------';
     margin: 0px 10px;
     color: rgba(25, 25, 25, 0);
     display: block;
@@ -236,16 +247,41 @@ section.register {
   .register_btn:active{
     opacity: 0.7;
   }
+
   .form-check-input {
     border-radius: 50%;
+    border: 2px solid var(--md-source);
   }
+
   .form-check {
     max-width: 406px;
   }
 }
 
-@media screen and (max-width: 744px) {
-  .side_bar {
-    display: none;
+@media (max-width: 744px) {
+
+  section.login {
+
+    .side_bar {
+      display: none !important;
+    }
+
+    .login_form{
+      width: 100% !important;
+      padding: 30px 0px;
+    }
   }
+
+  section.register {
+
+    .side_bar {
+      display: none !important;
+    }
+
+    .register_form{
+      width: 100% !important;
+      padding: 30px 0px;
+    }
+  }
+  
 }

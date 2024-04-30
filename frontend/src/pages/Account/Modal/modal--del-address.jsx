@@ -4,6 +4,12 @@ import ButtonIcon from 'components/Common/ButtonIcon';
 import Button1 from 'components/Common/Button1';
 import { CgClose } from 'react-icons/cg';
 function DelAddress(props) {
+  const handleModalClick = (e) => {
+    // Kiểm tra xem phần tử được nhấp có là nền của modal hay không
+    if (e.target === e.currentTarget) {
+      props.onHide(); // Gọi hàm onHide khi nhấp vào nền modal
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault()
     axios.delete(`http://localhost:8000/api/account/delete-address/${props.id}`, { params: { id: props.userId } })
@@ -17,7 +23,7 @@ function DelAddress(props) {
   });
   }
     return (
-        <div id="modal--del-address" className={`profile-modal ${props.show ? 'active' : ''}`}>
+        <div id="modal--del-address" className={`profile-modal ${props.show ? 'active' : ''}`} onClick={handleModalClick}>
                         <div className="modal__content--confirm">
                           <ButtonIcon
                             className="modal__btn--close"

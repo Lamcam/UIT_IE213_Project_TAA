@@ -14,12 +14,10 @@ function HeaderOffcanvas() {
 
   return (
     <>
-        <IoIosMenu className='headerOffcanvas' onClick={handleShow} />
+      <IoIosMenu className='headerOffcanvas' onClick={handleShow} />
 
       <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Điều hướng</Offcanvas.Title>
-        </Offcanvas.Header>
+       
         <Offcanvas.Body>
             <div className="offcanvas_nav" >
                 <Container fluid='lg'>

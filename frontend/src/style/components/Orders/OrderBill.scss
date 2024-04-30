@@ -47,10 +47,23 @@
   justify-content: space-between;
 }
 
-.order__bill .order__bill__link {
+.order__item__product.hidden {
+  display: none;
+}
+.order__bill .order__bill__see {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  & .toggle-text-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  & p {
+    margin: 0;
+    cursor: pointer;
+  }
 }
 
 .order__bill .order__bill__money__temporary,
