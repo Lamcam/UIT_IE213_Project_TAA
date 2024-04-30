@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAddToCart } from 'hooks/useAddToCart';
 import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import PopupNotiLogin from './PopupNotiLogin';
+import { useAuthContext } from 'hooks/useAuthContext';
 PopupQuickView.propTypes = {
   onHide: PropTypes.func.isRequired,
   productItem: PropTypes.shape({
@@ -34,6 +35,7 @@ PopupQuickView.propTypes = {
 };
 
 function PopupQuickView(props) {
+  const { getCartQuantity } = useAuthContext();
   const navigate = useNavigate()
   const productImages = props.productItem?.prod_img?.slice(0, 4);
   const defaultImage = productImages?.length > 0 ? productImages[0] : '';
@@ -43,6 +45,7 @@ function PopupQuickView(props) {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
   const content = "Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!"
+  
   const handleAddToCart = () => {
     if (!localStorage.getItem('user')) {
       console.log("Bạn cần đăng nhập");
@@ -50,6 +53,11 @@ function PopupQuickView(props) {
     } else {
       addToCart(props.productItem, quantity);
       setShowSuccessPopup(true);
+      
+      
+      setTimeout(() => {
+        getCartQuantity();
+      },1000)
       setTimeout(() => {
         setShowSuccessPopup(false); // Ẩn popup sau 5 giây
       }, 3000);

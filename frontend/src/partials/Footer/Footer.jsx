@@ -57,7 +57,7 @@ const Footer = () => {
           </Col>
 
           {/* <Col className='col-2'> */}
-          <Col lg={2} sm={4}>
+          <Col lg={2} sm={3}>
             <h3 className='footer__title'>Công ty</h3>
             <ul>
               <li><a href='/news'>Tin tức </a></li>
