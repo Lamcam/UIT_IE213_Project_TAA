@@ -66,7 +66,7 @@ function MyVerticallyCenteredModal(props) {
           {modal.modal3 ? 'Nhập mã OTP' : ''}
           {modal.modal4 ? 'Đổi mật khẩu' : ''}
         </Modal.Title>
-        {modal.modal3? ( <p style={{textAlign: 'center'}} className="modal_content">Nhập mã OTP được gửi đến cho {localStorage.getItem('email')} </p> ): null}
+        {modal.modal3? ( <p style={{textAlign: 'center', fontSize: 'medium'}} className="modal_content">Nhập mã OTP được gửi đến cho {localStorage.getItem('email')} </p> ): null}
         <div className="email_phone_button_wrapper">
           <Button
             className="email_button"
@@ -101,6 +101,7 @@ function MyVerticallyCenteredModal(props) {
 
 function PhoneEmailVal(props) {
   const [value, setValue] = useState('');
+  const [found, setFound] = useState(true);
 
   const inform = {
     email: 'Nhập email của bạn',
@@ -128,6 +129,7 @@ function PhoneEmailVal(props) {
         .catch((err) => {
           console.log('Không tìm thấy email trùng khớp');
           console.log(err, value);
+          setFound(false);
         });
     } else {
       await axios
@@ -143,6 +145,7 @@ function PhoneEmailVal(props) {
         })
         .catch((err) => {
           console.log(err, value);
+          setFound(false);
         });
     }
   };
@@ -156,6 +159,7 @@ function PhoneEmailVal(props) {
         placeholder={props.email ? inform.email : inform.phone}
         className='input_modal_forgotPass'
       />
+      { found ? null : (<p className='not_found'>Không tìm thấy {props.email ? 'email' : 'số điện thoại'}</p>)}
 
       <Button
         className="btn_reg_log_round_8px btn_clickable_boldcolor"
@@ -238,7 +242,7 @@ function OtpGet(props) {
             />
           ))}
         </div>
-        <label>
+        <label style={{fontSize: 'medium'}}>
           Bạn chưa nhận được mã ? <>Gửi lại </>{' '}
         </label>
 
@@ -252,6 +256,7 @@ function OtpGet(props) {
 
 function ChangePass(props) {
   const [input, setInput] = useState({ password: '', confirmPass: '' });
+  const [check, setFail] = useState(true);
 
   const handleInputChange = (e) => {
     if (e.target.name === 'pass') {
@@ -263,11 +268,17 @@ function ChangePass(props) {
 
   const handleSubmitChangePass = async (e) => {
     e.preventDefault();
+    var regex = /^(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])[a-zA-Z\d@#$%^&+=]{8,}$/;
     if (input.password !== input.confirmPass) {
-      return;
+      setFail(false);
+      alert(input.password)    
+      return;  
     }
-    if (input.password.length <= 7) {
-      return;
+    if (regex.test(input.password)) {
+      setFail(true);
+
+    } else{
+      setFail(false);
     }
 
     const email = localStorage.getItem('email');
@@ -310,7 +321,7 @@ function ChangePass(props) {
 
   return (
     <Form
-      onSubmit={handleSubmitChangePass}
+      onSubmit={(e) => e.preventDefault()}
       className={props.className}
       style={{ display: props.show ? 'flex' : 'none' }}
     >
@@ -336,8 +347,9 @@ function ChangePass(props) {
           rows={2}
         />
       </Form.Group>
+      { check ? null : (<p className='not_found' style={{fontSize: 'medium', color: 'red', fontFamily: 'Roboto'}} >Mật khẩu phải có ít nhất 8 ký tự gồm chữ, số , ký tự đặc biệt</p>)}
 
-      <Button type="submit" className="btn_reg_log_round_8px btn_clickable_boldcolor">
+      <Button onClick={handleSubmitChangePass} className="btn_reg_log_round_8px btn_clickable_boldcolor">
         Xác nhận
       </Button>
     </Form>

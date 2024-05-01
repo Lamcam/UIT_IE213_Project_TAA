@@ -28,6 +28,7 @@ const Footer = () => {
     const check = emailRegex.test(email);
     if (check) {
       setValidEmail(true);
+      setEmail('')
       window.scrollTo({
         top: 0,
         behavior: 'smooth', 
@@ -44,9 +45,8 @@ const Footer = () => {
   return (
     <footer className="dark-light mt-12">
       <Container className="footer_container">
-        <Row className="d-flex justify-content-around">
-          {/* <Col className='col-4' lg={4} > */}
-          <Col lg={4} sm={6}>
+        <Row className="footer_wrapper">
+          <Col lg={4} sm={5}>
             <img className="img-fluid" src={logo} alt="logo" style={logoStyle}></img>
             <p className="describe">
               Việc mua hàng của bạn là động lực cho chúng tôi tiếp tục duy trì được công ty.
@@ -82,7 +82,7 @@ const Footer = () => {
           </Col>
 
           {/* <Col className='col-2'> */}
-          <Col lg={2} sm={3}>
+          <Col lg={3} sm={4}>
             <h3 className="footer__title">Công ty</h3>
             <ul>
               <li>
@@ -115,6 +115,7 @@ const Footer = () => {
                     <Input
                       className="email_input"
                       type="email"
+                      value={email}
                       placeholder="Điền thư điện tử của bạn"
                       onChange={handleInputChange}
                     />
