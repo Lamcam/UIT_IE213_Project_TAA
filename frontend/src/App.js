@@ -1,5 +1,5 @@
 import Cart from 'pages/Cart/Cart';
-import ScrollButton from 'components/Common/ScrollButton.jsx';
+import ScrollButton from 'components/Common/ScrollButton';
 import {
   Route,
   RouterProvider,
