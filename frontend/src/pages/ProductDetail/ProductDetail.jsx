@@ -537,7 +537,7 @@ function ProductDetail(props) {
                     -
                   </div>
                   <input
-                    id="number__product__select"
+                    id="input__increment__decrement"
                     type="number"
                     min="1"
                     max={product?.prod_num_avai}

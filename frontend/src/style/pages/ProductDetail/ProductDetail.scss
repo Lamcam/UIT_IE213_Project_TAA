@@ -478,7 +478,13 @@
   height: 32px;
 }
 
-input[type='number'] {
+#input__increment__decrement {
+  border: none;
+  text-align: center;
+  margin-left: 9px;
+}
+
+#input__increment__decrement input[type='number'] {
   text-align: center;
   border: none;
   width: 40px;
