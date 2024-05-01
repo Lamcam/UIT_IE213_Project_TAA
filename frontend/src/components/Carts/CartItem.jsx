@@ -7,6 +7,7 @@ import 'style/components/Carts/CartItem.scss';
 import axios from 'axios';
 import { useDeleteCartItem } from 'hooks/useDeleteCartIem';
 import DeleteCartItemPopup from 'components/Carts/DeleteCartItemPopup';
+import { useNavigate } from 'react-router-dom';
 
 // CartItem.propTypes = {
 //   cartItems: PropTypes.arrayOf(
@@ -42,6 +43,7 @@ CartItem.propTypes = {
 };
 
 function CartItem(props, id) {
+  const navigate = useNavigate();
   props.cartItems.map((item) => {
     console.log(item);
   });
@@ -236,6 +238,10 @@ function CartItem(props, id) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const handleClickNameProduct = (index) => {
+    navigate(`/products/${props.cartItems[index].product._id}`)
+  }
   return isMobile ? (
     <Table borderless className="cart" size="sm" id="cart_resize">
       <thead className="cart__item__thead title-medium">
@@ -274,7 +280,7 @@ function CartItem(props, id) {
                   <img src={item.product.imageUrl} alt={item.product.productName} />
                 </div>
                 <div className="info__product--responsive">
-                  <div className="name__product">
+                  <div className="name__product" onClick={() => handleClickNameProduct(index)}>
                     <p>{item.product.productName}</p>
                   </div>
                   <div className="item__total__money">
@@ -365,7 +371,7 @@ function CartItem(props, id) {
                 <div className="img__product">
                   <img src={item.product.imageUrl} alt={item.product.productName} />
                 </div>
-                <div className="name__product">
+                <div className="name__product" onClick={() => handleClickNameProduct(index)}>
                   <p>{item.product.productName}</p>
                 </div>
               </div>

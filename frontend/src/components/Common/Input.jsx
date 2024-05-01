@@ -19,6 +19,7 @@ const Input = (props) => {
             className={props.className}
             style={styles} 
             type='email'
+            value={props.value}
             placeholder={props.placeholder}
             onChange={props.onChange}
             />

@@ -47,6 +47,10 @@
     & .name__product {
       text-align: left;
       flex-grow: 1;
+      cursor: pointer;
+    }
+    & .name__product:hover {
+      color: #9c4048;
     }
   }
 

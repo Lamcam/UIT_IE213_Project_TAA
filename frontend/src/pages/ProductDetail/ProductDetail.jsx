@@ -27,6 +27,7 @@ import { useAddToCart } from 'hooks/useAddToCart';
 import PropTypes from 'prop-types';
 import PopupNotiLogin from 'components/Products/PopupNotiLogin';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from 'hooks/useAuthContext';
 ProductDetail.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -55,6 +56,7 @@ function ProductDetail(props) {
   const [data, setData] = useState([]);
   const { addToCart } = useAddToCart(); // HAN
   const [filteredData, setFilteredData] = useState([]);
+  const { getCartQuantity } = useAuthContext();
   useEffect(() => {
     fetchData();
   }, []);
@@ -367,7 +369,10 @@ function ProductDetail(props) {
       setContent('Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!');
       setShowPopupNotiLogin(true);
     } else {
-      addToCart(props.productItem, quantity);
+      addToCart(product, quantity);
+      setTimeout(() => {
+        getCartQuantity();
+      }, 1000)
       setModalShow(true);
       setTimeout(() => {
         setModalShow(false); // Ẩn popup sau 5 giây
@@ -386,6 +391,7 @@ function ProductDetail(props) {
           await addToCart(product, 1);
           console.log('Sản phẩm đã được thêm vào giỏ hàng');
           navigate('/cart');
+          getCartQuantity();
         } catch (error) {
           console.error('Lỗi khi thêm vào giỏ hàng:', error);
         }
@@ -428,9 +434,8 @@ function ProductDetail(props) {
                 <Image
                   key={index}
                   src={imgSrc}
-                  className={`product__image_small__size ${
-                    selectedThumbnail === imgSrc ? 'selected' : ''
-                  }`}
+                  className={`product__image_small__size ${selectedThumbnail === imgSrc ? 'selected' : ''
+                    }`}
                   alt="image small"
                   preview={false}
                   onClick={() => handleThumbnailClick(imgSrc)}
@@ -493,7 +498,7 @@ function ProductDetail(props) {
                   <span className="product__name__detail__price_second">
                     {product?.prod_cost.$numberDecimal -
                       product?.prod_cost.$numberDecimal *
-                        product?.prod_discount.$numberDecimal}{' '}
+                      product?.prod_discount.$numberDecimal}{' '}
                     đ
                   </span>
                   <span className="product__name__detail__price_third">

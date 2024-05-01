@@ -13,11 +13,9 @@ export function useRegister() {
       dispatch({ type: 'REGISTER', payload: response.data });
       if (response.status === 201) {
         dispatch({ type: 'REGISTER', payload: response.data });
-        alert('Register successfully!');
         window.location.href = '/log_in';
         return response.data;
       } else if (response.status === 400) {
-        alert('Tài khoản đã tồn tại');
         setError(response.data);
       } else {
         setLoading(false);
