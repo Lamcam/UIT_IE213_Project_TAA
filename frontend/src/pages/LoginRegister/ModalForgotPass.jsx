@@ -4,6 +4,7 @@ import './PopUp.scss';
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import axios from 'axios';
 import { element } from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 function MyVerticallyCenteredModal(props) {
   const [index, setIndex] = React.useState(1);
@@ -172,16 +173,18 @@ function ModelForgotPass() {
   const [modalShow, setModalShow] = React.useState(false);
   return (
     <>
-      <Button
-        className="forgotPass"
+      {/* <Button
+        className="forgotPass body-large"
         variant="link"
         onClick={() => {
           setModalShow(true);
         }}
       >
         Bạn quên mật khẩu?
-      </Button>
-
+      </Button> */}
+      <p className='forgotPass body-large' onClick={()=>setModalShow(true)}>
+        Bạn quên mật khẩu?
+</p>
       <MyVerticallyCenteredModal
         show={modalShow}
         reset={modalShow.toString()}

@@ -398,7 +398,6 @@ const getOrders = async (req, res) => {
                         if (diffInDays > 2 && order.order_status !== 1) {
                             await Orders.findByIdAndUpdate(order._id, { order_status: 1 });
             }
-            console.log(orderDate, currentDate, diffInDays)
 
             // Tìm chi tiết đơn hàng
             const orderDetails = await OrdersDetail.find({

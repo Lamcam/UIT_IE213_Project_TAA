@@ -1,29 +1,53 @@
-import { Form, Image, Button, Col, Container } from 'react-bootstrap';
+import { Form, Image, Col, Container } from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
 import './Login.scss';
 import { NavLink } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRegister } from 'hooks/useRegister';
-
+import { useNavigate } from 'react-router-dom';
+import Button from '../../components/Common/Button1';
+import { info } from 'sass';
+import { type } from '@testing-library/user-event/dist/type';
 function Register() {
-  const { register } = useRegister();
+  const navigate = useNavigate()
+  const handleClickLogin = () => {
+    navigate('/log_in');
+  };
+  const { register, errorExist, setErrorExist } = useRegister();
   const [submit, setSubmit] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const color = !disabled ? '#F1EFE7' : 'rgba(32, 26, 26, 0.38)';
+  const backgroundColor = !disabled ? '#785B5B' : 'rgba(29, 27, 32, 0.12)';
+  // const border = !disabled ? '1px solid #857373' : 'none';
 
-  const [valid, setValid] = useState({
-    username: false,
-    phone: false,
-    email: false,
-    password: false,
-    confirm: false,
-    check: false,
-  });
 
+  // const [valid, setValid] = useState({
+  //   username: false,
+  //   phone: false,
+  //   email: false,
+  //   password: false,
+  //   confirm: false,
+  //   check: false,
+  // });
+
+  // const [errorUsername, setErrorUsername] = useState('')
+  const [errorPhone, setErrorPhone] = useState('')
+  const [errorEmail, setErrorEmail] = useState('')
+  const [errorPassword, setErrorPassword] = useState('')
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState('')
+  const [isChecked, setIsChecked] = useState(false);
+  console.log(errorExist)
+
+  const handleCheck = (e) => {
+    setIsChecked(e.target.checked);
+  };
+  
   const inform = {
     username: 'Tên đăng nhập phải có ít nhất 1 ký tự',
     phone: 'Số điện thoại phải có từ 10 đến 11 số',
-    email: 'Email phải định dạng @ và .com',
-    password: 'Mật khẩu có ít nhất 8 kí tự, gồm chữ, số, ký tự đặc biệt',
-    confirm: 'Mật khẩu xác nhận phải khớp với mật khẩu trước đó',
+    email: 'Định dạng email không hợp lệ',
+    password: 'Mật khẩu phải có ít nhất 8 kí tự, gồm chữ, số và ký tự đặc biệt',
+    confirm: 'Mật khẩu xác nhận không khớp',
     check: 'Bạn phải đồng ý với điều khoản của TAA',
   };
 
@@ -35,74 +59,136 @@ function Register() {
     confirm: '',
   });
 
-  const handleCheck = (e) => {
-    setValid({ ...valid, check: !valid.check });
-  };
+  // const handleCheck = (e) => {
+  //   setValid({ ...valid, check: !valid.check });
+  // };
 
-  const handleInputPasswordChange = (e) => {
-    var regex = /^(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])[a-zA-Z\d@#$%^&+=]{8,}$/;
-    setInput({ ...input, password: e.target.value });
-    console.log(e.target.value);
-    console.log('regex', regex.test(e.target.value));
-    if (regex.test(e.target.value)) {
-      setValid({ ...valid, password: true });
-    } else {
-      setValid({ ...valid, password: false });
+  // const handleInputPasswordChange = (e) => {
+  //   var regex = /^(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])[a-zA-Z\d@#$%^&+=]{8,}$/;
+  //   setInput({ ...input, password: e.target.value });
+  //   console.log(e.target.value);
+  //   console.log('regex', regex.test(e.target.value));
+  //   if (regex.test(e.target.value)) {
+  //     setValid({ ...valid, password: true });
+  //   } else {
+  //     setValid({ ...valid, password: false });
+  //   }
+  // };
+
+  // const handleConfirmPasswordChange = (e) => {
+  //   setInput({ ...input, confirm: e.target.value });
+  //   if (input.password === e.target.value) {
+  //     setValid({ ...valid, confirm: true });
+  //   } else {
+  //     setValid({ ...valid, confirm: false });
+  //   }
+  // };
+
+  // const handleNameChange = (e) => {
+  //   setInput({ ...input, username: e.target.value });
+  //   if (e.target.value.length > 0) {
+  //     setValid({ ...valid, username: true });
+  //   } else {
+  //     setValid({ ...valid, username: false });
+  //   }
+  // };
+
+  // const handleEmailChange = (e) => {
+  //   setInput({ ...input, email: e.target.value });
+  //   if (e.target.value.includes('@') && e.target.value.includes('.com')) {
+  //     setValid({ ...valid, email: true });
+  //   } else {
+  //     setValid({ ...valid, email: false });
+  //   }
+  // };
+
+  // const handlePhoneChange = (e) => {
+  //   setInput({ ...input, phone: e.target.value });
+  //   if (e.target.value.length >= 10 && e.target.value.length <= 11) {
+  //     setValid({ ...valid, phone: true });
+  //   } else {
+  //     setValid({ ...valid, phone: false });
+  //   }
+  // };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInput((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    // if (name === 'username') {
+    //   setErrorUsername('');
+    // }
+    if (name === 'phone') {
+      setErrorPhone('');
+    }
+    if (name === 'email') {
+      setErrorEmail('')
+      setErrorExist('')
+    }
+    if (name === 'password') {
+      setErrorPassword('')
+    }
+    if (name === 'confirm') {
+      setErrorConfirmPassword('')
     }
   };
 
-  const handleConfirmPasswordChange = (e) => {
-    setInput({ ...input, confirm: e.target.value });
-    if (input.password === e.target.value) {
-      setValid({ ...valid, confirm: true });
-    } else {
-      setValid({ ...valid, confirm: false });
-    }
-  };
 
-  const handleNameChange = (e) => {
-    setInput({ ...input, username: e.target.value });
-    if (e.target.value.length > 0) {
-      setValid({ ...valid, username: true });
-    } else {
-      setValid({ ...valid, username: false });
-    }
-  };
-
-  const handleEmailChange = (e) => {
-    setInput({ ...input, email: e.target.value });
-    if (e.target.value.includes('@') && e.target.value.includes('.com')) {
-      setValid({ ...valid, email: true });
-    } else {
-      setValid({ ...valid, email: false });
-    }
-  };
-
-  const handlePhoneChange = (e) => {
-    setInput({ ...input, phone: e.target.value });
-    if (e.target.value.length >= 10 && e.target.value.length <= 11) {
-      setValid({ ...valid, phone: true });
-    } else {
-      setValid({ ...valid, phone: false });
-    }
-  };
+  useEffect(() => {
+    const allFieldsNotEmpty = Object.values(input).every(val => val !== '') && isChecked
+    console.log(allFieldsNotEmpty)
+    setDisabled(!allFieldsNotEmpty);
+    console.log(isChecked)
+  }, [input,isChecked]);
 
   const handleSubmition = async (e) => {
     e.preventDefault();
-    const all = Object.values(valid);
+    // const all = Object.values(valid);
 
-    if (all.every((item) => item === true)) {
-      setSubmit(true);
-      console.log('Đăng nhập thành công');
-      window.location.href = '/log_in';
-    } else {
-      alert('Vui lòng điền đầy đủ thông tin');
-      console.log(valid);
-      setSubmit(false);
-      return;
+    // if (all.every((item) => item === true)) {
+    //   setSubmit(true);
+    //   setDisabled(false)
+    // } else {
+    //   alert('Vui lòng điền đầy đủ thông tin');
+    //   console.log(valid);
+    //   setSubmit(false);
+    //   return;
+    // }
+    if (disabled === false) {
+      const phoneRegex = /^(0[1-9])+([0-9]{8,9})\b$/;
+      const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+      function validatePassword(password) {
+        return (
+          password.length >= 8 &&
+          !/\s/.test(password) &&
+          /[a-zA-Z]/.test(password) &&
+          /\d/.test(password) &&
+          /[\W_]/.test(password)
+        );
+      }
+      if (!phoneRegex.test(input.phone)) {
+        setErrorPhone(inform.phone);
+        return;
+      }
+      if (!emailRegex.test(input.email)) {
+        setErrorEmail(inform.email);
+        return;
+      }
+      if (!validatePassword(input.password)) {
+        setErrorPassword(inform.password);
+        return;
+      }
+      if (input.password !== input.confirm) {
+        setErrorConfirmPassword(inform.confirm);
+        return;
+      }
+      register(input)
     }
-    register(input);
+    else console.log('b ch dc phep dang ki hjhj')
   };
+
+
 
   return (
     <section className="register">
@@ -115,29 +201,36 @@ function Register() {
           <h1> Đăng ký </h1>
           <Form onSubmit={handleSubmition}>
             <Form.Group className="mb-3 input" controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Tên đăng nhập" onChange={handleNameChange} />
-              <Form.Text className="text-muted">
-                {!valid.username && submit ? inform.username : null}
-              </Form.Text>
+              <Form.Control type="text" placeholder="Tên đăng nhập" onChange={handleChange} className='body-medium' name='username'/>
             </Form.Group>
 
             <Form.Group className="mb-3 input" controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Số điện thoại" onChange={handlePhoneChange} />
+              <Form.Control type="text" placeholder="Số điện thoại" onChange={handleChange} className={`body-medium ${errorPhone?'err-border':''}`} name='phone'/>
+              {errorPhone &&
               <Form.Text className="text-muted">
-                {!valid.phone && submit ? inform.phone : null}
-              </Form.Text>
+                  {/* {!valid.phone && submit ? inform.phone : null} */}
+                  {errorPhone}
+                </Form.Text>
+              }
             </Form.Group>
 
             <Form.Group className="mb-3 input" controlId="formBasicEmail">
               <Form.Control
-                type="email"
                 name="email"
-                placeholder="Điền email"
-                onChange={handleEmailChange}
+                placeholder="Email"
+                onChange={handleChange}
+                className={`body-medium ${errorEmail?'err-border':''}`}
               />
-              <Form.Text className="text-muted">
-                {!valid.email && submit ? inform.email : null}
-              </Form.Text>
+              {errorEmail&&
+                <Form.Text className="text-muted">
+                  {/* {!valid.email && submit ? inform.email : null} */}
+                  {errorEmail}
+                </Form.Text>}
+                {errorExist&&
+                <Form.Text className="text-muted">
+                  {/* {!valid.email && submit ? inform.email : null} */}
+                  {errorExist}
+                </Form.Text>}
             </Form.Group>
 
             <Form.Group className="mb-3 input" controlId="formBasicPassword">
@@ -146,39 +239,49 @@ function Register() {
                 type="password"
                 name="password"
                 placeholder="Mật khẩu"
-                onChange={handleInputPasswordChange}
+                onChange={handleChange}
+                className={`body-medium ${errorPassword?'err-border':''}`}
               />
-              <Form.Text className="text-muted">
-                {!valid.password && submit ? inform.password : null}
-              </Form.Text>
+              {errorPassword &&
+                <Form.Text className="text-muted">
+                  {/* {!valid.password && submit ? inform.password : null} */}
+                  {errorPassword}
+                </Form.Text>}
             </Form.Group>
 
             <Form.Group className="mb-3 input" controlId="formConfirmPassword">
               <Form.Control
                 type="password"
                 new-password
-                onChange={handleConfirmPasswordChange}
+                onChange={handleChange}
                 placeholder="Xác nhận mật khẩu"
+                className={`body-medium ${errorConfirmPassword?'err-border':''}`}
+                name='confirm'
               />
-              <Form.Text className="text-muted">
-                {!valid.confirm && submit ? inform.confirm : null}
-              </Form.Text>
+              {errorConfirmPassword &&
+                <Form.Text className="text-muted">
+                  {/* {!valid.confirm && submit ? inform.confirm : null} */}
+                  {errorConfirmPassword}
+                </Form.Text>}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check
-                type="checkbox"
+                type="radio"
+                // onClick={handleCheck}
+                checked={isChecked}
                 onClick={handleCheck}
+                className='body-large'
                 label="Tôi đã đọc và đồng ý với Điều kiện giao dịch chung và Chính sách bảo mật thông tin của TAA"
               />
-              <Form.Text className="text-muted">
+              {/* <Form.Text className="text-muted">
                 {!valid.check && submit ? inform.check : null}
-              </Form.Text>
+              </Form.Text> */}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="submit_reg">
               <div className="d-grid gap-2">
-                <Button
+                {/* <Button
                   className="register_btn"
                   variant="none"
                   size="lg"
@@ -189,15 +292,30 @@ function Register() {
                   type="submit"
                 >
                   Đăng ký
-                </Button>
+                </Button> */}
+                              <Button
+                label="Đăng kí"
+                className='login_btn body-large'
+                type="submit"
+                labelColor={color}
+                border="none"
+                backgroundColor={backgroundColor}
+                fontSize="16px"
+                // size='lg'
+                // active
+              />
 
                 <div className="login_rec_containter">
-                  <h5 className="login_rec">Bạn đã có tài khoản ?</h5>
+                  <h5 className="login_rec body-large">Bạn đã có tài khoản ?</h5>
                 </div>
 
-                <NavLink to="/log_in" className="login_btn btn_clickable_lightcolor_outline">
-                  Đăng nhập
-                </NavLink>
+                <Button
+                label="Đăng nhập"
+                className='body-large register_btn'
+                type="button"
+                fontSize="16px"
+                onClick={handleClickLogin}
+              />
               </div>
             </Form.Group>
           </Form>

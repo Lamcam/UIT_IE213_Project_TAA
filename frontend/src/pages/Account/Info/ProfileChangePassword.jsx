@@ -122,13 +122,13 @@ function ProfileChangePassword() {
       <form onSubmit={handleSubmit} className="form__content">
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="old_password">
+            <label className="col-3 body-large" htmlFor="old_password">
               Mật khẩu hiện tại:
             </label>
             <div className="col-9 input__wrapper input-password__wrapper">
               <input
                 required
-                className="input__wrapper-child"
+                className="input__wrapper-child body-medium"
                 type={showPassword.oldPassword ? 'text' : 'password'}
                 id="old_password"
                 name="oldPassword"
@@ -155,13 +155,13 @@ function ProfileChangePassword() {
         </div>
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="new_password">
+            <label className="col-3 body-large" htmlFor="new_password">
               Mật khẩu mới:
             </label>
             <div className="col-9 input__wrapper input-password__wrapper">
               <input
                 required
-                className={`input__wrapper-child ${errorPassword ? 'err-border' : ''}`}
+                className={`input__wrapper-child body-medium ${errorPassword ? 'err-border' : ''}`}
                 type={showPassword.newPassword ? 'text' : 'password'}
                 id="new_password"
                 name="newPassword"
@@ -188,13 +188,13 @@ function ProfileChangePassword() {
         </div>
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="confirm_password">
+            <label className="col-3 body-large" htmlFor="confirm_password">
               Xác nhận mật khẩu mới:
             </label>
             <div className="col-9 input__wrapper input-password__wrapper">
               <input
                 required
-                className={`input__wrapper-child ${errorConfirmPassword ? 'err-border' : ''}`}
+                className={`input__wrapper-child body-medium ${errorConfirmPassword ? 'err-border' : ''}`}
                 type={showPassword.confirmPassword ? 'text' : 'password'}
                 id="confirm_password"
                 name="confirmPassword"
@@ -223,7 +223,7 @@ function ProfileChangePassword() {
           backgroundColor={disabled ? '#1D1B201F' : '#785B5B'}
           labelColor={disabled ? 'rgba(32, 26, 26, 0.38)' : '#F1EFE7'}
           border="none"
-          className="save-btn label-large"
+          className="save-btn body-large"
           label="Xác nhận"
           type="submit"
         />

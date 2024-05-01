@@ -1,31 +1,55 @@
-import {Form, Image, Button,Col, Container } from 'react-bootstrap';
+import {Form, Image, Col, Container } from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
 import './Login.scss';
 import { NavLink } from 'react-router-dom';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ModalForgotPass from './ModalForgotPass';
 import { useLogIn } from 'hooks/useLogIn';
+import Button from '../../components/Common/Button1';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate()
+  const handleClickRegister = () => {
+    navigate('/register');
+  };
+  const [disabled, setDisabled] = useState(true);
+  const [userData, setUserData] = useState({
+    email: '',
+    password: '',
+  });
+  const { logIn, loading, email, password, setEmail, setPassword } = useLogIn();
+  const color = !disabled ? '#F1EFE7' : 'rgba(32, 26, 26, 0.38)';
+  const backgroundColor = !disabled ? '#785B5B' : 'rgba(29, 27, 32, 0.12)';
+  // const handleEmailChange = (e) => {
+  //   setEmail(e.target.value);
+  // }
+  // const handlePasswordChange = (e) => {
+  //   setPassword(e.target.value);
+  // }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    if (name === 'email')
+      setEmail('')
+    if (name === 'password')
+      setPassword('')
+  };
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');  
-  const { logIn, loading, error } = useLogIn();
+  useEffect(() => {
+    const allFieldsNotEmpty = Object.values(userData).every((val) => val !== '');
+    setDisabled(!allFieldsNotEmpty);
+  }, [userData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = {
-      email,
-      password
+    if (disabled === false) {
+      logIn(userData);
     }
-    logIn(user);
-  }
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  }
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    else console.log('b ch dc phep dang nhap hjhj')
   }
 
   
@@ -43,13 +67,19 @@ function Login() {
         <h1> Đăng nhập </h1>
         <Form action='POST' onSubmit={handleSubmit}  >
           <Form.Group className="mb-3 input" controlId="formBasicEmail">
-              <Form.Control onChange={handleEmailChange} type="email" placeholder="Điền email" />
-              <Form.Text className="text-muted">
-              </Form.Text>
+              <Form.Control onChange={handleChange} placeholder="Email" className={`body-medium ${email?'err-border':''}`} name='email'/>
+              {email && (
+                <Form.Text className="text-muted">
+                  {email}
+                </Form.Text>)}
           </Form.Group>
 
           <Form.Group className="mb-3 input" controlId="formBasicPassword">
-              <Form.Control onChange={handlePasswordChange} type="password" placeholder="Mật khẩu" />
+              <Form.Control onChange={handleChange} type="password" placeholder="Mật khẩu" className={`body-medium ${password?'err-border':''}`} name='password' />
+              {password && (
+                <Form.Text className="text-muted">
+                  {password}
+                </Form.Text>)}
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
@@ -58,17 +88,29 @@ function Login() {
 
           
           <div className="d-grid gap-2">
-            <Button className='login_btn' type="submit" size='lg' active>
-              Đăng nhập
-            </Button>
+              <Button
+                label="Đăng nhập"
+                className='login_btn body-large'
+                type="submit"
+                labelColor={color}
+                border="none"
+                backgroundColor={backgroundColor}
+                fontSize="16px"
+                // size='lg'
+                // active
+              />
             
             <div className='create_acc_rec_containter'>
-                <h5 className='create_acc_rec'>Bạn chưa có tài khoản ?</h5>
+                <p className='create_acc_rec body-large'>Bạn chưa có tài khoản ?</p>
             </div>
+            <Button
+                label="Đăng kí"
+                className='body-large register_btn'
+                type="button"
+                fontSize="16px"
+                onClick={handleClickRegister}
+              />
 
-            <NavLink to='/register' className='register_btn btn_clickable_lightcolor_outline'>
-              Đăng ký
-            </NavLink>
           </div>
 
         </Form>

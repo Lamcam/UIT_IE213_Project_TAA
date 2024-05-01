@@ -91,7 +91,7 @@ function ProfileUser() {
     }
 
     const phoneRegex = /^(0[1-9])+([0-9]{8,9})\b$/;
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (!phoneRegex.test(userData.user_phone) && !emailRegex.test(userData.user_email)) {
       setErrorPhone('Số điện thoại không hợp lệ!');
       setErrorEmail('Email không hợp lệ!');
@@ -137,14 +137,14 @@ function ProfileUser() {
       <form action="/" method="PUT" onSubmit={handleSubmit} className="form__content">
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="user_name">
+            <label className="col-3 body-large" htmlFor="user_name">
               Tên đăng nhập:
             </label>
             <div className="col-9 input__wrapper">
               <input
                 readOnly
                 disabled
-                className="input__wrapper-child"
+                className="input__wrapper-child body-medium"
                 type="text"
                 id="user_name"
                 name="user_name"
@@ -155,12 +155,12 @@ function ProfileUser() {
         </div>
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="user_username">
+            <label className="col-3 body-large" htmlFor="user_username">
               Tên người dùng:
             </label>
             <div className="col-9 input__wrapper">
               <input
-                className={`input__wrapper-child ${errorUsername ? 'err-border' : ''}`}
+                className={`input__wrapper-child body-medium ${errorUsername ? 'err-border' : ''}`}
                 type="text"
                 id="user_username"
                 name="user_username"
@@ -178,13 +178,13 @@ function ProfileUser() {
         </div>
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="user_phone">
+            <label className="col-3 body-large" htmlFor="user_phone">
               Số điện thoại:
             </label>
 
             <div className="col-9 input__wrapper">
               <input
-                className={`input__wrapper-child ${errorPhone ? 'err-border' : ''}`}
+                className={`input__wrapper-child body-medium ${errorPhone ? 'err-border' : ''}`}
                 type="text"
                 id="user_phone"
                 name="user_phone"
@@ -204,12 +204,12 @@ function ProfileUser() {
         </div>
         <div className="form__row">
           <Row>
-            <label className="col-3 label-large" htmlFor="user_email">
+            <label className="col-3 body-large" htmlFor="user_email">
               Email:
             </label>
             <div className="col-9 input__wrapper">
               <input
-                className={`input__wrapper-child ${errorEmail ? 'err-border' : ''}`}
+                className={`input__wrapper-child body-medium ${errorEmail ? 'err-border' : ''}`}
                 type="text"
                 id="user_email"
                 name="user_email"
