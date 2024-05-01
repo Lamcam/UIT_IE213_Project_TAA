@@ -166,7 +166,7 @@ function InfoModals() {
   return (
     <>
       <Container fluid>
-        <Row>
+        <Row className='account__responsive'>
           <Col xs={12} lg={3} className="product__menu">
             <ul className="aside__list body-large visible">
               <li className="aside__item js-item">
