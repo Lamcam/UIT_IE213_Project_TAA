@@ -96,7 +96,7 @@ function Register() {
       console.log('Đăng nhập thành công');
       window.location.href = '/log_in';
     } else {
-      alert('Vui lòng điền đầy đủ thông tin');
+      // alert('Vui lòng điền đầy đủ thông tin');
       console.log(valid);
       setSubmit(false);
       return;

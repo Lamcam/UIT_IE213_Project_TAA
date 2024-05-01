@@ -5,6 +5,22 @@ section.login {
   align-items: center;
   margin: 0px;
 
+  .input{
+
+    input{
+    border: 1px solid var(--md-source);
+    border-radius: 5px;
+
+    color: #524343;
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.50px;
+    word-wrap: break-word
+    }
+  }
+
   form {
     font-size: 16px;
     display: flex;
@@ -85,7 +101,7 @@ section.login {
     border-radius: 8px;
     text-align: center;
     width: 100%;
-    height: 50px;
+    height: 40px;
     padding: 10px 24px;
     font-size: 18px;
     font-family: Roboto;
@@ -105,7 +121,7 @@ section.login {
     border-radius: 8px;
     text-align: center;
     width: 100%;
-    height: 50px;
+    height: 40px;
     padding: 10px 24px;
     font-size: 18px;
     font-family: Roboto;
@@ -130,6 +146,21 @@ section.register {
   justify-content: center;
   align-items: center;
   margin: 0px;
+
+  .input{
+    
+    input{
+      border: 1px solid var(--md-source);
+      border-radius: 5px;
+      color: #524343;
+      font-size: 16px;
+      font-family: Roboto;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.50px;
+      word-wrap: break-word
+  }
+}
 
 
   .form-check-input:checked{
@@ -212,7 +243,7 @@ section.register {
         border-radius: 8px;
         text-align: center;
         width: 100%;
-        height: 50px;
+        height: 40px;
         padding: 10px 24px;
         font-size: 18px;
         font-family: Roboto;
@@ -233,7 +264,7 @@ section.register {
     border-radius: 8px;
     text-align: center;
     width: 100%;
-    height: 50px;
+    height: 40px;
     padding: 10px 24px;
     font-size: 18px;
     font-family: Roboto;

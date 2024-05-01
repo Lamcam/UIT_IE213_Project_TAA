@@ -40,6 +40,7 @@ const Footer = () => {
 
   const handleInputChange = (e) => {
     setEmail(e.target.value);
+    setValidEmail(true);
   };
 
   return (
