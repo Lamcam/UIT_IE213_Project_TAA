@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Image, Row, Col } from 'react-bootstrap';
-import productDetailImg from '../../assets/image/pencil.png';
-import productDetailImg1 from '../../assets/image/t1.jpg';
-import productDetailImg2 from '../../assets/image/t2.jpg';
-import productDetailImg3 from '../../assets/image/t3.jpg';
-import productDetailImg4 from '../../assets/image/t4.jpg';
-import productDetailImg5 from '../../assets/image/t5.jpg';
-import '../../style/pages/ProductDetail/ProductDetail.scss';
+import axios from 'axios';
+import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
+import PopupNotiLogin from 'components/Products/PopupNotiLogin';
 import ProductItem from 'components/Products/ProductItem';
+import { useAddToCart } from 'hooks/useAddToCart';
+import { useAuthContext } from 'hooks/useAuthContext';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { Col, Container, Image, Row } from 'react-bootstrap';
+import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from 'react-icons/bi';
+import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import { GiRabbitHead } from 'react-icons/gi';
-import { FaChevronDown } from 'react-icons/fa';
+import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
+import { IoHeartSharp } from 'react-icons/io5';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
-import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
-import { BiDislike, BiLike } from 'react-icons/bi';
 import { TbHeartPlus } from 'react-icons/tb';
 import { IoHeartSharp } from 'react-icons/io5';
 import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
@@ -28,8 +27,6 @@ import PropTypes from 'prop-types';
 import PopupNotiLogin from 'components/Products/PopupNotiLogin';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'hooks/useAuthContext';
-import { IoMdArrowDropdown } from 'react-icons/io';
-
 ProductDetail.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -59,6 +56,76 @@ function ProductDetail(props) {
   const { addToCart } = useAddToCart(); // HAN
   const [filteredData, setFilteredData] = useState([]);
   const { getCartQuantity } = useAuthContext();
+  const [hotProducts, setHotProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/products/hot");
+        setHotProducts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchProducts();
+  }, []);
+  const CustomPrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div className="custom-prev-arrow" onClick={onClick}>
+        <ButtonIcon
+          label={<FaChevronLeft />}
+          labelColor="#785b5b"
+          borderRadius="100%"
+        />
+      </div>
+    );
+  };
+
+  const CustomNextArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div className="custom-next-arrow" onClick={onClick}>
+        <ButtonIcon
+          label={<FaChevronRight />}
+          labelColor="#785b5b"
+          borderRadius="100%"
+        />
+      </div>
+    );
+  };
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5, // Số lượng sản phẩm hiển thị trên mỗi slide
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 1000, // Tốc độ chạy của slider
+    pauseOnHover: true,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -829,11 +896,18 @@ function ProductDetail(props) {
         <Row className="product__suggestion container">
           <span className="product__suggestion__title">CÁC SẢN PHẨM ĐỀ XUẤT</span>
           <div className="product__suggestion__items">
-            {filteredData.slice(5, 9).map((product) => (
+            {/* {filteredData.slice(5, 9).map((product) => (
               <Col key={product._id} xxl={3}>
                 <ProductItem product={product} />
               </Col>
-            ))}
+            ))} */}
+            <Slider {...settings}>
+              {hotProducts.map((product) => (
+                <div key={product._id} className="product__list__hot">
+                  <ProductItem product={product} />
+                </div>
+              ))}
+            </Slider>
           </div>
         </Row>
       </Container>
