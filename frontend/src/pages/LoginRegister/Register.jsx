@@ -1,24 +1,22 @@
 import { Form, Image, Col, Container } from 'react-bootstrap';
 import logo from 'assets/image/logo2.svg';
 import './Login.scss';
-import { NavLink } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useRegister } from 'hooks/useRegister';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Common/Button1';
-import { info } from 'sass';
-import { type } from '@testing-library/user-event/dist/type';
+import { BiHide, BiShow } from 'react-icons/bi';
+import ButtonIcon from 'components/Common/ButtonIcon';
 function Register() {
   const navigate = useNavigate()
   const handleClickLogin = () => {
     navigate('/log_in');
   };
   const { register, errorExist, setErrorExist } = useRegister();
-  const [submit, setSubmit] = useState(false);
+  // const [submit, setSubmit] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const color = !disabled ? '#F1EFE7' : 'rgba(32, 26, 26, 0.38)';
   const backgroundColor = !disabled ? '#785B5B' : 'rgba(29, 27, 32, 0.12)';
-  // const border = !disabled ? '1px solid #857373' : 'none';
 
 
   // const [valid, setValid] = useState({
@@ -36,11 +34,20 @@ function Register() {
   const [errorPassword, setErrorPassword] = useState('')
   const [errorConfirmPassword, setErrorConfirmPassword] = useState('')
   const [isChecked, setIsChecked] = useState(false);
-  console.log(errorExist)
+  const [showPassword, setShowPassword] = useState({
+    password: false
+  });
 
   const handleCheck = (e) => {
     setIsChecked(e.target.checked);
   };
+      // Hàm xử lý khi người dùng nhấn nút để hiển thị hoặc ẩn mật khẩu
+      const togglePasswordVisibility = (field) => {
+        setShowPassword((prevState) => ({
+          ...prevState,
+          [field]: !prevState[field],
+        }));
+      };
   
   const inform = {
     username: 'Tên đăng nhập phải có ít nhất 1 ký tự',
@@ -236,11 +243,25 @@ function Register() {
             <Form.Group className="mb-3 input" controlId="formBasicPassword">
               <Form.Control
                 new-password
-                type="password"
+                type={showPassword.password?'text':'password'}
                 name="password"
                 placeholder="Mật khẩu"
                 onChange={handleChange}
                 className={`body-medium ${errorPassword?'err-border':''}`}
+              />
+              <ButtonIcon
+                className="show-pass"
+                backgroundColor="transparent"
+                border="none"
+                onClick={() => togglePasswordVisibility('password')}
+                label={
+                  showPassword.password ? (
+                    <BiShow style={{ color: '#524343' }} />
+                  ) : (
+                    <BiHide style={{ color: '#524343' }} />
+                  )
+                }
+                type="button"
               />
               {errorPassword &&
                 <Form.Text className="text-muted">

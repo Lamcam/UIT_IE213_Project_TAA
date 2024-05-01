@@ -42,6 +42,15 @@ section.login {
     min-width: 500px;
     
     form{
+      position: relative;
+      .show-pass{
+          position: absolute;
+          right: 8px;
+          transform: translateY(-100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
       input{
         padding: 4px 0px 4px 16px;
         width: 100%;
@@ -79,7 +88,7 @@ section.login {
     color: rgba(25, 25, 25, 0);
     display: block;
     background-color: var(--md-ref-palette-neutral80);
-    height: 3px;
+    height: 2px;
   }
 
   .create_acc_rec {
@@ -234,6 +243,15 @@ section.register {
       font-family: 'Roboto';
     }
     form{
+      position: relative;
+      .show-pass{
+        position: absolute;
+        right: 8px;
+        transform: translateY(-100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
       input:not([type="radio"]) {
         padding: 4px 0px 4px 16px;
         width: 100%;
