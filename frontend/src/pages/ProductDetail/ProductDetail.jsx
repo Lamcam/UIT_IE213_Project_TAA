@@ -17,9 +17,9 @@ import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { TbHeartPlus } from 'react-icons/tb';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../../style/pages/ProductDetail/ProductDetail.scss';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import ButtonIcon from 'components/Common/ButtonIcon';
 ProductDetail.propTypes = {
@@ -56,7 +56,7 @@ function ProductDetail(props) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/products/hot");
+        const response = await axios.get('http://localhost:8000/products/hot');
         setHotProducts(response.data);
       } catch (error) {
         console.error(error);
@@ -68,11 +68,7 @@ function ProductDetail(props) {
     const { onClick } = props;
     return (
       <div className="custom-prev-arrow" onClick={onClick}>
-        <ButtonIcon
-          label={<FaChevronLeft />}
-          labelColor="#785b5b"
-          borderRadius="100%"
-        />
+        <ButtonIcon label={<FaChevronLeft />} labelColor="#785b5b" borderRadius="100%" />
       </div>
     );
   };
@@ -81,11 +77,7 @@ function ProductDetail(props) {
     const { onClick } = props;
     return (
       <div className="custom-next-arrow" onClick={onClick}>
-        <ButtonIcon
-          label={<FaChevronRight />}
-          labelColor="#785b5b"
-          borderRadius="100%"
-        />
+        <ButtonIcon label={<FaChevronRight />} labelColor="#785b5b" borderRadius="100%" />
       </div>
     );
   };
@@ -479,6 +471,19 @@ function ProductDetail(props) {
       setQuantity(1);
     }
   };
+
+  const formatPrice = (price) => {
+    const priceNumber = parseFloat(price);
+    let formattedPrice = priceNumber.toLocaleString('vi-VN', { maximumFractionDigits: 0 });
+    return formattedPrice.trim();
+  };
+
+  const currentPrice = formatPrice(
+    product?.prod_cost.$numberDecimal -
+      product?.prod_cost.$numberDecimal * product?.prod_discount.$numberDecimal,
+  );
+  const discount = product?.prod_discount.$numberDecimal * 100;
+  const BeforDiscountPrice = formatPrice(product?.prod_cost.$numberDecimal);
   return (
     <div className="productDetail">
       {/* <Button
@@ -557,19 +562,9 @@ function ProductDetail(props) {
                   <span>{product?.prod_num_sold} đã bán</span>
                 </div>
                 <div className="product__name__detail__price">
-                  <span className="product__name__detail__price_first">
-                    {product?.prod_cost.$numberDecimal} đ
-                  </span>
-                  <span className="product__name__detail__price_second">
-                    {product?.prod_cost.$numberDecimal -
-                      product?.prod_cost.$numberDecimal *
-                        product?.prod_discount.$numberDecimal}{' '}
-                    đ
-                  </span>
-                  <span className="product__name__detail__price_third">
-                    {' '}
-                    Giảm {product?.prod_discount.$numberDecimal * 100} %
-                  </span>
+                  <span className="product__name__detail__price_first">{BeforDiscountPrice} đ</span>
+                  <span className="product__name__detail__price_second">{currentPrice} đ</span>
+                  <span className="product__name__detail__price_third">Giảm {discount} %</span>
                 </div>
               </div>
               <div className="description__product__detail">

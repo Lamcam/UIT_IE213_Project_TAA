@@ -508,7 +508,7 @@
 #input__increment__decrement {
   border: none;
   text-align: center;
-  margin-left: 9px;
+  // margin-left: 9px;
 }
 
 #input__increment__decrement input[type='number'] {
@@ -865,4 +865,34 @@ select.btn_round_8px.btn__filter__soft {
   transform: translateY(-50%);
   pointer-events: none; /* Đảm bảo không ảnh hưởng đến việc chọn select */
   margin-right: 10px;
+}
+
+/* Ẩn nút mũi tên lên xuống của input số */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* Mở khoảng cách giữa nút mũi tên và input */
+}
+input[type='number'] {
+  -moz-appearance: textfield; /* Firefox: hiển thị input như input text bình thường */
+}
+
+#input__increment__decrement {
+  height: 32px;
+  width: 32px;
+  border-top: 1px solid var(--m-3-sys-light-outline, #857373);
+  border-bottom: 1px solid var(--m-3-sys-light-outline, #857373);
+  border-left: none;
+  border-right: none;
+  text-align: center;
+  color: var(--m-3-sys-light-outline);
+}
+
+#input__increment__decrement:focus {
+  outline: none;
+  border-top: 1px solid var(--m-3-sys-light-outline, #857373);
+  border-bottom: 1px solid var(--m-3-sys-light-outline, #857373);
+  border-left: none;
+  border-right: none;
+  color: var(--m-3-sys-light-outline);
 }
