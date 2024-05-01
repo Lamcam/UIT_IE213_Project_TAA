@@ -1,5 +1,5 @@
 import Cart from 'pages/Cart/Cart';
-
+import ScrollButton from 'components/Common/ScrollButton.jsx';
 import {
   Route,
   RouterProvider,
@@ -21,7 +21,8 @@ import Order from 'pages/Order/Order';
 import ProductDetail from 'pages/ProductDetail/ProductDetail';
 import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
-import Account from "./pages/Account/index"
+import Account from './pages/Account/index';
+import { Fragment } from 'react';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>
@@ -47,13 +48,17 @@ const router = createBrowserRouter(
       <Route path="log_in" element={<Login />} />
       <Route path="/account/:nav" element={<Account />} />
       <Route path="/account/:nav/:subnav" element={<Account />} />
-
     </Route>,
   ),
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Fragment>
+      <RouterProvider router={router} />
+      <ScrollButton />
+    </Fragment>
+  );
 }
 
 export default App;
