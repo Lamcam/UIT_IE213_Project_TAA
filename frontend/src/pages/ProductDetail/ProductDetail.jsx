@@ -4,6 +4,7 @@ import PopupNotiLogin from 'components/Products/PopupNotiLogin';
 import ProductItem from 'components/Products/ProductItem';
 import { useAddToCart } from 'hooks/useAddToCart';
 import { useAuthContext } from 'hooks/useAuthContext';
+import { IoMdArrowDropdown } from 'react-icons/io';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
@@ -14,19 +15,13 @@ import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 import { IoHeartSharp } from 'react-icons/io5';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { TbHeartPlus } from 'react-icons/tb';
-import { IoHeartSharp } from 'react-icons/io5';
-import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
-import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
-import ReviewPopup from '../../pages/Account/Modal/ReviewPopup';
-import { NavLink } from 'react-router-dom';
-import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
-import Button from 'components/Common/Button';
-import axios from 'axios';
-import { useAddToCart } from 'hooks/useAddToCart';
-import PropTypes from 'prop-types';
-import PopupNotiLogin from 'components/Products/PopupNotiLogin';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from 'hooks/useAuthContext';
+import { useNavigate, useParams } from 'react-router-dom';
+import '../../style/pages/ProductDetail/ProductDetail.scss';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import ButtonIcon from 'components/Common/ButtonIcon';
 ProductDetail.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
