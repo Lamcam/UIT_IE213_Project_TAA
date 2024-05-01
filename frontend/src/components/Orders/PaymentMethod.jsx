@@ -131,7 +131,7 @@ function PaymentMethod(props) {
 
       {selectedOption === 1 && selectedItems==='Bạn chưa chọn tài khoản thanh toán phù hợp' && (<ul className="accounts-list">
             <div className="account-item__wrapper">
-              <div className="account-info" style={{paddingRight: "40px"}}>
+              <div className="account-info" style={{ paddingLeft: '48px', paddingTop:"6px" }}>
                   <p className="body-large">Bạn chưa chọn tài khoản thanh toán phù hợp!</p>
             </div>
             <div className="bank-btn" style={{paddingRight:"1rem"}}>

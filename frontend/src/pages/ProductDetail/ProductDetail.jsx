@@ -190,7 +190,6 @@ function ProductDetail(props) {
   const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
-
   //heart plus
   const [isFilled, setIsFilled] = useState(false);
   useEffect(() => {
@@ -336,7 +335,7 @@ function ProductDetail(props) {
   const toggleLike = async () => {
     if (!localStorage.getItem('user')) {
       console.log('Bạn cần đăng nhập');
-      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích!");
+      setContent('Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích!');
       setShowPopupNotiLogin(true);
     } else {
       try {
@@ -364,8 +363,8 @@ function ProductDetail(props) {
   };
   const handleAddToCart = () => {
     if (!localStorage.getItem('user')) {
-      console.log("Bạn cần đăng nhập");
-      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!");
+      console.log('Bạn cần đăng nhập');
+      setContent('Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!');
       setShowPopupNotiLogin(true);
     } else {
       addToCart(props.productItem, quantity);
@@ -379,18 +378,35 @@ function ProductDetail(props) {
   const addToCartAndRedirect = () => {
     if (!localStorage.getItem('user')) {
       console.log('Bạn cần đăng nhập');
-      setContent("Bạn cần đăng nhập để thực hiện mua ngay!");
+      setContent('Bạn cần đăng nhập để thực hiện mua ngay!');
       setShowPopupNotiLogin(true);
     } else {
       (async () => {
         try {
           await addToCart(product, 1);
           console.log('Sản phẩm đã được thêm vào giỏ hàng');
-          navigate("/cart");
+          navigate('/cart');
         } catch (error) {
           console.error('Lỗi khi thêm vào giỏ hàng:', error);
         }
       })();
+    }
+  };
+
+  const handleChange = (event) => {
+    let value = parseInt(event.target.value);
+    console.log(value);
+    if (value > parseInt(product?.prod_num_avai)) {
+      value = parseInt(product?.prod_num_avai);
+    } else if (value < 0) {
+      value = 1;
+    }
+    setQuantity(value);
+  };
+
+  const handleBlur = () => {
+    if (quantity === 0 || isNaN(quantity)) {
+      setQuantity(1);
     }
   };
   return (
@@ -481,7 +497,8 @@ function ProductDetail(props) {
                     đ
                   </span>
                   <span className="product__name__detail__price_third">
-                    {product?.prod_discount.$numberDecimal * 100} %
+                    {' '}
+                    Giảm {product?.prod_discount.$numberDecimal * 100} %
                   </span>
                 </div>
               </div>
@@ -520,14 +537,19 @@ function ProductDetail(props) {
                     -
                   </div>
                   <input
+                    id="input__increment__decrement"
                     type="number"
                     min="1"
-                    max="100"
+                    max={product?.prod_num_avai}
                     step="1"
-                    value={quantity}
                     className="my-input"
-                    disabled
-                  ></input>
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={quantity.toLocaleString('en-US', {
+                      minimumIntegerDigits: 1,
+                      useGrouping: false,
+                    })}
+                  />
                   <div class="quantity__product-increment outline-text" onClick={handleIncrement}>
                     +
                   </div>
@@ -546,7 +568,12 @@ function ProductDetail(props) {
                   Thêm vào giỏ hàng
                 </button>
                 <NotiAddCartSuccessPopup show={modalShow} onHide={() => setModalShow(false)} />
-                <div className="btn_round_8px btn_clickable_boldcolor buynow" onClick={addToCartAndRedirect}>Mua ngay</div>
+                <div
+                  className="btn_round_8px btn_clickable_boldcolor buynow"
+                  onClick={addToCartAndRedirect}
+                >
+                  Mua ngay
+                </div>
               </div>
             </div>
           </Col>
