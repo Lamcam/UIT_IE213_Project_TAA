@@ -301,7 +301,10 @@ function ProductDetail(props) {
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setQuantity((prevQuantity) => {
+      const newQuantity = prevQuantity + 1;
+      return newQuantity <= parseInt(product?.prod_num_avai) ? newQuantity : prevQuantity;
+    });
   };
 
   const handleDecrement = () => {
