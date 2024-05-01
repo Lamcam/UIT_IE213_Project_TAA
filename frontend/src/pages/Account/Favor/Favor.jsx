@@ -11,6 +11,7 @@ function Favor() {
   const id = defaultUserData._id;
   const [favors, setFavors] = useState([]);
   const [activePage, setActivePage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const productsPerPage = 12;
 
   const fetchFavorites = async () => {
@@ -18,6 +19,11 @@ function Favor() {
       const response = await axios.get(`http://localhost:8000/api/account/favors/${id}`);
       const nonNullData = response.data.filter(item => item !== null);
       setFavors(nonNullData);
+      const total = Math.ceil(nonNullData.length / productsPerPage);
+      setTotalPages(total); // Cập nhật tổng số trang
+      if (activePage > total) {
+        setActivePage(total); // Đặt lại trang hiện tại thành trang cuối cùng nếu nó lớn hơn tổng số trang
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -25,9 +31,8 @@ function Favor() {
 
   useEffect(() => {
     fetchFavorites();
-  }, [id]);
+  }, [id, activePage]);
 
-  const totalPages = Math.ceil(favors.length / productsPerPage);
   const startIndex = (activePage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const currentProducts = favors.slice(startIndex, endIndex);

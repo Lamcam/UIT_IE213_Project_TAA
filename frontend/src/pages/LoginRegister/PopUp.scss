@@ -6,6 +6,16 @@
 //     font-size: 14px;
 // }
 
+.forgotPass:active{
+    color:  #9c4048;
+}
+
+.input_modal_forgotPass{
+    font-size: large;
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+
 
 .login, .register{
     
@@ -17,12 +27,12 @@
 }
 
 .change_pass{
+    position: relative;
     flex-direction: column;
     gap: 12px;
     justify-content: space-between;
     width: 100%;
     height: 100%;
-    
     align-items: center;
     padding: 24px;
     max-width: 506px;
@@ -82,6 +92,7 @@
     }
 }
 .get_otp{
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -92,6 +103,15 @@
     max-width: 506px;
     max-height: 140px;
     padding: 24px;
+
+
+    .not_found{
+        font-size: 13px;
+        font-family: 'Roboto';
+        position: absolute;
+        top: 0px;
+        color: red;
+    }
 
     button{
         width: 100%;

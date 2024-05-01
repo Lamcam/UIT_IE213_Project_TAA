@@ -67,7 +67,7 @@ function MyVerticallyCenteredModal(props) {
           {modal.modal3 ? 'Nhập mã OTP' : ''}
           {modal.modal4 ? 'Đổi mật khẩu' : ''}
         </Modal.Title>
-        {modal.modal3? ( <p style={{textAlign: 'center'}} className="modal_content">Nhập mã OTP được gửi đến cho {localStorage.getItem('email')} </p> ): null}
+        {modal.modal3? ( <p style={{textAlign: 'center', fontSize: 'medium'}} className="modal_content">Nhập mã OTP được gửi đến cho {localStorage.getItem('email')} </p> ): null}
         <div className="email_phone_button_wrapper">
           <Button
             className="email_button"
@@ -102,6 +102,7 @@ function MyVerticallyCenteredModal(props) {
 
 function PhoneEmailVal(props) {
   const [value, setValue] = useState('');
+  const [found, setFound] = useState(true);
 
   const inform = {
     email: 'Nhập email của bạn',
@@ -127,8 +128,9 @@ function PhoneEmailVal(props) {
           }
         })
         .catch((err) => {
-          alert('Không tìm thấy email trùng khớp');
+          console.log('Không tìm thấy email trùng khớp');
           console.log(err, value);
+          setFound(false);
         });
     } else {
       await axios
@@ -143,8 +145,8 @@ function PhoneEmailVal(props) {
           }
         })
         .catch((err) => {
-          alert('Không tìm thấy số điện thoại trùng khớp');
           console.log(err, value);
+          setFound(false);
         });
     }
   };
@@ -156,7 +158,9 @@ function PhoneEmailVal(props) {
         onChange={handleInputChange}
         type="text"
         placeholder={props.email ? inform.email : inform.phone}
+        className='input_modal_forgotPass'
       />
+      { found ? null : (<p className='not_found'>Không tìm thấy {props.email ? 'email' : 'số điện thoại'}</p>)}
 
       <Button
         className="btn_reg_log_round_8px btn_clickable_boldcolor"
@@ -211,7 +215,7 @@ function OtpGet(props) {
     console.log(otp, typeof otp[0]);
     if (check) props.four();
     else {
-      alert('mã OTP không khớp');
+      console.log('mã OTP không khớp');
       return;
     }
   };
@@ -230,17 +234,18 @@ function OtpGet(props) {
         <div className="input_containter">
           {otp.map((data, index) => (
             <input
-              type="number"
+              type="text"
               name="otp"
               maxLength="1"
               inputMode="numeric"
               key={index}
               value={data}
+              className='input_modal_forgotPass'
               onChange={(e) => handleOtpChange(e, index)}
             />
           ))}
         </div>
-        <label>
+        <label style={{fontSize: 'medium'}}>
           Bạn chưa nhận được mã ? <>Gửi lại </>{' '}
         </label>
 
@@ -254,6 +259,7 @@ function OtpGet(props) {
 
 function ChangePass(props) {
   const [input, setInput] = useState({ password: '', confirmPass: '' });
+  const [check, setFail] = useState(true);
 
   const handleInputChange = (e) => {
     if (e.target.name === 'pass') {
@@ -265,19 +271,23 @@ function ChangePass(props) {
 
   const handleSubmitChangePass = async (e) => {
     e.preventDefault();
+    var regex = /^(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])[a-zA-Z\d@#$%^&+=]{8,}$/;
     if (input.password !== input.confirmPass) {
-      alert('Xác nhận mật khẩu không khớp');
-      return;
+      setFail(false);
+      alert(input.password)    
+      return;  
     }
-    if (input.password.length <= 7) {
-      alert('Mật khẩu phải có ít nhất 8 ký tự');
-      return;
+    if (regex.test(input.password)) {
+      setFail(true);
+
+    } else{
+      setFail(false);
     }
 
     const email = localStorage.getItem('email');
     const phone = localStorage.getItem('phone');
     if (!email && !phone) {
-      alert('some thing wrong');
+      console.log('some thing wrong');
     } else if (email) {
       axios
         .post('http://localhost:8000/api/auth/changePass/email', {
@@ -286,7 +296,6 @@ function ChangePass(props) {
         })
         .then((res) => {
           if (res.status === 200) {
-            alert('Cập nhật mật khẩu thành công');
             window.location.href = '/log_in';
           } else {
             console.log(res);
@@ -302,7 +311,7 @@ function ChangePass(props) {
           password: input.password,
         })
         .then((res) => {
-          if (res.status === 200) alert('Cập nhật mật khẩu thành công');
+          if (res.status === 200) console.log('Cập nhật mật khẩu thành công');
           else {
             console.log(res);
           }
@@ -315,7 +324,7 @@ function ChangePass(props) {
 
   return (
     <Form
-      onSubmit={handleSubmitChangePass}
+      onSubmit={(e) => e.preventDefault()}
       className={props.className}
       style={{ display: props.show ? 'flex' : 'none' }}
     >
@@ -325,6 +334,7 @@ function ChangePass(props) {
           onChange={handleInputChange}
           type="password"
           new-password="true"
+          className='input_modal_forgotPass'
           placeholder="Nhập mật khẩu mới"
           row={2}
         />
@@ -335,12 +345,14 @@ function ChangePass(props) {
           onChange={handleInputChange}
           type="password"
           new-password="true"
+          className='input_modal_forgotPass'
           placeholder="Xác nhận mật khẩu mới"
           rows={2}
         />
       </Form.Group>
+      { check ? null : (<p className='not_found' style={{fontSize: 'medium', color: 'red', fontFamily: 'Roboto'}} >Mật khẩu phải có ít nhất 8 ký tự gồm chữ, số , ký tự đặc biệt</p>)}
 
-      <Button type="submit" className="btn_reg_log_round_8px btn_clickable_boldcolor">
+      <Button onClick={handleSubmitChangePass} className="btn_reg_log_round_8px btn_clickable_boldcolor">
         Xác nhận
       </Button>
     </Form>

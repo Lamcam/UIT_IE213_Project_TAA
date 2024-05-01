@@ -516,7 +516,7 @@ flex-direction: column;
   }
 }
 
-@media only screen and (min-width: calc(576px + 1px)) and (max-width: 768px) {
+@media (min-width: 577px) and (max-width: 768px) {
   // .section__content .form__content .form__row .row label{
   //   justify-content: start;
   //   width: 100%;

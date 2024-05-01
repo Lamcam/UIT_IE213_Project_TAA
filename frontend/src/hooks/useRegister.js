@@ -15,9 +15,7 @@ export function useRegister() {
       dispatch({ type: 'REGISTER', payload: response.data });
       if (response.status === 201) {
         dispatch({ type: 'REGISTER', payload: response.data });
-        // alert('Register successfully!');
-        navigate("/log_in")
-        console.log('haha thanh cong', response.data);
+        window.location.href = '/log_in';
         return response.data;
       } 
         else {

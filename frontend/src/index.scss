@@ -32,9 +32,26 @@ main {
 }
 
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 992px) {
   main {
-    margin: 0px 0px;
+    margin: 0px 17px;
   }
   
 }
+// @media (min-width: 769px) and (max-width: 992px) {
+//   main {
+//       margin: 10px 17px;
+//     }
+// }
+
+// @media (min-width: 577px) and (max-width: 768px) {
+//   main {
+//       margin: 10px 17px;
+//     }
+// }
+
+// @media (max-width: 576px) {
+//   main {
+//       margin: 10px 17px;
+//     }
+// }

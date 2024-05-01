@@ -50,8 +50,20 @@ function MainNav(props) {
             className={guildline ? 'nav-link active' : 'nav-link'}
             fluid
           >
-            <NavDropdown.Item href="guideline">Hướng dẫn mua hàng</NavDropdown.Item>
-            <NavDropdown.Item href="policy">Chính sách</NavDropdown.Item>
+          {/* href="guideline" */}
+            <NavDropdown.Item >
+              <NavLink to="guideline">
+                Hướng dẫn mua hàng
+              </NavLink>
+           </NavDropdown.Item>
+
+            <NavDropdown.Item >
+            
+            <NavLink to="policy">
+                  Chính sách
+              </NavLink>
+            
+            </NavDropdown.Item>
           </NavDropdown>
         </Nav>
       </Container>

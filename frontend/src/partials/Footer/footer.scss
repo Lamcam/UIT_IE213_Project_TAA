@@ -24,6 +24,12 @@ footer {
     margin: 0px 0px;
   }
 
+  .footer_wrapper{
+    dissplay: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   .input_section{
     position: relative;
     border: 1.5px solid var(--md-source);
@@ -76,6 +82,7 @@ footer {
     input.email_input{
       height: 100%;
       margin-right: 2px;
+      width: 100%;
     }
   }
 
@@ -133,13 +140,20 @@ footer {
 //   // background-color: var(--md-source);
 // }
 
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   footer {
     padding-bottom: 3rem;
-
-    
+    .col-sm-5{
+      flex: 0 0 auto;
+      width: 41.66666667%;
+  }
+    .col-sm-4 {
+      flex: 0 0 auto;
+      width: 33.33333333%;
   }
 }
+}
+
 
 @media (max-width: 900px) {
   footer{

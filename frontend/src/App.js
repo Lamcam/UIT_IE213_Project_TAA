@@ -1,5 +1,5 @@
 import Cart from 'pages/Cart/Cart';
-
+import ScrollButton from 'components/Common/ScrollButton';
 import {
   Route,
   RouterProvider,
@@ -21,16 +21,19 @@ import Order from 'pages/Order/Order';
 import ProductDetail from 'pages/ProductDetail/ProductDetail';
 import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
-import Account from "./pages/Account/index"
+import Account from './pages/Account/index';
+import { Fragment } from 'react';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>
       <Route index element={<Home />} />
-      <Route path="products" element={<Products />} />
+      <Route path="products" element={<Products />} /> */}
       <Route path="products/category/:cate_type_name" element={<Products />} />
       <Route path="products/category/:cate_type_name/:cate_name" element={<Products />} />
-      {/* <Route path="blog" element={<News />} /> */}
       <Route path="products/:productId" element={<ProductDetail />} />
+      
+      {/* <Route path="blog" element={<News />} /> */}
+      
       <Route path="search" element={<Products />} />
       <Route path="news" element={<News />} />
       <Route path="news/:newsId" element={<NewsPost />} />
@@ -47,13 +50,18 @@ const router = createBrowserRouter(
       <Route path="log_in" element={<Login />} />
       <Route path="/account/:nav" element={<Account />} />
       <Route path="/account/:nav/:subnav" element={<Account />} />
-
     </Route>,
+    
   ),
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Fragment>
+      <RouterProvider router={router} />
+      <ScrollButton />
+    </Fragment>
+  );
 }
 
 export default App;
