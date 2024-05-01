@@ -36,14 +36,14 @@ function OrderBill(props) {
   console.log('thong tin thanh toan ngan hang', props.selectedPaymentInfo);
   console.log('thong tin dia chi giao hang', props.selectedAddressInfo);
   console.log('orderDetails', props.orderItems);
-    const [disabled, setDisabled] = useState(true);
-    const [showSuccess, setShowSuccess] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
   useEffect(() => {
     if (
       props.deliveryMethodSelected !== null &&
       (props.paymentMethodSelected === 0 ||
-        (props.paymentMethodSelected === 1 && props.selectedPaymentInfo !== null && props.selectedPaymentInfo !=='Bạn chưa chọn tài khoản thanh toán phù hợp')) &&
-      (props.selectedAddressInfo !== null && props.selectedAddressInfo !=="Bạn chưa chọn địa chỉ giao hàng phù hợp")
+        (props.paymentMethodSelected === 1 && props.selectedPaymentInfo !== null && props.selectedPaymentInfo !== undefined && props.selectedPaymentInfo !== 'Bạn chưa chọn tài khoản thanh toán phù hợp')) &&
+      (props.selectedAddressInfo !== null && props.selectedAddressInfo !== undefined && props.selectedAddressInfo !== "Bạn chưa chọn địa chỉ giao hàng phù hợp")
     ) {
       setDisabled(false);
     } else setDisabled(true);
@@ -71,13 +71,15 @@ function OrderBill(props) {
   const handelSubmit = () => {
     if (disabled === false) {
       axios
-        .post(`http://localhost:8000/api/account/order`, {user_id:props.id, orderDetails:props.orderItems, order_total_cost:(props.totalOrderAmount + (props.deliveryFee)), 
-        bank_id: props.selectedPaymentInfo?._id, pay_id_option: props.paymentMethodSelected, tran_id_option: props.deliveryMethodSelected, loca_id:props.selectedAddressInfo?._id})
+        .post(`http://localhost:8000/api/account/order`, {
+          user_id: props.id, orderDetails: props.orderItems, order_total_cost: (props.totalOrderAmount + (props.deliveryFee)),
+          bank_id: props.selectedPaymentInfo?._id, pay_id_option: props.paymentMethodSelected, tran_id_option: props.deliveryMethodSelected, loca_id: props.selectedAddressInfo?._id
+        })
         .then((response) => {
-            console.log(response.data);
-            setShowSuccess(true);
-            
-            getCartQuantity();
+          console.log(response.data);
+          setShowSuccess(true);
+
+          getCartQuantity();
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -100,7 +102,7 @@ function OrderBill(props) {
                       onClick={handleModifyButtonClick}
             border="none"
           /> */}
-                  <p className='body-large' style={{color:"#9C4048", marginBottom:"0", paddingRight:"8px", fontSize:"18px", cursor:"pointer"}} onClick={handleModifyButtonClick}>Sửa</p>
+          <p className='body-large' style={{ color: "#9C4048", marginBottom: "0", paddingRight: "8px", fontSize: "18px", cursor: "pointer" }} onClick={handleModifyButtonClick}>Sửa</p>
         </div>
       </div>
       <div className="order__bill__line"></div>
@@ -168,10 +170,10 @@ function OrderBill(props) {
           labelColor={color}
           backgroundColor={backgroundColor}
           onClick={handelSubmit}
-              />
-              {showSuccess &&
-                  <OrderSuccess/>
-              }
+        />
+        {showSuccess &&
+          <OrderSuccess />
+        }
       </div>
     </div>
   );
