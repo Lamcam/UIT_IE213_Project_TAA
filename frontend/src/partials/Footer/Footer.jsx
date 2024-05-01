@@ -109,7 +109,7 @@ const Footer = () => {
             </p>
             <form onSubmit={(e) => e.preventDefault}>
               <Row className="input_warrper">
-                <Col className="col-7">
+                <Col lg={8} sm={7}>
                   <div className="input_section">
                     <MdMailOutline style={{ height: '28px', width: '28px', marginLeft: '15px' }} />
                     <Input
