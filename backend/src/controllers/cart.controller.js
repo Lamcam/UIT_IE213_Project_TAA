@@ -82,7 +82,6 @@ const deleteAllProductFromCart = async (req, res) => {
 const getQuantityCartByUserId = async (req, res) => {
     try {
         const { user_id } = req.body;
-        console.log("user_id", user_id);
         const user = await User.findById(user_id);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
