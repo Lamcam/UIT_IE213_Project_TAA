@@ -28,6 +28,8 @@ import PropTypes from 'prop-types';
 import PopupNotiLogin from 'components/Products/PopupNotiLogin';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'hooks/useAuthContext';
+import { IoMdArrowDropdown } from 'react-icons/io';
+
 ProductDetail.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -372,7 +374,7 @@ function ProductDetail(props) {
       addToCart(product, quantity);
       setTimeout(() => {
         getCartQuantity();
-      }, 1000)
+      }, 1000);
       setModalShow(true);
       setTimeout(() => {
         setModalShow(false); // Ẩn popup sau 5 giây
@@ -434,8 +436,9 @@ function ProductDetail(props) {
                 <Image
                   key={index}
                   src={imgSrc}
-                  className={`product__image_small__size ${selectedThumbnail === imgSrc ? 'selected' : ''
-                    }`}
+                  className={`product__image_small__size ${
+                    selectedThumbnail === imgSrc ? 'selected' : ''
+                  }`}
                   alt="image small"
                   preview={false}
                   onClick={() => handleThumbnailClick(imgSrc)}
@@ -498,7 +501,7 @@ function ProductDetail(props) {
                   <span className="product__name__detail__price_second">
                     {product?.prod_cost.$numberDecimal -
                       product?.prod_cost.$numberDecimal *
-                      product?.prod_discount.$numberDecimal}{' '}
+                        product?.prod_discount.$numberDecimal}{' '}
                     đ
                   </span>
                   <span className="product__name__detail__price_third">
@@ -623,32 +626,38 @@ function ProductDetail(props) {
             <div className="product__rating__star__filter">
               <div className="product__rating__star__filter__rank">
                 <span>Xếp hạng</span>
-                <select
-                  className="btn_round_8px btn__filter__rank"
-                  value={selectedOption}
-                  onChange={(e) => handleOptionChange(e.target.value)}
-                >
-                  {options.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                <div className="custom-select">
+                  <select
+                    className="btn_round_8px btn__filter__rank "
+                    value={selectedOption}
+                    onChange={(e) => handleOptionChange(e.target.value)}
+                  >
+                    {options.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <IoMdArrowDropdown className="dropdown-icon" />
+                </div>
               </div>
 
               <div className="product__rating__star__filter__soft">
                 <span>Sắp xếp theo</span>
-                <select
-                  className="btn_round_8px btn__filter__soft"
-                  value={selectedOption1}
-                  onChange={(e) => handleOptionChangeSort(e.target.value)}
-                >
-                  {options1.map((option1, index) => (
-                    <option key={index} value={option1}>
-                      {option1}
-                    </option>
-                  ))}
-                </select>
+                <div className="custom-select">
+                  <select
+                    className="btn_round_8px btn__filter__soft"
+                    value={selectedOption1}
+                    onChange={(e) => handleOptionChangeSort(e.target.value)}
+                  >
+                    {options1.map((option1, index) => (
+                      <option key={index} value={option1}>
+                        {option1}
+                      </option>
+                    ))}
+                  </select>
+                  <IoMdArrowDropdown className="dropdown-icon" />
+                </div>
               </div>
             </div>
           </div>

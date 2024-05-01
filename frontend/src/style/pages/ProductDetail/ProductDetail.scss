@@ -818,3 +818,24 @@
     }
   }
 }
+
+select.btn_round_8px.btn__filter__rank,
+select.btn_round_8px.btn__filter__soft {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.custom-select {
+  position: relative;
+  display: inline-block;
+  background-color: white;
+  border-radius: 8px;
+}
+.dropdown-icon {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  pointer-events: none; /* Đảm bảo không ảnh hưởng đến việc chọn select */
+  margin-right: 10px;
+}
