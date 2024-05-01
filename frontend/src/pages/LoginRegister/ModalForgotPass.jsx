@@ -126,7 +126,7 @@ function PhoneEmailVal(props) {
           }
         })
         .catch((err) => {
-          alert('Không tìm thấy email trùng khớp');
+          console.log('Không tìm thấy email trùng khớp');
           console.log(err, value);
         });
     } else {
@@ -142,7 +142,6 @@ function PhoneEmailVal(props) {
           }
         })
         .catch((err) => {
-          alert('Không tìm thấy số điện thoại trùng khớp');
           console.log(err, value);
         });
     }
@@ -155,6 +154,7 @@ function PhoneEmailVal(props) {
         onChange={handleInputChange}
         type="text"
         placeholder={props.email ? inform.email : inform.phone}
+        className='input_modal_forgotPass'
       />
 
       <Button
@@ -208,7 +208,7 @@ function OtpGet(props) {
     console.log(otp, typeof otp[0]);
     if (check) props.four();
     else {
-      alert('mã OTP không khớp');
+      console.log('mã OTP không khớp');
       return;
     }
   };
@@ -227,12 +227,13 @@ function OtpGet(props) {
         <div className="input_containter">
           {otp.map((data, index) => (
             <input
-              type="number"
+              type="text"
               name="otp"
               maxLength="1"
               inputMode="numeric"
               key={index}
               value={data}
+              className='input_modal_forgotPass'
               onChange={(e) => handleOtpChange(e, index)}
             />
           ))}
@@ -263,18 +264,16 @@ function ChangePass(props) {
   const handleSubmitChangePass = async (e) => {
     e.preventDefault();
     if (input.password !== input.confirmPass) {
-      alert('Xác nhận mật khẩu không khớp');
       return;
     }
     if (input.password.length <= 7) {
-      alert('Mật khẩu phải có ít nhất 8 ký tự');
       return;
     }
 
     const email = localStorage.getItem('email');
     const phone = localStorage.getItem('phone');
     if (!email && !phone) {
-      alert('some thing wrong');
+      console.log('some thing wrong');
     } else if (email) {
       axios
         .post('http://localhost:8000/api/auth/changePass/email', {
@@ -283,7 +282,6 @@ function ChangePass(props) {
         })
         .then((res) => {
           if (res.status === 200) {
-            alert('Cập nhật mật khẩu thành công');
             window.location.href = '/log_in';
           } else {
             console.log(res);
@@ -299,7 +297,7 @@ function ChangePass(props) {
           password: input.password,
         })
         .then((res) => {
-          if (res.status === 200) alert('Cập nhật mật khẩu thành công');
+          if (res.status === 200) console.log('Cập nhật mật khẩu thành công');
           else {
             console.log(res);
           }
@@ -322,6 +320,7 @@ function ChangePass(props) {
           onChange={handleInputChange}
           type="password"
           new-password="true"
+          className='input_modal_forgotPass'
           placeholder="Nhập mật khẩu mới"
           row={2}
         />
@@ -332,6 +331,7 @@ function ChangePass(props) {
           onChange={handleInputChange}
           type="password"
           new-password="true"
+          className='input_modal_forgotPass'
           placeholder="Xác nhận mật khẩu mới"
           rows={2}
         />
