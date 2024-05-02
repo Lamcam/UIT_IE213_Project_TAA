@@ -108,6 +108,13 @@
     font-size: 17px;
     font-weight: 500;
    }
+   .btn-close-logout:active,
+    .btn-logout:active {
+      border: #785b5b 1px solid;
+      // color: #9c4048;
+      // background-color: rgba($color: #000000, $alpha: 0);
+    }
+
 }
 .modal-header {
     border-bottom: none !important;
