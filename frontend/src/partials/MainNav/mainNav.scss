@@ -24,6 +24,9 @@
     
 }
 
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show{
+   color: var(--bs-nav-link-color);
+}
 .my-nav .nav-link {
     display: flex;
     justify-content: center;
