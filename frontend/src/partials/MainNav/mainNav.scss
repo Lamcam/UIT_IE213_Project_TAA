@@ -21,6 +21,7 @@
 
 .main_nav .nav_container{
     height: 45px;
+    
 }
 
 .my-nav .nav-link {
@@ -38,7 +39,7 @@
     letter-spacing: 0.15px;
     white-space: nowrap;
     text-decoration: none;
-    color: black;
+    color: var(--bs-nav-link-color);
     // padding: 12px 0px; 
     // margin-right: 12px;
 
