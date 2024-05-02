@@ -35,20 +35,20 @@ function Register() {
   const [errorConfirmPassword, setErrorConfirmPassword] = useState('')
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState({
-    password: false
+    password: false,
+    confirmPassword: false
   });
 
   const handleCheck = (e) => {
     setIsChecked(e.target.checked);
   };
-      // Hàm xử lý khi người dùng nhấn nút để hiển thị hoặc ẩn mật khẩu
-      const togglePasswordVisibility = (field) => {
-        setShowPassword((prevState) => ({
-          ...prevState,
-          [field]: !prevState[field],
-        }));
-      };
-  
+  // Hàm xử lý khi người dùng nhấn nút để hiển thị hoặc ẩn mật khẩu
+  const togglePasswordVisibility = (field) => {
+    setShowPassword((prevState) => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }));
+  };
   const inform = {
     username: 'Tên đăng nhập phải có ít nhất 1 ký tự',
     phone: 'Số điện thoại phải có từ 10 đến 11 số',
@@ -147,7 +147,7 @@ function Register() {
     console.log(allFieldsNotEmpty)
     setDisabled(!allFieldsNotEmpty);
     console.log(isChecked)
-  }, [input,isChecked]);
+  }, [input, isChecked]);
 
   const handleSubmition = async (e) => {
     e.preventDefault();
@@ -208,13 +208,13 @@ function Register() {
           <h1> Đăng ký </h1>
           <Form onSubmit={handleSubmition}>
             <Form.Group className="mb-3 input" controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Tên đăng nhập" onChange={handleChange} className='body-medium' name='username'/>
+              <Form.Control type="text" placeholder="Tên đăng nhập" onChange={handleChange} className='body-medium' name='username' />
             </Form.Group>
 
             <Form.Group className="mb-3 input" controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Số điện thoại" onChange={handleChange} className={`body-medium ${errorPhone?'err-border':''}`} name='phone'/>
+              <Form.Control type="text" placeholder="Số điện thoại" onChange={handleChange} className={`body-medium ${errorPhone ? 'err-border' : ''}`} name='phone' />
               {errorPhone &&
-              <Form.Text className="text-muted">
+                <Form.Text className="text-muted">
                   {/* {!valid.phone && submit ? inform.phone : null} */}
                   {errorPhone}
                 </Form.Text>
@@ -226,14 +226,14 @@ function Register() {
                 name="email"
                 placeholder="Email"
                 onChange={handleChange}
-                className={`body-medium ${errorEmail?'err-border':''}`}
+                className={`body-medium ${errorEmail ? 'err-border' : ''}`}
               />
-              {errorEmail&&
+              {errorEmail &&
                 <Form.Text className="text-muted">
                   {/* {!valid.email && submit ? inform.email : null} */}
                   {errorEmail}
                 </Form.Text>}
-                {errorExist&&
+              {errorExist &&
                 <Form.Text className="text-muted">
                   {/* {!valid.email && submit ? inform.email : null} */}
                   {errorExist}
@@ -243,11 +243,11 @@ function Register() {
             <Form.Group className="mb-3 input" controlId="formBasicPassword">
               <Form.Control
                 new-password
-                type={showPassword.password?'text':'password'}
+                type={showPassword.password ? 'text' : 'password'}
                 name="password"
                 placeholder="Mật khẩu"
                 onChange={handleChange}
-                className={`body-medium ${errorPassword?'err-border':''}`}
+                className={`body-medium ${errorPassword ? 'err-border' : ''}`}
               />
               <ButtonIcon
                 className="show-pass"
@@ -272,12 +272,26 @@ function Register() {
 
             <Form.Group className="mb-3 input" controlId="formConfirmPassword">
               <Form.Control
-                type="password"
+                type={showPassword.confirmPassword ? 'text' : 'password'}
                 new-password
                 onChange={handleChange}
                 placeholder="Xác nhận mật khẩu"
-                className={`body-medium ${errorConfirmPassword?'err-border':''}`}
+                className={`body-medium ${errorConfirmPassword ? 'err-border' : ''}`}
                 name='confirm'
+              />
+              <ButtonIcon
+                className="show-pass"
+                backgroundColor="transparent"
+                border="none"
+                onClick={() => togglePasswordVisibility('confirmPassword')}
+                label={
+                  showPassword.confirmPassword ? (
+                    <BiShow style={{ color: '#524343' }} />
+                  ) : (
+                    <BiHide style={{ color: '#524343' }} />
+                  )
+                }
+                type="button"
               />
               {errorConfirmPassword &&
                 <Form.Text className="text-muted">
@@ -314,29 +328,29 @@ function Register() {
                 >
                   Đăng ký
                 </Button> */}
-                              <Button
-                label="Đăng kí"
-                className='login_btn body-large'
-                type="submit"
-                labelColor={color}
-                border="none"
-                backgroundColor={backgroundColor}
-                fontSize="16px"
+                <Button
+                  label="Đăng kí"
+                  className='login_btn body-large'
+                  type="submit"
+                  labelColor={color}
+                  border="none"
+                  backgroundColor={backgroundColor}
+                  fontSize="16px"
                 // size='lg'
                 // active
-              />
+                />
 
                 <div className="login_rec_containter">
                   <h5 className="login_rec body-large">Bạn đã có tài khoản ?</h5>
                 </div>
 
                 <Button
-                label="Đăng nhập"
-                className='body-large register_btn'
-                type="button"
-                fontSize="16px"
-                onClick={handleClickLogin}
-              />
+                  label="Đăng nhập"
+                  className='body-large register_btn'
+                  type="button"
+                  fontSize="16px"
+                  onClick={handleClickLogin}
+                />
               </div>
             </Form.Group>
           </Form>

@@ -4,8 +4,8 @@ section.login {
   justify-content: center;
   align-items: center;
   margin: 0px;
-  .text-muted.form-text{
-    color: #BA1A1A !important;
+  .text-muted.form-text {
+    color: #ba1a1a !important;
     margin-top: 5px;
     font-size: 14px;
     font-family: 'Roboto';
@@ -40,18 +40,18 @@ section.login {
     align-items: center;
     // max-width: 500px;
     min-width: 500px;
-    
-    form{
+
+    form {
       position: relative;
-      .show-pass{
-          position: absolute;
-          right: 8px;
-          transform: translateY(-100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+      .show-pass {
+        position: absolute;
+        right: 8px;
+        transform: translateY(-100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      input{
+      input {
         padding: 4px 0px 4px 16px;
         width: 100%;
         border: 1px solid #857373;
@@ -60,16 +60,16 @@ section.login {
         background-color: transparent;
         color: #524343;
       }
-      input:focus{
-        box-shadow: 0 0 0 1px black
+      input:focus {
+        box-shadow: 0 0 0 1px black;
       }
-      input .err-border{
-        border-color: #BA1A1A !important;
+      input .err-border {
+        border-color: #ba1a1a !important;
         // box-shadow:0 0 0 1px #BA1A1A;
-        color: #BA1A1A !important;
+        color: #ba1a1a !important;
       }
-      input.err-border:focus{
-          box-shadow: 0 0 0 1px #BA1A1A
+      input.err-border:focus {
+        box-shadow: 0 0 0 1px #ba1a1a;
       }
     }
   }
@@ -114,7 +114,6 @@ section.login {
   //   background-color: var(--md-sys-color-primary-light);
   // }
 
-  
   // .login_btn {
   //   display: flex;
   //   align-items: center;
@@ -159,7 +158,7 @@ section.login {
     cursor: pointer;
   }
   .forgotPass:active {
-    color: #9C4048;
+    color: #9c4048;
   }
 }
 
@@ -170,9 +169,8 @@ section.register {
   align-items: center;
   margin: 0px;
 
-  .input{
-    
-    input{
+  .input {
+    input {
       border: 1px solid var(--md-source);
       border-radius: 5px;
       color: #524343;
@@ -180,20 +178,17 @@ section.register {
       font-family: Roboto;
       font-weight: 400;
       line-height: 24px;
-      letter-spacing: 0.50px;
-      word-wrap: break-word
+      letter-spacing: 0.5px;
+      word-wrap: break-word;
+    }
   }
-}
 
-
-  .form-check-input:checked{
+  .form-check-input:checked {
     background-color: var(--md-source);
     border-color: var(--md-source);
   }
-  .form-check-input
-
-  .text-muted.form-text{
-    color: #BA1A1A !important;
+  .form-check-input .text-muted.form-text {
+    color: #ba1a1a !important;
     margin-top: 5px;
     font-size: 14px;
     font-family: 'Roboto';
@@ -228,7 +223,7 @@ section.register {
   //   justify-content: center;
   //   align-items: center;
   // }
-  .register_form{
+  .register_form {
     display: flex;
     background-color: white;
     flex-direction: column;
@@ -236,23 +231,23 @@ section.register {
     align-items: center;
     // max-width: 500px;
     min-width: 500px;
-    .text-muted.form-text{
-      color: #BA1A1A !important;
+    .text-muted.form-text {
+      color: #ba1a1a !important;
       margin-top: 5px;
       font-size: 14px;
       font-family: 'Roboto';
     }
-    form{
+    form {
       position: relative;
-      .show-pass{
+      .show-pass {
         position: absolute;
         right: 8px;
         transform: translateY(-100%);
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-      input:not([type="radio"]) {
+      }
+      input:not([type='radio']) {
         padding: 4px 0px 4px 16px;
         width: 100%;
         border: 1px solid #857373;
@@ -261,23 +256,27 @@ section.register {
         background-color: transparent;
         color: #524343;
       }
-      input[type="radio"]{
+      input[type='radio'] {
         cursor: pointer;
       }
-      input:focus{
-        box-shadow: 0 0 0 1px black
+      input:focus {
+        box-shadow: 0 0 0 1px black;
       }
-      input[type="radio"]{
+      input[type='radio'] {
         box-shadow: none;
       }
-      input .err-border{
-        border-color: #BA1A1A !important;
+      input .err-border {
+        border-color: #ba1a1a !important;
         // box-shadow:0 0 0 1px #BA1A1A;
-        color: #BA1A1A !important;
+        color: #ba1a1a !important;
       }
-      input.err-border:focus{
-          box-shadow: 0 0 0 1px #BA1A1A
+      input.err-border:focus {
+        box-shadow: 0 0 0 1px #ba1a1a;
       }
+    }
+    input[type='password']::-ms-reveal,
+    input[type='password']::-webkit-reveal {
+      display: none !important;
     }
   }
 
@@ -287,7 +286,6 @@ section.register {
     max-width: 400px;
     min-height: 555px;
   }
-  
 
   .login_rec::before,
   .login_rec::after {
@@ -332,7 +330,7 @@ section.register {
   //       letter-spacing: 0.1px;
   //       word-wrap: break-word;
   //       border-color: var(--md-sys-color-primary-light);
-      
+
   // }
   // .register_btn {
   //   color: white;
@@ -370,34 +368,30 @@ section.register {
     max-width: 406px;
     display: flex;
     align-items: center;
-    gap:10px
+    gap: 10px;
   }
 }
 
 @media (max-width: 744px) {
-
   section.login {
-
     .side_bar {
       display: none !important;
     }
 
-    .login_form{
+    .login_form {
       width: 100% !important;
       padding: 30px 0px;
     }
   }
 
   section.register {
-
     .side_bar {
       display: none !important;
     }
 
-    .register_form{
+    .register_form {
       width: 100% !important;
       padding: 30px 0px;
     }
   }
-  
 }
