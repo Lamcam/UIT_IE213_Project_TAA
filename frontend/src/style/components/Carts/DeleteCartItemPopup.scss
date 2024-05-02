@@ -55,6 +55,15 @@
   }
 }
 
+button.btn_clickable_lightcolor_outline:hover,
+button.btn_clickable_boldcolor:hover {
+  background-color: transparent;
+}
+
+.delete__cart__item__footer .btn:hover {
+  background-color: transparent;
+}
+
 .delete__cart__item_btn .btn_clickable_boldcolor {
   background: var(--md-sys-color-primary-light);
   color: var(--md-sys-color-on-primary-light);
