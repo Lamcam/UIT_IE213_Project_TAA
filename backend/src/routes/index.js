@@ -7,35 +7,18 @@ const account = require("./account.router")
 // const auth = require("./auth.router");
 const auth = require("./auth.router");
 const news = require("./news.router");
-const cart = require("./cart.router")
-// const { hello } = require("../controllers/demo.controller");
-const {
-  getProducts,
-  getProductById,
-} = require("../controllers/products.controller");
+const cart = require("./cart.router");
+const admin=require("./admin.router")
 
 const route = (app) => {
-    // app.use(middlewares.authenticate);
-
-  // app.use("/", site)
-
-  // app.use("/auth", auth)
-
-  // app.use("/products", product)
-
-  // app.use('/account', middlewares.authenticate, account)
-
     app.use('/news', news)
-
     app.use("/products", product);
-
     app.use("/", auth);
-    // app.get('/user', getUser)
     app.use("/api/account", account)
     app.use("/cart", cart)
+    app.use("/admin",admin)
 };
 
-// app.get("/products", controllers.product.queryProduct);
-// app.post("/login", controllers.auth.loginPost);
+
 
 module.exports = route;

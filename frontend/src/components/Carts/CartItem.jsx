@@ -433,12 +433,12 @@ function CartItem(props, id) {
                   // method="delete"
                   onClick={() => handleDeleteClick(item?._doc?._id)}
                 />
-                <DeleteCartItemPopup showModal={showModal} onClose={() => setShowModal(false)} onConfirmDelete={handleConfirmDelete} />
               </div>
             </td>
           </tr>
         ))}
       </tbody>
+      <DeleteCartItemPopup showModal={showModal} onClose={() => setShowModal(false)} onConfirmDelete={handleConfirmDelete} />
     </Table>
   );
 
