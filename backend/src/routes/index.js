@@ -8,7 +8,6 @@ const account = require("./account.router")
 const auth = require("./auth.router");
 const news = require("./news.router");
 const cart = require("./cart.router");
-const admin=require("./admin.router")
 
 const route = (app) => {
     app.use('/news', news)
@@ -16,7 +15,6 @@ const route = (app) => {
     app.use("/", auth);
     app.use("/api/account", account)
     app.use("/cart", cart)
-    app.use("/admin",admin)
 };
 
 
