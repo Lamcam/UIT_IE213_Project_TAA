@@ -540,22 +540,23 @@ const addOrder = async (req, res) => {
             tran_id_option,
             loca_id,
       } = req.body;
-      if (!mongoose.Types.ObjectId.isValid(user_id)) {
-        return res
-            .status(400)
-            .json({ message: "ID người dùng không hợp lệ" });
-    }
+    //   if (!mongoose.Types.ObjectId.isValid(user_id)) {
+    //     return res
+    //         .status(400)
+    //         .json({ message: "ID người dùng không hợp lệ" });
+    // }
     const newOrder = await createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id, orderDetails);
     console.log('Thêm đơn hàng thành công:', newOrder);
 
     const orderdetails = await createOrderdetails(newOrder._id, orderDetails);
     console.log('Thêm chi tiết đơn hàng thành công:', orderdetails);
 
-    // Xóa các sản phẩm từ giỏ hàng của người dùng
-    for (const detail of orderDetails) {
-      await removeFromCart(user_id, detail._id);
-      }
-      
+        // Xóa các sản phẩm từ giỏ hàng của người dùng
+        if (user_id) {
+            for (const detail of orderDetails) {
+                await removeFromCart(user_id, detail._id);
+            }
+        }
     res.status(200).json({ message: "Thêm đơn hàng và chi tiết đơn hàng thành công" });
     } catch (error) {
       console.error('Thêm đơn hàng và chi tiết đơn hàng không thành công');
@@ -588,8 +589,8 @@ async function createOrder(order_total_cost, user_id, bank_id, pay_id_option, tr
           _id: new mongoose.Types.ObjectId(),
           order_datetime: new Date(),
           order_total_cost: order_total_cost,
-          user_id: user_id,
-          bank_id:pay_id_option===1?bank_id:null,
+          user_id: user_id?user_id:null,
+          bank_id:null,
           pay_id: pay_id_option===0?'65f41349bd7a1382211874b0':'65f41375bd7a1382211874b1',
           tran_id: tran_id_option===0?'65f3ed65a8f986b1aca692a0':'65f3ebe2a8f986b1aca6929f',
           loca_id:loca_id,

@@ -41,24 +41,39 @@ function ProductItem({ product, onFavoriteChange }) {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
   const[content, setContent]=useState('');
-  const { addToCart } = useAddToCart();
+  const { addToCart, addToCartNoLogin } = useAddToCart();
   const addToCartAndRedirect = () => {
-    if (!localStorage.getItem('user')) {
-      console.log('Bạn cần đăng nhập');
-      setContent("Bạn cần đăng nhập để thực hiện mua ngay!");
-      setShowPopupNotiLogin(true);
-    } else {
-      (async () => {
-        try {
-          await addToCart(product, 1);
-          console.log('Sản phẩm đã được thêm vào giỏ hàng');
-          navigate("/cart");
-          getCartQuantity();
-        } catch (error) {
-          console.error('Lỗi khi thêm vào giỏ hàng:', error);
-        }
-      })();
-    }
+    // if (!localStorage.getItem('user')) {
+    //   console.log('Bạn cần đăng nhập');
+    //   setContent("Bạn cần đăng nhập để thực hiện mua ngay!");
+    //   setShowPopupNotiLogin(true);
+    // } else {
+    //   (async () => {
+    //     try {
+    //       await addToCart(product, 1);
+    //       console.log('Sản phẩm đã được thêm vào giỏ hàng');
+    //       navigate("/cart");
+    //       getCartQuantity();
+    //     } catch (error) {
+    //       console.error('Lỗi khi thêm vào giỏ hàng:', error);
+    //     }
+    //   })();
+    // }
+    const newData = {
+      ...product,
+      moneyCurrent: product.prod_cost.$numberDecimal * (1 - product.prod_discount.$numberDecimal),
+      imageUrl: product.prod_img[0],
+      productName: product.prod_name,
+      number: 1
+    };
+    navigate('/order', {
+      state: {
+        data: [newData],
+        temporary: product.prod_cost.$numberDecimal * (1 - product.prod_discount.$numberDecimal),
+        total: (product.prod_cost.$numberDecimal * (1 - product.prod_discount.$numberDecimal)) - 5000,
+        discount: 5000,
+      },
+    });
   };
 
 

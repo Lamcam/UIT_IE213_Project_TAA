@@ -9,6 +9,7 @@ import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import axios from 'axios';
 import OrderSuccess from './Modal--OrderSuccess';
 import { useAuthContext } from 'hooks/useAuthContext';
+import { useAddToCart } from 'hooks/useAddToCart';
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
@@ -31,6 +32,7 @@ OrderBill.propTypes = {
 
 function OrderBill(props) {
   const { getCartQuantity } = useAuthContext();
+  const { removeFromCartNoLogin } = useAddToCart()
   console.log('phuong thuc giao hang', props.deliveryMethodSelected);
   console.log('phuong thuc thanh toan', props.paymentMethodSelected);
   console.log('thong tin thanh toan ngan hang', props.selectedPaymentInfo);
@@ -40,11 +42,10 @@ function OrderBill(props) {
   const [showSuccess, setShowSuccess] = useState(false);
   useEffect(() => {
     if (
-      props.deliveryMethodSelected !== null &&
-      (props.paymentMethodSelected === 0 ||
-        (props.paymentMethodSelected === 1 && props.selectedPaymentInfo !== null && props.selectedPaymentInfo !== undefined && props.selectedPaymentInfo !== 'Bạn chưa chọn tài khoản thanh toán phù hợp')) &&
+      props.deliveryMethodSelected !== null && props.paymentMethodSelected !== null &&
       (props.selectedAddressInfo !== null && props.selectedAddressInfo !== undefined && props.selectedAddressInfo !== "Bạn chưa chọn địa chỉ giao hàng phù hợp")
-    ) {
+    )
+    {
       setDisabled(false);
     } else setDisabled(true);
   }, [
@@ -68,22 +69,27 @@ function OrderBill(props) {
     setShowAllItems(!showAllItems);
   };
 
-  const handelSubmit = () => {
+  const handelSubmit = async() => {
     if (disabled === false) {
-      axios
-        .post(`http://localhost:8000/api/account/order`, {
-          user_id: props.id, orderDetails: props.orderItems, order_total_cost: (props.totalOrderAmount + (props.deliveryFee)),
-          bank_id: props.selectedPaymentInfo?._id, pay_id_option: props.paymentMethodSelected, tran_id_option: props.deliveryMethodSelected, loca_id: props.selectedAddressInfo?._id
-        })
-        .then((response) => {
-          console.log(response.data);
-          setShowSuccess(true);
-
-          getCartQuantity();
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+      if (props.paymentMethodSelected === 1) { 
+        navigate('/')
+        // await 
+      }
+        axios
+          .post(`http://localhost:8000/api/account/order`, {
+            user_id: props.id, orderDetails: props.orderItems, order_total_cost: (props.totalOrderAmount + (props.deliveryFee)),
+            bank_id: props.selectedPaymentInfo?._id, pay_id_option: props.paymentMethodSelected, tran_id_option: props.deliveryMethodSelected, loca_id: props.selectedAddressInfo?._id
+          })
+          .then((response) => {
+            console.log(response.data);
+            setShowSuccess(true);
+            props.orderItems.map((item)=>removeFromCartNoLogin(item._id))
+            getCartQuantity();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      
     } else console.log('b ch dat dc dau!');
   };
   return (
