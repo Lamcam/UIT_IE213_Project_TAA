@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useAuthContext } from './useAuthContext';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export function useRegister() {
   const { dispatch } = useAuthContext();
-  const [error, setError] = useState(null);
+  const [errorExist, setErrorExist] = useState(null);
   const [loading, setLoading] = useState(null);
+  const navigate = useNavigate()
 
   const register = async (user) => {
     try {
@@ -13,20 +15,18 @@ export function useRegister() {
       dispatch({ type: 'REGISTER', payload: response.data });
       if (response.status === 201) {
         dispatch({ type: 'REGISTER', payload: response.data });
-        alert('Register successfully!');
         window.location.href = '/log_in';
         return response.data;
-      } else if (response.status === 400) {
-        alert('Tài khoản đã tồn tại');
-        setError(response.data);
-      } else {
+      } 
+        else {
         setLoading(false);
-        setError(response.data);
+        // setErrorExist(response.data);
       }
     } catch (error) {
-      setError(error.response.data);
+      if (error.response.status === 400)
+      setErrorExist('Tài khoản đã tồn tại');
+      console.log('err', error);
     }
   };
-
-  return { register, loading, error };
+  return { register, loading, errorExist, setErrorExist };
 }

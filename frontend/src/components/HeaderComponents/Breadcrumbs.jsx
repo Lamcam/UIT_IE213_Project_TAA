@@ -169,7 +169,9 @@ function BreadcrumbSection() {
         case 'favor':
           coverted = 'Sản phẩm yêu thích'
           break;
-
+        case 'search':
+          coverted = 'Tìm kiếm'
+          break;
         default:
           coverted = path
           break;

@@ -6,6 +6,8 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import 'style/components/Carts/CartItem.scss';
 import axios from 'axios';
 import { useDeleteCartItem } from 'hooks/useDeleteCartIem';
+import DeleteCartItemPopup from 'components/Carts/DeleteCartItemPopup';
+import { useNavigate } from 'react-router-dom';
 
 // CartItem.propTypes = {
 //   cartItems: PropTypes.arrayOf(
@@ -25,6 +27,7 @@ CartItem.propTypes = {
       product: PropTypes.shape({
         imageUrl: PropTypes.string.isRequired,
         productName: PropTypes.string.isRequired,
+        productSold: PropTypes.string.isRequired,
         moneyCurrent: PropTypes.number.isRequired,
         moneyBeforeDiscount: PropTypes.oneOfType([
           PropTypes.number,
@@ -40,15 +43,24 @@ CartItem.propTypes = {
 };
 
 function CartItem(props, id) {
+  const navigate = useNavigate();
   props.cartItems.map((item) => {
     console.log(item);
   });
+  const user_id = (localStorage.getItem('user'))
+    ? JSON.parse(localStorage.getItem('user'))[0]._id
+    : null;
   const { deleteFromCart } = useDeleteCartItem();
   const [quantity, setQuantity] = useState(props.cartItems.map((item) => item._doc.quantity));
+
   const [checkedItems, setCheckedItems] = useState([]);
   const [allItemsChecked, setAllItemsChecked] = useState(false);
   // const [checkedItemsInfo, setCheckedItemsInfo] = useState([]);
   console.log('cartItem23231', props.cartItems);
+
+  //handel delete cart items from
+  const [showModal, setShowModal] = useState(false);
+  const [itemIdToDelete, setItemIdToDelete] = useState(null);
   const handleDeleteItem = async (productId) => {
     try {
       // Gọi hàm xóa sản phẩm từ hook useDeleteCartItem hoặc từ API trực tiếp
@@ -56,11 +68,25 @@ function CartItem(props, id) {
       // Cập nhật danh sách sản phẩm sau khi xóa thành công
       const updatedCartItems = props.cartItems.filter((item) => item._doc._id !== productId);
       props.onDeleteCartItem(updatedCartItems);
+      // Đóng modal sau khi xóa
+      setShowModal(false);
     } catch (error) {
       console.error('Error deleting item:', error);
     }
   };
 
+  const handleDeleteClick = (itemId) => {
+    // Lưu ID của mục được chọn để xóa vào state
+    setItemIdToDelete(itemId);
+    // Mở modal
+    setShowModal(true);
+  };
+  const handleConfirmDelete = () => {
+    // Thực hiện việc xóa sản phẩm
+    handleDeleteItem(itemIdToDelete);
+    // Đóng modal xóa sản phẩm
+    setShowModal(false);
+  };
   useEffect(() => {
     // Cập nhật danh sách sản phẩm sau khi xóa
     // Gọi lại hook useDeleteCartItem hoặc các phương thức xử lý tương tự
@@ -107,25 +133,74 @@ function CartItem(props, id) {
     });
   };
 
-  const handleIncreaseQuantity = (index) => {
-    setQuantity((prevQuantity) => {
-      return {
-        ...prevQuantity,
-        [index]: (prevQuantity[index] || 0) + 1,
-      };
-    });
+  const updateQuantityOnServer = async (index, newQuantity) => {
+    console.log("hihihi", props.cartItems[index].product._id)
+    try {
+      const response = await axios.put('http://localhost:8000/cart/update-quantity', {
+        product_id: props.cartItems[index].product._id,
+        user_id: user_id, // Đây là user_id bạn nhận được từ phía back-end
+        newQuantity: newQuantity,
+      });
+
+      console.log('Response data:', response.data);
+    } catch (error) {
+      console.error('Error updating quantity on server:', error);
+    }
   };
+
+  const handleChange = (event, index) => {
+    let value = parseInt(event.target.value);
+    if (value > parseInt(props.cartItems[index].product.productSold)) {
+      value = parseInt(props.cartItems[index].product.productSold);
+    } else if (value < 0) {
+      value = 1;
+    }
+    setQuantity((prevQuantity) => {
+      const newQuantity = [...prevQuantity]; // Tạo một bản sao của mảng quantity
+      newQuantity[index] = value; // Cập nhật giá trị mới cho phần tử có chỉ số là index
+      return newQuantity;
+    });
+    updateQuantityOnServer(index, quantity[index]);
+  };
+
+  const handleBlur = (event, index) => {
+    if (quantity[index] === 0 || isNaN(quantity[index])) {
+      setQuantity((prevQuantity) => {
+        const newQuantity = [...prevQuantity];
+        newQuantity[index] = 1; // Đặt lại giá trị thành 1 nếu giá trị là 0 hoặc không phải là một số
+        return newQuantity;
+      });
+    }
+    updateQuantityOnServer(index, quantity[index]);
+  };
+
+  const handleIncreaseQuantity = (index) => {
+    const productSold = parseInt(props.cartItems[index].product.productSold);
+
+    // Kiểm tra xem giá trị hiện tại có nhỏ hơn giá trị productSold không
+    if (quantity[index] < productSold) {
+      setQuantity((prevQuantity) => {
+        const updatedQuantity = [...prevQuantity];
+        updatedQuantity[index] = (prevQuantity[index] || 0) + 1;
+        updateQuantityOnServer(index, updatedQuantity[index]);
+        return updatedQuantity;
+      });
+    }
+  };
+
 
   const handleDecreaseQuantity = (index) => {
     if (quantity[index] && quantity[index] > 1) {
       setQuantity((prevQuantity) => {
-        return {
-          ...prevQuantity,
-          [index]: prevQuantity[index] - 1,
-        };
+        const updatedQuantity = [...prevQuantity];
+        updatedQuantity[index] = prevQuantity[index] - 1;
+        updateQuantityOnServer(index, updatedQuantity[index]);
+        return updatedQuantity;
       });
     }
   };
+
+
 
   const calculateTotalPrice = () => {
     let totalPrice = 0;
@@ -163,6 +238,10 @@ function CartItem(props, id) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const handleClickNameProduct = (index) => {
+    navigate(`/products/${props.cartItems[index].product._id}`)
+  }
   return isMobile ? (
     <Table borderless className="cart" size="sm" id="cart_resize">
       <thead className="cart__item__thead title-medium">
@@ -201,7 +280,7 @@ function CartItem(props, id) {
                   <img src={item.product.imageUrl} alt={item.product.productName} />
                 </div>
                 <div className="info__product--responsive">
-                  <div className="name__product">
+                  <div className="name__product" onClick={() => handleClickNameProduct(index)}>
                     <p>{item.product.productName}</p>
                   </div>
                   <div className="item__total__money">
@@ -215,15 +294,17 @@ function CartItem(props, id) {
                     >
                       -
                     </div>
+                    <label for="number__product__cart" hidden>Số lượng sản phẩm</label>
                     <input
-                      id=""
+                      id="number__product__cart"
                       type="number"
                       min="1"
-                      max={10}
+                      max={item.product.productSold}
                       step="1"
-                      value={quantity[index] || 1}
+                      value={quantity[index].toLocaleString('en-US', { minimumIntegerDigits: 1, useGrouping: false })}
                       className="item__number__product"
-                      readOnly
+                      onChange={(event) => handleChange(event, index)}
+                      onBlur={(event) => handleBlur(event, index)}
                     />
                     <div
                       className="item__number__increase"
@@ -236,9 +317,10 @@ function CartItem(props, id) {
                     <div className="item__delete__product">
                       <RiDeleteBin6Line
                         className="icon__delete primary-text"
-                        method="delete"
-                        onClick={() => deleteFromCart(item?._doc?._id)}
+                        // method="delete"
+                        onClick={() => handleDeleteClick(item?._doc?._id)}
                       />
+                      <DeleteCartItemPopup showModal={showModal} onClose={() => setShowModal(false)} onConfirmDelete={handleConfirmDelete} />
                     </div>
                   </div>
                 </div>
@@ -289,7 +371,7 @@ function CartItem(props, id) {
                 <div className="img__product">
                   <img src={item.product.imageUrl} alt={item.product.productName} />
                 </div>
-                <div className="name__product">
+                <div className="name__product" onClick={() => handleClickNameProduct(index)}>
                   <p>{item.product.productName}</p>
                 </div>
               </div>
@@ -318,16 +400,17 @@ function CartItem(props, id) {
                 >
                   -
                 </div>
+                <label for="number__product__cart-mobile" hidden>Số lượng sản phẩm</label>
                 <input
-                  id=""
+                  id="number__product__cart-mobile"
                   type="number"
                   min="1"
-                  max={10}
+                  max={item.product.productSold}
                   step="1"
-                  value={quantity[index] || 1}
-                  // value={item._doc.quantity || 1}
+                  value={quantity[index]?.toLocaleString('en-US', { minimumIntegerDigits: 1, useGrouping: false })}
                   className="item__number__product"
-                  readOnly
+                  onChange={(event) => handleChange(event, index)}
+                  onBlur={(event) => handleBlur(event, index)}
                 />
                 <div
                   className="item__number__increase"
@@ -347,16 +430,19 @@ function CartItem(props, id) {
               <div className="item__delete__product">
                 <RiDeleteBin6Line
                   className="icon__delete primary-text"
-                  method="delete"
-                  onClick={() => handleDeleteItem(item?._doc?._id)}
+                  // method="delete"
+                  onClick={() => handleDeleteClick(item?._doc?._id)}
                 />
               </div>
             </td>
           </tr>
         ))}
       </tbody>
+      <DeleteCartItemPopup showModal={showModal} onClose={() => setShowModal(false)} onConfirmDelete={handleConfirmDelete} />
     </Table>
   );
+
+
 }
 
 export default CartItem;

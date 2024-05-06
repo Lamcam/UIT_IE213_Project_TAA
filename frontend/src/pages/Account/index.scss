@@ -175,17 +175,20 @@ article.section__content {
   border: none;
 }
 
-.err__wrapper{
-  display: flex;
-  flex-direction: column;
-}
+// .err__wrapper{
+//   display: flex;
+//   flex-direction: column;
+// }
 .err-border{
-  border-color: #ce404c !important;
-  box-shadow: #ce404c;
+  border-color: #BA1A1A !important;
+  color: #BA1A1A !important;
 }
 .err{
-  color: #ce404c;
+  color: #BA1A1A;
   text-align: left;
+  font-size:  12px;
+  font-family: 'Roboto';
+  margin-top: 5px;
 }
 // Hồ sơ cá nhân
 .input__wrapper {
@@ -208,6 +211,7 @@ article.section__content {
     height: 40px;
     background-color: transparent;
   }
+
   & input[value] {
     color: #524343;
     padding: 4px 0px 4px 16px;
@@ -512,7 +516,7 @@ flex-direction: column;
   }
 }
 
-@media only screen and (min-width: calc(576px + 1px)) and (max-width: 768px) {
+@media (min-width: 577px) and (max-width: 768px) {
   // .section__content .form__content .form__row .row label{
   //   justify-content: start;
   //   width: 100%;

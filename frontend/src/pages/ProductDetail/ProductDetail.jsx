@@ -1,32 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Image, Row, Col } from 'react-bootstrap';
-import productDetailImg from '../../assets/image/pencil.png';
-import productDetailImg1 from '../../assets/image/t1.jpg';
-import productDetailImg2 from '../../assets/image/t2.jpg';
-import productDetailImg3 from '../../assets/image/t3.jpg';
-import productDetailImg4 from '../../assets/image/t4.jpg';
-import productDetailImg5 from '../../assets/image/t5.jpg';
-import '../../style/pages/ProductDetail/ProductDetail.scss';
-import ProductItem from 'components/Products/ProductItem';
-import { GiRabbitHead } from 'react-icons/gi';
-import { FaChevronDown } from 'react-icons/fa';
-import { MdOutlineAddShoppingCart } from 'react-icons/md';
-import { FaStarHalfAlt, FaStar, FaRegStar } from 'react-icons/fa';
-import { BiDislike, BiLike } from 'react-icons/bi';
-import { TbHeartPlus } from 'react-icons/tb';
-import { IoHeartSharp } from 'react-icons/io5';
-import { BiSolidLike, BiSolidDislike } from 'react-icons/bi';
-import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
-import ReviewPopup from '../../pages/Account/Modal/ReviewPopup';
-import { NavLink } from 'react-router-dom';
-import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
-import Button from 'components/Common/Button';
 import axios from 'axios';
-import { useAddToCart } from 'hooks/useAddToCart';
-import PropTypes from 'prop-types';
+import NotiAddCartSuccessPopup from 'components/ProductDetailComponents/NotiAddCartSuccessPopup';
 import PopupNotiLogin from 'components/Products/PopupNotiLogin';
-import { useNavigate } from 'react-router-dom';
+import ProductItem from 'components/Products/ProductItem';
+import { useAddToCart } from 'hooks/useAddToCart';
+import { useAuthContext } from 'hooks/useAuthContext';
+import { IoMdArrowDropdown } from 'react-icons/io';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { Col, Container, Image, Row } from 'react-bootstrap';
+import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from 'react-icons/bi';
+import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { GiRabbitHead } from 'react-icons/gi';
+import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
+import { IoHeartSharp } from 'react-icons/io5';
+import { MdOutlineAddShoppingCart } from 'react-icons/md';
+import { TbHeartPlus } from 'react-icons/tb';
+import { useNavigate, useParams } from 'react-router-dom';
+import '../../style/pages/ProductDetail/ProductDetail.scss';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import ButtonIcon from 'components/Common/ButtonIcon';
 ProductDetail.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -55,6 +50,69 @@ function ProductDetail(props) {
   const [data, setData] = useState([]);
   const { addToCart } = useAddToCart(); // HAN
   const [filteredData, setFilteredData] = useState([]);
+  const { getCartQuantity } = useAuthContext();
+  const [hotProducts, setHotProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/products/hot');
+        setHotProducts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchProducts();
+  }, []);
+  const CustomPrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div className="custom-prev-arrow" onClick={onClick}>
+        <ButtonIcon label={<FaChevronLeft />} labelColor="#785b5b" borderRadius="100%" />
+      </div>
+    );
+  };
+
+  const CustomNextArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div className="custom-next-arrow" onClick={onClick}>
+        <ButtonIcon label={<FaChevronRight />} labelColor="#785b5b" borderRadius="100%" />
+      </div>
+    );
+  };
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5, // Số lượng sản phẩm hiển thị trên mỗi slide
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 1000, // Tốc độ chạy của slider
+    pauseOnHover: true,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -190,7 +248,6 @@ function ProductDetail(props) {
   const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
-
   //heart plus
   const [isFilled, setIsFilled] = useState(false);
   useEffect(() => {
@@ -244,7 +301,10 @@ function ProductDetail(props) {
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setQuantity((prevQuantity) => {
+      const newQuantity = prevQuantity + 1;
+      return newQuantity <= parseInt(product?.prod_num_avai) ? newQuantity : prevQuantity;
+    });
   };
 
   const handleDecrement = () => {
@@ -336,7 +396,7 @@ function ProductDetail(props) {
   const toggleLike = async () => {
     if (!localStorage.getItem('user')) {
       console.log('Bạn cần đăng nhập');
-      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích!");
+      setContent('Bạn cần đăng nhập để thực hiện thêm sản phẩm yêu thích!');
       setShowPopupNotiLogin(true);
     } else {
       try {
@@ -364,11 +424,14 @@ function ProductDetail(props) {
   };
   const handleAddToCart = () => {
     if (!localStorage.getItem('user')) {
-      console.log("Bạn cần đăng nhập");
-      setContent("Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!");
+      console.log('Bạn cần đăng nhập');
+      setContent('Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!');
       setShowPopupNotiLogin(true);
     } else {
-      addToCart(props.productItem, quantity);
+      addToCart(product, quantity);
+      setTimeout(() => {
+        getCartQuantity();
+      }, 1000);
       setModalShow(true);
       setTimeout(() => {
         setModalShow(false); // Ẩn popup sau 5 giây
@@ -379,20 +442,51 @@ function ProductDetail(props) {
   const addToCartAndRedirect = () => {
     if (!localStorage.getItem('user')) {
       console.log('Bạn cần đăng nhập');
-      setContent("Bạn cần đăng nhập để thực hiện mua ngay!");
+      setContent('Bạn cần đăng nhập để thực hiện mua ngay!');
       setShowPopupNotiLogin(true);
     } else {
       (async () => {
         try {
           await addToCart(product, 1);
           console.log('Sản phẩm đã được thêm vào giỏ hàng');
-          navigate("/cart");
+          navigate('/cart');
+          getCartQuantity();
         } catch (error) {
           console.error('Lỗi khi thêm vào giỏ hàng:', error);
         }
       })();
     }
   };
+
+  const handleChange = (event) => {
+    let value = parseInt(event.target.value);
+    console.log(value);
+    if (value > parseInt(product?.prod_num_avai)) {
+      value = parseInt(product?.prod_num_avai);
+    } else if (value < 0) {
+      value = 1;
+    }
+    setQuantity(value);
+  };
+
+  const handleBlur = () => {
+    if (quantity === 0 || isNaN(quantity)) {
+      setQuantity(1);
+    }
+  };
+
+  const formatPrice = (price) => {
+    const priceNumber = parseFloat(price);
+    let formattedPrice = priceNumber.toLocaleString('vi-VN', { maximumFractionDigits: 0 });
+    return formattedPrice.trim();
+  };
+
+  const currentPrice = formatPrice(
+    product?.prod_cost.$numberDecimal -
+      product?.prod_cost.$numberDecimal * product?.prod_discount.$numberDecimal,
+  );
+  const discount = product?.prod_discount.$numberDecimal * 100;
+  const BeforDiscountPrice = formatPrice(product?.prod_cost.$numberDecimal);
   return (
     <div className="productDetail">
       {/* <Button
@@ -471,18 +565,9 @@ function ProductDetail(props) {
                   <span>{product?.prod_num_sold} đã bán</span>
                 </div>
                 <div className="product__name__detail__price">
-                  <span className="product__name__detail__price_first">
-                    {product?.prod_cost.$numberDecimal} đ
-                  </span>
-                  <span className="product__name__detail__price_second">
-                    {product?.prod_cost.$numberDecimal -
-                      product?.prod_cost.$numberDecimal *
-                        product?.prod_discount.$numberDecimal}{' '}
-                    đ
-                  </span>
-                  <span className="product__name__detail__price_third">
-                    {product?.prod_discount.$numberDecimal * 100} %
-                  </span>
+                  <span className="product__name__detail__price_first">{BeforDiscountPrice} đ</span>
+                  <span className="product__name__detail__price_second">{currentPrice} đ</span>
+                  <span className="product__name__detail__price_third">Giảm {discount} %</span>
                 </div>
               </div>
               <div className="description__product__detail">
@@ -520,14 +605,19 @@ function ProductDetail(props) {
                     -
                   </div>
                   <input
+                    id="input__increment__decrement"
                     type="number"
                     min="1"
-                    max="100"
+                    max={product?.prod_num_avai}
                     step="1"
-                    value={quantity}
                     className="my-input"
-                    disabled
-                  ></input>
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={quantity.toLocaleString('en-US', {
+                      minimumIntegerDigits: 1,
+                      useGrouping: false,
+                    })}
+                  />
                   <div class="quantity__product-increment outline-text" onClick={handleIncrement}>
                     +
                   </div>
@@ -546,7 +636,12 @@ function ProductDetail(props) {
                   Thêm vào giỏ hàng
                 </button>
                 <NotiAddCartSuccessPopup show={modalShow} onHide={() => setModalShow(false)} />
-                <div className="btn_round_8px btn_clickable_boldcolor buynow" onClick={addToCartAndRedirect}>Mua ngay</div>
+                <div
+                  className="btn_round_8px btn_clickable_boldcolor buynow"
+                  onClick={addToCartAndRedirect}
+                >
+                  Mua ngay
+                </div>
               </div>
             </div>
           </Col>
@@ -591,32 +686,38 @@ function ProductDetail(props) {
             <div className="product__rating__star__filter">
               <div className="product__rating__star__filter__rank">
                 <span>Xếp hạng</span>
-                <select
-                  className="btn_round_8px btn__filter__rank"
-                  value={selectedOption}
-                  onChange={(e) => handleOptionChange(e.target.value)}
-                >
-                  {options.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                <div className="custom-select">
+                  <select
+                    className="btn_round_8px btn__filter__rank "
+                    value={selectedOption}
+                    onChange={(e) => handleOptionChange(e.target.value)}
+                  >
+                    {options.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <IoMdArrowDropdown className="dropdown-icon" />
+                </div>
               </div>
 
               <div className="product__rating__star__filter__soft">
                 <span>Sắp xếp theo</span>
-                <select
-                  className="btn_round_8px btn__filter__soft"
-                  value={selectedOption1}
-                  onChange={(e) => handleOptionChangeSort(e.target.value)}
-                >
-                  {options1.map((option1, index) => (
-                    <option key={index} value={option1}>
-                      {option1}
-                    </option>
-                  ))}
-                </select>
+                <div className="custom-select">
+                  <select
+                    className="btn_round_8px btn__filter__soft"
+                    value={selectedOption1}
+                    onChange={(e) => handleOptionChangeSort(e.target.value)}
+                  >
+                    {options1.map((option1, index) => (
+                      <option key={index} value={option1}>
+                        {option1}
+                      </option>
+                    ))}
+                  </select>
+                  <IoMdArrowDropdown className="dropdown-icon" />
+                </div>
               </div>
             </div>
           </div>
@@ -788,11 +889,18 @@ function ProductDetail(props) {
         <Row className="product__suggestion container">
           <span className="product__suggestion__title">CÁC SẢN PHẨM ĐỀ XUẤT</span>
           <div className="product__suggestion__items">
-            {filteredData.slice(5, 9).map((product) => (
+            {/* {filteredData.slice(5, 9).map((product) => (
               <Col key={product._id} xxl={3}>
                 <ProductItem product={product} />
               </Col>
-            ))}
+            ))} */}
+            <Slider {...settings}>
+              {hotProducts.map((product) => (
+                <div key={product._id} className="product__list__hot">
+                  <ProductItem product={product} />
+                </div>
+              ))}
+            </Slider>
           </div>
         </Row>
       </Container>

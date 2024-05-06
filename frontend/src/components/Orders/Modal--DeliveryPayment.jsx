@@ -21,7 +21,7 @@ function ModalDeliveryPayment(props) {
   const [bankCards, setBankCards] = useState([]);
   const [notBankCard, setNotBankCard] = useState(false);
   const [selectedOption, setSelectedOption] = useState(0);
-  const [selectedItem, setSelectedItem] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
   const idBankCard = props.idBankCard;
   useEffect(() => {
     axios
@@ -148,7 +148,6 @@ function ModalDeliveryPayment(props) {
   const handleDeletedBankCard = (id) => {
     setSelectedBankCardId(id);
     setIsOpenDelete(true);
-    // if(selectedItem._id === id) {setSelectedOption(0)
   };
 
   const handleClick = (item, index) => {

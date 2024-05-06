@@ -209,7 +209,7 @@ function Products() {
   return (
 
     showMenu ? (
-      <Container className="product" fluid>
+      <Container className="product" fluid id="product">
         <ProductFilter applyFilter={applyFilter} />
         <Row className="product__content">
           <Col xxl={3} xl={3} lg={3} md={4} sm={4} className="product__category">
@@ -225,7 +225,7 @@ function Products() {
                   lg={filteredData.length <= 2 ? 6 : 4}
                   md={6}
                   sm={6}
-                  className={`${filteredData.length <= 4 ? 'small-product' : ''}`}
+                  className={`product__item__small ${filteredData.length <= 4 ? 'small-product' : ''}`}
                 >
                   <ProductItem product={product} />
                 </Col>
@@ -240,7 +240,7 @@ function Products() {
         </Row>
       </Container >
     ) : (
-      <Container className="product result__search" fluid>
+      <Container className="product result__search" fluid id="product__search">
         {searchResults === 0 ? (
           <h4>Không tìm thấy sản phẩm bạn cần, hãy thử lại với từ khóa khác!</h4>
         ) : (<>

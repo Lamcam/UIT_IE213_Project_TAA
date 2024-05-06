@@ -1,7 +1,9 @@
 header{
     // margin: 0px 100px;
     padding: 0px 80px;
+    margin-bottom:  15px;
     z-index: 1000;
+
     .headerOffcanvas{
         width: 48px;
         height: 48px;
@@ -24,6 +26,8 @@ header{
 }
 
 header.visible{
+    position: sticky;
+    top:0;
     border-radius: 0.3rem;
 }
 
