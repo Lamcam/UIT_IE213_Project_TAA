@@ -40,7 +40,7 @@ function ProductItem({ product, onFavoriteChange }) {
   const [isLiked, setIsLiked] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
-  const[content, setContent]=useState('');
+  const [content, setContent] = useState('');
   const { addToCart } = useAddToCart();
   const addToCartAndRedirect = () => {
     if (!localStorage.getItem('user')) {
@@ -54,13 +54,16 @@ function ProductItem({ product, onFavoriteChange }) {
           console.log('Sản phẩm đã được thêm vào giỏ hàng');
           navigate("/cart");
           getCartQuantity();
+          goToNextPageTop()
         } catch (error) {
           console.error('Lỗi khi thêm vào giỏ hàng:', error);
         }
       })();
     }
   };
-
+  const goToNextPageTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const fetchUserFavorites = async () => {

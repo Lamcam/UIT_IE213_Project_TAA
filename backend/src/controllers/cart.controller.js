@@ -109,14 +109,12 @@ const getCartByUserId = async (req, res) => {
     }
     const cartList = await Cart.find({ user_id: user_id });
 
-    // console.log("aa", cartList);
     if (cartList.length > 0) {
       const promises = Promise.all(
         cartList.map(async (item) => {
           const product = await Products.find({
             _id: { $in: item.prod_id },
           });
-          console.log("cccc", product);
           return {
             product: product,
             ...item,
@@ -124,7 +122,6 @@ const getCartByUserId = async (req, res) => {
         })
       );
       const cartItems = await promises;
-      // console.log("cartItems", cartItems[0]._doc.quantity);
       return res.status(200).json(cartItems);
     }
 
