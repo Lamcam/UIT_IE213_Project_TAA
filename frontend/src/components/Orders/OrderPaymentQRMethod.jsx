@@ -41,7 +41,7 @@ function OrderPaymentQRMethod(props) {
                     {selectedOption === 2 ? <MdOutlineRadioButtonChecked className="icon__radio" /> : <MdOutlineRadioButtonUnchecked className="icon__radio" />}
                 </div>
                 <img src={ATM} alt="" style={{width:"40px", height:"auto"}}/>
-                <span>Thẻ ATM nội địa</span>
+                <span>Thẻ nội địa</span>
 
             </div>
             <div className="delivery__method__two body-large" onClick={() => handleClick(3)}>
@@ -49,7 +49,7 @@ function OrderPaymentQRMethod(props) {
                     {selectedOption === 3 ? <MdOutlineRadioButtonChecked className="icon__radio" /> : <MdOutlineRadioButtonUnchecked className="icon__radio" />}
                 </div>
                 <img src={Visa} alt="" style={{width:"40px", height:"auto"}}/>
-                <span>Thẻ Visa/Master/JCB</span>
+                <span>Thẻ quốc tế</span>
 
             </div>
         </div>

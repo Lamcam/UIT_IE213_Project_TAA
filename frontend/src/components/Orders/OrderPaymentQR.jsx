@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Bs1CircleFill, Bs2CircleFill, Bs3CircleFill } from 'react-icons/bs';
 import { LuScanLine } from 'react-icons/lu';
 import 'style/components/Orders/OrderPaymentQR.scss';
+import QR from 'assets/image/order/QR.svg'
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -38,7 +39,7 @@ function OrderPaymentQR(props) {
     return () => clearInterval(timer);
   }, [navigate, props]);
 
-    const [select, setSelect] = useState(null);
+    const [select, setSelect] = useState('MoMo');
     const [qr, setQr]=useState(null)
 
   useEffect(() => {
@@ -48,7 +49,7 @@ function OrderPaymentQR(props) {
             setQr(null)
         break;
       case 1:
-            setSelect('Momo');
+            setSelect('MoMo');
             setQr(null)
         break;
       case 2:
@@ -70,8 +71,8 @@ function OrderPaymentQR(props) {
         <span className="title-medium">
           Thời gian thanh toán còn lại: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
         </span>
-        <div>
-          <img src="" alt="" style={{ width: '320px', height: '320px' }} />
+        <div className='qr-img'>
+          <img src={QR} alt="QR thanh toán"/>
         </div>
         <div className="payment-guide">
           <div className="payment-guide-title title-large">Hướng dẫn thanh toán bằng {select}</div>

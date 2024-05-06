@@ -41,17 +41,22 @@ console.log(userID);
           console.log('no userId');
           const cartData = JSON.parse(localStorage.getItem('cartNouser'));
           console.log(cartData)
-          const data = cartData.map((item) => {
-            // const productObject = item.product.length > 0 ? item.product[0] : [];
-            // console.log(productObject)
-            return {
-              ...item,
-              product: createItem(item),
-              _doc: {quantity: item.quantity, _id: item._id}
-            };
-          })
-          setCartItems(data);
-          return;
+          if (!cartData||cartData.length===0)
+            setNotProduct(true)
+          else {
+            setNotProduct(false)
+            const data = cartData.map((item) => {
+              // const productObject = item.product.length > 0 ? item.product[0] : [];
+              // console.log(productObject)
+              return {
+                ...item,
+                product: createItem(item),
+                _doc: { quantity: item.quantity, _id: item._id }
+              };
+            })
+            setCartItems(data);
+            return;
+          }
         }
 
         const res = await axios.post('http://localhost:8000/cart/get', {

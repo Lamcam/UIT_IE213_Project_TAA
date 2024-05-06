@@ -26,12 +26,12 @@ function OrderPayment() {
 
   return (
     <Container fluid>
-      <Row>
-        <Col xs={6} md={3} style={{ padding: '0 12px 0 0' }}>
+      <Row className='order-payment'>
+        <Col xs={12} md={3} className="order-payment-QR-method">
           <OrderPaymentQRMethod
             onPaymentChange={handleOnPaymentChange } />
         </Col>
-        <Col xs={6} md={5} style={{ padding: '0' }}>
+        <Col xs={12} md={5} className="order-payment-QR">
           <OrderPaymentQR
             orderItems={orderItems}
             temporary={temporary}
@@ -40,10 +40,9 @@ function OrderPayment() {
             paymentSelected={paymentSelected}
           />
         </Col>
-        <Col
-          xs={6}
+        <Col className='order-payment-bill'
+          xs={12}
           md={4}
-          style={{ display: 'flex', gap: '12px', flexDirection: 'column', paddingLeft: '22px' }}
         >
           <OrderPaymentBill
             orderItems={orderItems}
