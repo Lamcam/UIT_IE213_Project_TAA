@@ -75,7 +75,9 @@ function ProductItem({ product, onFavoriteChange }) {
       },
     });
   };
-
+  const goToNextPageTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const fetchUserFavorites = async () => {
