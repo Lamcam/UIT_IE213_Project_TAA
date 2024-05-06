@@ -72,7 +72,18 @@ function OrderBill(props) {
   const handelSubmit = async() => {
     if (disabled === false) {
       if (props.paymentMethodSelected === 1) { 
-        navigate('/')
+        navigate('/order/payment', {
+          state: {
+            data: props.orderItems,
+            dataAddress: props.selectedAddressInfo,
+            dataDeliveryMethod: props.deliveryMethodSelected,
+            temporary: props.temporaryAmount,
+            discount: props.discountAmount,
+            deliveryFee: props.deliveryFee,
+            last: props.totalOrderAmount + props.deliveryFee
+          },
+        });
+  
         // await 
       }
         axios
@@ -83,7 +94,8 @@ function OrderBill(props) {
           .then((response) => {
             console.log(response.data);
             setShowSuccess(true);
-            props.orderItems.map((item)=>removeFromCartNoLogin(item._id))
+            if (!props.id)
+              props.orderItems.map((item) => removeFromCartNoLogin(item._id))
             getCartQuantity();
           })
           .catch((error) => {
