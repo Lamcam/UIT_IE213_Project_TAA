@@ -10,10 +10,9 @@ import HeaderOffcanvas from 'components/HeaderComponents/Offcanvas';
 // import { useAddToCart } from 'hooks/useAddToCart';
 
 function Header() {
-  const Auth = localStorage.getItem('user');
 // const {cartQuantity, setCartQuantity} = useAddToCart()
   function checkAuth() {
-    if (Auth) {
+    if (localStorage.getItem('user')) {
       return <AuthPart />;
     }
     return <UnAuthPart />;
@@ -21,7 +20,7 @@ function Header() {
 
   useEffect(() => {
     checkAuth();
-  }, [Auth]);
+  }, []);
 
   return (
     <header className="visible un-radius">

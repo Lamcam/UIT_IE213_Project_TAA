@@ -2,18 +2,14 @@ import { useAuthContext } from "./useAuthContext";
 
 export const useLogout = () => { 
     const { dispatch } = useAuthContext();
-    
     const logout = () => {
-        
         dispatch({ type: "LOGOUT" });
-        
-        // setTimeout(() => {
-            
-        // }, 50);
+        setTimeout(() => {
+            localStorage.removeItem("user");
+        }, 20);
+
         window.location.href = "/";
-        localStorage.removeItem("user");
-        
-        
+
     }
 
     return { logout };
