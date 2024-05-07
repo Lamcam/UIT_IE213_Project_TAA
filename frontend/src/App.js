@@ -2,11 +2,11 @@ import Cart from 'pages/Cart/Cart';
 import ScrollButton from 'components/Common/ScrollButton';
 import {
   Route,
+  Router,
+  Routes,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
-  useLocation,
-  useParams,
 } from 'react-router-dom';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Error404 from './pages/Error404';
@@ -25,9 +25,10 @@ import Account from './pages/Account/index';
 import { Fragment } from 'react';
 const router = createBrowserRouter(
   createRoutesFromElements(
+    
     <Route path="/" element={<RootLayout></RootLayout>} errorElement={<Error404 />}>
       <Route index element={<Home />} />
-      <Route path="products" element={<Products />} /> */}
+      <Route path="products" element={<Products />} /> 
       <Route path="products/category/:cate_type_name" element={<Products />} />
       <Route path="products/category/:cate_type_name/:cate_name" element={<Products />} />
       <Route path="products/:productId" element={<ProductDetail />} />
@@ -51,9 +52,11 @@ const router = createBrowserRouter(
       <Route path="/account/:nav" element={<Account />} />
       <Route path="/account/:nav/:subnav" element={<Account />} />
     </Route>,
-    
+
   ),
 );
+
+
 
 function App() {
   return (

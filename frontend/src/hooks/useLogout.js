@@ -6,10 +6,12 @@ export const useLogout = () => {
     const logout = () => {
         
         dispatch({ type: "LOGOUT" });
+        
+        // setTimeout(() => {
+            
+        // }, 50);
         window.location.href = "/";
-        setTimeout(() => {
-            localStorage.removeItem("user");
-        }, 50);
+        localStorage.removeItem("user");
         
         
     }
