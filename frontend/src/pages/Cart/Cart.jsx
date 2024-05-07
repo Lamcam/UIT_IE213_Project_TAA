@@ -8,6 +8,7 @@ import { useAsyncValue } from 'react-router-dom';
 import axios from 'axios';
 import notFound from 'assets/image/account/no-data.jpg';
 import { useAuthContext } from 'hooks/useAuthContext';
+import { MdProductionQuantityLimits } from 'react-icons/md';
 
 function Cart(props) {
   const { getCartQuantity } = useAuthContext();
@@ -28,15 +29,35 @@ function Cart(props) {
     setCheckedItemsInfo(checkedItemsInfo);
   };
   console.log(checkedItemsInfo);
+  const userID = (localStorage.getItem('user'))
+  ? JSON.parse(localStorage.getItem('user'))[0]._id
+  : null;
 
+console.log(userID);
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const userID = (await localStorage.getItem('user'))
-          ? JSON.parse(localStorage.getItem('user'))[0]._id
-          : null;
-
-        console.log(userID);
+        if (!userID) {
+          console.log('no userId');
+          const cartData = JSON.parse(localStorage.getItem('cartNouser'));
+          console.log(cartData)
+          if (!cartData||cartData.length===0)
+            setNotProduct(true)
+          else {
+            setNotProduct(false)
+            const data = cartData.map((item) => {
+              // const productObject = item.product.length > 0 ? item.product[0] : [];
+              // console.log(productObject)
+              return {
+                ...item,
+                product: createItem(item),
+                _doc: { quantity: item.quantity, _id: item._id }
+              };
+            })
+            setCartItems(data);
+            return;
+          }
+        }
 
         const res = await axios.post('http://localhost:8000/cart/get', {
           user_id: userID,
@@ -81,12 +102,12 @@ function Cart(props) {
       moneyBeforeDiscount: item.prod_cost.$numberDecimal,
     };
   };
-
   const handleDeleteCartItem = async (updatedCartItems) => {
     // Cập nhật danh sách cartItems sau khi xóa sản phẩm
     if (updatedCartItems.length === 0) {
       setNotProduct(true);
     }
+    else
     setCartItems(updatedCartItems);
     getCartQuantity();
   };
@@ -110,12 +131,13 @@ function Cart(props) {
           <React.Fragment>
             <Col xl={9} lg={9} md={12} className="cart__content__item">
               {/* Truyền danh sách các mục vào CartItem */}
-              <CartItem
+                <CartItem
+                  userID={userID}
                 cartItems={cartItems1}
                 setMoneyAll={setTemporaryAmount}
                 onCheckedItemsChange={handleCheckedItemsChange}
                 onDeleteCartItem={handleDeleteCartItem}
-              // notProduct={notProduct}
+                // notProduct={notProduct}
               />
             </Col>
             <Col xl={3} lg={3} md={12} className="cart__content__bill">

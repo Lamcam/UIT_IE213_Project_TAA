@@ -78,6 +78,7 @@ function AuthPart() {
       return userName[0].user_name;
     } else {
       console.log('No Name found');
+      
       return 'No Name found';
     }
   }

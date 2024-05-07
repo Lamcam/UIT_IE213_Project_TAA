@@ -20,10 +20,16 @@ function Order(props) {
   console.log(location.state.data);
   const [deliveryInformation, setDeliveryInformation] = useState(null);
   const [deliveryPayment, setDeliveryPayment] = useState(null);
-  const defaultUser = JSON.parse(localStorage.getItem('user'));
-  const defaultUserData = defaultUser[0];
-  const id = defaultUserData._id;
+  const defaultUser = JSON.parse(localStorage.getItem('user'))?JSON.parse(localStorage.getItem('user')):null;
+  const defaultUserData = defaultUser?defaultUser[0]:null;
+  const id = defaultUserData?defaultUserData._id:null;
   useEffect(() => {
+    if (!defaultUser)
+    {
+      JSON.parse(localStorage.getItem('addressNouser'))?setDeliveryInformation(JSON.parse(localStorage.getItem('addressNouser'))):setDeliveryInformation(null)
+      return
+      }
+
     axios
       .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
       .then((response) => {

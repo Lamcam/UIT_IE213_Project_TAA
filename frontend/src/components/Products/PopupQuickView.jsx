@@ -41,27 +41,27 @@ function PopupQuickView(props) {
   const defaultImage = productImages?.length > 0 ? productImages[0] : '';
   const [selectedImage, setSelectedImage] = useState(defaultImage);
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useAddToCart();
+  const { addToCart, addToCartNoLogin } = useAddToCart();
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
   const content = "Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!"
 
   const handleAddToCart = () => {
     if (!localStorage.getItem('user')) {
-      console.log("Bạn cần đăng nhập");
-      setShowPopupNotiLogin(true);
+      // console.log("Bạn cần đăng nhập");
+      // setShowPopupNotiLogin(true);
+      addToCartNoLogin(props.productItem, quantity)
+      setShowSuccessPopup(true);
     } else {
       addToCart(props.productItem, quantity);
       setShowSuccessPopup(true);
-
-
-      setTimeout(() => {
-        getCartQuantity();
-      }, 1000)
-      setTimeout(() => {
-        setShowSuccessPopup(false); // Ẩn popup sau 5 giây
-      }, 3000);
     }
+    setTimeout(() => {
+      getCartQuantity();
+    }, 1000)
+    setTimeout(() => {
+      setShowSuccessPopup(false); // Ẩn popup sau 5 giây
+    }, 3000);
   };
   const selectImage = (image) => {
     setSelectedImage(image);

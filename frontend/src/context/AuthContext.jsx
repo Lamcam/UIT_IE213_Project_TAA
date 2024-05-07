@@ -23,6 +23,10 @@ export const AuthContextProvider = ({ children }) => {
     // console.log('AuthContext: ', state);
     const getCartQuantity = async () => {
         const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            setCartQuantity(JSON.parse(localStorage.getItem('cartNouser')) ? JSON.parse(localStorage.getItem('cartNouser')).length : 0)
+            return;
+        }
         const id = user[0]._id;
         console.log('user_id', id);
         const res = await axios.post('http://localhost:8000/cart/getQuantity', {

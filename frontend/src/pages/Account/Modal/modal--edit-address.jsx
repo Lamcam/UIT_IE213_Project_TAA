@@ -59,7 +59,12 @@ function EditAddress(props) {
       setErrorPhone('Số điện thoại không hợp lệ!');
       return; // Không gửi form nếu số điện thoại không hợp lệ
     }
-
+    if (!props.data._id) {
+      localStorage.setItem('addressNouser', JSON.stringify(editAddress))
+      props.onHide();
+      props.onSuccess()
+      return
+}
     axios
       .put(`http://localhost:8000/api/account/edit-address/${props.data._id}`, editAddress)
       .then((response) => {
