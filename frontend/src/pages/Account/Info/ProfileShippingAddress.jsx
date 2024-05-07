@@ -13,12 +13,18 @@ import notFound from '../../../assets/image/account/no-data.jpg';
 import AddSuccess from '../Modal/modal--add-success';
 
 function ProfileShippingAddress() {
-  const defaultUser = JSON.parse(localStorage.getItem('user'));
-  const defaultUserData = defaultUser[0]
-  const id = defaultUserData._id;
+  const defaultUser = JSON.parse(localStorage.getItem('user'))?JSON.parse(localStorage.getItem('user')):null;
+  const defaultUserData = defaultUser?defaultUser[0]:null
+  const id = defaultUserData?defaultUserData._id:null;
   const [addresses, setAddresses] = useState([]);
   const [notAddresses, setNotAddress] = useState(false);
   useEffect(() => {
+    if (!defaultUser)
+    {
+      JSON.parse(localStorage.getItem('addressNouser')) && setNotAddress(true)
+      setAddresses(JSON.parse(localStorage.getItem('addressNouser')))
+      return
+      }
     axios
       .get(`http://localhost:8000/api/account/shipping-addresses/${id}`)
       .then((response) => {

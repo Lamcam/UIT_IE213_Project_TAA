@@ -48,7 +48,7 @@ ProductDetail.propTypes = {
 function ProductDetail(props) {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const { addToCart } = useAddToCart(); // HAN
+  const { addToCart, addToCartNoLogin } = useAddToCart(); // HAN
   const [filteredData, setFilteredData] = useState([]);
   const { getCartQuantity } = useAuthContext();
   const [hotProducts, setHotProducts] = useState([]);
@@ -264,7 +264,8 @@ function ProductDetail(props) {
     const fetchFavorites = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (user) {
+        if (!user)
+          return
           const userId = user[0]._id;
           const favoritesResponse = await axios.get(
             `http://localhost:8000/api/account/favors/${userId}`,
@@ -274,7 +275,6 @@ function ProductDetail(props) {
             (favoriteProduct) => favoriteProduct._id === productId,
           );
           setIsFilled(isFavorite);
-        }
       } catch (error) {
         console.error('Error fetching favorites:', error);
       }
@@ -422,40 +422,83 @@ function ProductDetail(props) {
       }
     }
   };
-  const handleAddToCart = () => {
-    if (!localStorage.getItem('user')) {
-      console.log('Bạn cần đăng nhập');
-      setContent('Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!');
-      setShowPopupNotiLogin(true);
-    } else {
-      addToCart(product, quantity);
+  // const handleAddToCart = () => {
+  //   if (!localStorage.getItem('user')) {
+  //     console.log('Bạn cần đăng nhập');
+  //     setContent('Bạn cần đăng nhập để thực hiện thêm sản phẩm vào giỏ hàng!');
+  //     setShowPopupNotiLogin(true);
+  //   } else {
+  //     addToCart(product, quantity);
+  //   //     if (!localStorage.getItem('user')) {
+  //   //   // console.log("Bạn cần đăng nhập");
+  //   //   // setShowPopupNotiLogin(true);
+  //   //   addToCartNoLogin(props.productItem, quantity)
+  //   //   setShowSuccessPopup(true);
+  //   // } else {
+  //   //   addToCart(props.productItem, quantity);
+  //   //   setShowSuccessPopup(true);
+  //   // }
+
+  //     setTimeout(() => {
+  //       getCartQuantity();
+  //     }, 1000);
+  //     setModalShow(true);
+  //     setTimeout(() => {
+  //       setModalShow(false); // Ẩn popup sau 5 giây
+  //     }, 3000);
+  //   }
+  // };
+
+    const handleAddToCart = () => {
+      if (!localStorage.getItem('user')) {
+        // console.log("Bạn cần đăng nhập");
+        // setShowPopupNotiLogin(true);
+        addToCartNoLogin(product, quantity)
+        setModalShow(true);
+      } else {
+        addToCart(product, quantity);
+        setModalShow(true);
+      }
       setTimeout(() => {
         getCartQuantity();
-      }, 1000);
-      setModalShow(true);
+      }, 1000)
       setTimeout(() => {
         setModalShow(false); // Ẩn popup sau 5 giây
       }, 3000);
-    }
-  };
+    };
   // const contentBuyNow = "Bạn cần đăng nhập để thực hiện mua ngay!";
   const addToCartAndRedirect = () => {
-    if (!localStorage.getItem('user')) {
-      console.log('Bạn cần đăng nhập');
-      setContent('Bạn cần đăng nhập để thực hiện mua ngay!');
-      setShowPopupNotiLogin(true);
-    } else {
-      (async () => {
-        try {
-          await addToCart(product, 1);
-          console.log('Sản phẩm đã được thêm vào giỏ hàng');
-          navigate('/cart');
-          getCartQuantity();
-        } catch (error) {
-          console.error('Lỗi khi thêm vào giỏ hàng:', error);
-        }
-      })();
-    }
+    // if (!localStorage.getItem('user')) {
+    //   console.log('Bạn cần đăng nhập');
+    //   setContent('Bạn cần đăng nhập để thực hiện mua ngay!');
+    //   setShowPopupNotiLogin(true);
+    // } else {
+    //   (async () => {
+    //     try {
+    //       await addToCart(product, 1);
+    //       console.log('Sản phẩm đã được thêm vào giỏ hàng');
+    //       navigate('/cart');
+    //       getCartQuantity();
+    //     } catch (error) {
+    //       console.error('Lỗi khi thêm vào giỏ hàng:', error);
+    //     }
+    //   })();
+    // }
+    const newData = {
+      ...product,
+      moneyCurrent: product.prod_cost.$numberDecimal * (1 - product.prod_discount.$numberDecimal),
+      imageUrl: product.prod_img[0],
+      productName: product.prod_name,
+      number: 1
+    };
+    navigate('/order', {
+      state: {
+        data: [newData],
+        temporary: product.prod_cost.$numberDecimal * (1 - product.prod_discount.$numberDecimal),
+        total: (product.prod_cost.$numberDecimal * (1 - product.prod_discount.$numberDecimal)) - 5000,
+        discount: 5000,
+      },
+    });
   };
 
   const handleChange = (event) => {

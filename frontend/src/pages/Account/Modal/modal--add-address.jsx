@@ -51,6 +51,12 @@ function AddAddress(props) {
       setErrorPhone('Số điện thoại không hợp lệ!');
       return; // Không gửi form nếu số điện thoại không hợp lệ
     }
+    if (!props.id) {
+      localStorage.setItem('addressNouser', JSON.stringify(newShippingAddress))
+      props.onHide();
+      props.onSuccess()
+      return
+    }
     axios
       .post(`http://localhost:8000/api/account/add-address/${props.id}`, newShippingAddress)
       .then((response) => {

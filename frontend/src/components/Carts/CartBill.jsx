@@ -12,6 +12,7 @@ function CartBill(props) {
   const { temporaryAmount, discountAmount, totalAmount } = props;
   const [disabled, setDisabled] = useState(true);
   useEffect(() => {
+    console.log(props.checkedItemsInfo)
     if (props.checkedItemsInfo.length !== 0) setDisabled(false);
     else setDisabled(true);
   }, [props.checkedItemsInfo]);

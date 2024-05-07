@@ -23,15 +23,22 @@ function DeliveryInformation(props) {
     // const hiddenPhoneNumber = props.deliveryInformation.loca_pers_phone.replace(/.(?=.{3})/g, "*");
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [isOpenAdd, setIsOpenAdd] = useState(false);
-    const defaultUser = JSON.parse(localStorage.getItem('user'));
-    const defaultUserData = defaultUser[0]
-    const id = defaultUserData._id;
+    const defaultUser = JSON.parse(localStorage.getItem('user'))?JSON.parse(localStorage.getItem('user')):null;
+    const defaultUserData = defaultUser?defaultUser[0]:null
+    const id = defaultUserData?defaultUserData._id:null;
     const [isModalDeliveryAddress, setIsModalDeliveryAddress] = useState(false);
     const [selectedItems, setSelectedItems] = useState(null);
+    const [isUser, setIsUser] = useState(true)
 
     console.log('selectitemss', selectedItems)
     console.log(props.deliveryInformation)
     useEffect(() => {
+        if (!defaultUser)
+        {
+            setIsUser(false)
+            JSON.parse(localStorage.getItem('addressNouser'))?setSelectedItems(JSON.parse(localStorage.getItem('addressNouser'))):setSelectedItems(null)
+            return
+            }
         axios
             .get(`http://localhost:8000/api/account/shipping-addresses/${props.id}`)
             .then((response) => {
@@ -49,6 +56,13 @@ function DeliveryInformation(props) {
     };
 
     const onSuccessAddAddress = () => {
+        if (!props.id)
+        {
+            props.updateDeliveryInformation(JSON.parse(localStorage.getItem('addressNouser')))
+            setSelectedItems(JSON.parse(localStorage.getItem('addressNouser')))
+            return
+            }
+
         axios
             .get(`http://localhost:8000/api/account/shipping-addresses/${props.id}`)
             .then((response) => {
@@ -106,6 +120,13 @@ function DeliveryInformation(props) {
     useEffect(() => {
         props.selectedAddressInfo(selectedItems)
     }, [selectedItems])
+    const handleClickChangeButton = ()=>{
+        if (!props.id) {
+            setIsOpenEdit(true)
+            return
+        }
+        setIsModalDeliveryAddress(true)
+    }
     return (
         <div className="delivery__info">
             <div className="delivery__info__title title-large">1. Thông tin nhận hàng</div>
@@ -119,10 +140,8 @@ function DeliveryInformation(props) {
                         label="Thay đổi"
                         type="submit"
                         labelColor="#785B5B"
-                        onClick={() => setIsModalDeliveryAddress(true)
-
-                        }
-                    />
+                        onClick={handleClickChangeButton}
+                        />
                     {isModalDeliveryAddress && (
                         <ModalDeliveryAddress
                             show={isModalDeliveryAddress}
@@ -156,7 +175,6 @@ function DeliveryInformation(props) {
                                     onHide={() => setIsOpenAdd(false)}
                                     id={id}
                                     onSuccess={onSuccessAddAddress}
-
                                 />
 
                             )
@@ -197,10 +215,18 @@ function DeliveryInformation(props) {
                             label="Thay đổi"
                             type="submit"
                             labelColor="#785B5B"
-                            onClick={() => setIsModalDeliveryAddress(true)
-
-                            }
+                            onClick={handleClickChangeButton}
                         />
+                        {
+                            isOpenEdit && (
+                                <EditAddress
+                                    show={isOpenEdit}
+                                    onHide={() => setIsOpenEdit(false)}
+                                    onSuccess={onSuccessAddAddress}
+                                    data={selectedItems}
+                                />
+                            )
+                        }
                         {isModalDeliveryAddress && (
                             <ModalDeliveryAddress
                                 show={isModalDeliveryAddress}

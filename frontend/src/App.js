@@ -23,6 +23,7 @@ import Register from 'pages/LoginRegister/Register';
 import Login from 'pages/LoginRegister/Login';
 import Account from './pages/Account/index';
 import { Fragment } from 'react';
+import OrderPayment from './pages/Order/OrderPayment';
 const router = createBrowserRouter(
   createRoutesFromElements(
     
@@ -41,6 +42,8 @@ const router = createBrowserRouter(
       <Route path="about_us" element={<AboutUs />} />
       <Route path="cart" element={<Cart />} />
       <Route path="order" element={<Order />} />
+      <Route path="order/payment" element={<OrderPayment />} />
+
       <Route path="guideline" element={<OrderManual />}>
         {' '}
       </Route>
