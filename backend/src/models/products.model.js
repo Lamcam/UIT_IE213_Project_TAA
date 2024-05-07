@@ -5,7 +5,7 @@ let Schema = mongoose.Schema;
 let ProductsSchema = new Schema({
     prod_name: { type: "string", required: true },
     prod_cost: { type: "decimal", required: true },
-    prod_img: { type: "string", required: true },
+    // prod_img: { type: "string", required: true },
     prod_img: {
         type: [String], // Đây là một mảng các chuỗi
         required: true,
