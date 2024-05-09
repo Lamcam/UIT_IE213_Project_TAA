@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import 'style/components/Orders/OrderBill.scss';
 import Button from 'components/Common/Button1';
 import { MdEdit } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import axios from 'axios';
@@ -32,7 +32,7 @@ OrderBill.propTypes = {
 
 function OrderBill(props) {
   const { getCartQuantity } = useAuthContext();
-  const { removeFromCartNoLogin } = useAddToCart()
+  const { removeFromCartNoLogin } = useAddToCart();
   console.log('phuong thuc giao hang', props.deliveryMethodSelected);
   console.log('phuong thuc thanh toan', props.paymentMethodSelected);
   console.log('thong tin thanh toan ngan hang', props.selectedPaymentInfo);
@@ -42,10 +42,13 @@ function OrderBill(props) {
   const [showSuccess, setShowSuccess] = useState(false);
   useEffect(() => {
     if (
-      props.deliveryMethodSelected !== null && props.paymentMethodSelected !== null &&
-      (props.selectedAddressInfo !== null && props.selectedAddressInfo !== undefined && props.selectedAddressInfo !== "Bạn chưa chọn địa chỉ giao hàng phù hợp")
-    )
-    {
+      props.deliveryMethodSelected !== null &&
+      props.selectedAddressInfo !== null &&
+      props.selectedAddressInfo !== undefined &&
+      props.selectedAddressInfo !== 'Bạn chưa chọn địa chỉ giao hàng phù hợp' &&
+      (props.paymentMethodSelected === 0 ||
+        (props.paymentMethodSelected === 1 && props.selectedPaymentInfo !== null))
+    ) {
       setDisabled(false);
     } else setDisabled(true);
   }, [
@@ -69,39 +72,88 @@ function OrderBill(props) {
     setShowAllItems(!showAllItems);
   };
 
-  const handelSubmit = async() => {
+  const handelSubmit = async () => {
     if (disabled === false) {
-      if (props.paymentMethodSelected === 1) { 
-        navigate('/order/payment', {
-          state: {
-            data: props.orderItems,
-            dataAddress: props.selectedAddressInfo,
-            dataDeliveryMethod: props.deliveryMethodSelected,
-            temporary: props.temporaryAmount,
-            discount: props.discountAmount,
-            deliveryFee: props.deliveryFee,
-            last: props.totalOrderAmount + props.deliveryFee
-          },
-        });
-  
-        // await 
-      }
-        axios
-          .post(`http://localhost:8000/api/account/order`, {
-            user_id: props.id, orderDetails: props.orderItems, order_total_cost: (props.totalOrderAmount + (props.deliveryFee)),
-            bank_id: props.selectedPaymentInfo?._id, pay_id_option: props.paymentMethodSelected, tran_id_option: props.deliveryMethodSelected, loca_id: props.selectedAddressInfo?._id
+      if (props.paymentMethodSelected === 1) {
+        // navigate('/order/payment', {
+        //   state: {
+        //     data: props.orderItems,
+        //     dataAddress: props.selectedAddressInfo,
+        //     dataDeliveryMethod: props.deliveryMethodSelected,
+        //     temporary: props.temporaryAmount,
+        //     discount: props.discountAmount,
+        //     deliveryFee: props.deliveryFee,
+        //     last: props.totalOrderAmount + props.deliveryFee
+        //   },
+        // });
+
+        // const result = await handleTransaction(totalPrice, orderId)
+        // router.push(result)
+        // return
+// Tạo một đối tượng chứa thông tin thanh toán
+const paymentInfo = {
+  user_id: props.id,
+  orderDetails: props.orderItems,
+  order_total_cost: props.totalOrderAmount + props.deliveryFee,
+  bank_id: props.selectedPaymentInfo?._id,
+  pay_id_option: props.paymentMethodSelected,
+  tran_id_option: props.deliveryMethodSelected,
+  loca_id: props.selectedAddressInfo?._id
+};
+
+// Chuyển đổi đối tượng thành chuỗi JSON
+const paymentInfoString = JSON.stringify(paymentInfo);
+
+// Lưu chuỗi JSON vào localStorage
+localStorage.setItem('tmpPayment', paymentInfoString);
+        await axios
+          .post(`http://localhost:8000/order/create_payment_url`, {
+            amount: props.totalOrderAmount + props.deliveryFee,
+            bankCode: 'VNPAY',
+            language: 'vn',
+            orderType: 'other',
+            orderDescription: 'Thanh toán đơn hàng',
+            // id: props.id,
+            // orderItems: props.orderItems,
+            // totalOrderAmount: props.totalOrderAmount,
+            // deliveryMethodSelected: props.deliveryMethodSelected,
+            // paymentMethodSelected: props.paymentMethodSelected,
+            // temporaryAmount: props.temporaryAmount,
+            // discountAmount: props.discountAmount,
+            // deliveryFee: props.deliveryFee,
+            // selectedPaymentInfo: props.selectedPaymentInfo,
+            // selectedAddressInfo: props.selectedAddressInfo,
           })
           .then((response) => {
             console.log(response.data);
-            setShowSuccess(true);
-            if (!props.id)
-              props.orderItems.map((item) => removeFromCartNoLogin(item._id))
-            getCartQuantity();
+            window.location.href = response.data;
           })
           .catch((error) => {
+            localStorage.removeItem('tmpPayment')
             console.error('Error:', error);
           });
-      
+        return;
+      }
+      axios
+        .post(`http://localhost:8000/api/account/order`, {
+          user_id: props.id,
+          orderDetails: props.orderItems,
+          order_total_cost: props.totalOrderAmount + props.deliveryFee,
+          bank_id: props.selectedPaymentInfo?._id,
+          pay_id_option: props.paymentMethodSelected,
+          tran_id_option: props.deliveryMethodSelected,
+          loca_id: props.selectedAddressInfo?._id,
+        })
+        .then((response) => {
+          console.log(response.data);
+          navigate('/order/payment', {state:{ status: 1} });
+          if (!props.id) props.orderItems.map((item) => removeFromCartNoLogin(item._id));
+          getCartQuantity();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          navigate('/order/payment', {state:{ status: 0} });
+        });
     } else console.log('b ch dat dc dau!');
   };
   return (
@@ -120,7 +172,19 @@ function OrderBill(props) {
                       onClick={handleModifyButtonClick}
             border="none"
           /> */}
-          <p className='body-large' style={{ color: "#9C4048", marginBottom: "0", paddingRight: "8px", fontSize: "18px", cursor: "pointer" }} onClick={handleModifyButtonClick}>Sửa</p>
+          <p
+            className="body-large"
+            style={{
+              color: '#9C4048',
+              marginBottom: '0',
+              paddingRight: '8px',
+              fontSize: '18px',
+              cursor: 'pointer',
+            }}
+            onClick={handleModifyButtonClick}
+          >
+            Sửa
+          </p>
         </div>
       </div>
       <div className="order__bill__line"></div>
@@ -189,9 +253,7 @@ function OrderBill(props) {
           backgroundColor={backgroundColor}
           onClick={handelSubmit}
         />
-        {showSuccess &&
-          <OrderSuccess />
-        }
+        {showSuccess && <OrderSuccess id={props.id} />}
       </div>
     </div>
   );

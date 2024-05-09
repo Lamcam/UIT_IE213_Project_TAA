@@ -6,8 +6,20 @@ import 'style/components/Orders/PaymentMethod.scss';
 import ModalDeliveryPayment from './Modal--DeliveryPayment';
 import notFound from '../../assets/image/account/no-data.jpg';
 import AddBank from 'pages/Account/Modal/modal--add-bank';
+import MomoImg from 'assets/image/order/MoMo_Logo.png'
+import VNPayImg from 'assets/image/order/vnpay.png'
+import ATM from 'assets/image/order/the atm.png'
+import Visa from 'assets/image/order/the visa.jpg'
 function PaymentMethod(props) {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptionMethod, setSelectedOptionMethod] = useState(0);
+    const handleClickMethod = (index, value) => {
+        if (value === selectedOptionMethod) {
+            return;
+        }
+        setSelectedOptionMethod(value);
+        props.onPaymentMethodChange(index, value);
+    };
   // const [isModalDeliveryPayment, setIsModalDeliveryPayment] = useState(false);
   // const [selectedItems, setSelectedItems] = useState(null);
   // const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -31,12 +43,12 @@ function PaymentMethod(props) {
   //   props.selectedPaymentInfo(selectedItems)
   // }, [selectedItems])
 
-  const handleClick = (index) => {
+  const handleClick = (index, value) => {
     if (index === selectedOption) {
       return;
     }
     setSelectedOption(index);
-    props.onPaymentMethodChange(index);
+    props.onPaymentMethodChange(index, value);
   };
 
   // const maskBankNumber = (bankNumber) => {
@@ -110,7 +122,7 @@ function PaymentMethod(props) {
   return (
     <div className="payment__method">
       <div className="payment__method__title title-large">3. Phương thức thanh toán</div>
-      <div className="payment__method__one body-large" onClick={() => handleClick(0)}>
+      <div className="payment__method__one body-large" onClick={() => handleClick(0, null)}>
         {selectedOption === 0 ? (
           <MdOutlineRadioButtonChecked className="icon__radio" />
         ) : (
@@ -118,14 +130,36 @@ function PaymentMethod(props) {
         )}
         <span>Thanh toán tiền khi nhận hàng (COD)</span>
       </div>
-      <div className="payment__method__two body-large" onClick={() => handleClick(1)}>
+      <div className="payment__method__two body-large" onClick={() => handleClick(1,0)}>
         {selectedOption === 1 ? (
           <MdOutlineRadioButtonChecked className="icon__radio" />
         ) : (
           <MdOutlineRadioButtonUnchecked className="icon__radio" />
         )}
-        <span>Thanh toán trực tuyến qua ngân hàng</span>
+        <span>Thanh toán trực tuyến</span>
       </div>
+
+      {selectedOption === 1 && (
+        <div className='payment-method-btn body-large' >
+          <div className='payment-method-select' onClick={() => handleClickMethod(1, 0)} style={selectedOptionMethod === 0 ? { backgroundColor: "rgb(120, 91, 91)" } : {}}>
+          <img src={VNPayImg} alt="" style={{width:"40px", height:"40px"}}/>
+                <span style={selectedOptionMethod === 0 ? { color: "rgb(241, 239, 231)" } : {}}>VNPay</span>
+          </div>
+          <div className='payment-method-select' onClick={() => handleClickMethod(1, 1)} style={selectedOptionMethod === 1 ? { backgroundColor: "rgb(120, 91, 91)" } : {}}>
+          <img src={MomoImg} alt="" style={{width:"40px", height:"40px"}}/>
+                <span style={selectedOptionMethod === 1 ? { color: "rgb(241, 239, 231)" } : {}}>MoMo</span>
+          </div>
+          <div className='payment-method-select' onClick={() => handleClickMethod(1,2)} style={selectedOptionMethod === 2 ? { backgroundColor: "rgb(120, 91, 91)" } : {}}>
+          <img src={ATM} alt="" style={{width:"40px", height:"40px"}}/>
+                <span style={selectedOptionMethod === 2 ? { color: "rgb(241, 239, 231)" } : {}}>Thẻ ATM nội địa</span>
+          </div>
+          <div className='payment-method-select' onClick={() => handleClickMethod(1,3)} style={selectedOptionMethod === 3 ? { backgroundColor: "rgb(120, 91, 91)" } : {}}>
+          <img src={Visa} alt="" style={{width:"40px", height:"40px"}}/>
+                <span style={selectedOptionMethod === 3 ? { color: "rgb(241, 239, 231)" } : {}}>Thẻ quốc tế</span>
+
+          </div>
+        </div>
+      )}
 
 
 {/* 
