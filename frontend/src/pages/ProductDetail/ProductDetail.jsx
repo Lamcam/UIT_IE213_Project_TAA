@@ -10,7 +10,11 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from 'react-icons/bi';
 import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { IoMdInformationCircleOutline } from 'react-icons/io';
 import { GiRabbitHead } from 'react-icons/gi';
+import { BiPhoneCall } from 'react-icons/bi';
+import { IoMdBookmarks } from 'react-icons/io';
+import { MdOutlinePeopleAlt } from 'react-icons/md';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 import { IoHeartSharp } from 'react-icons/io5';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
@@ -22,6 +26,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import ButtonIcon from 'components/Common/ButtonIcon';
+// import banner1 from 'assets/image/banners/news__banner--large.jpg';
 ProductDetail.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -244,7 +249,8 @@ function ProductDetail(props) {
   console.log('log', productId);
   const [product, setProduct] = useState(null);
   const [productFetched, setProductFetched] = useState(false);
-  const thumbnailImages = product?.prod_img || [];
+  // const thumbnailImages = product?.prod_img || [];
+  const thumbnailImages = (product && product.prod_img) ? product.prod_img.slice(0, 5) : [];
   const [currentImg, setCurrentImg] = useState(thumbnailImages[0]);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
 
@@ -540,8 +546,8 @@ function ProductDetail(props) {
       />
       <ReviewPopup show={showPopup} onHide={() => setShowPopup(false)} /> */}
 
-      <Container className="product__detail">
-        <Row>
+      <Container className="product__detail" fluid>
+        <Row >
           {/* Thumbnails */}
           <Col xs={1} className="product__detail_col1">
             <div className="product__image_small">
@@ -563,7 +569,7 @@ function ProductDetail(props) {
           </Col>
 
           {/* Frame 2 */}
-          <Col xs={6} className="product__detail_col6" style={{ padding: '0px' }}>
+          <Col xs={5} className="product__detail_col6" style={{ padding: '0px' }}>
             <Image
               className={`product__image_big ${selectedThumbnail ? 'selected' : ''}`}
               src={currentImg}
@@ -579,7 +585,7 @@ function ProductDetail(props) {
           </Col>
 
           {/* Frame 3 */}
-          <Col xs={5} className="product__detail_col5">
+          <Col xs={6} className="product__detail_col5">
             <div className="product__detail__col3">
               <div className="product__name__detail">
                 <div className="product__name__detail__first">
@@ -613,9 +619,12 @@ function ProductDetail(props) {
                   <span className="product__name__detail__price_third">Giảm {discount} %</span>
                 </div>
               </div>
-              <div className="description__product__detail">
-                <span>THÔNG TIN SẢN PHẨM</span>
-                <ul>
+              <div className="description__product__detail headline-small">
+                <div className="description__product__detail-title">
+                  <IoMdInformationCircleOutline className="description__product__detail-title__icon" />
+                  <span>THÔNG TIN SẢN PHẨM</span>
+                </div>
+                <ul className="body-large">
                   <li>Đảm bảo hàng có chất lượng thương hiệu.</li>
                   <li>Hàng luôn có sẵn ở TAA.</li>
                   <li>Phong cách Unisex, phù hợp Nam/Nữ.</li>
@@ -694,26 +703,45 @@ function ProductDetail(props) {
           <span>THÔNG TIN THƯƠNG HIỆU</span>
           <ul>
             <li>
-              - Thương hiệu TAA - Three Accessories Appreciate đã được đăng kí bảo hộ năm 2023,
-              chuyên sản xuất và nhập khẩu các mặt hàng phụ kiện thời trang như: Vòng cổ , Nhẫn ,
-              Hoa Tai , Vòng Tay,... cùng những sản phẩm khác phục vụ cho niềm đam mê với phụ kiện
-              của bạn.
-            </li>
-            <li>
-              - Điểm tạo nên sự khác biệt của chúng tôi đó chính là nguồn sản phẩm dồi dào, đáp ứng
+              Thương hiệu TAA - Three Accessories Appreciate đã được đăng kí bảo hộ năm 2023, chuyên
+              sản xuất và nhập khẩu các mặt hàng phụ kiện thời trang như: Vòng cổ , Nhẫn , Hoa Tai ,
+              Vòng Tay,... cùng những sản phẩm khác phục vụ cho niềm đam mê với phụ kiện của bạn.
+              Điểm tạo nên sự khác biệt của chúng tôi đó chính là nguồn sản phẩm dồi dào, đáp ứng
               mọi yêu cầu về các phong cách khác nhau của mọi khách hàng với mức giá vô cùng phải
-              chăng.
+              chăng. Thiết kế may tinh tế, sắc sảo và thời trang, theo phong cách Ulzzang Hàn Quốc
+              cá tính.
             </li>
             <li>
-              - TAA đã có cửa hàng tại HCM và 100.000 KH mua sắm mỗi năm. Phương châm của TAA là
-              luôn khách hàng lên hàng đầu, chứng tôi sẽ cố gắng thực hiện hóa mọi nhu cầu của bạn.
+              TAA đã có cửa hàng tại HCM và 100.000 KH mua sắm mỗi năm. Phương châm của TAA là luôn
+              khách hàng lên hàng đầu, chứng tôi sẽ cố gắng thực hiện hóa mọi nhu cầu của bạn.
             </li>
             <li>
-              - Thiết kế may tinh tế, sắc sảo và thời trang, theo phong cách Ulzzang Hàn Quốc cá
-              tính.
+              <div className="product__description__icon">
+                <BiPhoneCall />{' '}
+              </div>
+              Liên hệ: 0948645540
+            </li>
+            <li>
+              <div className="product__description__icon">
+                <IoMdBookmarks />
+              </div>
+              Hỗ trợ đổi trả
+            </li>
+            <li>
+              <div className="product__description__icon">
+                <MdOutlinePeopleAlt />{' '}
+              </div>
+              Đăng ký thành viên để nhận được nhiều ưu đãi
             </li>
           </ul>
         </Row>
+
+        <div className="prod__img-list">
+          <img className="prod__img-item" loading="lazy" src={product?.prod_img[0]} fluid />
+          <img className="prod__img-item" loading="lazy" src={product?.prod_img[1]} fluid />
+          <img className="prod__img-item" loading="lazy" src={product?.prod_img[2]} fluid />
+          <img className="prod__img-item" loading="lazy" src={product?.prod_img[3]} fluid />
+        </div>
 
         <Row className="product__rating">
           <span className="product__rating__title">ĐÁNH GIÁ SẢN PHẨM</span>
@@ -764,7 +792,7 @@ function ProductDetail(props) {
               </div>
             </div>
           </div>
-
+          <hr className="hr-title"></hr>
           {/* component feedback comment */}
           <div className="rating__item">
             <div className="rating__item__avatar">
@@ -929,7 +957,7 @@ function ProductDetail(props) {
           </div>
         </Row>
 
-        <Row className="product__suggestion container">
+        <Row className="product__suggestion">
           <span className="product__suggestion__title">CÁC SẢN PHẨM ĐỀ XUẤT</span>
           <div className="product__suggestion__items">
             {/* {filteredData.slice(5, 9).map((product) => (

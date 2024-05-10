@@ -5,11 +5,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductItem from "components/Products/ProductItem";
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import 'style/components/Home/HotProduct.scss'
+import 'style/components/Home/NewProduct.scss'
 import ButtonIcon from "components/Common/ButtonIcon";
-
-
-function HotProducts() {
+function NewProducts() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -83,7 +81,7 @@ function HotProducts() {
 
   return (
     <section className="preview_product_section">
-      <h1 className="title_section">Sản phẩm nổi bật trong tuần</h1>
+      <h1 className="title_section">Hàng mới về</h1>
       <Slider {...settings}>
         {products.map((product) => (
           <div key={product._id} className="product__list__hot">
@@ -95,4 +93,4 @@ function HotProducts() {
   );
 }
 
-export default HotProducts;
+export default NewProducts;

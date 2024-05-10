@@ -1,6 +1,6 @@
 .product__menu {
   display: flex;
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 12px;
   // width:100%;
   min-width: 217px;
@@ -10,10 +10,11 @@
 }
 
 .product__menu .aside__list {
-  margin: 0;
+  // margin: 0;
   list-style-type: none;
-  padding: 1rem 0;
+  // padding: 1rem 0;
   width: 100%;
+  padding: 0;
 }
 
 .product__menu .aside__list .title {
@@ -26,6 +27,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  color: #ffffff;
 }
 
 .product__menu .aside__item span {
@@ -41,10 +43,16 @@
   list-style-type: none;
   cursor: pointer;
   position: relative;
+  background-color: #ffffff;
 }
 
+
 .product__menu .title_aside_item {
-  padding: 0 1rem;
+  padding: 1rem 1rem;
+  background-color: var(--md-sys-color-primary-light);
+  padding-bottom: 1rem;
+  border-top-left-radius: 12px; 
+  border-top-right-radius: 12px;
 }
 .product__menu .aside__header {
   display: block;

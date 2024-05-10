@@ -6,13 +6,15 @@ import QuestionSection from 'components/HomeComponents/QuestionSection';
 import HomeCarousel from 'components/HomeComponents/HomeCarousel';
 import ImgSection from 'components/HomeComponents/ImgSection';
 import HotProducts from 'components/HomeComponents/HotProducts';
+import NewProducts from 'components/HomeComponents/NewProducts';
 
 const Home = () => {
     return (
         <div className='HomePage' >
-            <HomeCarousel></HomeCarousel>
-            <HotProducts></HotProducts> 
+            <HotProducts></HotProducts>
+            <HomeCarousel></HomeCarousel> 
             <SaleSection></SaleSection>
+            <NewProducts></NewProducts>
             <QuestionSection></QuestionSection>
             <InfoSection></InfoSection>
             <ImgSection></ImgSection>
