@@ -1,16 +1,27 @@
 import React from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 import ButtonIcon from 'components/Common/ButtonIcon';
 import Button1 from 'components/Common/Button1';
 import { CgClose } from 'react-icons/cg';
 import "../../pages/Account/index.scss"
 import { useNavigate } from 'react-router-dom';
-function OrderSuccess() {
-    const navigate = useNavigate();
-    const handleClickHome = () => {
+import PopupNotiLogin from '../Products/PopupNotiLogin';
+
+function OrderSuccess(props) {
+  const navigate = useNavigate();
+  const [showPopupNotiLogin, setShowPopupNotiLogin] = useState(false);
+  let content='Bạn phải là thành viên mới có thể xem các đơn hàng'
+
+  const handleClickHome = () => {
         navigate("/");
     };
-    const handleClickOrders = () => {
+  const handleClickOrders = () => {
+    if (!props.id)
+    {
+      setShowPopupNotiLogin(true)
+      return
+        }
         navigate("/account/orders");
     };
   const handleModalClick = (e) => {
@@ -54,7 +65,12 @@ function OrderSuccess() {
                             onClick={handleClickOrders}
                               />
                             </div>
-                          </form>
+          </form>
+          <PopupNotiLogin
+        content={content}
+        show={showPopupNotiLogin}
+        onHide={() => setShowPopupNotiLogin(false)}
+      />
                         </div>
                       </div>
     )

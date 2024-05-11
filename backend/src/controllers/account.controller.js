@@ -539,13 +539,14 @@ const addOrder = async (req, res) => {
             pay_id_option,
             tran_id_option,
             loca_id,
+            status
       } = req.body;
     //   if (!mongoose.Types.ObjectId.isValid(user_id)) {
     //     return res
     //         .status(400)
     //         .json({ message: "ID người dùng không hợp lệ" });
     // }
-    const newOrder = await createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id, orderDetails);
+    const newOrder = await createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id, orderDetails, status);
     console.log('Thêm đơn hàng thành công:', newOrder);
 
     const orderdetails = await createOrderdetails(newOrder._id, orderDetails);
@@ -583,7 +584,7 @@ async function createOrderdetails(orderId, orderItems) {
     throw error; // Ném lỗi để xử lý ở phần gọi hàm
   }
 }
-async function createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id, orderItems) {
+async function createOrder(order_total_cost, user_id, bank_id, pay_id_option, tran_id_option, loca_id, orderItems, status) {
   try {
         const newOrder = new Orders({
           _id: new mongoose.Types.ObjectId(),
@@ -594,7 +595,7 @@ async function createOrder(order_total_cost, user_id, bank_id, pay_id_option, tr
           pay_id: pay_id_option===0?'65f41349bd7a1382211874b0':'65f41375bd7a1382211874b1',
           tran_id: tran_id_option===0?'65f3ed65a8f986b1aca692a0':'65f3ebe2a8f986b1aca6929f',
           loca_id:loca_id,
-        order_is_paying: pay_id_option === 0 ? 0 : 1,
+        order_is_paying: status,
           quantity: orderItems.length,
           order_status: 0,
         });
