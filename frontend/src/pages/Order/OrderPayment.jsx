@@ -74,7 +74,7 @@ function OrderPayment() {
         axios
           .post(`http://localhost:8000/api/account/order`, {
             user_id: storedPaymentInfo.user_id, orderDetails: storedPaymentInfo.orderDetails, order_total_cost: storedPaymentInfo.order_total_cost,
-            bank_id: storedPaymentInfo.bank_id?storedPaymentInfo.bank_id:null, pay_id_option: storedPaymentInfo.pay_id_option, tran_id_option: storedPaymentInfo.tran_id_option, loca_id: storedPaymentInfo.loca_id?storedPaymentInfo.loca_id:null
+            bank_id: storedPaymentInfo.bank_id?storedPaymentInfo.bank_id:null, pay_id_option: storedPaymentInfo.pay_id_option, tran_id_option: storedPaymentInfo.tran_id_option, loca_id: storedPaymentInfo.loca_id?storedPaymentInfo.loca_id:null, status: 1
           })
           .then((response) => {
             localStorage.removeItem('tmpPayment')
@@ -110,7 +110,6 @@ function OrderPayment() {
   };
   const handleClickOrders = () => {
     if (!defaultUser) {
-      console.log(data.vnp_Amount);
       setShowPopupNotiLogin(true);
       return;
     }
@@ -124,7 +123,7 @@ function OrderPayment() {
       >
         {status === 1 ? 'Đặt hàng thành công!' : 'Đặt hàng không thành công!'}
       </div>
-      {Object.keys(data).length !== 0 && status === 0 &&
+      {Object.keys(data).length !== 0 && status === 0 && data.content &&
         <div>
           {data.content}
         </div>}

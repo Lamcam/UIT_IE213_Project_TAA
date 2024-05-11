@@ -143,6 +143,7 @@ localStorage.setItem('tmpPayment', paymentInfoString);
           pay_id_option: props.paymentMethodSelected,
           tran_id_option: props.deliveryMethodSelected,
           loca_id: props.selectedAddressInfo?._id,
+          status: 0
         })
         .then((response) => {
           console.log(response.data);
