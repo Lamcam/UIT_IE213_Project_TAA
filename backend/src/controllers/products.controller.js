@@ -1,7 +1,8 @@
-const Product = require("../models/products.model");
 const cloudinary = require("../utils/cloudinary");
+const Product = require("../models/products.model");
 const CategoryType = require("../models/categorytypes.model");
 const Category = require("../models/categories.model");
+
 const getProductById = async (req, res) => {
   try {
     const productId = req.params.id; // Lấy ID sản phẩm từ tham số đường dẫn
@@ -132,40 +133,114 @@ const getProductHaveCateType = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// const addProduct = async (req, res) => {
+//   try {
+//     // Lấy thông tin sản phẩm từ request body
+//     const {
+//       prod_name,
+//       prod_cost,
+//       prod_img,
+//       prod_discount,
+//       prod_end_date_discount,
+//       prod_num_sold,
+//       prod_num_avai,
+//       prod_star_rating,
+//       prod_description,
+//       cate_name, // Thêm cate_name vào request body
+//       prod_color,
+//       prod_size,
+//     } = req.body;
+
+//     // Tìm cate_id dựa vào cate_name
+//     const category = await Category.findOne({ cate_name });
+//     if (!category) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Category not found" });
+//     }
+
+//     // Tạo mới sản phẩm
+//     const newProduct = new Product({
+//       prod_name,
+//       prod_cost,
+//       prod_img: uploadedImages, // Thay đổi prod_img thành mảng các URL đã upload
+//       prod_discount,
+//       prod_end_date_discount,
+//       prod_num_sold,
+//       prod_num_avai,
+//       prod_star_rating,
+//       prod_description,
+//       cate_id: category._id, // Sử dụng cate_id từ category tìm được
+//       prod_color,
+//       prod_size,
+//     });
+//     console.log("new product", newProduct);
+//     const savedProduct = await newProduct.save();
+//     // Trả về kết quả thành công
+//     res.status(201).json({ success: true, product: savedProduct });
+//   } catch (error) {
+//     // Xử lý lỗi nếu có
+//     console.error("Error adding product:", error);
+//     res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
+// Cấu hình multer
+// const multer = require("multer");
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
+
+// Xử lý yêu cầu POST sản phẩm
 const addProduct = async (req, res) => {
   try {
     // Lấy thông tin sản phẩm từ request body
     const {
       prod_name,
       prod_cost,
-      prod_img,
       prod_discount,
       prod_end_date_discount,
       prod_num_sold,
       prod_num_avai,
       prod_star_rating,
       prod_description,
-      cate_id,
+      prod_img,
+      cate_name,
       prod_color,
       prod_size,
     } = req.body;
+    // console.log(prod_img);
+    // Tìm cate_id dựa vào cate_name
+    const category = await Category.findOne({ cate_name });
+    if (!category) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Category not found" });
+    }
 
-    // Tạo mới sản phẩm
+    // Upload các hình ảnh lên Cloudinary và nhận lại các URL
+    const uploadedImages = [];
+    for (const file of prod_img) {
+      const result = await cloudinary.uploader.upload(file, {
+        upload_preset: "/product",
+      });
+      uploadedImages.push(result.secure_url);
+    }
+
+    // Tạo mới sản phẩm với các thông tin đã nhận được
     const newProduct = new Product({
       prod_name,
       prod_cost,
-      prod_img,
+      prod_img: uploadedImages,
       prod_discount,
       prod_end_date_discount,
       prod_num_sold,
       prod_num_avai,
       prod_star_rating,
       prod_description,
-      cate_id,
+      cate_id: category._id,
       prod_color,
       prod_size,
     });
-
+    console.log("new", newProduct);
     // Lưu sản phẩm vào cơ sở dữ liệu
     const savedProduct = await newProduct.save();
 
@@ -177,6 +252,7 @@ const addProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
 const deleteProduct = async (req, res) => {
   try {
     // Lấy ID của sản phẩm cần xóa từ request parameters
