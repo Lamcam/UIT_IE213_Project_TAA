@@ -72,15 +72,18 @@ function Order(props) {
     const [paymentMethodSelected, setPaymentMethodSelected] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(0)
   const [selectedPaymentInfo, setSelectedPaymentInfo] = useState(null)
-  const [selectedAddressInfo, setSelectedAddressInfo] =useState(null)
+  const [selectedAddressInfo, setSelectedAddressInfo] = useState(null)
+
   console.log(deliveryMethodSelected)
   console.log(paymentMethodSelected)
   const handleDeliveryMethodChange = (selected) => {
     setDeliveryMethodSelected(selected);
   };
 
-  const handlePaymentMethodChange = (selected) => {
+  const handlePaymentMethodChange = (selected, selectedMethod) => {
     setPaymentMethodSelected(selected);
+    setSelectedPaymentInfo(selectedMethod)
+
   };
   const handleDeliveryFee = (val) => {
     setDeliveryFee(val)
@@ -129,7 +132,6 @@ function Order(props) {
             temporaryAmount={temporaryAmount}
             discountAmount={discountAmount}
             deliveryFee={deliveryFee}
-
             selectedPaymentInfo={selectedPaymentInfo}
             selectedAddressInfo={selectedAddressInfo}
           />

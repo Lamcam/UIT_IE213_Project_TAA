@@ -99,3 +99,19 @@
     }
   }
 }
+.payment-method-btn{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-left: 40px;
+  .payment-method-select{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    cursor: pointer;
+  }
+  .payment-method-select:hover{
+    background-color: #c5c5c5;
+    width: 100%;
+  }
+}

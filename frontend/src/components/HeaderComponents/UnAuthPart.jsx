@@ -20,10 +20,10 @@ function UnAuthPart() {
 
     return(
         <>
-            <Badge className="number_cart">{cartQuantity}</Badge>
+            {/* <Badge className="number_cart">{cartQuantity}</Badge>
           <NavLink to="/cart" className="cart_link">
             <IoMdCart className="cart-icon"> </IoMdCart>
-          </NavLink>
+          </NavLink> */}
 
             <NavLink to="/log_in" className="login_btn btn_reg_log_round_8px btn_clickable_boldcolor">
                 Đăng nhập

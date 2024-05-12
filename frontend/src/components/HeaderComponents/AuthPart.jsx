@@ -18,6 +18,7 @@ import { MdAccountCircle, MdOutlineFavoriteBorder } from 'react-icons/md';
 import { RiBillLine } from 'react-icons/ri';
 import axios from 'axios';
 import { useAuthContext } from 'hooks/useAuthContext';
+import Button1 from 'components/Common/Button1';
 
 function AuthPart() {
   const { logout } = useLogout();
@@ -51,7 +52,7 @@ function AuthPart() {
   };
 
   useEffect(() => {
-    getCartQuantity(); 
+    getCartQuantity();
   }, []);
 
   const getAvatar = () => {
@@ -98,7 +99,7 @@ function AuthPart() {
             <h6>{getUserName()}</h6>
           </Col>
 
-          <Col className='avatar_auth'>
+          <Col className="avatar_auth">
             {/* <DropdownButton id='drop_down_btn' style={{backgroundImage: `url(${avt})`, borderRadius: '50%' }} > */}
             <DropdownButton
               id="drop_down_btn"
@@ -140,21 +141,31 @@ function AuthPart() {
         </Col>
       </Row>
 
-      <Modal show={show} onHide={handleClose} centered size='lg' className='modal_logOut'>
+      <Modal show={show} onHide={handleClose} centered size="md" className="modal_logOut">
         <Modal.Header closeButton></Modal.Header>
         <Modal.Title as="h1">Đăng xuất</Modal.Title>
-        <Modal.Body as="h4">Bạn có chắc muốn đăng xuất khỏi TAA?
-            <div className='btn_modal_container'>
+        <Modal.Body as="h4">
+          Bạn có chắc muốn đăng xuất khỏi TAA?
+          {/* <div className='btn_modal_container'>
               <Button className='btn-close-logout btn_clickable_lightcolor_outline'  onClick={handleClose}>
                 Đóng
               </Button>
               <Button className='btn-logout btn_clickable_boldcolor' onClick={handleClickLogOut}>
                 Đăng xuất
               </Button>
-            </div>
-        
+            </div> */}
+          <div className="btn__wrapper_logout">
+            <Button1 label="Hủy bỏ" type="button" className="col-6" onClick={handleClose} />
+            <Button1
+              label="Đăng xuất"
+              type="submit"
+              className="col-6"
+              labelColor="#F1EFE7"
+              backgroundColor="#785B5B"
+              onClick={handleClickLogOut}
+            />
+          </div>
         </Modal.Body>
-        
       </Modal>
     </Container>
   );
