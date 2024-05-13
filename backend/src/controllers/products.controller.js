@@ -1,7 +1,46 @@
-const cloudinary = require("../utils/cloudinary");
 const Product = require("../models/products.model");
 const CategoryType = require("../models/categorytypes.model");
 const Category = require("../models/categories.model");
+
+const cloudinary = require("../utils/cloudinary");
+// const upload = require("../middleware/multer");
+
+const uploadImage = async (req, res) => {
+  // cloudinary.uploader.upload(req.file.path, function (err, result) {
+  //   if (err) {
+  //     console.log(err);
+  //     return res.status(500).json({
+  //       success: false,
+  //       message: "Error",
+  //     });
+  //   }
+
+  //   res.status(200).json({
+  //     success: true,
+  //     message: "Uploaded!",
+  //     data: result,
+  //   });
+  // });
+  try {
+    const urls = [];
+    const files = req.files;
+
+    // Lặp qua từng file trong files và upload lên Cloudinary
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const result = await cloudinary.uploader.upload(file.path,{
+        folder: 'products/upload'
+      });
+      urls.push(result.secure_url);
+    }
+
+    // Trả về các URL của các ảnh đã upload
+    res.status(200).json({ urls });
+  } catch (error) {
+    console.error("Error uploading images:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 const getProductById = async (req, res) => {
   try {
@@ -192,7 +231,7 @@ const getProductHaveCateType = async (req, res) => {
 // Xử lý yêu cầu POST sản phẩm
 const addProduct = async (req, res) => {
   try {
-    // Lấy thông tin sản phẩm từ request body
+    // Extract product information from the request body
     const {
       prod_name,
       prod_cost,
@@ -207,8 +246,8 @@ const addProduct = async (req, res) => {
       prod_color,
       prod_size,
     } = req.body;
-    // console.log(prod_img);
-    // Tìm cate_id dựa vào cate_name
+
+    // Find the category ID based on the category name
     const category = await Category.findOne({ cate_name });
     if (!category) {
       return res
@@ -216,20 +255,12 @@ const addProduct = async (req, res) => {
         .json({ success: false, message: "Category not found" });
     }
 
-    // Upload các hình ảnh lên Cloudinary và nhận lại các URL
-    const uploadedImages = [];
-    for (const file of prod_img) {
-      const result = await cloudinary.uploader.upload(file, {
-        upload_preset: "/product",
-      });
-      uploadedImages.push(result.secure_url);
-    }
 
-    // Tạo mới sản phẩm với các thông tin đã nhận được
+    // Create a new product with the received information
     const newProduct = new Product({
       prod_name,
       prod_cost,
-      prod_img: uploadedImages,
+      prod_img,
       prod_discount,
       prod_end_date_discount,
       prod_num_sold,
@@ -240,14 +271,14 @@ const addProduct = async (req, res) => {
       prod_color,
       prod_size,
     });
-    console.log("new", newProduct);
-    // Lưu sản phẩm vào cơ sở dữ liệu
+
+    // Save the product to the database
     const savedProduct = await newProduct.save();
 
-    // Trả về kết quả thành công
+    // Return success response
     res.status(201).json({ success: true, product: savedProduct });
   } catch (error) {
-    // Xử lý lỗi nếu có
+    // Handle errors
     console.error("Error adding product:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
@@ -279,6 +310,7 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
 module.exports = {
   getProductById,
   getProducts,
@@ -288,6 +320,9 @@ module.exports = {
   getProductHaveCateType,
   addProduct,
   deleteProduct,
+  // uploadMultipleImagesAndGetUrls,
+  // upload,
+  uploadImage,
 };
 
 // app.get("/products/:id", async (req, res) => {});
