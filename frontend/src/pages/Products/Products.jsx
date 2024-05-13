@@ -220,7 +220,7 @@ function Products() {
               {filteredData.map((product) => (
                 <Col
                   key={product._id}
-                  xxl={filteredData.length <= 2 ? 6 : 3}
+                  xxl={filteredData.length <= 2 ? 6 : filteredData.length === 3 ? 4 : 3}
                   xl={filteredData.length <= 2 ? 6 : 4}
                   lg={filteredData.length <= 2 ? 6 : 4}
                   md={6}

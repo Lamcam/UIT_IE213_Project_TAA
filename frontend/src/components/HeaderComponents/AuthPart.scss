@@ -122,7 +122,7 @@
     }
 
 }
-.modal-header {
+.auth_part .modal-header {
     border-bottom: none !important;
 }
 // .btn_modal_container {
@@ -135,7 +135,7 @@
 //   gap: 20px;
 // }
 
-.modal-body {
+.auth_part .modal-body {
   position: relative;
   flex: 1 1 auto;
   padding: var(--bs-modal-padding);
