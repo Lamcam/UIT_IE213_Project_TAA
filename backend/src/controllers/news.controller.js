@@ -75,9 +75,32 @@ const deleteNewsById = async (req, res) => {
   }
 };
 
+const uploadImage = async (req, res) => {
+  try {
+    const urls = [];
+    const files = req.files;
+
+    // Lặp qua từng file trong files và upload lên Cloudinary
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: "news/upload",
+      });
+      urls.push(result.secure_url);
+    }
+
+    // Trả về các URL của các ảnh đã upload
+    res.status(200).json({ urls });
+  } catch (error) {
+    console.error("Error uploading images:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getBlogs,
   getBlogsById,
   postBlogs,
   deleteNewsById,
+  uploadImage,
 };
