@@ -28,8 +28,8 @@ const uploadImage = async (req, res) => {
     // Lặp qua từng file trong files và upload lên Cloudinary
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      const result = await cloudinary.uploader.upload(file.path,{
-        folder: 'products/upload'
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: "products/upload",
       });
       urls.push(result.secure_url);
     }
@@ -172,61 +172,6 @@ const getProductHaveCateType = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-// const addProduct = async (req, res) => {
-//   try {
-//     // Lấy thông tin sản phẩm từ request body
-//     const {
-//       prod_name,
-//       prod_cost,
-//       prod_img,
-//       prod_discount,
-//       prod_end_date_discount,
-//       prod_num_sold,
-//       prod_num_avai,
-//       prod_star_rating,
-//       prod_description,
-//       cate_name, // Thêm cate_name vào request body
-//       prod_color,
-//       prod_size,
-//     } = req.body;
-
-//     // Tìm cate_id dựa vào cate_name
-//     const category = await Category.findOne({ cate_name });
-//     if (!category) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "Category not found" });
-//     }
-
-//     // Tạo mới sản phẩm
-//     const newProduct = new Product({
-//       prod_name,
-//       prod_cost,
-//       prod_img: uploadedImages, // Thay đổi prod_img thành mảng các URL đã upload
-//       prod_discount,
-//       prod_end_date_discount,
-//       prod_num_sold,
-//       prod_num_avai,
-//       prod_star_rating,
-//       prod_description,
-//       cate_id: category._id, // Sử dụng cate_id từ category tìm được
-//       prod_color,
-//       prod_size,
-//     });
-//     console.log("new product", newProduct);
-//     const savedProduct = await newProduct.save();
-//     // Trả về kết quả thành công
-//     res.status(201).json({ success: true, product: savedProduct });
-//   } catch (error) {
-//     // Xử lý lỗi nếu có
-//     console.error("Error adding product:", error);
-//     res.status(500).json({ success: false, message: "Internal server error" });
-//   }
-// };
-// Cấu hình multer
-// const multer = require("multer");
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage: storage });
 
 // Xử lý yêu cầu POST sản phẩm
 const addProduct = async (req, res) => {
@@ -254,7 +199,6 @@ const addProduct = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Category not found" });
     }
-
 
     // Create a new product with the received information
     const newProduct = new Product({
@@ -311,6 +255,80 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getProductByIdHaveCate = async (req, res) => {
+  try {
+    const productId = req.params.id; // Lấy ID sản phẩm từ tham số đường dẫn
+    const product = await Product.findById(productId).populate(
+      "cate_id",
+      "cate_name"
+    ); // Tìm sản phẩm theo ID và populate cate_name
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json(product); // Trả về sản phẩm được tìm thấy
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+const updateProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    const {
+      prod_name,
+      prod_cost,
+      prod_discount,
+      prod_end_date_discount,
+      prod_num_sold,
+      prod_num_avai,
+      prod_star_rating,
+      prod_description,
+      prod_img,
+      cate_name,
+      prod_color,
+      prod_size,
+    } = req.body;
+
+    let product = await Product.findById(productId);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    const category = await Category.findOne({ cate_name });
+    if (!category) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Category not found" });
+    }
+
+    product.prod_name = prod_name;
+    product.prod_cost = prod_cost;
+    product.prod_discount = prod_discount;
+    product.prod_end_date_discount = prod_end_date_discount;
+    product.prod_num_sold = prod_num_sold;
+    product.prod_num_avai = prod_num_avai;
+    product.prod_star_rating = prod_star_rating;
+    product.prod_description = prod_description;
+    product.prod_img = prod_img;
+    product.cate_id = category._id;
+    product.prod_color = prod_color;
+    product.prod_size = prod_size;
+
+    const updatedProduct = await product.save();
+
+    res.status(200).json({ success: true, product: updatedProduct });
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getProductById,
   getProducts,
@@ -320,9 +338,9 @@ module.exports = {
   getProductHaveCateType,
   addProduct,
   deleteProduct,
-  // uploadMultipleImagesAndGetUrls,
-  // upload,
   uploadImage,
+  getProductByIdHaveCate,
+  updateProduct,
 };
 
 // app.get("/products/:id", async (req, res) => {});

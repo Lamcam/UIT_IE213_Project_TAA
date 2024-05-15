@@ -97,10 +97,38 @@ const uploadImage = async (req, res) => {
   }
 };
 
+const updateBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { b_title, b_date, b_content, b_heading, b_text, b_image } = req.body;
+
+    const updatedBlogData = {
+      b_title,
+      b_date,
+      b_content,
+      b_heading,
+      b_text,
+      b_image,
+    };
+
+    const updatedBlog = await Blog.findByIdAndUpdate(id, updatedBlogData, { new: true });
+
+    if (!updatedBlog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    res.status(200).json(updatedBlog);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getBlogs,
   getBlogsById,
   postBlogs,
   deleteNewsById,
   uploadImage,
+  updateBlog,
 };

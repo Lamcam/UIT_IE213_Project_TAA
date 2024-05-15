@@ -14,8 +14,7 @@ router.get("/:id", product.getProductById);
 router.post("/", product.addProduct);
 router.post("/upload", upload.array("image"), product.uploadImage);
 router.delete("/:id", product.deleteProduct);
+router.get("/cate/:id", product.getProductByIdHaveCate);
+router.put("/:id", product.updateProduct);
 
 module.exports = router;
-// router.get("/detail", product.getDetail);
-// router.get('/search', product.getSort)
-// router.get('/:id')
