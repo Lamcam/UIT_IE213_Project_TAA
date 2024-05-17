@@ -5,7 +5,7 @@ import { useAuthContext } from './useAuthContext';
 export function useAddToCart(prod, modal) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
-  const { getCartQuantity } = useAuthContext()
+  const { getCartQuantity } = useAuthContext();
   const userID = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user'))[0]._id
     : null;
@@ -32,19 +32,21 @@ export function useAddToCart(prod, modal) {
     }
   };
   const addToCartNoLogin = async (prod, quantity) => {
-    let cartItems = JSON.parse(localStorage.getItem('cartNouser')) ? JSON.parse(localStorage.getItem('cartNouser')) : [];
+    let cartItems = JSON.parse(localStorage.getItem('cartNouser'))
+      ? JSON.parse(localStorage.getItem('cartNouser'))
+      : [];
     let found = false;
 
-    cartItems.forEach(item => {
-        if (item._id === prod._id) {
-            item.quantity += quantity;
-            found = true;
-        }
+    cartItems.forEach((item) => {
+      if (item._id === prod._id) {
+        item.quantity += quantity;
+        found = true;
+      }
     });
 
     if (!found) {
-        const cartItem = { ...prod, quantity: quantity };
-        cartItems.push(cartItem);
+      const cartItem = { ...prod, quantity: quantity };
+      cartItems.push(cartItem);
     }
 
     localStorage.setItem('cartNouser', JSON.stringify(cartItems));
@@ -52,18 +54,34 @@ export function useAddToCart(prod, modal) {
   };
   const removeFromCartNoLogin = (prodId) => {
     let cartItems = JSON.parse(localStorage.getItem('cartNouser'));
-    localStorage.setItem('cartNouser', JSON.stringify(cartItems.filter(item => item._id !== prodId)));
+    if (cartItems)
+      localStorage.setItem(
+        'cartNouser',
+        JSON.stringify(cartItems.filter((item) => item._id !== prodId)),
+      );
     cartItems = JSON.parse(localStorage.getItem('cartNouser'));
     console.log('Updated cart items:', cartItems);
-    };
+  };
   const updateQuantityNoLogin = (prodId, newQuantity) => {
     let cartItems = JSON.parse(localStorage.getItem('cartNouser'));
-      localStorage.setItem('cartNouser', JSON.stringify(cartItems.map(item => {
-        if (item._id === prodId) {
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      }))) 
+    localStorage.setItem(
+      'cartNouser',
+      JSON.stringify(
+        cartItems.map((item) => {
+          if (item._id === prodId) {
+            return { ...item, quantity: newQuantity };
+          }
+          return item;
+        }),
+      ),
+    );
   };
-  return { addToCart, loading, error, addToCartNoLogin, removeFromCartNoLogin, updateQuantityNoLogin};
+  return {
+    addToCart,
+    loading,
+    error,
+    addToCartNoLogin,
+    removeFromCartNoLogin,
+    updateQuantityNoLogin,
+  };
 }
