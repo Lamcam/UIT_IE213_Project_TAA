@@ -71,7 +71,7 @@ function Login() {
     <Container className='d-flex' fluid>
       <Col className='side_bar d-flex justify-content-center align-item-center' lg={4}>
           <div className='d-flex justify-content-center align-item-center' >
-            <Image src={logo} alt='TAA_logo'/>
+            <Image src={logo} alt='TAA_logo' fluid />
           </div>
       </Col>
 
