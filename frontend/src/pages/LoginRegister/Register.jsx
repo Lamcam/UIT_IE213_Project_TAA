@@ -201,7 +201,7 @@ function Register() {
     <section className="register">
       <Container className="d-flex" fluid>
         <Col className="side_bar d-flex justify-content-center align-item-center col-4">
-          <Image src={logo} alt="TAA_logo" />
+          <Image src={logo} alt="TAA_logo" fluid/>
         </Col>
 
         <Col className="register_form col-8">
